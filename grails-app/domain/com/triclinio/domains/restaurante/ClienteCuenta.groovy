@@ -5,7 +5,15 @@ class ClienteCuenta {
     Cuenta cuenta
     String nombre
 
-    static hasMany = [listaOrdenes : Orden]
+    static hasMany = [listaOrdenDetalle : OrdenDetalle]
+
+    //
+    BigDecimal porcientoImpuesto
+    BigDecimal porcientoDescuento
+    BigDecimal montoBruto
+    BigDecimal montoDescuento
+    BigDecimal montoImpuesto
+    BigDecimal montoNeto
 
     //Datos genericos del dominio.
     boolean habilitado = true;

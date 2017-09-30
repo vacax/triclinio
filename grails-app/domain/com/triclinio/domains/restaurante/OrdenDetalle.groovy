@@ -2,9 +2,12 @@ package com.triclinio.domains.restaurante
 
 class OrdenDetalle {
 
-    Orden orden
+    ClienteCuenta clienteCuenta
     Plato plato
     int cantidad
+    String nombrePlato
+
+    //
     BigDecimal precio
     BigDecimal importe
     BigDecimal porcientoImpuesto

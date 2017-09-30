@@ -1,12 +1,12 @@
 package com.triclinio.domains.restaurante
 
-import com.triclinio.domains.seguridad.Usuario
+class EstadoCuenta {
 
-class Cuenta {
-
-    static hasMany = [listaMesa :  CuentaMesa, listaClienteCuenta: ClienteCuenta]
-    Usuario usuario
-    EstadoCuenta estadoCuenta
+    final static int ABIERTO = 1000
+    final static int CERRADA = 1001
+    
+    int codigo
+    String nombre
 
     //Datos genericos del dominio.
     boolean habilitado = true;
@@ -19,6 +19,6 @@ class Cuenta {
     }
 
     static mapping = {
-        table 'rest_cuenta'
+        table 'rest_estado_cuenta'
     }
 }

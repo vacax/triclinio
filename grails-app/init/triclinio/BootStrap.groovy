@@ -1,5 +1,6 @@
 package triclinio
 
+import com.triclinio.domains.restaurante.Plato
 import com.triclinio.domains.seguridad.Perfil
 import com.triclinio.domains.seguridad.Requestmap
 import com.triclinio.domains.seguridad.Usuario
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping
 class BootStrap {
 
     def init = { servletContext ->
+
+        println "Inicializando la Aplicación"
 
         Usuario usuario = new Usuario(username: "admin", password: "admin", nombre: "Administrador").save(flush: true, failOnError: true)
         Perfil perfil = new Perfil(authority: "ROLE_ADMIN").save(flush: true, failOnError: true)
@@ -31,8 +34,12 @@ class BootStrap {
         new Requestmap(url: '/admin/role/**', configAttribute: 'ROLE_SUPERVISOR').save(flush: true, failOnError: true)
         new Requestmap(url: '/admin/user/**', configAttribute: 'ROLE_ADMIN,ROLE_SUPERVISOR').save(flush: true, failOnError: true)
         new Requestmap(url: '/login/impersonate', configAttribute: 'ROLE_SWITCH_USER,isFullyAuthenticated()').save(flush: true, failOnError: true)
+
+        //TODO: Crear modelo de Cuenta para poder facturar
+        new Plato(nombre: "Nuevo Plato", precio: 150.00).save(flush: true, failOnError: true)
     }
     
     def destroy = {
+        println "Parando la Aplicacion"
     }
 }
