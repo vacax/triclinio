@@ -304,6 +304,9 @@ desired effect
         | Your Page Content Here |
         -------------------------->
 
+
+
+
             <g:layoutBody/>
 
         </section>
@@ -409,8 +412,17 @@ desired effect
 <!-- AdminLTE App -->
 <script src="/webjars/adminlte/2.3.11/dist/js/app.min.js"></script>
 
+
+
+
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the
      user experience. -->
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
+
 </body>
 </html>
