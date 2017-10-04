@@ -1,5 +1,8 @@
 package triclinio
 
+import com.triclinio.domains.restaurante.EstadoCuenta
+import com.triclinio.domains.restaurante.EstadoMesa
+import com.triclinio.domains.restaurante.Mesa
 import com.triclinio.domains.restaurante.Plato
 import com.triclinio.domains.seguridad.Perfil
 import com.triclinio.domains.seguridad.Requestmap
@@ -37,6 +40,18 @@ class BootStrap {
 
         //TODO: Crear modelo de Cuenta para poder facturar
         new Plato(nombre: "Nuevo Plato", precio: 150.00).save(flush: true, failOnError: true)
+
+        new EstadoMesa(codigo: 1001, nombre: "Disponible").save(flush: true, failOnError: true)
+        new EstadoMesa(codigo: 1000, nombre: "Ocupada").save(flush: true, failOnError: true)
+
+        new EstadoCuenta(codigo: 1000,nombre: "Abierta").save(flush: true, failOnError: true)
+
+        new Mesa(numeroMesa: 1, nombre: "Mesa 1",estadoMesa: EstadoMesa.findByCodigo(1001)).save(flush: true, failOnError: true)
+        new Mesa(numeroMesa: 2, nombre: "Mesa 2",estadoMesa: EstadoMesa.findByCodigo(1000)).save(flush: true, failOnError: true)
+        new Mesa(numeroMesa: 3, nombre: "Mesa 3",estadoMesa: EstadoMesa.findByCodigo(1001)).save(flush: true, failOnError: true)
+        new Mesa(numeroMesa: 4, nombre: "Mesa 4",estadoMesa: EstadoMesa.findByCodigo(1001)).save(flush: true, failOnError: true)
+
+        new Plato(nombre: "FLan de leche",precio:  100.00).save(flush: true, failOnError: true)
     }
     
     def destroy = {
