@@ -7,6 +7,7 @@ class FacturaDetalle {
     Factura factura
     OrdenDetalle ordenDetalle
 
+
     //Datos genericos del dominio.
     boolean habilitado = true;
     String creadoPor = "sistemas";

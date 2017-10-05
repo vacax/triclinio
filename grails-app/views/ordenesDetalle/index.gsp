@@ -14,16 +14,13 @@
         $(document).ready(function () {
             $('#example').dataTable({
 
-//            bJQueryUI: true,
-//            sPaginationType: "full_numbers"
-
                 "bPaginate": true,
                 "bLengthChange": false,
                 "bFilter": true,
                 "bSort": true,
                 "bInfo": true,
                 "bAutoWidth": true,
-                "asStripClasses": null //To remove "odd"/"event" zebra classes
+                "asStripClasses": null
 
             });
         });
@@ -31,47 +28,51 @@
     </script>
 
     <script type="text/javascript">
+
+
         $(document).ready(function() {
 
+            function valuesToArray(obj) {
+                return Object.keys(obj).map(function (key) { return obj[key]; });
+            }
+
+
             $("#target").click(function(){
-                alert("button");
+
                 var table = $('#example').DataTable();
 
-                var data = table
-                    .rows()
-                    .data();
-
-                var valores = table.rows({filter: 'applied'}).data();
+                var valores = table.rows({filter: 'applied'}).data().toArray();
                 console.log(typeof (valores));
-                alert('The table has ' + table.rows( { filter : 'applied'} ).nodes().length+ ' records');
-                console.log('The table has ' + table.rows( { filter : 'applied'} ).data() + ' records');
-                alert('The table has ' + data.length + ' records');
 
                 var contador=table.rows( { filter : 'applied'} ).nodes().length;
-                alert("Contador "+contador)
+                console.log(JSON.stringify(valores))
+
+
 
                 for(var key=0;key<contador;key++) {
-                    //if(key!==(contador-1)){
-//                    if(valores.hasOwnProperty(key)) {
-                        var value = valores[key];
-                        //do something with value;
-                        console.log("Heloooo: " + value);
-                        console.log("Keyyyyy: " + key);
-                   // }
-                  //}
+
+                    var value = valores[key];
+
+                    $.ajax({
+                        type: "POST",
+                        url: "${createLink(controller: 'facturaDetalle', action: 'procesarOrden')}",
+                        dataType: 'JSON',
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify({
+                            id: valuesToArray(value[0])
+                        })
+                        ,
+                        success: function (msg) {
+                            alert("Data Saved: " + msg);
+                        },
+                        error: (function (msg) {
+                            alert("eRROR: " + msg);
+                        })
+                    });
                 }
             });
         });
-//        $( "#target" ).click(function() {
-//            alert("Holaaaaaaaaaaaaaaaaaa")
-//            var table = $('#example').DataTable();
-//
-//            var data = table
-//                .rows()
-//                .data();
-//
-//            alert( 'The table has '+data.length+' records' );
-//        });
+
     </script>
 
 </head>

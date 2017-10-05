@@ -7,6 +7,7 @@ class Factura {
 
     Cliente cliente
     Usuario usuario
+
     EstadoFactura estadoFactura
 
     static hasMany = [listaFacturaDetalle : FacturaDetalle]
