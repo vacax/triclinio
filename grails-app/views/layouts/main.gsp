@@ -73,6 +73,7 @@ desired effect
         <!-- Header Navbar -->
         <nav class="navbar navbar-static-top" role="navigation">
             <!-- Sidebar toggle button-->
+
             <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                 <span class="sr-only">Toggle navigation</span>
             </a>
@@ -264,6 +265,8 @@ desired effect
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">HEADER</li>
                 <!-- Optionally, you can add icons to the links -->
+                <li><a href="/cuenta/nuevaCuenta"><i class="fa fa-link"></i> <span>Nueva Cuenta</span></a></li>
+
                 <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
                 <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
                 <li class="treeview">
