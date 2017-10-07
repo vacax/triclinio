@@ -1,10 +1,21 @@
 package triclinio
 
+import com.triclinio.domains.cxc.Cliente
+import com.triclinio.domains.restaurante.ClienteCuenta
+import com.triclinio.domains.restaurante.Cuenta
+import com.triclinio.domains.restaurante.CuentaMesa
+import com.triclinio.domains.restaurante.EstadoCuenta
+import com.triclinio.domains.restaurante.EstadoMesa
+import com.triclinio.domains.restaurante.Mesa
+import com.triclinio.domains.restaurante.OrdenDetalle
 import com.triclinio.domains.restaurante.Plato
 import com.triclinio.domains.seguridad.Perfil
 import com.triclinio.domains.seguridad.Requestmap
 import com.triclinio.domains.seguridad.Usuario
 import com.triclinio.domains.seguridad.UsuarioPerfil
+import com.triclinio.domains.venta.EstadoFactura
+import com.triclinio.domains.venta.Factura
+import com.triclinio.domains.venta.FacturaDetalle
 import org.springframework.web.bind.annotation.RequestMapping
 
 class BootStrap {
