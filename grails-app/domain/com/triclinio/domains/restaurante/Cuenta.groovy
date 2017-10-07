@@ -5,6 +5,7 @@ import com.triclinio.domains.seguridad.Usuario
 class Cuenta {
 
     static hasMany = [listaMesa :  CuentaMesa, listaClienteCuenta: ClienteCuenta]
+
     Usuario usuario
     EstadoCuenta estadoCuenta
 

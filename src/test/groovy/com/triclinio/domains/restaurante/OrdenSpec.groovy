@@ -3,7 +3,7 @@ package com.triclinio.domains.restaurante
 import grails.testing.gorm.DomainUnitTest
 import spock.lang.Specification
 
-class OrdenSpec extends Specification implements DomainUnitTest<Orden> {
+class OrdenSpec extends Specification implements DomainUnitTest<OrdenDetalle> {
 
     def setup() {
     }
