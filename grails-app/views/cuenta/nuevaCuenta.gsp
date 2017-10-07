@@ -53,9 +53,10 @@
                             </tbody></table>
 
                     </div>
-                    <button type="summit" class="btn btn-success btn-block">Crear cuenta</button>
                     <!-- /.box-body -->
                 </div>
+                <button type="summit" class="btn btn-success btn-block">Crear cuenta</button>
+
 
             </g:form>
                 <!-- /.box -->

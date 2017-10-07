@@ -19,6 +19,6 @@ class FacturaDetalle {
     }
 
     static mapping = {
-        table 'ven_factura_detalle'
+            table 'ven_factura_detalle'
     }
 }

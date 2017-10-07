@@ -4,7 +4,7 @@ class OrdenDetalle {
 
     ClienteCuenta clienteCuenta
     Plato plato
-    int cantidad
+    int cantidad=0
     String nombrePlato
 
     //
