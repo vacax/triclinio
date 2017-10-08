@@ -17,12 +17,15 @@ import groovy.json.JsonSlurper
 @Secured(["ROLE_ADMIN"])
 class CuentaController {
 
-
+    //TODO: En un esquema de concurrencia no hace lo requerido, debes cambiar al uso de session.
+    // TODO: Ver documentación en https://docs.grails.org/2.3.4/ref/Servlet%20API/session.html
     def static clienteCuentaStatic
     def static cuentaStatic
+    //
     def springSecurityService
 
 
+    
     def indexRedirect(){
         cuentaStatic=null
         redirect(uri:"/")
@@ -54,6 +57,10 @@ class CuentaController {
 
     }
 
+    /**
+     * 
+     * @return
+     */
     def nuevoDetalleOrden(){
         //CLIENTE CUENTA
 
@@ -78,6 +85,12 @@ class CuentaController {
 
     }
 
+    /**
+     * TODO: el action debe tener los metodos que reciben,
+     *
+     *
+     * @return
+     */
     def nuevaOrdenDetalle(){
 
         //ORDEN DETALLE

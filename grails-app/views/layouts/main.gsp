@@ -422,9 +422,9 @@ desired effect
      Both of these plugins are recommended to enhance the
      user experience. -->
 
+%{-- TODO: esa parte no debe ir aquí no se utiliza.--}%
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
-<script src="https://code.jquery.com/jquery-1.12.3.js"></script>
-
+<script src="https://code.jquery.com/jquery-1.12.3.js"></script> %{-- TODO: Tenemos una versión más nuevo--}%
 <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
 <script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 
