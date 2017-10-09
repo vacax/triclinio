@@ -17,7 +17,7 @@
 
                     <button type="submit" class="btn btn-block btn-success btn-lg">AGREGAR NUEVO CLIENTE</button>
                 </g:form>
-                <g:form action="indexRedirect">
+                <g:form action="indexRedirect" >
                     <button type="submit" class="btn btn-block btn-danger btn-lg">FINALIZAR</button>
                 </g:form>
             <!-- /.box -->

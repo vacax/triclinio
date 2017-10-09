@@ -7,7 +7,7 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(["ROLE_ADMIN"])
 class PlatoController {
 
-    static scaffold = Plato
+
 
     def index() { }
 

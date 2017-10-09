@@ -267,7 +267,7 @@ desired effect
                 <!-- Optionally, you can add icons to the links -->
                 <li><a href="/cuenta/nuevaCuenta"><i class="fa fa-link"></i> <span>Nueva Cuenta</span></a></li>
 
-                <li class="active"><a href="#"><i class="fa fa-link"></i> <span>Link</span></a></li>
+                <li><a href="/ordenesDetalle/index"><i class="fa fa-link"></i> <span>Ver ordenes Pendientes</span></a></li>
                 <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
                 <li class="treeview">
                     <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>

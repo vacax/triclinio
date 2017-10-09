@@ -37,6 +37,8 @@ class BootStrap {
             new Requestmap(url: url, configAttribute: 'permitAll,ROLE_ANONYMOUS').save(flush: true, failOnError: true)
         }
 
+        
+
         new Requestmap(url: '/console/**',    configAttribute: 'ROLE_ADMIN').save(flush: true, failOnError: true)
         new Requestmap(url: '/plugins/console*/**',    configAttribute: 'ROLE_ADMIN').save(flush: true, failOnError: true)
         new Requestmap(url: '/static/console/**',    configAttribute: 'ROLE_ADMIN').save(flush: true, failOnError: true)
@@ -96,7 +98,7 @@ class BootStrap {
         //TODO: Crear modelo de Cuenta para poder facturar(ClienteCuenta)
         ClienteCuenta clienteCuenta=new ClienteCuenta(nombre: "Ridore",cuenta: cuenta1,porcientoImpuesto:0.3 ,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
         ClienteCuenta clienteCuenta1=new ClienteCuenta(nombre: "Carlos",cuenta: cuenta,porcientoImpuesto: 0.5,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
-        ClienteCuenta clienteCuenta21=new ClienteCuenta(nombre: "Lisa",cuenta: cuenta,porcientoImpuesto: 0.9,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
+        ClienteCuenta clienteCuenta21=new ClienteCuenta(nombre: "Lisa",cuenta: cuenta2,porcientoImpuesto: 0.9,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
 
         ClienteCuenta clienteCuenta2=new ClienteCuenta(nombre: "Marcano",cuenta: cuenta3,porcientoImpuesto: 150,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
 
@@ -113,19 +115,19 @@ class BootStrap {
 
 
         //TODO: Crear modelo de Cuenta para poder facturar(EstadoFactura)
-        EstadoFactura estadoFactura=new EstadoFactura(codigo: EstadoFactura.PREFACTURA,nombre: "estado factura 1").save(flush: true, failOnError: true)
+        EstadoFactura estadoFactura=new EstadoFactura(codigo: EstadoFactura.FACTUDA,nombre: "estado factura 1").save(flush: true, failOnError: true)
 
-        EstadoFactura estadoFactura1=new EstadoFactura(codigo: EstadoFactura.PREFACTURA,nombre: "estado factura 2").save(flush: true, failOnError: true)
+        EstadoFactura estadoFactura1=new EstadoFactura(codigo: EstadoFactura.FACTURADA_COBRADA,nombre: "estado factura 2").save(flush: true, failOnError: true)
 
 
-        //TODO: Crear modelo de Cuenta para poder facturar(Factura)
-        Factura factura=new Factura(cliente: cliente1,usuario: usuario1,estadoFactura: estadoFactura,porcientoImpuesto: 150,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
-
-        Factura factura1=new Factura(cliente: cliente2,usuario: usuario2,estadoFactura: estadoFactura1,porcientoImpuesto: 150,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
-
-        //TODO: Crear modelo de Cuenta para poder facturar(FacturaDetalle)
-        new FacturaDetalle(factura: factura,ordenDetalle: ordenDetalle1).save(flush: true, failOnError: true)
-        new FacturaDetalle(factura: factura1,ordenDetalle: ordenDetalle2).save(flush: true, failOnError: true)
+//        //TODO: Crear modelo de Cuenta para poder facturar(Factura)
+//        Factura factura=new Factura(cliente: cliente1,usuario: usuario1,estadoFactura: estadoFactura,porcientoImpuesto: 150,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
+//
+//        Factura factura1=new Factura(cliente: cliente2,usuario: usuario2,estadoFactura: estadoFactura1,porcientoImpuesto: 150,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
+//
+//        //TODO: Crear modelo de Cuenta para poder facturar(FacturaDetalle)
+//        new FacturaDetalle(factura: factura,ordenDetalle: ordenDetalle1).save(flush: true, failOnError: true)
+//        new FacturaDetalle(factura: factura1,ordenDetalle: ordenDetalle2).save(flush: true, failOnError: true)
 
     }
 

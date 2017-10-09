@@ -79,7 +79,6 @@ class CuentaController {
         clienteCuentaStatic = clienteCuenta
         clienteCuenta.save(flush: true, failOnError: true)
 
-
         def listaPlatos = Plato.list()
         [listaPlatos:listaPlatos]
 

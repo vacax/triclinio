@@ -29,6 +29,15 @@ class Factura {
 
 
     static constraints = {
+        porcientoImpuesto(nullable: true)
+        porcientoDescuento(nullable: true)
+        montoBruto(nullable: true)
+        montoDescuento(nullable: true)
+        montoImpuesto(nullable: true)
+        montoNeto(nullable: true)
+        cliente(nullable: true)
+        usuario(nullable: true)
+        estadoFactura(nullable: true)
     }
 
     static mapping = {

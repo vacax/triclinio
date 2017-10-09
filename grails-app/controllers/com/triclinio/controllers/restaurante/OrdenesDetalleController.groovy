@@ -12,9 +12,10 @@ class OrdenesDetalleController {
         def listaOrdenDetalle=new ArrayList()
 
         for (OrdenDetalle ordenDetalle: listaOrdenDetalleTotal){
-            if(ordenDetalle.clienteCuenta.cuenta.estadoCuenta.codigo==1000){
+            if(ordenDetalle.getClienteCuenta().cuenta.estadoCuenta.codigo==1000)
+//            if(ordenDetalle.clienteCuenta.cuenta.estadoCuenta.codigo==1000){
                 listaOrdenDetalle.add(ordenDetalle)
-            }
+            //}
         }
         [listaOrdenDetalle:listaOrdenDetalle]
     }
