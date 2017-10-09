@@ -15,19 +15,6 @@
             $('#example').dataTable({
 
 
-//            bJQueryUI: true,
-//            sPaginationType: "full_numbers"
-//                select: {
-//                    style: 'multi'
-//                },
-//                "style": true,
-//                "bPaginate": true,
-//                "bLengthChange": false,
-//                "bFilter": true,
-//                "bSort": true,
-//                "bInfo": true,
-//                "bAutoWidth": true,
-//                "asStripClasses": null //To remove "odd"/"event" zebra classes
 
             });
 
@@ -85,8 +72,6 @@
 
                         success:function(data,textStatus)
                         {
-                            alert("Sucess")
-                            alert(data)
                             window.location = "/facturaDetalle/facturar?factura="+data;
 
                         },
