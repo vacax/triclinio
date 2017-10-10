@@ -266,6 +266,8 @@ desired effect
                 <li class="header">HEADER</li>
                 <!-- Optionally, you can add icons to the links -->
                 <li><a href="/cuenta/nuevaCuenta"><i class="fa fa-link"></i> <span>Nueva Cuenta</span></a></li>
+                <li><a href="/cuenta/cuentasAbiertas"><i class="fa fa-link"></i> <span>Cuentas abiertas</span></a></li>
+
 
                 <li><a href="/ordenesDetalle/index"><i class="fa fa-link"></i> <span>Ver ordenes Pendientes</span></a></li>
                 <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>

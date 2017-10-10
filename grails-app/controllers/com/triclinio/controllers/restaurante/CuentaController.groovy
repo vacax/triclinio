@@ -1,5 +1,6 @@
 package com.triclinio.controllers.restaurante
 
+import com.triclinio.domains.cxc.Cliente
 import com.triclinio.domains.restaurante.ClienteCuenta
 import com.triclinio.domains.restaurante.Cuenta
 import com.triclinio.domains.restaurante.CuentaMesa
@@ -19,7 +20,7 @@ class CuentaController {
 
     //TODO: En un esquema de concurrencia no hace lo requerido, debes cambiar al uso de session.
     // TODO: Ver documentación en https://docs.grails.org/2.3.4/ref/Servlet%20API/session.html
-    def static clienteCuentaStatic
+    def static clienteCuentaStatic  = ClienteCuenta.newInstance()
     def static cuentaStatic
     //
     def springSecurityService
@@ -62,8 +63,23 @@ class CuentaController {
      * @return
      */
     def nuevoDetalleOrden(){
-        //CLIENTE CUENTA
+//        //CLIENTE CUENTA
+//        def clienteCuenta = ClienteCuenta.newInstance()
+//        clienteCuenta.nombre = "Cliente Generico"
+//        clienteCuenta.cuenta = cuentaStatic
+//
+//        //????
+//        clienteCuenta.porcientoImpuesto = 0.00
+//        clienteCuenta.porcientoDescuento = 0.00
+//        clienteCuenta.montoBruto = 0.00
+//        clienteCuenta.montoDescuento = 0.00
+//        clienteCuenta.montoImpuesto = 0.00
+//        clienteCuenta.montoNeto = 0.00
+//
+//        clienteCuentaStatic = clienteCuenta
+//        clienteCuenta.save(flush: true, failOnError: true)
 
+        //        //CLIENTE CUENTA
         def clienteCuenta = ClienteCuenta.newInstance()
         clienteCuenta.nombre = "Cliente Generico"
         clienteCuenta.cuenta = cuentaStatic
@@ -75,9 +91,9 @@ class CuentaController {
         clienteCuenta.montoDescuento = 0.00
         clienteCuenta.montoImpuesto = 0.00
         clienteCuenta.montoNeto = 0.00
-
         clienteCuentaStatic = clienteCuenta
         clienteCuenta.save(flush: true, failOnError: true)
+
 
         def listaPlatos = Plato.list()
         [listaPlatos:listaPlatos]
@@ -91,13 +107,16 @@ class CuentaController {
      * @return
      */
     def nuevaOrdenDetalle(){
-
         //ORDEN DETALLE
 
-        def ordenDetalle = OrdenDetalle.newInstance()
+       def ordenDetalle = OrdenDetalle.newInstance()
+
+
         ordenDetalle.clienteCuenta=clienteCuentaStatic
+
+
         ordenDetalle.plato=Plato.findById(params.get("idPlato"))
-        ordenDetalle.cantidad=ordenDetalle.cantidad+1
+        ordenDetalle.cantidad=Integer.parseInt(params.get("cantidad"))
         ordenDetalle.nombrePlato=Plato.findById(params.get("idPlato")).nombre
 
         //????
@@ -120,6 +139,21 @@ class CuentaController {
     def cuentaAgregarFinalizar(){
         clienteCuentaStatic = null
 //        cuentaStatic =new Cuenta()
+    }
+
+    def clienteCuenta(){
+        if(params.get("cliente")!=""){
+            clienteCuentaStatic.nombre=params.get("cliente")
+            clienteCuentaStatic.save(flush: true, failOnError: true)
+        }
+
+        render clienteCuentaStatic as JSON
+
+    }
+
+    def cuentasAbiertas(){
+        def cuentas = Cuenta.findByEstadoCuenta(EstadoCuenta.findByCodigo(EstadoCuenta.getABIERTO()))
+        [cuentas:cuentas]
     }
 
 }

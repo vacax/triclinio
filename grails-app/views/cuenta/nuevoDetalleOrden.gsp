@@ -88,10 +88,15 @@
 <body>
 
 <section class="content">
-    <div class="col-md-8">
+    %{--<div class="col-md-8">--}%
+
+        <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-user"></i></span>
+            <input id="nombreCliente" name="nombreCliente" placeholder="Nombre del cliente" type="text" class="form-control">
+        </div>
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">Listado de items</h3>
+                <h3 class="box-title"><b>LISTADO ITEMS</b></h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
@@ -127,21 +132,22 @@
                 <input hidden="hidden"  id="rowSelected" name="rowSelected">
                 <input hidden="hidden"  id="nombrePlato" name="nombrePlato">
                 <input hidden="hidden"  id="precioPlato" name="precioPlato">
-                <button onclick="setPlatoOrdenDetalle()" id="agregarDetalle" type="button" class="btn btn-success btn-block">Agregar</button>
+                <button onclick="add_row()" disabled="disabled" id="agregarDetalle" type="button" class="btn btn-success btn-block">Agregar</button>
             </div>
         </div>
         <!-- /.box -->
 
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Items agregados</h3>
+                <h3 class="box-title"><b>ITEMS AGREGADOS</b></h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body no-padding">
                 <table align='center' class="table table-condensed" cellspacing=2 cellpadding=5 id="data_table" >
                 <tr>
-                    <th hidden="hidden">ID</th>
+                    <th>ID</th>
                     <th>Nombre Item/Platillo</th>
+                    <th>Cantidad</th>
                     <th>Precio</th>
                     <th>Acciones</th>
 
@@ -159,7 +165,9 @@
                 %{--</tr>--}%
 
                 <tr>
+                    <td><input type="text" id="idPlatilloAgregado"></td>
                     <td><input type="text" id="nombrePlatilloAgregado"></td>
+                    <td><input type="text" id="cantidadPlatilloAgregado"></td>
                     <td><input type="text" id="precioPlatilloAgregado"></td>
                     %{--<td><input type="text" id="new_age"></td>--}%
                     <td><input type="text"></td>
@@ -167,15 +175,15 @@
 
 
             </table>
-            <g:form action="cuentaAgregarFinalizar">
-                <button style="margin-top: 2%" type="summit" class="btn btn-danger btn-block">Guardar</button>
-            </g:form>
+            %{--<g:form action="cuentaAgregarFinalizar">--}%
+                <button id="guardarOrden" name="guardarOrden" style="margin-top: 2%" type="summit" class="btn btn-danger btn-block">Guardar</button>
+            %{--</g:form>--}%
 
             </div>
             <!-- /.box-body -->
         </div>
         <!-- /.box -->
-    </div>
+    %{--</div>--}%
 
 </section>
 
@@ -185,9 +193,15 @@
 
         $('#example tbody').on( 'click', 'tr', function () {
             if ( $(this).hasClass('selected') ) {
+                //HABILITA O DESABILITA EL BOTON SI NO HAY NADA SELECCIONADO
+                $('#agregarDetalle').prop("disabled", true);
+
                 $(this).removeClass('selected');
             }
             else {
+                //HABILITA O DESABILITA EL BOTON SI NO HAY NADA SELECCIONADO
+                $('#agregarDetalle').prop("disabled", false);
+
                 table.$('tr.selected').removeClass('selected');
                 $(this).addClass('selected');
                 var pos = table.row(this).index();
@@ -203,7 +217,9 @@
     } );
 
 
-    function setPlatoOrdenDetalle() {
+    function agregarNuevoPlato() {
+        add_row();
+
         var idPlato = document.getElementById("rowSelected").value
         $.ajax({
             type: "POST",
@@ -232,19 +248,121 @@
 
     function add_row()
     {
+        var idPlatilloAgregado=document.getElementById("rowSelected").value;
         var nombrePlatilloAgregado=document.getElementById("nombrePlato").value;
         var precioPlatilloAgregado=document.getElementById("precioPlato").value;
 
-        var table=document.getElementById("data_table");
-        var table_len=(table.rows.length)-1;
-        var row = table.insertRow(table_len).outerHTML="" +
-            "<tr id='row"+table_len+"'>" +
+//        CHEQUEO SI EL PLATO YA EXISTE
+        var T = document.getElementById('data_table');
+        var rows =$(T).find('> tbody > tr').length;
+        var existe=0;
+        $(T).find('> tbody > tr').each(function (index,value) {
+            if(index!=0 && index!=rows-1)
+            {
+//                alert($(this).find("td").eq(0).html())
+                if($(this).find("td").eq(0).html()==idPlatilloAgregado){
+                    var cantidadAnterior = parseInt( $(this).find("td").eq(2).html());
+                    $(this).find("td").eq(2).html(cantidadAnterior+1);
+//                    console.log($(this).find("td").eq(2).html())
+                    existe=1;
+                }
+
+            }
+
+
+        });
+        
+        //SINO EXISTE AGREGO NUEVO FILA
+
+        if(existe!=1){
+            var table=document.getElementById("data_table");
+            var table_len=(table.rows.length)-1;
+            var row = table.insertRow(table_len).outerHTML="" +
+                "<tr id='row"+table_len+"'>" +
+                "<td id='idPlatillo_row"+table_len+"'>"+idPlatilloAgregado+"</td>" +
                 "<td id='nombrePlatillo_row"+table_len+"'>"+nombrePlatilloAgregado+"</td>" +
+                "<td id='cantidadPlatillo_row"+table_len+"'>"+1+"</td>" +
                 "<td id='precioPlatillo_row"+table_len+"'>"+precioPlatilloAgregado+"</td>" +
                 "<td>" + "<input type='button' value='Eliminar' class='delete' onclick='delete_row("+table_len+")'></td>" +
-            "</tr>";
+                "</tr>";
+        }
     }
 </script>
+
+%{--<script>--}%
+    %{--$(function () {--}%
+        %{--alert(        document.getElementById('data_table').length--}%
+        %{--)--}%
+%{--//        $("#guardarOrden").click(function () {--}%
+%{--//            var nFilas = $("data_table tr").length;--}%
+%{--//            var nColumnas = $("#data_table tr:last td").length;--}%
+%{--//            var msg = "Filas: "+nFilas+" - Columnas: "+nColumnas;--}%
+%{--//            alert(msg);--}%
+%{--//        });--}%
+    %{--});--}%
+%{--</script>--}%
+
+<script>
+
+    $("#guardarOrden").click(function () {
+        var T = document.getElementById('data_table');
+        var rows =$(T).find('> tbody > tr').length;
+
+
+        if(rows==2){
+            alert("NO TIENE PLATOS SELECCIONADOS!!")
+        }
+        else{
+            var nombreCliente=document.getElementById("nombreCliente").value;
+
+            $.ajax({
+                type: "POST",
+                url:"/cuenta/clienteCuenta?cliente="+nombreCliente,
+                dataType: "JSON",
+                contentType:"application/json; charset=utf-8",
+                success:(
+                    function (data) {
+                        console.log("SE ENTREGO!");
+                    }),
+                error :(function(data){
+                    alert("ERROR CLIENTE")
+                })
+            });
+
+
+            $(T).find('> tbody > tr').each(function (index,value) {
+                if(index!=0 && index!=rows-1){
+                    var idPlato=$(this).find("td").eq(0).html();
+                    var cantidad=$(this).find("td").eq(2).html();
+
+                    $.ajax({
+                        type: "POST",
+                        url:"/cuenta/nuevaOrdenDetalle?idPlato="+idPlato+"&cantidad="+cantidad,
+                        dataType: "JSON",
+                        contentType:"application/json; charset=utf-8",
+                        success:(
+                            function (data) {
+                                console.log("SE ENTREGO!");
+                            }),
+                        error :(function(data){
+                            alert("ERROR PLATOS!")
+                        })
+                    });
+
+                }
+
+//                    alert($(this).find("td").eq(1).html());
+
+            });
+            parent.location="/cuenta/cuentaAgregarFinalizar";
+
+
+        }
+    });
+</script>
+
+
+
 </body>
 
 
