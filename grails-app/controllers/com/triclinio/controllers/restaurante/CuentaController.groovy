@@ -141,6 +141,10 @@ class CuentaController {
         def cuenta = Cuenta.findById(params.get("idCuenta"))
         [cuenta: cuenta]
     }
+    def nuevoDetalleOrden2(){
+        def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
+        [clienteCuenta:clienteCuenta]
+    }
 
     def obtenerDatos(){
         render ClienteCuenta.list() as JSON
