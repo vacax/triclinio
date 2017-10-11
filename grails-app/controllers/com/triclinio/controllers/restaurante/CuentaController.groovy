@@ -24,6 +24,7 @@ class CuentaController {
     def static cuentaStatic
     //
     def springSecurityService
+    def cuentaService
 
 
     
@@ -42,7 +43,7 @@ class CuentaController {
         cuenta.estadoCuenta = EstadoCuenta.findByCodigo(1000)
 
         cuenta.save(flush: true, failOnError: true)
-
+         
         cuentaStatic = cuenta;
 
 
@@ -63,6 +64,8 @@ class CuentaController {
      * @return
      */
     def nuevoDetalleOrden(){
+
+
 //        //CLIENTE CUENTA
 //        def clienteCuenta = ClienteCuenta.newInstance()
 //        clienteCuenta.nombre = "Cliente Generico"
