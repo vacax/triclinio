@@ -122,12 +122,18 @@ class CuentaController {
     }
 
     def clienteCuenta(){
-        if(params.get("cliente")!=""){
-            clienteCuentaStatic.nombre=params.get("cliente")
-            clienteCuentaStatic.save(flush: true, failOnError: true)
-        }
+        def cliente = ClienteCuenta.newInstance()
+        cliente.nombre = params.get("nombreCliente")
 
-        render clienteCuentaStatic as JSON
+        println(cliente.nombre)
+//        cliente.save(flush: true, failOnError: true)
+
+////        if(params.get("cliente")!=""){
+//            clienteCuentaStatic.nombre=params.get("cliente")
+//            clienteCuentaStatic.save(flush: true, failOnError: true)
+////        }
+
+        render cliente as JSON
 
     }
 

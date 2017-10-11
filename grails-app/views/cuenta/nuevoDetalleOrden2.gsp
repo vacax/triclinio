@@ -309,26 +309,6 @@
             alert("NO TIENE PLATOS SELECCIONADOS!!")
         }
         else{
-            var nombreCliente=document.getElementById("nombreCliente").value;
-            if(document.getElementById("nombreCliente").value.length!=0){
-                $.ajax({
-                    type: "POST",
-                    url:"/cuenta/clienteCuenta?cliente="+nombreCliente,
-                    dataType: "JSON",
-                    contentType:"application/json; charset=utf-8",
-                    success:(
-                        function (data) {
-                            console.log("SE ENTREGO!");
-                        }),
-                    error :(function(data){
-                        alert("ERROR CLIENTE")
-                    })
-                });
-
-            }
-
-
-
 
             var cuentaAsignada = document.getElementById("cuentaAsignada").value
             $(T).find('> tbody > tr').each(function (index,value) {

@@ -375,7 +375,7 @@
         var T = document.getElementById('data_table');
         var rows =$(T).find('> tbody > tr').length;
 
-
+        var nombreCliente1;
         if(rows==2){
             alert("NO TIENE PLATOS SELECCIONADOS!!")
         }
@@ -390,6 +390,24 @@
                     success:(
                         function (data) {
                             console.log("SE ENTREGO!");
+                            nombreCliente1=data.nombre;
+                        }),
+                    error :(function(data){
+                        alert("ERROR CLIENTE")
+                    })
+                });
+
+            }
+            else{
+                $.ajax({
+                    type: "POST",
+                    url:"/cuenta/clienteCuenta?cliente=Cliente Generico",
+                    dataType: "JSON",
+                    contentType:"application/json; charset=utf-8",
+                    success:(
+                        function (data) {
+                            console.log("SE ENTREGO!");
+                            nombreCliente1=data.nombre;
                         }),
                     error :(function(data){
                         alert("ERROR CLIENTE")
@@ -414,7 +432,7 @@
                         contentType:"application/json; charset=utf-8",
                         success:(
                             function (data) {
-                                console.log("SE ENTREGO!");
+                                console.log("SE ENTREGO! ORDEN");
                             }),
                         error :(function(data){
                             alert("ERROR PLATOS!")
