@@ -21,7 +21,7 @@ class CuentaController {
     //TODO: En un esquema de concurrencia no hace lo requerido, debes cambiar al uso de session.
     // TODO: Ver documentación en https://docs.grails.org/2.3.4/ref/Servlet%20API/session.html
     def static clienteCuentaStatic  = ClienteCuenta.newInstance()
-    def static cuentaStatic
+//    def static cuentaStatic
     //
     def springSecurityService
     def cuentaService
@@ -29,8 +29,8 @@ class CuentaController {
 
     
     def indexRedirect(){
-        cuentaStatic=null
-        redirect(uri:"/")
+//        cuentaStatic=null
+        redirect(uri:"/cuenta/cuentasAbiertas")
     }
 
     def nuevaCuenta(){
@@ -43,9 +43,6 @@ class CuentaController {
         cuenta.estadoCuenta = EstadoCuenta.findByCodigo(1000)
 
         cuenta.save(flush: true, failOnError: true)
-         
-        cuentaStatic = cuenta;
-
 
         for(int i=0;i<params.list("mesaId").size();i++){
             new CuentaMesa(mesa: Mesa.findById(params.list("mesaId").get(i)),cuenta: cuenta).save(flush: true, failOnError: true)
@@ -55,7 +52,7 @@ class CuentaController {
         }
 
 
-        redirect(uri:'/cuenta/nuevoDetalleOrden')
+        redirect(uri:"/cuenta/nuevoDetalleOrden?idCuenta="+cuenta.id)
 
     }
 
@@ -63,29 +60,11 @@ class CuentaController {
      * 
      * @return
      */
-    def nuevoDetalleOrden(){
-
-
-//        //CLIENTE CUENTA
-//        def clienteCuenta = ClienteCuenta.newInstance()
-//        clienteCuenta.nombre = "Cliente Generico"
-//        clienteCuenta.cuenta = cuentaStatic
-//
-//        //????
-//        clienteCuenta.porcientoImpuesto = 0.00
-//        clienteCuenta.porcientoDescuento = 0.00
-//        clienteCuenta.montoBruto = 0.00
-//        clienteCuenta.montoDescuento = 0.00
-//        clienteCuenta.montoImpuesto = 0.00
-//        clienteCuenta.montoNeto = 0.00
-//
-//        clienteCuentaStatic = clienteCuenta
-//        clienteCuenta.save(flush: true, failOnError: true)
-
+    def nuevoDetalleOrden(long idCuenta){
         //        //CLIENTE CUENTA
         def clienteCuenta = ClienteCuenta.newInstance()
         clienteCuenta.nombre = "Cliente Generico"
-        clienteCuenta.cuenta = cuentaStatic
+        clienteCuenta.cuenta = Cuenta.findById(idCuenta)
 
         //????
         clienteCuenta.porcientoImpuesto = 0.00
@@ -99,7 +78,7 @@ class CuentaController {
 
 
         def listaPlatos = Plato.list()
-        [listaPlatos:listaPlatos]
+        [listaPlatos:listaPlatos,cuenta: Cuenta.findById(idCuenta)]
 
     }
 
@@ -139,9 +118,9 @@ class CuentaController {
 
     }
 
-    def cuentaAgregarFinalizar(){
-        clienteCuentaStatic = null
-//        cuentaStatic =new Cuenta()
+    def cuentaAgregarFinalizar(long idCuenta){
+        def cuenta = Cuenta.findById(params.get("idCuenta"))
+        [cuenta: cuenta]
     }
 
     def clienteCuenta(){
@@ -157,6 +136,10 @@ class CuentaController {
     def cuentasAbiertas(){
         def cuentas = Cuenta.findByEstadoCuenta(EstadoCuenta.findByCodigo(EstadoCuenta.getABIERTO()))
         [cuentas:cuentas]
+    }
+
+    def obtenerDatos(){
+        render ClienteCuenta.list() as JSON
     }
 
 }

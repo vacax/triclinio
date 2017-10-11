@@ -90,11 +90,80 @@
 <section class="content">
     %{--<div class="col-md-8">--}%
 
-        <div class="input-group">
-            <span class="input-group-addon"><i class="fa fa-user"></i></span>
-            <input id="nombreCliente" name="nombreCliente" placeholder="Nombre del cliente" type="text" class="form-control">
+        <div class="row">
+
+            <div class="col-md-3">
+                <div class="box box-warning box-solid">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><b>Mesas seleccionadas</b></h3>
+
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body" style="">
+                    <ul>
+                        <g:each in="${cuenta.listaMesa}" var="mesa">
+                            <li>${mesa.mesa.nombre}</li>
+                        </g:each>
+                    </ul>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <div class="col-md-9">
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><b>Cuenta Actual:</b></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <form role="form">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-calculator"></i></span>
+                                    <input type="text" value="Cuenta #${cuenta.id}" class="form-control">
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><b>Cliente atendido:</b></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <form role="form">
+                            <!-- text input -->
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <input id="nombreCliente" name="nombreCliente" placeholder="Nombre del cliente" type="text" class="form-control">
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
         </div>
         <div class="box">
+            <input hidden="hidden" id="cuentaAsignada" name="cuentaAsignada" value="${cuenta.id}">
             <div class="box-header with-border">
                 <h3 class="box-title"><b>LISTADO ITEMS</b></h3>
             </div>
@@ -164,7 +233,7 @@
                     %{--</td>--}%
                 %{--</tr>--}%
 
-                <tr>
+                <tr hidden="hidden">
                     <td><input type="text" id="idPlatilloAgregado"></td>
                     <td><input type="text" id="nombrePlatilloAgregado"></td>
                     <td><input type="text" id="cantidadPlatilloAgregado"></td>
@@ -209,8 +278,6 @@
                 document.getElementById("rowSelected").value=row[0]
                 document.getElementById("nombrePlato").value=row[1]
                 document.getElementById("precioPlato").value=row[2]
-
-
             }
         } );
 
@@ -314,22 +381,27 @@
         }
         else{
             var nombreCliente=document.getElementById("nombreCliente").value;
+            if(document.getElementById("nombreCliente").value.length!=0){
+                $.ajax({
+                    type: "POST",
+                    url:"/cuenta/clienteCuenta?cliente="+nombreCliente,
+                    dataType: "JSON",
+                    contentType:"application/json; charset=utf-8",
+                    success:(
+                        function (data) {
+                            console.log("SE ENTREGO!");
+                        }),
+                    error :(function(data){
+                        alert("ERROR CLIENTE")
+                    })
+                });
 
-            $.ajax({
-                type: "POST",
-                url:"/cuenta/clienteCuenta?cliente="+nombreCliente,
-                dataType: "JSON",
-                contentType:"application/json; charset=utf-8",
-                success:(
-                    function (data) {
-                        console.log("SE ENTREGO!");
-                    }),
-                error :(function(data){
-                    alert("ERROR CLIENTE")
-                })
-            });
+            }
 
 
+
+
+            var cuentaAsignada = document.getElementById("cuentaAsignada").value
             $(T).find('> tbody > tr').each(function (index,value) {
                 if(index!=0 && index!=rows-1){
                     var idPlato=$(this).find("td").eq(0).html();
@@ -354,7 +426,7 @@
 //                    alert($(this).find("td").eq(1).html());
 
             });
-            parent.location="/cuenta/cuentaAgregarFinalizar";
+            parent.location="/cuenta/cuentaAgregarFinalizar?idCuenta="+cuentaAsignada;
 
 
         }
