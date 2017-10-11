@@ -15,7 +15,7 @@
     <div class="row">
         <div class="row">
         %{--<div    class="col-xs-8">--}%
-            <g:form action="crearNuevaCuenta">
+            %{--<g:form action="crearNuevaCuenta">--}%
                 <div class="box">
                     <div class="box-header">
                         <h3 class="box-title"><b>LISTADO DE CUENTAS ABIERTAS</b></h3>
@@ -49,9 +49,10 @@
                                             </g:if>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-sm btn-danger "><b>Facturar</b></button>
-                                            <button type="button" class="btn btn-sm btn-success"><b>Agregar Orden</b></button>
-
+                                            <g:form action="editarOrdenCuenta">
+                                                <input hidden="hidden" id="idCuenta" name="idCuenta" value="${cuenta.id}">
+                                                <button type="submit" class="btn btn-sm btn-success"><b>Ver Clientes de la cuenta</b></button>
+                                            </g:form>
                                         </td>
                                     </tr>
 
@@ -67,7 +68,7 @@
 
 
 
-            </g:form>
+            %{--</g:form>--}%
         <!-- /.box -->
         %{--</div>--}%
         </div>

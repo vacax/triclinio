@@ -18,10 +18,8 @@ import groovy.json.JsonSlurper
 @Secured(["ROLE_ADMIN"])
 class CuentaController {
 
-    //TODO: En un esquema de concurrencia no hace lo requerido, debes cambiar al uso de session.
     // TODO: Ver documentación en https://docs.grails.org/2.3.4/ref/Servlet%20API/session.html
     def static clienteCuentaStatic  = ClienteCuenta.newInstance()
-//    def static cuentaStatic
     //
     def springSecurityService
     def cuentaService
@@ -136,6 +134,12 @@ class CuentaController {
     def cuentasAbiertas(){
         def cuentas = Cuenta.findByEstadoCuenta(EstadoCuenta.findByCodigo(EstadoCuenta.getABIERTO()))
         [cuentas:cuentas]
+    }
+
+    def editarOrdenCuenta(){
+        println(params.get("idCuenta"))
+        def cuenta = Cuenta.findById(params.get("idCuenta"))
+        [cuenta: cuenta]
     }
 
     def obtenerDatos(){

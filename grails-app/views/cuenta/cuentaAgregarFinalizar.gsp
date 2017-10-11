@@ -67,29 +67,11 @@
                     </div>
 
                 </div>
-
-            %{--<div class="row invoice-info">--}%
-                %{--<div class="col-sm-4 invoice-col">--}%
-                    %{--# Cuenta:<strong>${cuenta.id}</strong>--}%
-                %{--</div>--}%
-            %{--</div>--}%
-            %{--<div class="row invoice-info">--}%
-                %{--<div class="col-sm-4 invoice-col">--}%
-                    %{--Mesas seleccionadas:--}%
-                    %{--<g:each in="${cuenta.listaMesa}" var="mesa">--}%
-                        %{--<strong>${mesa.mesa.nombre},</strong>--}%
-                    %{--</g:each>--}%
-                %{--</div>--}%
-            %{--</div>--}%
-
-
-
-        <!-- info row -->
         <g:each in="${cuenta.listaClienteCuenta}" var="clientecuenta">
 
             <div class="row invoice-info">
                 <div class="col-sm-4 invoice-col">
-                    Cliente: <strong>${clientecuenta.nombre}</strong>
+                    <h2>Cliente: <strong>${clientecuenta.nombre}</strong></h2>
                 </div>
 
             </div>
@@ -108,12 +90,12 @@
                         </tr>
                         </thead>
                         <tbody>
-            <g:each in="${clientecuenta.listaOrdenDetalle}" var="ordenesDetalle">
-                        <tr>
-                            <td>${ordenesDetalle.cantidad}</td>
-                            <td>${ordenesDetalle.nombrePlato}</td>
-                        </tr>
-            </g:each>
+                        <g:each in="${clientecuenta.listaOrdenDetalle}" var="ordenesDetalle">
+                            <tr>
+                                <td>${ordenesDetalle.cantidad}</td>
+                                <td>${ordenesDetalle.nombrePlato}</td>
+                            </tr>
+                        </g:each>
                         </tbody>
                     </table>
                 </div>
