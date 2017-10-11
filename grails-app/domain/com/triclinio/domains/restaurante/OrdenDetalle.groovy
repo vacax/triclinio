@@ -7,14 +7,21 @@ class OrdenDetalle {
     int cantidad=0
     String nombrePlato
 
-    //
+    //Precio del articulo
     BigDecimal precio
+    //Cantidad por precio.
     BigDecimal importe
+    //Indica el porciento de impuestos en Erredé es 18%, NA
     BigDecimal porcientoImpuesto
+    //indica el porciento del descuento. No
     BigDecimal porcientoDescuento
+    //Importe - el descuento.
     BigDecimal montoBruto
+    //El porciento aplicado al importe. ejemplo: importe es 100, es descuento 10%, montodescuento =10
     BigDecimal montoDescuento
+    //montoBruto * porcientoImporte.
     BigDecimal montoImpuesto
+    //montoBruto + montoImpuesto.
     BigDecimal montoNeto
 
     //Datos genericos del dominio.
