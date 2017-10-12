@@ -102,9 +102,9 @@ class FacturaDetalleController {
         Factura factura=Factura.findById(idFactura as Long)
         factura.setEstadoFactura(EstadoFactura.findById(1002))
 
-        render "Facturada"
+        [factura: factura]
+        //render "Facturada"
     }
-
 
 }
 

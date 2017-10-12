@@ -7,18 +7,18 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(["ROLE_ADMIN"])
 class OrdenesDetalleController {
 
-    def index() {
-        def listaOrdenDetalleTotal=OrdenDetalle.list()
-        def listaOrdenDetalle=new ArrayList()
-
-        for (OrdenDetalle ordenDetalle: listaOrdenDetalleTotal){
-            if(ordenDetalle.getClienteCuenta().cuenta.estadoCuenta.codigo==1000)
-//            if(ordenDetalle.clienteCuenta.cuenta.estadoCuenta.codigo==1000){
-                listaOrdenDetalle.add(ordenDetalle)
-            //}
-        }
-        [listaOrdenDetalle:listaOrdenDetalle]
-    }
+//    def index() {
+//        def listaOrdenDetalleTotal=OrdenDetalle.list()
+//        def listaOrdenDetalle=new ArrayList()
+//
+//        for (OrdenDetalle ordenDetalle: listaOrdenDetalleTotal){
+//            if(ordenDetalle.getClienteCuenta().cuenta.estadoCuenta.codigo==1000)
+////            if(ordenDetalle.clienteCuenta.cuenta.estadoCuenta.codigo==1000){
+//                listaOrdenDetalle.add(ordenDetalle)
+//            //}
+//        }
+//        [listaOrdenDetalle:listaOrdenDetalle]
+//    }
 
 
 

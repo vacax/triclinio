@@ -137,18 +137,12 @@ class CuentaController {
      */
 
 
-
-
-
-
     /**
      * TODO: el action debe tener los metodos que reciben,
      *
      *
      * @return
      */
-
-
 
 //hello
 
@@ -175,6 +169,20 @@ class CuentaController {
         def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
         [clienteCuenta:clienteCuenta]
 
+    }
+
+
+    def verOrdenes(long id){
+
+        def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
+        [listaOrdenDetalle:clienteCuenta.listaOrdenDetalle]
+    }
+
+
+    def eliminarOrdenDetalle(){
+        def orden = ClienteCuenta.findById(params.get("orden"))
+        println "Orden : "+orden
+        redirect(action:'detalleCuenta')
     }
 
 }
