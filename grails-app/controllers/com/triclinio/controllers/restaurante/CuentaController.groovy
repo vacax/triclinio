@@ -1,5 +1,6 @@
 package com.triclinio.controllers.restaurante
 
+import com.triclinio.commands.restaurant.OrdenDetalleCuentaForm
 import com.triclinio.domains.cxc.Cliente
 import com.triclinio.domains.restaurante.ClienteCuenta
 import com.triclinio.domains.restaurante.Cuenta
@@ -25,7 +26,7 @@ class CuentaController {
     def cuentaService
 
 
-    
+
     def indexRedirect(){
 //        cuentaStatic=null
         redirect(uri:"/cuenta/cuentasAbiertas")
@@ -66,11 +67,11 @@ class CuentaController {
     }
 
     //POST CREAR NUEVO CLIENTE
-    def clienteCuenta(){
+    def clienteCuenta(long cuentaAsignadaId){
         //        //CLIENTE CUENTA
         def clienteCuenta = ClienteCuenta.newInstance()
         clienteCuenta.nombre = params.get("nombreCliente")
-        clienteCuenta.cuenta = Cuenta.findById(params.get("cuentaAsignada"))
+        clienteCuenta.cuenta = Cuenta.findById(cuentaAsignadaId)
 
         //????
         clienteCuenta.porcientoImpuesto = 0.00
@@ -86,39 +87,74 @@ class CuentaController {
         render clienteCuenta as JSON
     }
 
-    //POST CREAR NUEVA ORDEN
-    def nuevaOrdenDetalle(){
+    /**
+     *
+     * @param idCliente
+     * @param idPlato
+     * @param cantidad
+     * @return
+     */
+    def nuevaOrdenDetalle(OrdenDetalleCuentaForm form){
+        def json = request.getJSON();
+        println("EL JSON: "+json)
+        println "El form recibido: "+(form as JSON)
+        println "Los parametros enviandos: "+params
         //ORDEN DETALLE
-        def clienteCuenta = ClienteCuenta.findById(params.get("idCliente"))
 
-        def ordenDetalle = OrdenDetalle.newInstance()
-        ordenDetalle.clienteCuenta=clienteCuenta
-        ordenDetalle.plato=Plato.findById(params.get("idPlato"))
-        ordenDetalle.cantidad=Integer.parseInt(params.get("cantidad"))
-        ordenDetalle.nombrePlato=Plato.findById(params.get("idPlato")).nombre
+        ClienteCuenta clienteCuenta = new ClienteCuenta()
+        clienteCuenta.cuenta = Cuenta.get(form.cuentaId)
+        clienteCuenta.nombre = form.nombreCliente ? form.nombreCliente : "Cliente Generico"
 
-        //????
-        ordenDetalle.precio = 0.00
-        ordenDetalle.importe = 0.00
-        ordenDetalle.porcientoImpuesto = 0.00
-        ordenDetalle.porcientoDescuento = 0.00
-        ordenDetalle.montoBruto = 0.00
-        ordenDetalle.montoDescuento = 0.00
-        ordenDetalle.montoImpuesto = 0.00
-        ordenDetalle.montoNeto = 0.00
-        ordenDetalle.save(flush: true, failOnError: true)
+        clienteCuenta.save(flush: true, failOnError: true)
+        
+        form.listaPlato.each {
+
+            //
+            Plato plato = Plato.get(it.idPlato)
+            int cantidad = it.cantidad;
+
+            def ordenDetalle = new OrdenDetalle()
+            ordenDetalle.clienteCuenta=clienteCuenta
+            ordenDetalle.plato=plato
+            ordenDetalle.cantidad=it.cantidad
+            ordenDetalle.nombrePlato=plato.nombre
+
+            //calculo de dinero
+            ordenDetalle.precio = plato.precio
+            ordenDetalle.importe = cantidad * ordenDetalle.precio
+            ordenDetalle.porcientoImpuesto = 0.00
+            ordenDetalle.porcientoDescuento = 0.00
+            ordenDetalle.montoDescuento = ordenDetalle.importe * ordenDetalle.porcientoDescuento
+            ordenDetalle.montoBruto = ordenDetalle.importe - ordenDetalle.montoDescuento
+            ordenDetalle.montoImpuesto = ordenDetalle.montoBruto * ordenDetalle.porcientoImpuesto
+            ordenDetalle.montoNeto = ordenDetalle.montoBruto + ordenDetalle.montoImpuesto
+
+            ordenDetalle.save(flush: true, failOnError: true)
+        }
+
 
         println("Nuevo detalle orden creado!")
 
 
 
-        render ordenDetalle as JSON
+        //redirect(action: "cuentaAgregarFinalizar", params: [idCuenta: clienteCuenta.cuenta.id])
+        render clienteCuenta.cuenta as JSON
 
     }
 
-    //VENTANA PARA FINALIZAR/AGREAR CLIENTE A CUENTA
-    def cuentaAgregarFinalizar(long idCuenta){
-        def cuenta = Cuenta.findById(params.get("idCuenta"))
+    /**
+     * VENTANA PARA FINALIZAR/AGREAR CLIENTE A CUENTA
+     * @param idCuenta
+     * @return
+     */
+    def cuentaAgregarFinalizar(long id){
+        println "El id: "+id
+        if(id == 0){
+            redirect(action: "detalleOrdenIndex", params: [error: "Información ncomplet,,,,"])
+            return;
+        }
+        def cuenta = Cuenta.findById(id)
+        //TODO: validar...
         [cuenta: cuenta]
     }
 
@@ -132,7 +168,7 @@ class CuentaController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * 
+     *
      * @return
      */
 
