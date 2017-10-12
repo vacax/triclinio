@@ -49,7 +49,7 @@
                                             </g:if>
                                         </td>
                                         <td>
-                                            <g:form action="editarOrdenCuenta">
+                                            <g:form action="detalleCuenta">
                                                 <input hidden="hidden" id="idCuenta" name="idCuenta" value="${cuenta.id}">
                                                 <button type="submit" class="btn btn-sm btn-success"><b>Ver Clientes de la cuenta</b></button>
                                             </g:form>

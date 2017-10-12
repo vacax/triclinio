@@ -31,10 +31,14 @@ class CuentaController {
         redirect(uri:"/cuenta/cuentasAbiertas")
     }
 
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //INDEX CREAR CUENTA
     def nuevaCuenta(){
 
     }
 
+    //POST CREAR CUENTA
     def crearNuevaCuenta(){
         Cuenta cuenta = new Cuenta()
         cuenta.usuario = (Usuario)springSecurityService.currentUser
@@ -48,21 +52,25 @@ class CuentaController {
             mesa.estadoMesa = EstadoMesa.findByCodigo(1000)
             mesa.save(flush: true, failOnError: true)
         }
+        println("Nueva cuenta creada!")
 
 
-        redirect(uri:"/cuenta/nuevoDetalleOrden?idCuenta="+cuenta.id)
+        redirect(uri:"/cuenta/detalleOrdenIndex?idCuenta="+cuenta.id)
 
     }
 
-    /**
-     * 
-     * @return
-     */
-    def nuevoDetalleOrden(long idCuenta){
+    //INDEX CREAR DETALLE ORDEN
+    def detalleOrdenIndex(long idCuenta){
+        def listaPlatos = Plato.list()
+        [listaPlatos:listaPlatos,cuenta: Cuenta.findById(idCuenta)]
+    }
+
+    //POST CREAR NUEVO CLIENTE
+    def clienteCuenta(){
         //        //CLIENTE CUENTA
         def clienteCuenta = ClienteCuenta.newInstance()
-        clienteCuenta.nombre = "Cliente Generico"
-        clienteCuenta.cuenta = Cuenta.findById(idCuenta)
+        clienteCuenta.nombre = params.get("nombreCliente")
+        clienteCuenta.cuenta = Cuenta.findById(params.get("cuentaAsignada"))
 
         //????
         clienteCuenta.porcientoImpuesto = 0.00
@@ -71,30 +79,20 @@ class CuentaController {
         clienteCuenta.montoDescuento = 0.00
         clienteCuenta.montoImpuesto = 0.00
         clienteCuenta.montoNeto = 0.00
-        clienteCuentaStatic = clienteCuenta
         clienteCuenta.save(flush: true, failOnError: true)
 
+        println("Nuevo cliente creado!")
 
-        def listaPlatos = Plato.list()
-        [listaPlatos:listaPlatos,cuenta: Cuenta.findById(idCuenta)]
-
+        render clienteCuenta as JSON
     }
 
-    /**
-     * TODO: el action debe tener los metodos que reciben,
-     *
-     *
-     * @return
-     */
+    //POST CREAR NUEVA ORDEN
     def nuevaOrdenDetalle(){
         //ORDEN DETALLE
+        def clienteCuenta = ClienteCuenta.findById(params.get("idCliente"))
 
-       def ordenDetalle = OrdenDetalle.newInstance()
-
-
-        ordenDetalle.clienteCuenta=clienteCuentaStatic
-
-
+        def ordenDetalle = OrdenDetalle.newInstance()
+        ordenDetalle.clienteCuenta=clienteCuenta
         ordenDetalle.plato=Plato.findById(params.get("idPlato"))
         ordenDetalle.cantidad=Integer.parseInt(params.get("cantidad"))
         ordenDetalle.nombrePlato=Plato.findById(params.get("idPlato")).nombre
@@ -108,52 +106,75 @@ class CuentaController {
         ordenDetalle.montoDescuento = 0.00
         ordenDetalle.montoImpuesto = 0.00
         ordenDetalle.montoNeto = 0.00
-
         ordenDetalle.save(flush: true, failOnError: true)
 
+        println("Nuevo detalle orden creado!")
 
-      render ordenDetalle as JSON
+
+
+        render ordenDetalle as JSON
 
     }
 
+    //VENTANA PARA FINALIZAR/AGREAR CLIENTE A CUENTA
     def cuentaAgregarFinalizar(long idCuenta){
         def cuenta = Cuenta.findById(params.get("idCuenta"))
         [cuenta: cuenta]
     }
 
-    def clienteCuenta(){
-        def cliente = ClienteCuenta.newInstance()
-        cliente.nombre = params.get("nombreCliente")
-
-        println(cliente.nombre)
-//        cliente.save(flush: true, failOnError: true)
-
-////        if(params.get("cliente")!=""){
-//            clienteCuentaStatic.nombre=params.get("cliente")
-//            clienteCuentaStatic.save(flush: true, failOnError: true)
-////        }
-
-        render cliente as JSON
-
-    }
-
+    //INDEX CUENTAS ABIERTAS
     def cuentasAbiertas(){
         def cuentas = Cuenta.findByEstadoCuenta(EstadoCuenta.findByCodigo(EstadoCuenta.getABIERTO()))
         [cuentas:cuentas]
     }
 
-    def editarOrdenCuenta(){
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * 
+     * @return
+     */
+
+
+
+
+
+
+    /**
+     * TODO: el action debe tener los metodos que reciben,
+     *
+     *
+     * @return
+     */
+
+
+
+
+
+
+    //INDEX DETALLE CUENTA ( MUESTRAS LISTADO CLIENTES )
+    def detalleCuenta(){
         println(params.get("idCuenta"))
         def cuenta = Cuenta.findById(params.get("idCuenta"))
         [cuenta: cuenta]
     }
+
+    //POST AGREGAS NUEVOS ITEMS A CLIENTE
     def nuevoDetalleOrden2(){
         def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
         [clienteCuenta:clienteCuenta]
     }
 
-    def obtenerDatos(){
-        render ClienteCuenta.list() as JSON
+//    def obtenerDatos(){
+//        render ClienteCuenta.list() as JSON
+//    }
+
+    //OJOOO!
+    def separarCuenta(){
+        def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
+        [clienteCuenta:clienteCuenta]
+
     }
 
 }

@@ -78,7 +78,7 @@
         </div>
     </div>
 
-<!--    TABLA LISTADO ITEMS-->
+    <!--    TABLA LISTADO ITEMS-->
     <div class="box">
         <input hidden="hidden" id="cuentaAsignada" name="cuentaAsignada" value="${clienteCuenta.cuenta.id}">
         <div class="box-header with-border">
@@ -102,7 +102,7 @@
                 </tfoot>
                 <tbody>
                 <g:each in="${com.triclinio.domains.restaurante.Plato.list()}" status="counter" var="plato">
-                    <tr>
+                    <tr id='row${plato.id}'>
                         <td  hidden="hidden">${plato.id}</td>
                         <td>${plato.nombre}</td>
                         <td>${plato.precio}</td>
@@ -120,7 +120,7 @@
         </div>
     </div>
 
-<!--    TABLA ITEMS AGREGADOS-->
+    <!--    TABLA ITEMS AGREGADOS-->
     <div class="box">
         <div class="box-header">
             <h3 class="box-title"><b>ITEMS AGREGADOS</b></h3>
@@ -189,7 +189,7 @@
 
         var idCliente=${clienteCuenta.id}
 
-        alert(rows)
+            alert(rows)
         if(rows==2){
             alert("NO TIENE PLATOS SELECCIONADOS!!")
         }
@@ -276,6 +276,9 @@
                 "<td id='precioPlatillo_row"+table_len+"'>"+precioPlatilloAgregado+"</td>" +
                 "<td>" + "<input type='button' value='Eliminar' class='delete' onclick='delete_row("+table_len+")'></td>" +
                 "</tr>";
+//            console.log(document.getElementById("rowSelected").value);
+//            console.log(document.getElementById(document.getElementById("rowSelected").value));
+            document.getElementById("row"+document.getElementById("rowSelected").value+"").style.visibility="hidden";
 
         }
     }

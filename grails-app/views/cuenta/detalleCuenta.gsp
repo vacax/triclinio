@@ -69,47 +69,49 @@
             </div>
 
 
-                <div class="row invoice-info">
-                    <div class="col-sm-4 invoice-col">
-                        <h2><b>Listado clientes en la mesa:</b></h2>
-                    </div>
-
+            <div class="row invoice-info">
+                <div class="col-sm-4 invoice-col">
+                    <h2><b>Listado clientes en la mesa:</b></h2>
                 </div>
-                <!-- /.row -->
 
-                <!-- Table row -->
-                <div class="row">
-                    <div class="col-xs-12 table-responsive">
-                        <table border="1" class="table table-striped">
-                            <thead>
+            </div>
+            <!-- /.row -->
+
+            <!-- Table row -->
+            <div class="row">
+                <div class="col-xs-12 table-responsive">
+                    <table border="1" class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Nombre Cliente</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <g:each in="${cuenta.listaClienteCuenta}" var="clientecuenta">
                             <tr>
-                                <th>Nombre Cliente</th>
-                                <th>Acciones</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <g:each in="${cuenta.listaClienteCuenta}" var="clientecuenta">
-                                <tr>
-                                    <td>${clientecuenta.nombre}</td>
-                                    %{--<td>${ordenesDetalle.nombrePlato}</td>--}%
-                                    <td>
+                                <td>${clientecuenta.nombre}</td>
+                                %{--<td>${ordenesDetalle.nombrePlato}</td>--}%
+                                <td>
                                     <button type="submit" class="btn btn-block btn-danger btn-sm">Facturar</button>
                                     <g:form action="nuevoDetalleOrden">
                                         <input hidden="hidden" id="clienteCuenta" name="clienteCuenta" value="${clientecuenta.id}">
-                                        <g:link action="nuevoDetalleOrden2" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]">My Link!</g:link>
+                                        <g:link action="nuevoDetalleOrden2" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-block btn-info">Agregar Orden</button></g:link>
+                                        <g:link action="separarCuenta" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-block btn-info">Separar cuenta</button></g:link>
+
 
                                     %{--<button type="submit" class="btn btn-block btn-danger btn-sm">Agregar Detalle Orden</button>--}%
                                     </g:form>
-                                    </td>
-                                </tr>
-                            </g:each>
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.col -->
+                                </td>
+                            </tr>
+                        </g:each>
+                        </tbody>
+                    </table>
                 </div>
+                <!-- /.col -->
+            </div>
 
-        <!-- /.row -->
+            <!-- /.row -->
         </section>
     </div>
 </section>

@@ -67,41 +67,35 @@
                     </div>
 
                 </div>
+
         <g:each in="${cuenta.listaClienteCuenta}" var="clientecuenta">
-
-            <div class="row invoice-info">
-                <div class="col-sm-4 invoice-col">
-                    <h2>Cliente: <strong>${clientecuenta.nombre}</strong></h2>
-                </div>
-
-            </div>
-            <!-- /.row -->
-
-
-
-            <!-- Table row -->
-            <div class="row">
-                <div class="col-xs-12 table-responsive">
-                    <table border="1" class="table table-striped">
-                        <thead>
-                        <tr>
-                            <th>Cantidad</th>
+            <div class="col-md-12">
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><b>Cliente: ${clientecuenta.nombre}</b></h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                    <table class="table table-hover">
+                        <tbody><tr>
                             <th>Item</th>
+                            <th>Cantidad</th>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <g:each in="${clientecuenta.listaOrdenDetalle}" var="ordenesDetalle">
+                        <g:each in="${clientecuenta.listaOrdenDetalle}" var="orden">
                             <tr>
-                                <td>${ordenesDetalle.cantidad}</td>
-                                <td>${ordenesDetalle.nombrePlato}</td>
+                                <td>${orden.cantidad}</td>
+                                <td>${orden.nombrePlato}</td>
                             </tr>
                         </g:each>
+
                         </tbody>
                     </table>
-                </div>
-                <!-- /.col -->
-            </div>
 
+                </div>
+                    <!-- /.box-body -->
+                </div>
+
+            </div>
         </g:each>
             <!-- /.row -->
         </section>
@@ -110,7 +104,7 @@
     <div class="row">
         <div class="row">
         %{--<div    class="col-xs-8">--}%
-            <g:form action="nuevoDetalleOrden">
+            <g:form action="detalleOrdenIndex">
                 <input hidden="" id="idCuenta" name="idCuenta" value="${cuenta.id}">
                 <button type="submit" class="btn btn-block btn-success btn-lg">AGREGAR NUEVO CLIENTE</button>
             </g:form>
