@@ -3,17 +3,17 @@ package com.triclinio.domains.restaurante
 class ClienteCuenta {
 
     Cuenta cuenta
-    String nombre
+    String nombre = "Cliente Generico"
 
     static hasMany = [listaOrdenDetalle : OrdenDetalle]
 
     //
-    BigDecimal porcientoImpuesto
-    BigDecimal porcientoDescuento
-    BigDecimal montoBruto
-    BigDecimal montoDescuento
-    BigDecimal montoImpuesto
-    BigDecimal montoNeto
+    BigDecimal porcientoImpuesto = BigDecimal.ZERO
+    BigDecimal porcientoDescuento = BigDecimal.ZERO
+    BigDecimal montoBruto = BigDecimal.ZERO
+    BigDecimal montoDescuento = BigDecimal.ZERO
+    BigDecimal montoImpuesto = BigDecimal.ZERO
+    BigDecimal montoNeto  = BigDecimal.ZERO
 
     //Datos genericos del dominio.
     boolean habilitado = true;

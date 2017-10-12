@@ -173,7 +173,7 @@
 
             </table>
             %{--<g:form action="cuentaAgregarFinalizar">--}%
-                <button id="guardarOrden" name="guardarOrden" style="margin-top: 2%" type="summit" class="btn btn-danger btn-block">Guardar</button>
+                <button id="guardarOrden" name="guardarOrden" style="margin-top: 2%" type="button" class="btn btn-danger btn-block">Guardar</button>
             %{--</g:form>--}%
 
             </div>
@@ -306,80 +306,50 @@
         var cuentaAsignada = document.getElementById("cuentaAsignada").value
 
 
+
         if(rows==2){
             alert("NO TIENE PLATOS SELECCIONADOS!!")
-        }
-        else{
-            var nombreCliente=document.getElementById("nombreCliente").value;
-            if(document.getElementById("nombreCliente").value.length!=0){
-                $.ajax({
-                    type: "GET",
-                    url:"/cuenta/clienteCuenta?nombreCliente="+nombreCliente+"&cuentaAsignada="+cuentaAsignada,
-                    dataType: "JSON",
-                    contentType:"application/json; charset=utf-8",
-                    success:(
-                        function (data) {
-                            crearPlato(data.id)
-//                            console.log("SE ENTREGO IF CLIENTE!");
-                        })
-//                    error :(function(data){
-//                        alert("ERROR CLIENTE 1")
-//                    })
-                });
-
-            }
-            else{
-                $.ajax({
-                    type: "GET",
-                    url:"/cuenta/clienteCuenta?nombreCliente=Cliente Generico"+"&cuentaAsignada="+cuentaAsignada,
-                    dataType: "JSON",
-                    contentType:"application/json; charset=utf-8",
-                    success:(
-                        function (data) {
-                            crearPlato(data.id)
-//                            console.log("SE ENTREGO! ELSE CLIENTE");
-                        })
-//                    error :(function(data){
-//                        alert("ERROR CLIENTE 2")
-//                    })
-                });
-
-            }
-
-
-
-            parent.location="/cuenta/cuentaAgregarFinalizar?idCuenta="+cuentaAsignada;
-
-
+        } else{
+            crearPlato(cuentaAsignada)
         }
     });
 
-    function crearPlato(idCliente) {
+    function crearPlato(cuentaId) {
+
+        var objeto = {};
+        objeto.cuentaId = cuentaId;
+        objeto.nombreCliente = document.getElementById("nombreCliente").value;
+        
+        var listaPlato = [];
+
         var T = document.getElementById('data_table');
         var rows =$(T).find('> tbody > tr').length;
 
+        var contadorFila=0; //TODO: mejorar...
         $(T).find('> tbody > tr').each(function (index,value) {
-            if(index!=0 && index!=rows-1){
-                var idPlato=$(this).find("td").eq(0).html();
-                var cantidad=$(this).find("td").eq(2).html();
-                $.ajax({
-                    type: "GET",
-                    url:"/cuenta/nuevaOrdenDetalle?idPlato="+idPlato+"&cantidad="+cantidad+"&idCliente="+idCliente,
-                    dataType: "JSON",
-                    contentType:"application/json; charset=utf-8",
-//                    success:(
-//                        function (data) {
-//                            console.log("SE ENTREGO! ORDEN");
-//                        }),
-//                    error :(function(data){
-//                        alert("ERROR PLATOS!")
-//                    })
-                });
-
+            if(index!=0 && index!=rows-1){   //TODO:// mejorar...
+                listaPlato[contadorFila]= {};
+                listaPlato[contadorFila].idPlato=parseInt($(this).find("td").eq(0).text());
+                listaPlato[contadorFila].cantidad=parseInt($(this).find("td").eq(2).text());
+                contadorFila++;
             }
+            console.log(""+JSON.stringify(listaPlato));
 
-//                    alert($(this).find("td").eq(1).html());
+        });
 
+        objeto.listaPlato = listaPlato;
+        console.log("Objeto Completo: "+JSON.stringify(objeto));
+        
+        $.ajax({
+            type: "post",
+            url:"/cuenta/nuevaOrdenDetalle",
+            dataType: "json",
+            contentType: "application/json",
+            data: JSON.stringify(objeto),
+            success: function (data) {
+               window.location = "/cuenta/cuentaAgregarFinalizar/"+data.id
+                console.log("Recibido: "+JSON.stringify(data))
+            }
         });
 
     }
