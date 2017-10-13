@@ -116,9 +116,9 @@
             <td>${listaOrden.cantidad}</td>
             <td>${listaOrden.precio}</td>
             <td>${listaOrden.nombrePlato}</td>
-            <td>
-                <g:link action="eliminarOrdenDetalle" controller="cuenta"  params="[orden: listaOrden.id]"><button type="button" id="eliminar" class="btn  btn-info">Eliminar Orden</button></g:link>
-            </td>
+            %{--<td>--}%
+                %{--<g:link action="eliminarOrdenDetalle" controller="cuenta"  params="[orden: listaOrden.id]"><button type="button" id="eliminar" class="btn  btn-info">Eliminar Orden</button></g:link>--}%
+            %{--</td>--}%
 
         </tr>
     </g:each>

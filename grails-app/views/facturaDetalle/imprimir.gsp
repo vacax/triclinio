@@ -27,9 +27,9 @@
 
             $("#procesar").click(function() {
                 valor = $("#cantidad").val();
-                alert(valor);
+
                 total= $("#cantidadDinero #montoNeto").text();
-                alert(total)
+
                 cambio=valor-total
                 total= $("#cantidadDinero #cambio").text(cambio);
             });
