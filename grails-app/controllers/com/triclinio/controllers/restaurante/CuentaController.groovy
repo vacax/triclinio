@@ -216,7 +216,7 @@ class CuentaController {
 
 
     def eliminarOrdenDetalle(){
-        def orden = ClienteCuenta.findById(params.get("orden"))
+        def orden = ClienteCuenta.findById(params.get("orden") as Long)
         println "Orden : "+orden
         redirect(action:'detalleCuenta')
     }

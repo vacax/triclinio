@@ -269,8 +269,8 @@ desired effect
                 <li><a href="/cuenta/cuentasAbiertas"><i class="fa fa-link"></i> <span>Cuentas abiertas</span></a></li>
 
 
-                <li><a href="/ordenesDetalle/index"><i class="fa fa-link"></i> <span>Ver ordenes Pendientes</span></a></li>
-                <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
+                <li><a href="/usuarioCrear/index"><i class="fa fa-link"></i> <span>Listar Usuarios</span></a></li>
+                <li><a href="/platoCrear/index"><i class="fa fa-link"></i> <span>Listar Platos</span></a></li>
                 <li class="treeview">
                     <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span>
                         <span class="pull-right-container">

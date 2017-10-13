@@ -26,6 +26,7 @@ class BootStrap {
 
         Usuario usuario = new Usuario(username: "admin", password: "admin", nombre: "Administrador").save(flush: true, failOnError: true)
         Perfil perfil = new Perfil(authority: "ROLE_ADMIN").save(flush: true, failOnError: true)
+
         UsuarioPerfil.create(usuario, perfil)
         new Requestmap(url: "/**", configAttribute: "ROLE_ADMIN").save(flush: true, failOnError: true)
 
@@ -57,8 +58,8 @@ class BootStrap {
         Plato plato6=new Plato(nombre: "Nuevo Plato 5", precio: 254.00).save(flush: true, failOnError: true)
 
         //TODO: Crear modelo de Cuenta para poder facturar(Usuario)
-        Usuario usuario1=new Usuario(username: "john",password: "1234",nombre: "Empleado").save(flush: true, failOnError: true)
-        Usuario usuario2=new Usuario(username: "tolentino",password: "1234",nombre: "Empleado").save(flush: true, failOnError: true)
+        Usuario usuario1=new Usuario(username: "john",password: "1234",nombre: "N/A").save(flush: true, failOnError: true)
+        Usuario usuario2=new Usuario(username: "tolentino",password: "1234",nombre: "N/A").save(flush: true, failOnError: true)
 
         //TODO: Crear modelo de Cuenta para poder facturar(Cliente)
         Cliente cliente=new Cliente(nombre:"John").save(flush: true, failOnError: true)
