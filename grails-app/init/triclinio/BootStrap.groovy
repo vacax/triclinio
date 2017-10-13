@@ -37,7 +37,6 @@ class BootStrap {
             new Requestmap(url: url, configAttribute: 'permitAll,ROLE_ANONYMOUS').save(flush: true, failOnError: true)
         }
 
-        
 
         new Requestmap(url: '/console/**',    configAttribute: 'ROLE_ADMIN').save(flush: true, failOnError: true)
         new Requestmap(url: '/plugins/console*/**',    configAttribute: 'ROLE_ADMIN').save(flush: true, failOnError: true)
@@ -47,7 +46,6 @@ class BootStrap {
         new Requestmap(url: '/admin/role/**', configAttribute: 'ROLE_SUPERVISOR').save(flush: true, failOnError: true)
         new Requestmap(url: '/admin/user/**', configAttribute: 'ROLE_ADMIN,ROLE_SUPERVISOR').save(flush: true, failOnError: true)
         new Requestmap(url: '/login/impersonate', configAttribute: 'ROLE_SWITCH_USER,isFullyAuthenticated()').save(flush: true, failOnError: true)
-
 
 
         //TODO: Crear modelo de Cuenta para poder facturar(Platillo)

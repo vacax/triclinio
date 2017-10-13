@@ -76,7 +76,7 @@
                     </thead>
                     <tbody>
                     <tr>
-                    <g:each in="${facturaDetalles}" var="fac">
+                    <g:each in="${factura.listaFacturaDetalle}" var="fac">
                         <tr>
                             <td>${fac.id}</td>
                             <td>${fac.ordenDetalle.nombrePlato}</td>

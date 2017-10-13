@@ -36,7 +36,7 @@ class FacturaDetalleController {
         Cliente cliente=new Cliente()
         for(int i=0;i<idsOrdenDetalle.size();i++){
             FacturaDetalle facturaDetalle=new FacturaDetalle()
-            OrdenDetalle ordenDetalleActual=OrdenDetalle.findById(idsOrdenDetalle.getAt(i) as Long)
+            OrdenDetalle ordenDetalleActual=OrdenDetalle.findById(idsOrdenDetalle[i] as Long)
             ordenDetalles.add(ordenDetalleActual)
 
             porcientoImpuesto=porcientoImpuesto+ordenDetalleActual.porcientoImpuesto
@@ -81,11 +81,11 @@ class FacturaDetalleController {
         def idParam=params.factura
         def idFactura=idParam.toString()
         Factura factura=Factura.findById(idFactura as Long)
+        List<FacturaDetalle> facturaDetalles=new ArrayList<>()
 
-        List<FacturaDetalle> facturaDetalles= FacturaDetalle.findAllByFactura(factura) as List<FacturaDetalle>
+        facturaDetalles= FacturaDetalle.findAllByFactura(factura)
 
 
-        //Osea el puede ver ese metodo el hace el redirect aqui pero ese no renderiza
         for (FacturaDetalle facturaDetalle: facturaDetalles ){
             println "F: "+facturaDetalle.id
         }
@@ -103,7 +103,6 @@ class FacturaDetalleController {
         factura.setEstadoFactura(EstadoFactura.findById(1002))
 
         [factura: factura]
-        //render "Facturada"
     }
 
 }
