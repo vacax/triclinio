@@ -3,9 +3,6 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Bienvenido...</title>
-
-    <asset:link rel="icon" href="favicon.ico" type="image/x-ico" />
 </head>
 <body>
 
@@ -19,10 +16,7 @@
                         <i class="fa fa-globe"></i> Clientes/Ordenes tomadas.
                     </h2>
                 </div>
-                <!-- /.col -->
-            </div>
-
-            <div class="col-md-3">
+                <div class="col-md-3">
                     <div class="box box-warning box-solid">
                         <div class="box-header with-border">
                             <h3 class="box-title"><b>Mesas seleccionadas</b></h3>
@@ -45,7 +39,8 @@
                     </div>
                     <!-- /.box -->
                 </div>
-            <div class="col-md-9">
+
+                <div class="col-md-9">
                     <div class="box box-warning">
                         <div class="box-header with-border">
                             <h3 class="box-title"><b>Cuenta Actual:</b></h3>
@@ -68,51 +63,55 @@
 
                 </div>
 
-        <g:each in="${cuenta.listaClienteCuenta}" var="clientecuenta">
-            <div class="col-md-12">
-                <div class="box box-warning">
-                    <div class="box-header with-border">
-                        <h3 class="box-title"><b>Cliente: ${clientecuenta.nombre}</b></h3>
+                <g:each in="${cuenta.listaClienteCuenta}" var="clientecuenta">
+                <div class="col-md-12">
+                    <div class="box box-warning">
+                        <div class="box-header with-border">
+                            <h3 class="box-title"><b>Cliente: ${clientecuenta.nombre}</b></h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <table class="table table-hover">
+                                <tbody><tr>
+                                    <th>Item</th>
+                                    <th>Cantidad</th>
+                                </tr>
+                                <g:each in="${clientecuenta.listaOrdenDetalle}" var="orden">
+                                    <tr>
+                                        <td>${orden.cantidad}</td>
+                                        <td>${orden.nombrePlato}</td>
+                                    </tr>
+                                </g:each>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <!-- /.box-body -->
                     </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                    <table class="table table-hover">
-                        <tbody><tr>
-                            <th>Item</th>
-                            <th>Cantidad</th>
-                        </tr>
-                        <g:each in="${clientecuenta.listaOrdenDetalle}" var="orden">
-                            <tr>
-                                <td>${orden.cantidad}</td>
-                                <td>${orden.nombrePlato}</td>
-                            </tr>
-                        </g:each>
-
-                        </tbody>
-                    </table>
 
                 </div>
-                    <!-- /.box-body -->
-                </div>
+            </g:each>
 
+            <!-- /.col -->
             </div>
-        </g:each>
             <!-- /.row -->
         </section>
     </div>
 
     <div class="row">
         <div class="row">
-        %{--<div    class="col-xs-8">--}%
-            <g:form action="detalleOrdenIndex">
-                <input hidden="" id="idCuenta" name="idCuenta" value="${cuenta.id}">
-                <button type="submit" class="btn btn-block btn-success btn-lg">AGREGAR NUEVO CLIENTE</button>
-            </g:form>
-            <g:form action="indexRedirect" >
-                <button type="submit" class="btn btn-block btn-danger btn-lg">FINALIZAR</button>
-            </g:form>
+            %{--<g:form action="detalleOrdenIndex">--}%
+                %{--<input hidden="" id="idCuenta" name="idCuenta" value="${cuenta.id}">--}%
+               %{----}%
+            %{--</g:form>--}%
+            <g:link action="detalleOrdenIndex" controller="cuenta"  params="[idCuenta: cuenta.id]"> <button type="button" class="btn btn-block btn-success btn-lg">AGREGAR NUEVO CLIENTE</button></g:link>
+            <g:link action="cuentasAbiertas" controller="cuenta"  > <button type="button" class="btn btn-block btn-danger btn-lg">FINALIZAR</button></g:link>
+
+            %{--<g:form action="indexRedirect" >--}%
+                %{--<button type="submit" class="btn btn-block btn-danger btn-lg">FINALIZAR</button>--}%
+            %{--</g:form>--}%
         <!-- /.box -->
-        %{--</div>--}%
         </div>
     </div>
 </section>

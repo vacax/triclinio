@@ -10,7 +10,6 @@
     <script src="https://cdn.datatables.net/select/1.2.3/js/dataTables.select.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
 
-    <script type="text/javascript" src="table_script.js"></script>
 </head>
 
 <body>
@@ -166,23 +165,18 @@
                     <td><input type="text" id="nombrePlatilloAgregado"></td>
                     <td><input type="text" id="cantidadPlatilloAgregado"></td>
                     <td><input type="text" id="precioPlatilloAgregado"></td>
-                    %{--<td><input type="text" id="new_age"></td>--}%
                     <td><input type="text"></td>
                 </tr>
 
 
             </table>
-            %{--<g:form action="cuentaAgregarFinalizar">--}%
                 <button id="guardarOrden" name="guardarOrden" style="margin-top: 2%" type="button" class="btn btn-danger btn-block">Guardar</button>
-            %{--</g:form>--}%
-
             </div>
             <!-- /.box-body -->
         </div>
         <!-- /.box -->
     %{--</div>--}%
 
-    <input id="scriptClienteId" name="scriptClienteId">
 </section>
 
 <script>
@@ -213,37 +207,35 @@
     } );
 
 
-    function agregarNuevoPlato() {
-        add_row();
-
-        var idPlato = document.getElementById("rowSelected").value
-        $.ajax({
-            type: "POST",
-            url:"/cuenta/nuevaOrdenDetalle?idPlato="+idPlato,
-            dataType: "JSON",
-            contentType:"application/json; charset=utf-8",
-            success:(
-                function (data) {
-                    console.log("SE ENTREGO!");
-                    add_row();
-                }),
-            error :(function(data){
-                alert("ERROR")
-            })
-        });
-    }
+//    function agregarNuevoPlato() {
+//        add_row();
+//
+//        var idPlato = document.getElementById("rowSelected").value
+//        $.ajax({
+//            type: "POST",
+//            url:"/cuenta/nuevaOrdenDetalle?idPlato="+idPlato,
+//            dataType: "JSON",
+//            contentType:"application/json; charset=utf-8",
+//            success:(
+//                function (data) {
+//                    console.log("SE ENTREGO!");
+//                    add_row();
+//                }),
+//            error :(function(data){
+//                alert("ERROR")
+//            })
+//        });
+//    }
 
 </script>
 
 <script>
 
-    function delete_row(no)
-    {
+    function delete_row(no) {
         document.getElementById("row"+no+"").outerHTML="";
     }
 
-    function add_row()
-    {
+    function add_row() {
         var idPlatilloAgregado=document.getElementById("rowSelected").value;
         var nombrePlatilloAgregado=document.getElementById("nombrePlato").value;
         var precioPlatilloAgregado=document.getElementById("precioPlato").value;
@@ -302,20 +294,16 @@
     $("#guardarOrden").click(function () {
         var T = document.getElementById('data_table');
         var rows =$(T).find('> tbody > tr').length;
-
         var cuentaAsignada = document.getElementById("cuentaAsignada").value
-
-
-
         if(rows==2){
             alert("NO TIENE PLATOS SELECCIONADOS!!")
         } else{
-            crearPlato(cuentaAsignada)
+            procesarCliente_OrdenDetalle(cuentaAsignada)
         }
     });
 
-    function crearPlato(cuentaId) {
 
+    function procesarCliente_OrdenDetalle(cuentaId) {
         var objeto = {};
         objeto.cuentaId = cuentaId;
         objeto.nombreCliente = document.getElementById("nombreCliente").value;
@@ -336,10 +324,7 @@
             console.log(""+JSON.stringify(listaPlato));
 
         });
-
         objeto.listaPlato = listaPlato;
-        console.log("Objeto Completo: "+JSON.stringify(objeto));
-        
         $.ajax({
             type: "post",
             url:"/cuenta/nuevaOrdenDetalle",
@@ -348,7 +333,6 @@
             data: JSON.stringify(objeto),
             success: function (data) {
                window.location = "/cuenta/cuentaAgregarFinalizar/"+data.id
-                console.log("Recibido: "+JSON.stringify(data))
             }
         });
 

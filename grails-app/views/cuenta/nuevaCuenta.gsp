@@ -1,11 +1,23 @@
-<%@ page import="com.triclinio.domains.restaurante.Cuenta" %>
-<!doctype html>
+<!DOCTYPE html>
+<meta name="layout" content="main"/>
 <html>
 <head>
     <meta name="layout" content="main"/>
     <title>Bienvenido...</title>
+    <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <asset:link rel="icon" href="favicon.ico" type="image/x-ico" />
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#example').dataTable({
+
+            });
+
+        });
+    </script>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 </head>
@@ -23,14 +35,14 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body table-responsive no-padding">
-                            <table class="table table-hover">
+                            <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                                 <tbody><tr>
                                     <th>MARQUE</th>
                                     <th>NOMBRE DE LA MESA</th>
                                     <th>ESTADO</th>
                                 </tr>
-                                <g:each in="${com.triclinio.domains.restaurante.Mesa.findAll()}" var="mesa">
-                                    <tr>
+                                <g:each in="${mesas}" var="mesa">
+                                        <tr>
                                         <td>
                                             <span>
                                                 <g:if test="${mesa.estadoMesa.codigo == 1000}">

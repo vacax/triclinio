@@ -265,8 +265,35 @@ desired effect
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">HEADER</li>
                 <!-- Optionally, you can add icons to the links -->
-                <li><a href="/cuenta/nuevaCuenta"><i class="fa fa-link"></i> <span>Nueva Cuenta</span></a></li>
-                <li><a href="/cuenta/cuentasAbiertas"><i class="fa fa-link"></i> <span>Cuentas abiertas</span></a></li>
+
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-laptop"></i>
+                        <span>Cuenta</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/cuenta/nuevaCuenta"><i class="fa fa-link"></i> <span>Nueva Cuenta</span></a></li>
+                        <li><a href="/cuenta/cuentasAbiertas"><i class="fa fa-link"></i> <span>Cuentas abiertas</span></a></li>
+                    </ul>
+                </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-laptop"></i>
+                        <span>Mesa</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="/mesa/mesasOcupadasIndex"><i class="fa fa-circle-o"></i>Desocupar Mesa</a></li>
+                        <li><a href="/mesa/mesasDesactivarActivarIndex"><i class="fa fa-circle-o"></i>Desactivar/Activar Mesa</a></li>
+                    </ul>
+                </li>
 
 
                 <li><a href="/usuarioCrear/index"><i class="fa fa-link"></i> <span>Listar Usuarios</span></a></li>

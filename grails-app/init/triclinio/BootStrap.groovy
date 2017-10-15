@@ -69,6 +69,7 @@ class BootStrap {
         //TODO: Crear modelo de Cuenta para poder facturar(Estado Mesa)
         EstadoMesa estadoMesa=new EstadoMesa(codigo: EstadoMesa.DISPONIBLE,nombre: "Estado 1").save(flush: true, failOnError: true)
         EstadoMesa estadoMesa1=new EstadoMesa(codigo: EstadoMesa.OCUPADA,nombre: "Estado 2").save(flush: true, failOnError: true)
+        EstadoMesa estadoMesa2=new EstadoMesa(codigo: EstadoMesa.DESACTIVADA,nombre: "Estado 3").save(flush: true, failOnError: true)
 
 
         //TODO: Crear modelo de Cuenta para poder facturar(Mesa)

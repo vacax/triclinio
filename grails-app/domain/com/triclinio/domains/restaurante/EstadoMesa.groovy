@@ -5,6 +5,7 @@ class EstadoMesa {
     final static int OCUPADA = 1000
     final static int DISPONIBLE = 1001
     final static int AVERIADA = 1002
+    final static int DESACTIVADA = 1003
 
     int codigo
     String nombre;

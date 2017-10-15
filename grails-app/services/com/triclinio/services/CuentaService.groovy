@@ -1,4 +1,4 @@
-package com.triclinio.services
+package triclinio
 
 import grails.gorm.transactions.Transactional
 
@@ -6,6 +6,6 @@ import grails.gorm.transactions.Transactional
 class CuentaService {
 
     def serviceMethod() {
-        println("Hola Mundo Services")
+
     }
 }
