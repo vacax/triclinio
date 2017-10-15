@@ -36,7 +36,7 @@ class FacturaDetalleController {
         Cliente cliente=new Cliente()
         for(int i=0;i<idsOrdenDetalle.size();i++){
             FacturaDetalle facturaDetalle=new FacturaDetalle()
-            OrdenDetalle ordenDetalleActual=OrdenDetalle.findById(idsOrdenDetalle[i] as Long)
+            OrdenDetalle ordenDetalleActual=OrdenDetalle.findById(idsOrdenDetalle.getAt(i) as Long)
             ordenDetalles.add(ordenDetalleActual)
 
             porcientoImpuesto=porcientoImpuesto+ordenDetalleActual.porcientoImpuesto
@@ -60,7 +60,7 @@ class FacturaDetalleController {
         factura.setMontoDescuento(montoDescuento)
         factura.setMontoImpuesto(montoImpuesto)
         factura.setMontoNeto(montoNeto)
-        factura.setEstadoFactura(EstadoFactura.findById(1001))
+        factura.setEstadoFactura(EstadoFactura.findById(1000))
         factura.save(flush: true, failOnError: true)
 
         println  idsOrdenDetalle
@@ -90,6 +90,9 @@ class FacturaDetalleController {
             println "F: "+facturaDetalle.id
         }
 
+        factura.setEstadoFactura(EstadoFactura.findById(1001))
+        factura.save(flush: true, failOnError: true)
+
         [facturaDetalles:facturaDetalles,factura:factura]
     }
 
@@ -104,6 +107,19 @@ class FacturaDetalleController {
 
         [factura: factura]
     }
+
+    def imprimirFactura(){
+        def idParametro=params.id
+        def idFactura=idParametro.toString()
+
+        println "Ver:"+idFactura
+
+        Factura factura=Factura.findById(idFactura as Long)
+        factura.setEstadoFactura(EstadoFactura.findById(1003))
+
+        redirect(uri:"/cuenta/cuentasAbiertas")
+    }
+
 
 }
 

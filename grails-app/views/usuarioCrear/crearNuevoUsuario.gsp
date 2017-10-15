@@ -37,14 +37,15 @@
                     <input type="text" name="nombreUser" class="form-control" id="inputName" placeholder="nombre">
                 </div>
             </div>
+
             %{--<div class="form-group">--}%
-                %{--<div class="col-sm-offset-2 col-sm-10">--}%
-                    %{--<div class="checkbox">--}%
-                        %{--<label>--}%
-                            %{--<input type="checkbox"> Remember me--}%
-                        %{--</label>--}%
-                    %{--</div>--}%
-                %{--</div>--}%
+            %{--<div class="col-sm-offset-2 col-sm-10">--}%
+            %{--<div class="checkbox">--}%
+            %{--<label>--}%
+            %{--<input type="checkbox"> Remember me--}%
+            %{--</label>--}%
+            %{--</div>--}%
+            %{--</div>--}%
             %{--</div>--}%
         </div><!-- /.box-body -->
         <div class="box-footer">
@@ -52,7 +53,7 @@
             <button type="submit" class="btn btn-info pull-right">Crear</button>
         </div><!-- /.box-footer -->
 
-</g:form>
+    </g:form>
 
 </div><!-- /.box -->
 

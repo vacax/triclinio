@@ -19,29 +19,23 @@ import groovy.json.JsonSlurper
 @Secured(["ROLE_ADMIN"])
 class CuentaController {
 
-    def clienteCuentaService
-    def ordenDetalleService
+    // TODO: Ver documentación en https://docs.grails.org/2.3.4/ref/Servlet%20API/session.html
+    def static clienteCuentaStatic  = ClienteCuenta.newInstance()
+    //
     def springSecurityService
+    def cuentaService
 
 
 
-//    def indexRedirect(){
-////        cuentaStatic=null
-//        redirect(uri:"/cuenta/cuentasAbiertas")
-//    }
+    def indexRedirect(){
+//        cuentaStatic=null
+        redirect(uri:"/cuenta/cuentasAbiertas")
+    }
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * VENTANA QUE MUESTRA EL LISTADO DE MESAS PARA INICIAR CON LA CREACION DE LA CUENTA
-     * @return
-     */
+    //INDEX CREAR CUENTA
     def nuevaCuenta(){
-        def mesasDesactivadas = Mesa.findAllByEstadoMesa(EstadoMesa.findAllByCodigo(EstadoMesa.DESACTIVADA))
-        def mesas = Mesa.list()
-        mesas.removeAll(mesasDesactivadas)
-        [mesas: mesas]
 
     }
 
@@ -49,14 +43,14 @@ class CuentaController {
     def crearNuevaCuenta(){
         Cuenta cuenta = new Cuenta()
         cuenta.usuario = (Usuario)springSecurityService.currentUser
-        cuenta.estadoCuenta = EstadoCuenta.findByCodigo(EstadoCuenta.ABIERTO)
+        cuenta.estadoCuenta = EstadoCuenta.findByCodigo(1000)
 
         cuenta.save(flush: true, failOnError: true)
 
         for(int i=0;i<params.list("mesaId").size();i++){
             new CuentaMesa(mesa: Mesa.findById(params.list("mesaId").get(i)),cuenta: cuenta).save(flush: true, failOnError: true)
             Mesa mesa = Mesa.findById(params.list("mesaId").get(i))
-            mesa.estadoMesa = EstadoMesa.findByCodigo(EstadoMesa.getOCUPADA())
+            mesa.estadoMesa = EstadoMesa.findByCodigo(1000)
             mesa.save(flush: true, failOnError: true)
         }
         println("Nueva cuenta creada!")
@@ -66,29 +60,86 @@ class CuentaController {
 
     }
 
-    /**
-     * VENTANA QUE MUESTRA EL LISTADO DE PLATOS PARA TOMAR LA ORDEN
-     * @param idCuenta
-     * @return
-     */
-    def detalleOrdenIndex(Long idCuenta){
-        def listaPlatos = Plato.list()
+    //INDEX CREAR DETALLE ORDEN
+    def detalleOrdenIndex(long idCuenta){
+        def listaPlatos = Plato.findAllByHabilitado(true)
         [listaPlatos:listaPlatos,cuenta: Cuenta.findById(idCuenta)]
+    }
+
+    //POST CREAR NUEVO CLIENTE
+    def clienteCuenta(long cuentaAsignadaId){
+        //        //CLIENTE CUENTA
+        def clienteCuenta = ClienteCuenta.newInstance()
+        clienteCuenta.nombre = params.get("nombreCliente")
+        clienteCuenta.cuenta = Cuenta.findById(cuentaAsignadaId)
+
+        //????
+        clienteCuenta.porcientoImpuesto = 0.00
+        clienteCuenta.porcientoDescuento = 0.00
+        clienteCuenta.montoBruto = 0.00
+        clienteCuenta.montoDescuento = 0.00
+        clienteCuenta.montoImpuesto = 0.00
+        clienteCuenta.montoNeto = 0.00
+        clienteCuenta.save(flush: true, failOnError: true)
+
+        println("Nuevo cliente creado!")
+
+        render clienteCuenta as JSON
     }
 
     /**
      *
-     * @param form
+     * @param idCliente
+     * @param idPlato
+     * @param cantidad
      * @return
      */
     def nuevaOrdenDetalle(OrdenDetalleCuentaForm form){
+        def json = request.getJSON();
+        println("EL JSON: "+json)
+        println "El form recibido: "+(form as JSON)
+        println "Los parametros enviandos: "+params
+        //ORDEN DETALLE
 
-        def clienteCuenta = clienteCuentaService.procesarClienteCuenta(form)
-        ordenDetalleService.procesarOrdenDetalle(form,clienteCuenta)
+        ClienteCuenta clienteCuenta = new ClienteCuenta()
+        clienteCuenta.cuenta = Cuenta.get(form.cuentaId)
+        clienteCuenta.nombre = form.nombreCliente ? form.nombreCliente : "Cliente Generico"
+
+        clienteCuenta.save(flush: true, failOnError: true)
+        
+        form.listaPlato.each {
+
+            //
+            Plato plato = Plato.get(it.idPlato)
+            int cantidad = it.cantidad;
+
+            def ordenDetalle = new OrdenDetalle()
+            ordenDetalle.clienteCuenta=clienteCuenta
+            ordenDetalle.plato=plato
+            ordenDetalle.cantidad=it.cantidad
+            ordenDetalle.nombrePlato=plato.nombre
+
+            //calculo de dinero
+            ordenDetalle.precio = plato.precio
+            ordenDetalle.importe = cantidad * ordenDetalle.precio
+            ordenDetalle.porcientoImpuesto = 0.00
+            ordenDetalle.porcientoDescuento = 0.00
+            ordenDetalle.montoDescuento = ordenDetalle.importe * ordenDetalle.porcientoDescuento
+            ordenDetalle.montoBruto = ordenDetalle.importe - ordenDetalle.montoDescuento
+            ordenDetalle.montoImpuesto = ordenDetalle.montoBruto * ordenDetalle.porcientoImpuesto
+            ordenDetalle.montoNeto = ordenDetalle.montoBruto + ordenDetalle.montoImpuesto
+
+            ordenDetalle.save(flush: true, failOnError: true)
+        }
+
 
         println("Nuevo detalle orden creado!")
 
+
+
+        //redirect(action: "cuentaAgregarFinalizar", params: [idCuenta: clienteCuenta.cuenta.id])
         render clienteCuenta.cuenta as JSON
+
     }
 
     /**
@@ -96,7 +147,7 @@ class CuentaController {
      * @param idCuenta
      * @return
      */
-    def cuentaAgregarFinalizar(Long id){
+    def cuentaAgregarFinalizar(long id){
         println "El id: "+id
         if(id == 0){
             redirect(action: "detalleOrdenIndex", params: [error: "Información ncomplet,,,,"])
@@ -107,55 +158,49 @@ class CuentaController {
         [cuenta: cuenta]
     }
 
+    //INDEX CUENTAS ABIERTAS
+    def cuentasAbiertas(){
+        def cuentas = Cuenta.findByEstadoCuenta(EstadoCuenta.findByCodigo(EstadoCuenta.getABIERTO()))
+        [cuentas:cuentas]
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      *
      * @return
      */
-    def cuentasAbiertas(){
-        def cuentasAbiertas = Cuenta.findAllByEstadoCuenta(EstadoCuenta.findByCodigo(EstadoCuenta.ABIERTO))
-        [cuentasAbiertas:cuentasAbiertas]
-    }
+
 
     /**
-     * VENTANA QUE MUESTRA LA LISTA DE CLIENTES QUE TIENE POSEE LA CUENTA
-     * @param idCuenta
+     * TODO: el action debe tener los metodos que reciben,
+     *
+     *
      * @return
      */
-    def detalleCuenta(Long idCuenta){
-        def cuenta = Cuenta.findById(idCuenta)
+
+//hello
+
+
+    //INDEX DETALLE CUENTA ( MUESTRAS LISTADO CLIENTES )
+    def detalleCuenta(){
+        println(params.get("idCuenta"))
+        def cuenta = Cuenta.findById(params.get("idCuenta"))
         [cuenta: cuenta]
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //TODO CHEQUEAR ESTOOO!!!!
     //POST AGREGAS NUEVOS ITEMS A CLIENTE
     def nuevoDetalleOrden2(){
         def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
         [clienteCuenta:clienteCuenta]
     }
 
+//    def obtenerDatos(){
+//        render ClienteCuenta.list() as JSON
+//    }
 
+    //OJOOO!
     def separarCuenta(){
         def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
         [clienteCuenta:clienteCuenta]
@@ -165,15 +210,19 @@ class CuentaController {
 
     def verOrdenes(long id){
 
-        def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
-        [listaOrdenDetalle:clienteCuenta.listaOrdenDetalle]
+        def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta") as Long)
+//        def clienteCuenta = ClienteCuenta.findById(id)
+
+        [listaOrdenDetalle: clienteCuenta.listaOrdenDetalle]
     }
 
-
-    def eliminarOrdenDetalle(){
-        def orden = ClienteCuenta.findById(params.get("orden") as Long)
-        println "Orden : "+orden
-        redirect(action:'detalleCuenta')
+    def eliminarOrdenDetalle()
+    {
+        def orden = OrdenDetalle.findById(params.get("idOrden") as Long)
+        orden.setHabilitado(false)
+        orden.clienteCuenta.cuenta.setEstadoCuenta(EstadoCuenta.findById(2))
+        orden.save(flush: true, failOnError: true)
+        render orden.id
     }
 
 }
