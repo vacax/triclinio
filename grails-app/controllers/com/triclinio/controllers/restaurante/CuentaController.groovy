@@ -62,7 +62,7 @@ class CuentaController {
 
     //INDEX CREAR DETALLE ORDEN
     def detalleOrdenIndex(long idCuenta){
-        def listaPlatos = Plato.list()
+        def listaPlatos = Plato.findAllByHabilitado(true)
         [listaPlatos:listaPlatos,cuenta: Cuenta.findById(idCuenta)]
     }
 
@@ -210,15 +210,27 @@ class CuentaController {
 
     def verOrdenes(long id){
 
-        def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
-        [listaOrdenDetalle:clienteCuenta.listaOrdenDetalle]
+        def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta") as Long)
+//        def clienteCuenta = ClienteCuenta.findById(id)
+
+        [listaOrdenDetalle: clienteCuenta.listaOrdenDetalle]
     }
 
 
-    def eliminarOrdenDetalle(){
-        def orden = ClienteCuenta.findById(params.get("orden") as Long)
-        println "Orden : "+orden
-        redirect(action:'detalleCuenta')
+
+    def eliminarOrdenDetalle()
+    {
+        def orden = OrdenDetalle.findById(params.get("idOrden") as Long)
+        //def orden=params.idOrden
+
+        println "Id del orden"+orden.id
+
+        //OrdenDetalle.executeUpdate("delete OrdenDetalle where id=?",orden.id)
+        orden.setHabilitado(false)
+        orden.clienteCuenta.cuenta.setEstadoCuenta(EstadoCuenta.findById(2))
+        orden.save(flush: true, failOnError: true)
+       // redirect(action: "detalleCuenta")
+        render orden.id
     }
 
 }

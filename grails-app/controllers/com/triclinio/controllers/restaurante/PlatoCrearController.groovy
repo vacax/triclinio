@@ -12,7 +12,7 @@ class PlatoCrearController {
 
 
     def index() {
-        def platos=Plato.list()
+        def platos=Plato.findAllByHabilitado(true)
 
         [platos:platos]
     }
@@ -33,5 +33,22 @@ class PlatoCrearController {
 
         redirect(uri: "/platoCrear/index")
 
+    }
+
+    def eliminarPlato(){
+        def idPlato=params.get("idPlato")
+        def plato=Plato.findById(idPlato as Long)
+
+        println "Plato :"+plato.id
+        plato.setHabilitado(false)
+        plato.save(flush:true,failOnError:true)
+        render plato.id
+    }
+
+    def modificarPlato(){
+        def idPlato=params.get("idPlato")
+        def plato=Plato.findById(idPlato as Long)
+
+        p
     }
 }
