@@ -6,8 +6,7 @@
     <title>Bienvenido...</title>
     <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
+
 
 
     <script type="text/javascript">
@@ -23,33 +22,13 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
+            function valuesToArray(obj) {
+                return Object.keys(obj).map(function (key) { return obj[key]; });
+            }
+
             $('#example tbody').on( 'click', 'tr', function () {
                 $(this).toggleClass('selected');
             } );
-
-
-
-            $(".eliminarOrdenDetalle").click(function () {
-
-                var id = $(this).attr('id');
-                var parent = $(this).parent().parent();
-                jQuery.ajax(
-                    {
-                        type:'POST',
-
-                        data:'idOrden='+id,
-
-                        url:'/cuenta/eliminarOrdenDetalle/',
-                        cache: false,
-                        success: function()
-                        {
-                            parent.fadeOut(1000, function() {$(this).remove();});
-                        },
-
-                        error:function(XMLHttpRequest,textStatus,errorThrown){}
-                    });
-
-            });
 
 
             $("#target").click(function(){
@@ -65,7 +44,10 @@
 
                 var contador=table.rows( { filter : 'applied'} ).nodes().length;
 
-
+                //  alert( table.rows('.selected').data().length +' row(s) selected' );
+//                $('#button').click( function () {
+//                    alert( table.rows('.selected').data().length +' row(s) selected' );
+//                } );
 
                 var valoresOrdenDetalle=[]
                 for(var key=0;key<contador;key++) {
@@ -76,6 +58,8 @@
                 }
 
                 console.log(valoresOrdenDetalle)
+
+
                 jQuery.ajax(
                     {
                         type:'POST',
@@ -93,6 +77,8 @@
                         error:function(XMLHttpRequest,textStatus,errorThrown){}
                     });
             });
+
+
         });
 
     </script>
@@ -130,26 +116,18 @@
             <td>${listaOrden.cantidad}</td>
             <td>${listaOrden.precio}</td>
             <td>${listaOrden.nombrePlato}</td>
-            <td>
-               <button style="text-decoration: none" type="button" class="eliminarOrdenDetalle btn btn-link" id="${listaOrden.id}">Eliminar Orden</button>
-            %{--<g:link action="verOrdenEspecifico" controller="cuenta"  params="[idOrden: listaOrden.id]"><button type="button" class="btn">Ver Detalle Orden</button></g:link>--}%
+            %{--<td>--}%
+                %{--<g:link action="eliminarOrdenDetalle" controller="cuenta"  params="[orden: listaOrden.id]"><button type="button" id="eliminar" class="btn  btn-info">Eliminar Orden</button></g:link>--}%
+            %{--</td>--}%
 
-            </td>
         </tr>
-
     </g:each>
     </tbody>
 
 </table>
 <g:submitButton id="target"  class="btn btn-primary btn-lg" name="Procesar Orden" />
-<button class="btn btn-danger btn-lg"  onclick="window.history.back();" >Cancelar orden</button>
-%{--<a style="background-color: #4c59ff;color: #FFFFFF; ;width: 150px; height: 150px;" href="#" onclick="window.history.back();">Cancelar</a>--}%
-
 
 </body>
 
 
 </html>
-
-
-

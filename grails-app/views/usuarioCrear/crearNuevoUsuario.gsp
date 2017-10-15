@@ -37,7 +37,6 @@
                     <input type="text" name="nombreUser" class="form-control" id="inputName" placeholder="nombre">
                 </div>
             </div>
-
             %{--<div class="form-group">--}%
                 %{--<div class="col-sm-offset-2 col-sm-10">--}%
                     %{--<div class="checkbox">--}%

@@ -6,8 +6,6 @@
     <title>Bienvenido...</title>
     <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
 
 
 
@@ -21,36 +19,69 @@
         });
     </script>
 
-    <script type="text/javascript">
+    %{--<script type="text/javascript">--}%
+    %{--$(document).ready(function() {--}%
 
-        $(document).ready(function(){
+    %{--function valuesToArray(obj) {--}%
+    %{--return Object.keys(obj).map(function (key) { return obj[key]; });--}%
+    %{--}--}%
 
-            $('#example tbody').on( 'click', 'tr', function () {
-                $(this).toggleClass('selected');
-            } );
-
-            $('.eliminarPlato').click(function () {
-
-                var id=$(this).attr('id');
-                var parent = $(this).parent().parent();
-                jQuery.ajax({
-                    type:'POST',
-                    data:'idPlato='+id,
-                    url:'/platoCrear/eliminarPlato/',
-                    cache:false,
-                    success:function ()
-                    {
-                        parent.fadeOut(1000, function() {$(this).remove();});
-
-                    },
-                    error:function(XMLHttpRequest,textStatus,errorThrown){alert("error")}
-                    })
-                })
-            });
-
-    </script>
+    %{--$('#example tbody').on( 'click', 'tr', function () {--}%
+    %{--$(this).toggleClass('selected');--}%
+    %{--} );--}%
 
 
+    %{--$("#target").click(function(){--}%
+
+    %{--var table = $('#example').DataTable();--}%
+    %{--//                var table = $('#example').DataTable({--}%
+    %{--//                    select: {--}%
+    %{--//                        style: 'multi'--}%
+    %{--//                    }--}%
+    %{--//                })--}%
+
+    %{--var valores = table.rows({filter: 'applied'}).data().toArray();--}%
+
+    %{--var contador=table.rows( { filter : 'applied'} ).nodes().length;--}%
+
+    %{--//  alert( table.rows('.selected').data().length +' row(s) selected' );--}%
+    %{--//                $('#button').click( function () {--}%
+    %{--//                    alert( table.rows('.selected').data().length +' row(s) selected' );--}%
+    %{--//                } );--}%
+
+    %{--var valoresOrdenDetalle=[]--}%
+    %{--for(var key=0;key<contador;key++) {--}%
+
+    %{--var value = valores[key];--}%
+
+    %{--valoresOrdenDetalle.push(value[0])--}%
+    %{--}--}%
+
+    %{--console.log(valoresOrdenDetalle)--}%
+
+
+    %{--jQuery.ajax(--}%
+    %{--{--}%
+    %{--type:'POST',--}%
+
+    %{--data:'OrdenDetalle='+valoresOrdenDetalle,--}%
+
+    %{--url:'/facturaDetalle/procesarOrden/',--}%
+
+    %{--success:function(data,textStatus)--}%
+    %{--{--}%
+    %{--window.location = "/facturaDetalle/facturar?factura="+data;--}%
+
+    %{--},--}%
+
+    %{--error:function(XMLHttpRequest,textStatus,errorThrown){}--}%
+    %{--});--}%
+    %{--});--}%
+
+
+    %{--});--}%
+
+    %{--</script>--}%
 </head>
 <body>
 
@@ -67,12 +98,7 @@
     <th>
         Precio
     </th>
-    <th>
-        Acciones
-    </th>
-    <th>
-        -
-    </th>
+
     </thead>
     <tbody>
     <g:each in="${platos}" var="pla">
@@ -80,16 +106,8 @@
             <td>${pla.id}</td>
             <td>${pla.nombre}</td>
             <td>${pla.precio}</td>
-            <td>
-                <button style="text-decoration: none" type="button" class="modificarPlato btn btn-link" id="${pla.id}">Modificar</button>
-            </td>
-            <td>
-                <button style="text-decoration: none" type="button" class="eliminarPlato btn btn-link" id="${pla.id}">Eliminar</button>
-            </td>
-
         </tr>
     </g:each>
-
     </tbody>
 
 </table>

@@ -27,7 +27,7 @@ class FacturaDetalleController {
     def procesarOrden(){
         ordenesDetalles = params.OrdenDetalle
         def idsOrdenDetalle=ordenesDetalles.split(",")
-//        EstadoFactura estadoFactura=new EstadoFactura(codigo: EstadoFactura.FACTUDA,nombre: "estado FACTURA")
+        EstadoFactura estadoFactura=new EstadoFactura(codigo: EstadoFactura.FACTUDA,nombre: "estado FACTURA")
 
         List<OrdenDetalle> ordenDetalles=new ArrayList<>()
         Factura factura=new Factura().save(flush: true, failOnError: true)
@@ -36,7 +36,7 @@ class FacturaDetalleController {
         Cliente cliente=new Cliente()
         for(int i=0;i<idsOrdenDetalle.size();i++){
             FacturaDetalle facturaDetalle=new FacturaDetalle()
-            OrdenDetalle ordenDetalleActual=OrdenDetalle.findById(idsOrdenDetalle.getAt(i) as Long)
+            OrdenDetalle ordenDetalleActual=OrdenDetalle.findById(idsOrdenDetalle[i] as Long)
             ordenDetalles.add(ordenDetalleActual)
 
             porcientoImpuesto=porcientoImpuesto+ordenDetalleActual.porcientoImpuesto
@@ -60,7 +60,7 @@ class FacturaDetalleController {
         factura.setMontoDescuento(montoDescuento)
         factura.setMontoImpuesto(montoImpuesto)
         factura.setMontoNeto(montoNeto)
-        factura.setEstadoFactura(EstadoFactura.findById(1000))
+        factura.setEstadoFactura(EstadoFactura.findById(1001))
         factura.save(flush: true, failOnError: true)
 
         println  idsOrdenDetalle
@@ -77,7 +77,6 @@ class FacturaDetalleController {
     }
 
 
-
     def facturar(){
         def idParam=params.factura
         def idFactura=idParam.toString()
@@ -91,8 +90,6 @@ class FacturaDetalleController {
             println "F: "+facturaDetalle.id
         }
 
-        factura.setEstadoFactura(EstadoFactura.findById(1001))
-        factura.save(flush: true, failOnError: true)
         [facturaDetalles:facturaDetalles,factura:factura]
     }
 
@@ -106,18 +103,6 @@ class FacturaDetalleController {
         factura.setEstadoFactura(EstadoFactura.findById(1002))
 
         [factura: factura]
-    }
-
-    def imprimirFactura(){
-        def idParametro=params.id
-        def idFactura=idParametro.toString()
-
-        println "Ver:"+idFactura
-
-        Factura factura=Factura.findById(idFactura as Long)
-        factura.setEstadoFactura(EstadoFactura.findById(1003))
-
-        redirect(uri:"/cuenta/cuentasAbiertas")
     }
 
 }
