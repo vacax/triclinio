@@ -94,10 +94,6 @@
                                 %{--<td>${ordenesDetalle.nombrePlato}</td>--}%
                                 <td>
 
-                                %{--<g:form action="verOrdenes">--}%
-                                    %{--<input hidden="hidden" id="clienteCuenta" name="clienteCuenta" value="${clientecuenta.id}">--}%
-                                    %{--<button type="submit" class="btn btn-block btn-danger btn-sm">Facturar</button>--}%
-                                %{--</g:form>--}%
                                 <g:link action="verOrdenes" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-block btn-info">Facturar</button></g:link>
 
 
@@ -107,7 +103,6 @@
                                         <g:link action="separarCuenta" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-block btn-info">Separar cuenta</button></g:link>
 
 
-                                    %{--<button type="submit" class="btn btn-block btn-danger btn-sm">Agregar Detalle Orden</button>--}%
                                     </g:form>
                                 </td>
                             </tr>
