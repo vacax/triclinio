@@ -70,8 +70,8 @@ class CuentaController {
      * @param idCuenta
      * @return
      */
-    def detalleOrdenIndex(Long idCuenta){
-        def listaPlatos = Plato.list()
+    def detalleOrdenIndex(long idCuenta){
+        def listaPlatos = Plato.findAllByHabilitado(true)
         [listaPlatos:listaPlatos,cuenta: Cuenta.findById(idCuenta)]
     }
 
