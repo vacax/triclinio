@@ -1,6 +1,7 @@
 package com.triclinio.controllers.restaurante
 
 import com.triclinio.commands.restaurant.OrdenDetalleCuentaForm
+import com.triclinio.commands.restaurant.UpdateOrdenDetalleCuenta
 import com.triclinio.domains.cxc.Cliente
 import com.triclinio.domains.restaurante.ClienteCuenta
 import com.triclinio.domains.restaurante.Cuenta
@@ -18,11 +19,6 @@ import groovy.json.JsonSlurper
 
 @Secured(["ROLE_ADMIN"])
 class CuentaController {
-
-    // TODO: Ver documentación en https://docs.grails.org/2.3.4/ref/Servlet%20API/session.html
-    def static clienteCuentaStatic  = ClienteCuenta.newInstance()
-    def cuentaService
-
     def clienteCuentaService
     def ordenDetalleService
     def springSecurityService
@@ -44,7 +40,10 @@ class CuentaController {
 
     }
 
-    //POST CREAR CUENTA
+    /**
+     * PROCESA LA CUENTA LUEGO DE SELECCIONAR LAS MESAS
+     * @return
+     */
     def crearNuevaCuenta(){
         Cuenta cuenta = new Cuenta()
         cuenta.usuario = (Usuario)springSecurityService.currentUser
@@ -75,84 +74,9 @@ class CuentaController {
         [listaPlatos:listaPlatos,cuenta: Cuenta.findById(idCuenta)]
     }
 
-//    //POST CREAR NUEVO CLIENTE
-//    def clienteCuenta(long cuentaAsignadaId){
-//        //        //CLIENTE CUENTA
-//        def clienteCuenta = ClienteCuenta.newInstance()
-//        clienteCuenta.nombre = params.get("nombreCliente")
-//        clienteCuenta.cuenta = Cuenta.findById(cuentaAsignadaId)
-//
-//        //????
-//        clienteCuenta.porcientoImpuesto = 0.00
-//        clienteCuenta.porcientoDescuento = 0.00
-//        clienteCuenta.montoBruto = 0.00
-//        clienteCuenta.montoDescuento = 0.00
-//        clienteCuenta.montoImpuesto = 0.00
-//        clienteCuenta.montoNeto = 0.00
-//        clienteCuenta.save(flush: true, failOnError: true)
-//
-//        println("Nuevo cliente creado!")
-//
-//        render clienteCuenta as JSON
-//    }
-
-//    /**
-//     *
-//     * @param idCliente
-//     * @param idPlato
-//     * @param cantidad
-//     * @return
-//     */
-//    def nuevaOrdenDetalle(OrdenDetalleCuentaForm form){
-//        def json = request.getJSON();
-//        println("EL JSON: "+json)
-//        println "El form recibido: "+(form as JSON)
-//        println "Los parametros enviandos: "+params
-//        //ORDEN DETALLE
-//
-//        ClienteCuenta clienteCuenta = new ClienteCuenta()
-//        clienteCuenta.cuenta = Cuenta.get(form.cuentaId)
-//        clienteCuenta.nombre = form.nombreCliente ? form.nombreCliente : "Cliente Generico"
-//
-//        clienteCuenta.save(flush: true, failOnError: true)
-//
-//        form.listaPlato.each {
-//
-//            //
-//            Plato plato = Plato.get(it.idPlato)
-//            int cantidad = it.cantidad;
-//
-//            def ordenDetalle = new OrdenDetalle()
-//            ordenDetalle.clienteCuenta=clienteCuenta
-//            ordenDetalle.plato=plato
-//            ordenDetalle.cantidad=it.cantidad
-//            ordenDetalle.nombrePlato=plato.nombre
-//
-//            //calculo de dinero
-//            ordenDetalle.precio = plato.precio
-//            ordenDetalle.importe = cantidad * ordenDetalle.precio
-//            ordenDetalle.porcientoImpuesto = 0.00
-//            ordenDetalle.porcientoDescuento = 0.00
-//            ordenDetalle.montoDescuento = ordenDetalle.importe * ordenDetalle.porcientoDescuento
-//            ordenDetalle.montoBruto = ordenDetalle.importe - ordenDetalle.montoDescuento
-//            ordenDetalle.montoImpuesto = ordenDetalle.montoBruto * ordenDetalle.porcientoImpuesto
-//            ordenDetalle.montoNeto = ordenDetalle.montoBruto + ordenDetalle.montoImpuesto
-//
-//            ordenDetalle.save(flush: true, failOnError: true)
-//        }
-//
-//
-//        println("Nuevo detalle orden creado!")
-//
-//
-//
-//        //redirect(action: "cuentaAgregarFinalizar", params: [idCuenta: clienteCuenta.cuenta.id])
-//        render clienteCuenta.cuenta as JSON
-//
-//    }
 
     /**
-     *
+     * PROCESA LA ORDEN DEL CLIENTE, ES DECIR, CADA ORDEN DETALLE DEL CLIENTE
      * @param form
      * @return
      */
@@ -167,15 +91,28 @@ class CuentaController {
     }
 
     /**
+     * PROCESA NUEVA ORDEN DETALLE A CUENTA EXISTENTE
+     * @param form
+     * @return
+     */
+    def nuevaOrdenDetalleCuentaExistentes(UpdateOrdenDetalleCuenta form){
+        def clienteCuenta = ClienteCuenta.findById(form.clienteId)
+        ordenDetalleService.updateProcesarOrdenDetalle(form,clienteCuenta)
+
+        println("Nuevo detalle orden agregada!")
+
+        render clienteCuenta.cuenta as JSON
+    }
+
+    /**
      * VENTANA PARA FINALIZAR/AGREAR CLIENTE A CUENTA
      * @param idCuenta
      * @return
      */
     def cuentaAgregarFinalizar(Long id){
-        println "El id: "+id
         if(id == 0){
             redirect(action: "detalleOrdenIndex", params: [error: "Información ncomplet,,,,"])
-            return;
+            return
         }
         def cuenta = Cuenta.findById(id)
         //TODO: validar...
@@ -184,6 +121,27 @@ class CuentaController {
 
     /**
      *
+     * PROCESO QUE SE ENCARGA DE CANCELAR CUENTA EN CURSO SI NO EXISTEN NINGUNA ORDEN DETALLE YA GUARDADA
+     * @param idCuenta
+     * @return
+     */
+    def cancelarCuentaEnProgreso(Long idCuenta){
+        Cuenta cuenta = Cuenta.get(idCuenta)
+
+        cuenta.listaMesa.each {
+            it.mesa.estadoMesa=EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE)
+            it.mesa.save(flush: true, failOnError: true)
+
+        }
+        cuenta.listaMesa*.delete()
+
+        cuenta.delete(flush: true, failOnError: true)
+
+        redirect(action: "cuentasAbiertas")
+    }
+
+    /**
+     * VENTANA QUE MUESTRA EL LISTADO DE CUENTAS ABIERTAS
      * @return
      */
     def cuentasAbiertas(){
@@ -202,33 +160,45 @@ class CuentaController {
     }
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     /**
-     *
+     * SACA UN ARTICULO DE UNA CUENTA EXISTENTE
+     * @param clienteCuentaId
+     * @param idPlato
      * @return
      */
+    def sacarItemCuenta(long clienteCuentaId,long idPlato){
+        def cliente = ClienteCuenta.get(clienteCuentaId)
+        cliente.listaOrdenDetalle.each {
+            if(it.plato.id==idPlato){
+                it.activa=false
+                it.save(flush:true, failOnError:true)
 
+            }
+        }
+        redirect(action: "nuevoDetalleOrden2", params:[ clienteCuenta : clienteCuentaId])
 
-    /**
-     * TODO: el action debe tener los metodos que reciben,
-     *
-     *
-     * @return
-     */
-
-//hello
-
-
-    //POST AGREGAS NUEVOS ITEMS A CLIENTE
-    def nuevoDetalleOrden2(){
-        def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
-        [clienteCuenta:clienteCuenta]
     }
 
-//    def obtenerDatos(){
-//        render ClienteCuenta.list() as JSON
-//    }
+    /**
+     * VENTANA QUE MUESTRA LAS ORDENES DEL CLIENTE EN UNA CUENTA EXISTENTE, ASI COMO PARA AGREGAR NUEVO ITEMS
+     * @return
+     */
+    def nuevoDetalleOrden2(){
+        def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
+
+        def ordenesActivas = clienteCuenta.listaOrdenDetalle
+
+        ordenesActivas.each {
+            if(it.activa==false){
+                ordenesActivas.remove(it)
+            }
+        }
+        [clienteCuenta:clienteCuenta, ordenesActivas: ordenesActivas]
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
     //OJOOO!
     def separarCuenta(){
@@ -302,6 +272,82 @@ class CuentaController {
 //        def orden = ClienteCuenta.findById(params.get("orden") as Long)
 //        println "Orden : "+orden
 //        redirect(action:'detalleCuenta')
+//    }
+
+    //    //POST CREAR NUEVO CLIENTE
+//    def clienteCuenta(long cuentaAsignadaId){
+//        //        //CLIENTE CUENTA
+//        def clienteCuenta = ClienteCuenta.newInstance()
+//        clienteCuenta.nombre = params.get("nombreCliente")
+//        clienteCuenta.cuenta = Cuenta.findById(cuentaAsignadaId)
+//
+//        //????
+//        clienteCuenta.porcientoImpuesto = 0.00
+//        clienteCuenta.porcientoDescuento = 0.00
+//        clienteCuenta.montoBruto = 0.00
+//        clienteCuenta.montoDescuento = 0.00
+//        clienteCuenta.montoImpuesto = 0.00
+//        clienteCuenta.montoNeto = 0.00
+//        clienteCuenta.save(flush: true, failOnError: true)
+//
+//        println("Nuevo cliente creado!")
+//
+//        render clienteCuenta as JSON
+//    }
+
+//    /**
+//     *
+//     * @param idCliente
+//     * @param idPlato
+//     * @param cantidad
+//     * @return
+//     */
+//    def nuevaOrdenDetalle(OrdenDetalleCuentaForm form){
+//        def json = request.getJSON();
+//        println("EL JSON: "+json)
+//        println "El form recibido: "+(form as JSON)
+//        println "Los parametros enviandos: "+params
+//        //ORDEN DETALLE
+//
+//        ClienteCuenta clienteCuenta = new ClienteCuenta()
+//        clienteCuenta.cuenta = Cuenta.get(form.cuentaId)
+//        clienteCuenta.nombre = form.nombreCliente ? form.nombreCliente : "Cliente Generico"
+//
+//        clienteCuenta.save(flush: true, failOnError: true)
+//
+//        form.listaPlato.each {
+//
+//            //
+//            Plato plato = Plato.get(it.idPlato)
+//            int cantidad = it.cantidad;
+//
+//            def ordenDetalle = new OrdenDetalle()
+//            ordenDetalle.clienteCuenta=clienteCuenta
+//            ordenDetalle.plato=plato
+//            ordenDetalle.cantidad=it.cantidad
+//            ordenDetalle.nombrePlato=plato.nombre
+//
+//            //calculo de dinero
+//            ordenDetalle.precio = plato.precio
+//            ordenDetalle.importe = cantidad * ordenDetalle.precio
+//            ordenDetalle.porcientoImpuesto = 0.00
+//            ordenDetalle.porcientoDescuento = 0.00
+//            ordenDetalle.montoDescuento = ordenDetalle.importe * ordenDetalle.porcientoDescuento
+//            ordenDetalle.montoBruto = ordenDetalle.importe - ordenDetalle.montoDescuento
+//            ordenDetalle.montoImpuesto = ordenDetalle.montoBruto * ordenDetalle.porcientoImpuesto
+//            ordenDetalle.montoNeto = ordenDetalle.montoBruto + ordenDetalle.montoImpuesto
+//
+//            ordenDetalle.save(flush: true, failOnError: true)
+//        }
+//
+//
+//        println("Nuevo detalle orden creado!")
+//
+//
+//
+//        //redirect(action: "cuentaAgregarFinalizar", params: [idCuenta: clienteCuenta.cuenta.id])
+//        render clienteCuenta.cuenta as JSON
+//
 //    }
 
 
