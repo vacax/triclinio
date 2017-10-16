@@ -6,6 +6,7 @@ class OrdenDetalle {
     Plato plato
     int cantidad=0
     String nombrePlato
+    boolean activa = true
 
     //Precio del articulo
     BigDecimal precio

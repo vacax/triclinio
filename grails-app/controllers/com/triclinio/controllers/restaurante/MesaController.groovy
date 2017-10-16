@@ -9,9 +9,12 @@ import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(["ROLE_ADMIN"])
 class MesaController {
-
     def mesaService
 
+    /**
+     * VENTANA QUE MUESTRA LAS MESAS OCUPADAS QUE NO TIENEN CUENTA ABIERTA PARA SER HABILITADAS
+     * @return
+     */
     def mesasOcupadasIndex(){
         def mesasOcupadas = Mesa.findAllByEstadoMesa(EstadoMesa.findByCodigo(EstadoMesa.OCUPADA))
         def listadoMesasNoCandidatasDesocupar = new ArrayList()
@@ -30,11 +33,22 @@ class MesaController {
 
     }
 
+    /**
+     * PROCESO QUE HABILITA LA MESA (ESTADOMESA = DISPONIBLE)
+     * @param idMesa
+     * @return
+     */
     def habilitarMesa(Long idMesa){
         mesaService.habilitarMesa(idMesa)
         redirect(action:"mesasOcupadasIndex")
 
     }
+
+    /**
+     * PROCESO QUE DESACTIVA LA MESA (ESTADOMESA = DESACTIVADA)
+     * @param idMesa
+     * @return
+     */
 
     def desactivarMesa(Long idMesa){
         mesaService.desactivarMesa(idMesa)
@@ -42,10 +56,42 @@ class MesaController {
 
     }
 
+    /**
+     * VENTANA QUE MUESTRAS LAS MESAS QUE PUEDEN SER DESACTIVADAS
+     * @return
+     */
     def mesasDesactivarActivarIndex(){
         def listadoMesas = Mesa.findAllByEstadoMesa(EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE))
         listadoMesas.addAll(Mesa.findAllByEstadoMesa(EstadoMesa.findByCodigo(EstadoMesa.DESACTIVADA)))
         [listadoMesas: listadoMesas]
+    }
+
+
+
+    def sacarMesaCuenta(long idCuenta){
+       def cuenta=Cuenta.findById(idCuenta)
+        def listadoMesas = cuenta.listaMesa
+
+
+        [listadoMesas: listadoMesas, cuenta: cuenta]
+
+    }
+
+    def procesarSacarMesaCuenta(long idCuenta, long idMesa){
+
+        def mesa = Mesa.get(idMesa)
+        def cuenta = Cuenta.get(idCuenta)
+
+
+        cuenta.listaMesa.each {
+            if(it.mesa.id==mesa.id){
+                //TODO PREGUNTAR!!! ???
+                it.delete(flush:true)
+            }
+        }
+
+        redirect(action: "sacarMesaCuenta" ,params:[idCuenta:cuenta.id])
+
     }
 
 }

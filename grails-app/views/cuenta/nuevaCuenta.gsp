@@ -55,10 +55,10 @@
                                             </span>
                                         </td>
                                         <td>${mesa.nombre}</td>
-                                        <g:if test="${mesa.estadoMesa.codigo == 1000}">
+                                        <g:if test="${mesa.estadoMesa.codigo == com.triclinio.domains.restaurante.EstadoMesa.OCUPADA}">
                                             <td><span class="label label-warning">Ocupada</span></td>
                                         </g:if>
-                                        <g:if test="${mesa.estadoMesa.codigo == 1001}">
+                                        <g:if test="${mesa.estadoMesa.codigo == com.triclinio.domains.restaurante.EstadoMesa.DISPONIBLE}">
                                             <td><span class="label label-success">Disponible</span></td>
                                         </g:if>
                                     </tr>
@@ -69,6 +69,7 @@
                         </div>
                         <!-- /.box-body -->
                     </div>
+                <g:link action="cuentasAbiertas" controller="cuenta" ><button type="button" class="btn btn-danger btn-block">Cancelar</button></g:link>
                 <button id="crearCuenta" name="crearCuenta" type="summit" class="btn btn-success btn-block">Crear cuenta</button>
 
 

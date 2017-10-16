@@ -17,9 +17,11 @@ class Cuenta {
     Date lastUpdated;
 
     static constraints = {
+
     }
 
     static mapping = {
+        cascade: 'none'
         table 'rest_cuenta'
     }
 }

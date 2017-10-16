@@ -98,17 +98,17 @@
                                     %{--<input hidden="hidden" id="clienteCuenta" name="clienteCuenta" value="${clientecuenta.id}">--}%
                                     %{--<button type="submit" class="btn btn-block btn-danger btn-sm">Facturar</button>--}%
                                 %{--</g:form>--}%
-                                <g:link action="verOrdenes" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-block btn-info">Facturar</button></g:link>
+                                <g:link action="verOrdenes" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-info">Facturar</button></g:link>
 
 
-                                <g:form action="nuevoDetalleOrden">
+                                %{--<g:form action="nuevoDetalleOrden">--}%
                                         <input hidden="hidden" id="clienteCuenta" name="clienteCuenta" value="${clientecuenta.id}">
-                                        <g:link action="nuevoDetalleOrden2" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-block btn-info">Agregar Orden</button></g:link>
-                                        <g:link action="separarCuenta" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-block btn-info">Separar cuenta</button></g:link>
+                                        <g:link action="nuevoDetalleOrden2" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-adn">Agregar/eliminar orden a la cuenta</button></g:link>
+                                        <g:link action="separarCuenta" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-warning">Separar cuenta</button></g:link>
 
 
                                     %{--<button type="submit" class="btn btn-block btn-danger btn-sm">Agregar Detalle Orden</button>--}%
-                                    </g:form>
+                                    %{--</g:form>--}%
                                 </td>
                             </tr>
                         </g:each>

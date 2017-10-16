@@ -170,8 +170,10 @@
 
 
             </table>
-                <button id="guardarOrden" name="guardarOrden" style="margin-top: 2%" type="button" class="btn btn-danger btn-block">Guardar</button>
-            </div>
+                <button id="guardarOrden" name="guardarOrden" style="margin-top: 2%" type="button" class="btn btn-success btn-block">Guardar</button>
+                <g:link action="cancelarCuentaEnProgreso" controller="cuenta" params="[idCuenta: cuenta.id]"><button type="button" id="cancelarOrden" class="btn btn-danger btn-block">Cancelar</button></g:link>
+
+    </div>
             <!-- /.box-body -->
         </div>
         <!-- /.box -->
@@ -275,20 +277,9 @@
                 "</tr>";
         }
     }
-</script>
 
-%{--<script>--}%
-    %{--$(function () {--}%
-        %{--alert(        document.getElementById('data_table').length--}%
-        %{--)--}%
-%{--//        $("#guardarOrden").click(function () {--}%
-%{--//            var nFilas = $("data_table tr").length;--}%
-%{--//            var nColumnas = $("#data_table tr:last td").length;--}%
-%{--//            var msg = "Filas: "+nFilas+" - Columnas: "+nColumnas;--}%
-%{--//            alert(msg);--}%
-%{--//        });--}%
-    %{--});--}%
-%{--</script>--}%
+
+</script>
 
 <script>
     $("#guardarOrden").click(function () {
@@ -337,6 +328,15 @@
         });
 
     }
+
+    $(function()
+    {
+        //AL CARGAR LA VENTANA CHEQUEA SI EXISTE UNA CLIENTECUENTA YA ASOCIADO
+        if (${cuenta.listaClienteCuenta.size()>=1}) {
+            $('#cancelarOrden').prop("disabled", true);
+        }
+
+    });
 </script>
 
 
