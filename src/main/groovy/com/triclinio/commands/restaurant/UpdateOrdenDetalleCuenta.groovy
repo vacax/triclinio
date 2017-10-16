@@ -6,9 +6,11 @@ class UpdateOrdenDetalleCuenta implements Validateable {
 
     long cuentaId
     long clienteId
+    String comentario
     List<OrdenDetallePlatoForm> listaPlato
 
 
     static constraints = {
+        comentario(nullable:true)
     }
 }

@@ -72,13 +72,12 @@ class BootStrap {
         EstadoMesa desactivada=new EstadoMesa(codigo: EstadoMesa.DESACTIVADA,nombre: "Desactivada").save(flush: true, failOnError: true)
 
         //TODO: Crear modelo de Cuenta para poder facturar(Mesa)
-        Mesa mesa=new Mesa(numeroMesa: 1,nombre: "Mesa 1",estadoMesa: disponible).save(flush: true, failOnError: true)//Preguntar al profe
-        Mesa mesa1=new Mesa(numeroMesa: 3,nombre: "Mesa 3",estadoMesa: disponible).save(flush: true, failOnError: true)//Preguntar al profe
+        Mesa mesa1=new Mesa(numeroMesa: 1,nombre: "Mesa 1",estadoMesa: disponible).save(flush: true, failOnError: true)//Preguntar al profe
         Mesa mesa2=new Mesa(numeroMesa: 2,nombre: "Mesa 2",estadoMesa: disponible).save(flush: true, failOnError: true)//Preguntar al profe
-        Mesa mesa3=new Mesa(numeroMesa: 3,nombre: "Mesa 4",estadoMesa: disponible).save(flush: true, failOnError: true)//Preguntar al profe
-        Mesa mesa4=new Mesa(numeroMesa: 2,nombre: "Mesa 5",estadoMesa: disponible).save(flush: true, failOnError: true)//Preguntar al profe
-        Mesa mesa5=new Mesa(numeroMesa: 3,nombre: "Mesa 6",estadoMesa: disponible).save(flush: true, failOnError: true)//Preguntar al profe
-        Mesa mesa6=new Mesa(numeroMesa: 2,nombre: "Mesa 7",estadoMesa: disponible   ).save(flush: true, failOnError: true)//Preguntar al profe
+        Mesa mesa3=new Mesa(numeroMesa: 3,nombre: "Mesa 3",estadoMesa: disponible).save(flush: true, failOnError: true)//Preguntar al profe
+        Mesa mesa4=new Mesa(numeroMesa: 4,nombre: "Mesa 4",estadoMesa: disponible).save(flush: true, failOnError: true)//Preguntar al profe
+        Mesa mesa5=new Mesa(numeroMesa: 5,nombre: "Mesa 5",estadoMesa: disponible).save(flush: true, failOnError: true)//Preguntar al profe
+        Mesa mesa6=new Mesa(numeroMesa: 6,nombre: "Mesa 6",estadoMesa: disponible).save(flush: true, failOnError: true)//Preguntar al profe
 
 
 

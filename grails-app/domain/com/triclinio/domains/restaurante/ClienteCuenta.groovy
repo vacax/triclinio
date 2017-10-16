@@ -4,6 +4,8 @@ class ClienteCuenta {
 
     Cuenta cuenta
     String nombre = "Cliente Generico"
+    String comentario;
+
 
     static hasMany = [listaOrdenDetalle : OrdenDetalle]
 
@@ -27,6 +29,7 @@ class ClienteCuenta {
     }
 
     static mapping = {
+        comentario(nullable:true)
         table 'rest_cliente_cuenta'
         listaOrdenDetalle(lazy: false)
     }

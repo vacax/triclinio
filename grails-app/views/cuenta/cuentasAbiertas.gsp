@@ -123,7 +123,7 @@
                                     <td><span class="label label-success">Abierta</span></td>
                                     </g:if>
                                     <td>
-                                        <g:link action="detalleCuenta" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-success">Ver clientes</button></g:link>
+                                        <g:link action="detalleCuenta" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-success">Ver detalle de la cuenta</button></g:link>
                                         <g:link action="sacarMesaCuenta" controller="mesa"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Sacar mesa(s) de la cuenta</button></g:link>
 
                                     </td>

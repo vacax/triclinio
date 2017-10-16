@@ -80,6 +80,10 @@
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input id="nombreCliente" name="nombreCliente" placeholder="Nombre del cliente" type="text" class="form-control">
                                 </div>
+                                <div class="form-group">
+                                    <label>Comentario: </label>
+                                    <textarea id="comentario" name="comentario" class="form-control" rows="3" placeholder="¿Algun comentario sobre la cuenta? "></textarea>
+                                </div>
                             </div>
 
                         </form>
@@ -170,6 +174,8 @@
 
 
             </table>
+
+
                 <button id="guardarOrden" name="guardarOrden" style="margin-top: 2%" type="button" class="btn btn-success btn-block">Guardar</button>
                 <g:link action="cancelarCuentaEnProgreso" controller="cuenta" params="[idCuenta: cuenta.id]"><button type="button" id="cancelarOrden" class="btn btn-danger btn-block">Cancelar</button></g:link>
 
@@ -298,6 +304,7 @@
         var objeto = {};
         objeto.cuentaId = cuentaId;
         objeto.nombreCliente = document.getElementById("nombreCliente").value;
+        objeto.comentario=document.getElementById("comentario").value;
         
         var listaPlato = [];
 

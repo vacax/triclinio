@@ -12,6 +12,7 @@ class ClienteCuentaService {
         ClienteCuenta clienteCuenta = new ClienteCuenta()
         clienteCuenta.cuenta = Cuenta.get(form.cuentaId)
         clienteCuenta.nombre = form.nombreCliente ? form.nombreCliente : "Cliente Generico"
+        clienteCuenta.comentario = form.comentario
 
         clienteCuenta.save(flush: true, failOnError: true)
     }

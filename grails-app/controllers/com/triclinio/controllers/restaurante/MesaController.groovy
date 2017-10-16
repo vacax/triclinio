@@ -72,8 +72,15 @@ class MesaController {
        def cuenta=Cuenta.findById(idCuenta)
         def listadoMesas = cuenta.listaMesa
 
+        def listadoMesasHabilitadas = new HashSet()
 
-        [listadoMesas: listadoMesas, cuenta: cuenta]
+        listadoMesas.each {
+            if(it.habilitado){
+                listadoMesasHabilitadas.add(it)
+            }
+
+        }
+        [listadoMesas: listadoMesasHabilitadas, cuenta: cuenta]
 
     }
 
@@ -81,14 +88,12 @@ class MesaController {
 
         def mesa = Mesa.get(idMesa)
         def cuenta = Cuenta.get(idCuenta)
+        def cuentaMesa = CuentaMesa.findByMesa(mesa)
+        cuentaMesa.habilitado=false
+        cuentaMesa.mesa.estadoMesa=EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE)
+        cuentaMesa.save(flush:true,failOnError:true)
 
 
-        cuenta.listaMesa.each {
-            if(it.mesa.id==mesa.id){
-                //TODO PREGUNTAR!!! ???
-                it.delete(flush:true)
-            }
-        }
 
         redirect(action: "sacarMesaCuenta" ,params:[idCuenta:cuenta.id])
 

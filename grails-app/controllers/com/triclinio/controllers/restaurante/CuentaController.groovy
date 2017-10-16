@@ -97,6 +97,8 @@ class CuentaController {
      */
     def nuevaOrdenDetalleCuentaExistentes(UpdateOrdenDetalleCuenta form){
         def clienteCuenta = ClienteCuenta.findById(form.clienteId)
+        clienteCuenta.comentario=form.comentario
+        clienteCuenta.save(flush:true,failOnError:true)
         ordenDetalleService.updateProcesarOrdenDetalle(form,clienteCuenta)
 
         println("Nuevo detalle orden agregada!")
@@ -189,7 +191,7 @@ class CuentaController {
         def ordenesActivas = clienteCuenta.listaOrdenDetalle
 
         ordenesActivas.each {
-            if(it.activa==false){
+            if(!it.activa){
                 ordenesActivas.remove(it)
             }
         }

@@ -71,6 +71,10 @@
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                 <input id="nombreCliente" disabled="disableda" value="${clienteCuenta.nombre}" name="nombreCliente" placeholder="Nombre del cliente" type="text" class="form-control">
                             </div>
+                            <div class="form-group">
+                                <label>Comentario: </label>
+                                <textarea id="comentario" name="comentario" class="form-control" rows="3" placeholder="¿Algun comentario sobre la cuenta? ">${clienteCuenta.comentario}</textarea>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -99,7 +103,12 @@
                         <td>${orden.nombrePlato}</td>
                         <td>${orden.cantidad}</td>
                         <td>${orden.precio}</td>
-                        <td><g:link action="sacarItemCuenta" controller="cuenta"  params="[clienteCuentaId:clienteCuenta.id, idPlato:orden.plato.id]"><button type="button" id="verPerfil" class="btn  btn-danger">Eliminar</button></g:link>
+                        <td>
+                            <sec:ifAnyGranted roles="FACTURADOR">
+                            <g:link action="sacarItemCuenta" controller="cuenta"  params="[clienteCuentaId:clienteCuenta.id, idPlato:orden.plato.id]">
+                            <button type="button" id="verPerfil" class="btn  btn-danger">Eliminar</button>
+                        </g:link>
+                            </sec:ifAnyGranted>
                         </td>
 
                     </tr>
@@ -337,8 +346,10 @@
     function procesarCliente_OrdenDetalle(cuentaId) {
         var objeto = {};
         %{--alert(${clienteCuenta.cuenta.id + clienteCuenta.id})--}%
-        objeto.cuentaId = ${clienteCuenta.cuenta.id}
-        objeto.clienteId = ${clienteCuenta.id}
+        objeto.cuentaId = ${clienteCuenta.cuenta.id};
+        objeto.clienteId = ${clienteCuenta.id};
+        objeto.comentario=document.getElementById("comentario").value;
+
 
         var listaPlato = [];
 
