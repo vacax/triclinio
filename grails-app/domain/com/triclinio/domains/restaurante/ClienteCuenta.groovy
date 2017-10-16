@@ -26,10 +26,11 @@ class ClienteCuenta {
 
 
     static constraints = {
+        comentario(nullable:true)
+
     }
 
     static mapping = {
-        comentario(nullable:true)
         table 'rest_cliente_cuenta'
         listaOrdenDetalle(lazy: false)
     }

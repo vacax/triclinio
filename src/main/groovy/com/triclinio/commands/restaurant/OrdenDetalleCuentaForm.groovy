@@ -12,7 +12,7 @@ class OrdenDetalleCuentaForm implements Validateable {
 
     static constraints = {
        nombreCliente(nullable: true)
-        comentario(nullable: true)
+       comentario(nullable: true)
 
     }
 }

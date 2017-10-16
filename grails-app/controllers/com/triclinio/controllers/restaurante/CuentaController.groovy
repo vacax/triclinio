@@ -172,7 +172,7 @@ class CuentaController {
         def cliente = ClienteCuenta.get(clienteCuentaId)
         cliente.listaOrdenDetalle.each {
             if(it.plato.id==idPlato){
-                it.activa=false
+                it.habilitado=false
                 it.save(flush:true, failOnError:true)
 
             }
@@ -191,7 +191,7 @@ class CuentaController {
         def ordenesActivas = clienteCuenta.listaOrdenDetalle
 
         ordenesActivas.each {
-            if(!it.activa){
+            if(!it.habilitado){
                 ordenesActivas.remove(it)
             }
         }
