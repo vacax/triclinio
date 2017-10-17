@@ -118,9 +118,9 @@
     <th>
         NombrePlato
     </th>
-    <th>
-        Acciones
-    </th>
+    %{--<th>--}%
+        %{--Acciones--}%
+    %{--</th>--}%
     </thead>
     <tbody>
     <g:each in="${listaOrdenDetalle}" var="listaOrden">
@@ -130,11 +130,11 @@
             <td>${listaOrden.cantidad}</td>
             <td>${listaOrden.precio}</td>
             <td>${listaOrden.nombrePlato}</td>
-            <td>
-                <button style="text-decoration: none" type="button" class="eliminarOrdenDetalle btn btn-link" id="${listaOrden.id}">Eliminar Orden</button>
+            %{--<td>--}%
+                %{--<button style="text-decoration: none" type="button" class="eliminarOrdenDetalle btn btn-link" id="${listaOrden.id}">Eliminar Orden</button>--}%
                 %{--<g:link action="verOrdenEspecifico" controller="cuenta"  params="[idOrden: listaOrden.id]"><button type="button" class="btn">Ver Detalle Orden</button></g:link>--}%
 
-            </td>
+            %{--</td>--}%
         </tr>
 
     </g:each>
@@ -142,7 +142,7 @@
 
 </table>
 <g:submitButton id="target"  class="btn btn-primary btn-lg" name="Procesar Orden" />
-<button class="btn btn-danger btn-lg"  onclick="window.history.back();" >Cancelar orden</button>
+<button class="btn btn-danger btn-lg"  onclick="window.history.back();" >Cancelar Proceso</button>
 %{--<a style="background-color: #4c59ff;color: #FFFFFF; ;width: 150px; height: 150px;" href="#" onclick="window.history.back();">Cancelar</a>--}%
 
 

@@ -9,9 +9,15 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>
 
-
+    <style>
+    div.container {
+        width: 80%;
+    }
+    </style>
 
     <script type="text/javascript">
+
+
 
         $(document).ready(function () {
             $('#example').dataTable({
@@ -56,6 +62,8 @@
 
 
 %{--<button id="button">Row</button>--}%
+<g:link action="crearNuevoPlato" controller="platoCrear" ><button type="button" id="crearPlato" class="btn btn-success btn-block">Crear Plato</button></g:link>
+<br>
 <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
     <thead>
     <th>
@@ -70,9 +78,6 @@
     <th>
         Acciones
     </th>
-    <th>
-        -
-    </th>
     </thead>
     <tbody>
     <g:each in="${platos}" var="pla">
@@ -81,21 +86,16 @@
             <td>${pla.nombre}</td>
             <td>${pla.precio}</td>
             <td>
-                <button style="text-decoration: none" type="button" class="modificarPlato btn btn-link" id="${pla.id}">Modificar</button>
-            </td>
-            <td>
-                <button style="text-decoration: none" type="button" class="eliminarPlato btn btn-link" id="${pla.id}">Eliminar</button>
-            </td>
+                    <g:link action="modificarPlato" controller="platoCrear"  params="[id: pla.id]"><button type="button" id="modificarUsuario" class="btn btn-link">Modificar</button></g:link>
+                    <button style="text-decoration: none" type="button" class="eliminarPlato btn-link" id="${pla.id}">Eliminar</button>
 
-        </tr>
+        </td>
+
+   </tr>
     </g:each>
 
     </tbody>
 
 </table>
-<g:link action="crearNuevoPlato" controller="platoCrear" ><button type="button" id="crearPlato" class="btn btn-success btn-block">Crear Plato</button></g:link>
-
 </body>
-
-
 </html>

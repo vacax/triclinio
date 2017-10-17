@@ -44,7 +44,23 @@ class PlatoCrearController {
     }
 
     def modificarPlato(){
+
+        def idPlato=params.get("id")
+        def plato=Plato.findById(idPlato as Long)
+        [plato: plato]
+    }
+
+    def modificarPlatoPost(){
+
         def idPlato=params.get("idPlato")
         def plato=Plato.findById(idPlato as Long)
+
+        plato.nombre=params.get("nombrePlato")
+        plato.precio= params.get("precioPlato") as BigDecimal
+
+        plato.save(flush:true, failsOnError:true)
+
+        redirect(action: "index")
+
     }
 }

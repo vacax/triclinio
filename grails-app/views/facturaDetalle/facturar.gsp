@@ -15,9 +15,6 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="../../dist/css/AdminLTE.min.css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
@@ -42,9 +39,9 @@
         </div>
         <div style="margin-bottom: 2%" class="row invoice-info">
             <div class="col-sm-4 invoice-col">
-                Usuario
+                Usuario:
                 <address>
-                    <strong>Triclinio</strong><br>
+                    <strong>${factura.usuario.nombre}</strong><br>
                 </address>
             </div>
 

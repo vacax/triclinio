@@ -3,12 +3,14 @@ package com.triclinio.controllers.restaurante
 import com.triclinio.domains.cxc.Cliente
 import com.triclinio.domains.restaurante.EstadoCuenta
 import com.triclinio.domains.restaurante.OrdenDetalle
+import com.triclinio.domains.seguridad.Usuario
 import com.triclinio.domains.venta.EstadoFactura
 import com.triclinio.domains.venta.Factura
 import com.triclinio.domains.venta.FacturaDetalle
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import org.springframework.web.servlet.ModelAndView
+
 
 @Secured(["ROLE_ADMIN"])
 class FacturaDetalleController {
@@ -53,6 +55,8 @@ class FacturaDetalleController {
             facturaDetalle.save(flush: true, failOnError: true)
         }
 
+//        factura.usuario = (Usuario)springSecurityService.currentUser
+        factura.usuario=(Usuario)applicationContext.springSecurityService.getCurrentUser()
         factura.setCliente(cliente)
         factura.setPorcientoImpuesto(porcientoImpuesto)
         factura.setPorcientoDescuento(porcientoDescuento)
@@ -63,15 +67,11 @@ class FacturaDetalleController {
         factura.setEstadoFactura(EstadoFactura.findById(1000))
         factura.save(flush: true, failOnError: true)
 
-        println  idsOrdenDetalle
-
-
         for(OrdenDetalle ordenDetalle: ordenDetalles){
 
             ordenDetalle.clienteCuenta.cuenta.setEstadoCuenta(EstadoCuenta.findById(2))
             ordenDetalle.save(flush: true, failOnError: true)
         }
-
 
         render factura.id
     }
@@ -86,10 +86,6 @@ class FacturaDetalleController {
         facturaDetalles= FacturaDetalle.findAllByFactura(factura)
 
 
-        for (FacturaDetalle facturaDetalle: facturaDetalles ){
-            println "F: "+facturaDetalle.id
-        }
-
         factura.setEstadoFactura(EstadoFactura.findById(1001))
         factura.save(flush: true, failOnError: true)
 
@@ -103,7 +99,7 @@ class FacturaDetalleController {
         println "Ver:"+idFactura
 
         Factura factura=Factura.findById(idFactura as Long)
-        factura.setEstadoFactura(EstadoFactura.findById(1002))
+        //factura.setEstadoFactura(EstadoFactura.findById(1002))
 
         [factura: factura]
     }
@@ -112,14 +108,38 @@ class FacturaDetalleController {
         def idParametro=params.id
         def idFactura=idParametro.toString()
 
-        println "Ver:"+idFactura
-
         Factura factura=Factura.findById(idFactura as Long)
-        factura.setEstadoFactura(EstadoFactura.findById(1003))
+        factura.setEstadoFactura(EstadoFactura.findById(1002))
 
         redirect(uri:"/cuenta/cuentasAbiertas")
     }
 
 
+    def historialFacturas(){
+        def facturas=Factura.findAllByEstadoFactura(EstadoFactura.findById(1002))
+        [facturas: facturas]
+    }
+
+    def reversarFactura(){
+        def factura=Factura.findById(params.get("idFactura") as Long)
+        factura.setEstadoFactura(EstadoFactura.findById(1000))
+        factura.setMontoImpuesto(0)
+        factura.setMontoNeto(0)
+        factura.setMontoDescuento(0)
+        factura.setMontoBruto(0)
+        factura.setPorcientoDescuento(0)
+        factura.setPorcientoImpuesto(0)
+
+        factura.save(flush:true,failsOnError:true)
+
+
+        for(OrdenDetalle ordenDetalle: factura.listaFacturaDetalle.ordenDetalle){
+
+            ordenDetalle.clienteCuenta.cuenta.setEstadoCuenta(EstadoCuenta.findById(1))
+            ordenDetalle.save(flush: true, failOnError: true)
+        }
+
+        redirect(uri:"/cuenta/cuentasAbiertas")
+    }
 }
 

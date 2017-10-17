@@ -112,21 +112,35 @@
 
     <script type="application/javascript">
         $(document).ready(function() {
+
+
+            var valorSelect=$( "#selectFormaPago" ).val();
+
+            if(valorSelect==="seleccionarPago"){
+                $("#imprimirFacturar").prop('disabled', true);
+            }
+
+            
             $('select').on('change', function() {
 
-                if(this.value===("tarjeta") || this.value===("credito")){
+
+
+              if(this.value===("tarjeta") || this.value===("credito")){
 
                     $("#cantidad").hide();
                     $("#procesar").hide();
                     $("#cambio").hide();
                     $("#labelCambio").hide();
-
+                    $("#imprimirFacturar").prop('disabled', false);
                 }else if (this.value==="efectivo"){
                     $("#cantidad").show();
                     $("#procesar").show();
                     $("#cambio").show();
                     $("#labelCambio").show();
-                }
+                    $("#imprimirFacturar").prop('disabled', false);
+                }else if(this.value==="seleccionarPago"){
+                  $("#imprimirFacturar").prop('disabled', true);
+              }
 
                 var modal = document.getElementById('myModal');
                 var span = document.getElementsByClassName("close")[0];
@@ -135,7 +149,7 @@
                 $("#procesar").click(function() {
 
                     var valor = Number($("#cantidad").val());
-                    var total = Number($("#cantidadDinero #montoNeto").text());
+                    var total = Number($("#cantidadDinero").find("#montoNeto").text());
 
                     if(valor < total){
 
@@ -155,13 +169,14 @@
                     }else if(valor>total){
                         cambio=valor-total
                         $("#cantidadDinero").find("#cambio").text(cambio);
+                    }else{
+                        return null
                     }
 
 
                 });
-
-
             })
+            
 
         })
 
@@ -196,14 +211,9 @@
                                 <td>${fac.ordenDetalle.nombrePlato}</td>
                                 <td>${fac.ordenDetalle.cantidad}</td>
                                 <td>${fac.ordenDetalle.precio}</td>
-
-
                             </tr>
                         </g:each>
                         </tbody>
-
-
-
                     </table>
                 </div>
             </div>
@@ -214,8 +224,8 @@
             <div class="panel panel-default" style="height:503px;">
                 <div class="panel-heading"> Forma Pago</div>
                 <div class="panel-body">
-                    <select class="form-control selcls">
-                        <option>Seleccionar forma pago</option>
+                    <select id="selectFormaPago" class="form-control selcls">
+                        <option value="seleccionarPago">Seleccionar forma pago</option>
                         <option value="efectivo">Efectivo</option>
                         <option value="tarjeta">Tarjeta</option>
                         <option value="credito">Credito</option>
@@ -272,12 +282,10 @@
                         <!-- The Modal -->
 
 
-                            <g:form style="padding-right: 50px;padding-left: 50px" action="imprimirFactura" id="${factura.id}" value="id=${factura.id}">
-                                <button type="submit"  class="btn btn-primary btn-block btn-lng">Imprimir</button>
+                            <g:form  action="imprimirFactura" id="${factura.id}" value="id=${factura.id}">
+                                <button type="submit" id="imprimirFacturar"  class="btn btn-primary btn-block btn-lng">Imprimir</button>
                             </g:form>
-
-
-
+                            
                         </div>
                     </div>
                 </div>

@@ -24,62 +24,36 @@
     <script type="text/javascript">
         $(document).ready(function() {
 
-            function valuesToArray(obj) {
-                return Object.keys(obj).map(function (key) { return obj[key]; });
-            }
-
-            $('#example tbody').on( 'click', 'tr', function () {
-                $(this).toggleClass('selected');
-            } );
+                    $('#example tbody').on( 'click', 'tr', function () {
+                        $(this).toggleClass('selected');
+                    } );
 
 
-            $("#target").click(function(){
+                    $(".eliminarOrdenDetalle").click(function () {
 
-                var table = $('#example').DataTable();
-//                var table = $('#example').DataTable({
-//                    select: {
-//                        style: 'multi'
-//                    }
-//                })
+                        var id = $(this).attr('id');
+                        var parent = $(this).parent().parent();
+                        jQuery.ajax(
+                            {
+                                type:'POST',
 
-                var valores = table.rows({filter: 'applied'}).data().toArray();
+                                data:'idOrden='+id,
 
-                var contador=table.rows( { filter : 'applied'} ).nodes().length;
+                                url:'/ordenesDetalle/eliminarOrdenDetalle/',
+                                cache: false,
+                                success: function()
+                                {
+                                    parent.fadeOut(1000, function() {$(this).remove();});
+                                },
 
-              //  alert( table.rows('.selected').data().length +' row(s) selected' );
-//                $('#button').click( function () {
-//                    alert( table.rows('.selected').data().length +' row(s) selected' );
-//                } );
+                                error:function(XMLHttpRequest,textStatus,errorThrown){}
+                            });
 
-                var valoresOrdenDetalle=[]
-                for(var key=0;key<contador;key++) {
-
-                        var value = valores[key];
-
-                        valoresOrdenDetalle.push(value[0])
-                }
-
-            console.log(valoresOrdenDetalle)
-
-
-                jQuery.ajax(
-                    {
-                        type:'POST',
-
-                        data:'OrdenDetalle='+valoresOrdenDetalle,
-
-                        url:'/facturaDetalle/procesarOrden/',
-
-                        success:function(data,textStatus)
-                        {
-                            window.location = "/facturaDetalle/facturar?factura="+data;
-
-                        },
-
-                        error:function(XMLHttpRequest,textStatus,errorThrown){}
                     });
-            });
-        });
+
+        })
+
+
 
     </script>
 </head>
@@ -104,6 +78,9 @@
     <th>
         NombrePlato
     </th>
+    <th>
+        Acciones
+    </th>
     </thead>
     <tbody>
     <g:each in="${listaOrdenDetalle}" var="listaOrden">
@@ -113,12 +90,15 @@
             <td>${listaOrden.cantidad}</td>
             <td>${listaOrden.precio}</td>
             <td>${listaOrden.nombrePlato}</td>
+            <td>
+            <button style="text-decoration: none" type="button" class="eliminarOrdenDetalle btn btn-link" id="${listaOrden.id}">Eliminar Orden</button>
+            </td>
         </tr>
     </g:each>
     </tbody>
 
 </table>
-<g:submitButton id="target"  class="btn btn-primary btn-lg" name="Procesar Orden" />
+<g:submitButton id="target"  class="btn btn-primary btn-lg" name="Terminar Proceso" />
 
 </body>
 

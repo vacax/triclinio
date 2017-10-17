@@ -214,21 +214,19 @@ class CuentaController {
     }
 
 
-    def verOrdenes(long id){
+    def verOrdenes(){
 
         def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta") as Long)
 //        def clienteCuenta = ClienteCuenta.findById(id)
+        def listaOrdenDetalle=new ArrayList()
 
-        [listaOrdenDetalle: clienteCuenta.listaOrdenDetalle]
-    }
+        for(OrdenDetalle ordenDetalle: clienteCuenta.listaOrdenDetalle){
+            if(ordenDetalle.habilitado){
+                listaOrdenDetalle.add(ordenDetalle)
+            }
+        }
 
-    def eliminarOrdenDetalle()
-    {
-        def orden = OrdenDetalle.findById(params.get("idOrden") as Long)
-        orden.setHabilitado(false)
-        orden.clienteCuenta.cuenta.setEstadoCuenta(EstadoCuenta.findById(2))
-        orden.save(flush: true, failOnError: true)
-        render orden.id
+        [listaOrdenDetalle: listaOrdenDetalle]
     }
 
 
