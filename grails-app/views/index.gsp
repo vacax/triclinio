@@ -1,22 +1,20 @@
-<!doctype html>
-<html>
-<head>
-    <meta name="layout" content="main"/>
-    <title>Bienvenido...</title>
+<g:applyLayout name="main">
+    <content tag="encabezado">
+        <asset:link rel="icon" href="favicon.ico" type="image/x-ico" />
+    </content>
 
-    <asset:link rel="icon" href="favicon.ico" type="image/x-ico" />
-</head>
-<body>
+    <content tag="encabezado">
+        <h1>Sistema de Gestión de Restaurante</h1>
+        <asset:image src="GUAVA.jpg" width="350" height="200" alt="Computer Hope" ></asset:image>
+    </content>
 
+    <content tag="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+        <li class="active">Here</li>
+    </content>
 
-<div>
-    <p>
-    <h1>Sistema de Gestión de Restaurante</h1>
-    <asset:image src="GUAVA.jpg" width="350" height="200" alt="Computer Hope" ></asset:image>
-</p>
+    <content tag="contenido">
+         TODO:
+    </content>
 
-</div>
-
-
-</body>
-</html>
+</g:applyLayout>

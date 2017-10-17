@@ -35,6 +35,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <g:layoutHead/>
 
+    %{-- Para incluir otras recursos.--}%
+    <g:pageProperty name="page.header"/>
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -326,13 +328,18 @@ desired effect
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>
-                Page Header
-                <small>Optional description</small>
-            </h1>
+            <g:pageProperty name="page.encabezado">
+                <h1>
+                    Page Header
+                    <small>Optional description</small>
+                </h1>
+            </g:pageProperty>
+
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active">Here</li>
+                <g:pageProperty name="page.breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                    <li class="active">Here</li>
+                </g:pageProperty>
             </ol>
         </section>
 
@@ -342,7 +349,9 @@ desired effect
             <!--------------------------
         | Your Page Content Here |
         -------------------------->
+            <g:pageProperty name="page.contenido">
 
+            </g:pageProperty>
 
 
 
