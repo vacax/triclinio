@@ -51,6 +51,18 @@ class MesaController {
     }
 
     /**
+     * PROCESO QUE HABILITA LA MESA (ESTADOMESA = DISPONIBLE)
+     * @param idMesa
+     * @return
+     */
+    def habilitarMesa2(long idMesa){
+        mesaService.habilitarMesa(idMesa)
+
+        redirect(action:"mesasDesactivarActivarIndex")
+
+    }
+
+    /**
      * PROCESO QUE DESACTIVA LA MESA (ESTADOMESA = DESACTIVADA)
      * @param idMesa
      * @return

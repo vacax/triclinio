@@ -8,7 +8,15 @@
 </head>
 <body>
 
-<p><h1>Sistema de Gestión de Restaurante</h1></p>
+
+<div>
+    <p>
+    <h1>Sistema de Gestión de Restaurante</h1>
+    <asset:image src="GUAVA.jpg" width="350" height="200" alt="Computer Hope" ></asset:image>
+</p>
+
+</div>
+
 
 </body>
 </html>

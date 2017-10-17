@@ -20,7 +20,7 @@ class MesaService {
    }
 
    def habilitarMesa(long idMesa){
-      def mesa = Mesa.findById(idMesa)
+      def mesa = Mesa.findById(idMesa as Long)
       mesa.estadoMesa=EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE)
       mesa.historial.add(new HistorialMesa(usuario:(Usuario)springSecurityService.currentUser, descripcion: "Estado de la muestra actualizado a disponible", fecha: new Date() ))
       mesa.save(flush: true, failOnError: true)
