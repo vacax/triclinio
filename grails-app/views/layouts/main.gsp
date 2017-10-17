@@ -292,6 +292,8 @@ desired effect
                     <ul class="treeview-menu">
                         <li><a href="/mesa/mesasOcupadasIndex"><i class="fa fa-circle-o"></i>Desocupar Mesa</a></li>
                         <li><a href="/mesa/mesasDesactivarActivarIndex"><i class="fa fa-circle-o"></i>Desactivar/Activar Mesa</a></li>
+                        <li><a href="/mesa/historialMesaIndex"><i class="fa fa-circle-o"></i>Historial de Mesas</a></li>
+
                     </ul>
                 </li>
 

@@ -14,8 +14,11 @@ class Mesa {
     Date dateCreated;
     Date lastUpdated;
 
+    static hasMany = [historial :  HistorialMesa]
+
 
     static constraints = {
+        historial(nullable: true)
     }
 
     static mapping = {

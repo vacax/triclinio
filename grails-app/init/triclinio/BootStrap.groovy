@@ -50,12 +50,16 @@ class BootStrap {
 
 
         //TODO: Crear modelo de Cuenta para poder facturar(Platillo)
-//        Plato plato=new Plato(nombre: "Nuevo Plato", precio: 150.00).save(flush: true, failOnError: true)
-        Plato plato2=new Plato(nombre: "Nuevo Plato 1", precio: 200.00).save(flush: true, failOnError: true)
-        Plato plato3=new Plato(nombre: "Nuevo Plato 2", precio: 350.00).save(flush: true, failOnError: true)
-        Plato plato4=new Plato(nombre: "Nuevo Plato 3", precio: 500.00).save(flush: true, failOnError: true)
-        Plato plato5=new Plato(nombre: "Nuevo Plato 4", precio: 545.00).save(flush: true, failOnError: true)
-        Plato plato6=new Plato(nombre: "Nuevo Plato 5", precio: 254.00).save(flush: true, failOnError: true)
+        Plato plato1=new Plato(nombre: "La Orquesta", precio: 75.00).save(flush: true, failOnError: true)
+        Plato plato2=new Plato(nombre: "Hummus de habichuela", precio: 115.00).save(flush: true, failOnError: true)
+        Plato plato3=new Plato(nombre: "Trio sinfónico", precio: 150.00).save(flush: true, failOnError: true)
+        Plato plato4=new Plato(nombre: "Chips Pimpiado", precio: 145.00).save(flush: true, failOnError: true)
+        Plato plato5=new Plato(nombre: "Mar Caribe", precio: 155.00).save(flush: true, failOnError: true)
+        Plato plato6=new Plato(nombre: "Popurri", precio: 95.00).save(flush: true, failOnError: true)
+        Plato plato7=new Plato(nombre: "Ananas", precio: 120.00).save(flush: true, failOnError: true)
+        Plato plato8=new Plato(nombre: "Dulce Tentación", precio: 125.00).save(flush: true, failOnError: true)
+
+
 
         //TODO: Crear modelo de Cuenta para poder facturar(Usuario)
         Usuario usuario1=new Usuario(username: "john",password: "1234",nombre: "N/A").save(flush: true, failOnError: true)
