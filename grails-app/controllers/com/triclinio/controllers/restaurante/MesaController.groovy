@@ -81,7 +81,15 @@ class MesaController {
     def mesasDesactivarActivarIndex(){
         def listadoMesas = Mesa.findAllByEstadoMesa(EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE))
         listadoMesas.addAll(Mesa.findAllByEstadoMesa(EstadoMesa.findByCodigo(EstadoMesa.DESACTIVADA)))
-        [listadoMesas: listadoMesas]
+
+        def listaMostrar = new HashSet()
+
+        listadoMesas.each {
+            if (it.habilitado){
+                listaMostrar.add(it)
+            }
+        }
+        [listadoMesas: listaMostrar]
     }
 
     def sacarMesaCuenta(long idCuenta){
