@@ -61,7 +61,7 @@
 
                 <option value="ROLE_ADMIN">admin</option>
                 <option value="ROLE_CAMARERO">camarero</option>
-                <option value="ROLE_FACTURADOR">facturarador</option>
+                <option value="ROLE_FACTURADOR">facturador</option>
                 <option value="ROLE_SUPERVISOR_FACTURADOR">Supervisor facturador</option>
                 <option value="ROLE_SUPERVISOR_CAMARERO">Supervisor Camarero</option>
             </select>
@@ -72,10 +72,10 @@
         <div class="box-footer">
             %{--<button type="submit" class="btn btn-danger">Cancel</button>--}%
             <button type="submit" class="btn btn-info pull-right">Crear</button>
-        </div><!-- /.box-footer -->
+        </div>
     </g:form>
 
-</div><!-- /.box -->
+</div>
 
 </body>
 </html>

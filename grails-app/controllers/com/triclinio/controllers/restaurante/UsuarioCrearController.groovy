@@ -20,8 +20,8 @@ class UsuarioCrearController {
 
     def nuevoUsuario(){
         String[] roles=params.get("SeleccionarRol")
-        println roles.size()
-        println roles.toList().get(1)
+       // println "Roles "+roles.toList()
+        println "Roles "+roles
 
         Usuario usuario=new Usuario()
 
@@ -36,12 +36,23 @@ class UsuarioCrearController {
 
         usuario.save(flush:true,failOnError:true)
 
-        for(int i=0;i<roles.toList().size();i++){
-            println "Roles a cada posicion "+roles[i]
-            new UsuarioPerfil(usuario: usuario, perfil: Perfil.findByAuthority(roles[i])).save(flush: true, failOnError: true)
+
+        if (roles.size() >= 2 && roles.size() <= 5) {
+            for (int i = 0; i < roles.size(); i++) {
+                println "Roles a cada posicion " + roles[i]
+                new UsuarioPerfil(usuario: usuario, perfil: Perfil.findByAuthority(roles[i])).save(flush: true, failOnError: true)
+            }
+        } else if (roles.size() > 5) {
+            StringBuilder builder = new StringBuilder();
+            for (String value : roles) {
+                builder.append(value);
+            }
+            String text = builder.toString();
+            new UsuarioPerfil(usuario: usuario, perfil: Perfil.findByAuthority(text)).save(flush: true, failOnError: true)
         }
         redirect(uri: "/usuarioCrear/index")
     }
+
 
     def verUsuario(){
         def idUsuario=params.get("id")
