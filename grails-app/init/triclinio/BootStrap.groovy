@@ -1,5 +1,6 @@
 package triclinio
 
+import com.triclinio.domains.configuracion.Parametro
 import com.triclinio.domains.cxc.Cliente
 import com.triclinio.domains.restaurante.EstadoCuenta
 import com.triclinio.domains.restaurante.EstadoMesa
@@ -29,9 +30,7 @@ class BootStrap {
             new Perfil(authority: "ROLE_FACTURADOR").save(flush: true, failOnError: true)
             new Perfil(authority: "ROLE_SUPERVISOR_FACTURADOR").save(flush: true, failOnError: true)
             new Perfil(authority: "ROLE_SUPERVISOR_CAMARERO").save(flush: true, failOnError: true)
-
-            new Requestmap(url: "/**", configAttribute: "ROLE_ADMIN").save(flush: true, failOnError: true)
-
+            
             for (String url in [
                     '/', '/error', '/index', '/index.gsp', '/**/favicon.ico', '/shutdown',
                     '/assets/**', '/**/js/**', '/**/css/**', '/**/images/**',
@@ -50,6 +49,22 @@ class BootStrap {
             new Requestmap(url: '/admin/user/**', configAttribute: 'ROLE_ADMIN,ROLE_SUPERVISOR').save(flush: true, failOnError: true)
             new Requestmap(url: '/login/impersonate', configAttribute: 'ROLE_SWITCH_USER,isFullyAuthenticated()').save(flush: true, failOnError: true)
         }
+
+        //
+        Parametro.findByCodigo(Parametro.JMS_URL) ?: new Parametro(codigo: Parametro.JMS_URL, nombre: "JMS_URL", valor: "tcp://localhost:61616").save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.JMS_COLA) ?: new Parametro(codigo: Parametro.JMS_COLA, nombre: "JMS_COLA", valor: "triclinio.caja").save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.JMS_USUARIO) ?: new Parametro(codigo: Parametro.JMS_USUARIO, nombre: "JMS_USUARIO", valor: "admin").save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.JMS_PASSWORD) ?: new Parametro(codigo: Parametro.JMS_PASSWORD, nombre: "JMS_PASSWORD", valor: "admin").save(flush: true, failOnError: true)
+
+        //
+        Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE) ?: new Parametro(codigo: Parametro.APP_NOMBRE_RESTAURANTE, nombre: "APP_NOMBRE_RESTAURANTE", valor: "GUAVA").save(flush: true, failOnError: true)
+
+        //
+        Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_1) ?: new Parametro(codigo: Parametro.TICKET_ENCABEZADO_1, nombre: "TICKET_ENCABEZADO_1", valor: "Completar #1").save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_2) ?: new Parametro(codigo: Parametro.TICKET_ENCABEZADO_2, nombre: "TICKET_ENCABEZADO_2", valor: "Completar #2").save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_3) ?: new Parametro(codigo: Parametro.TICKET_ENCABEZADO_3, nombre: "TICKET_ENCABEZADO_3", valor: "Completar #3").save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.TICKET_PIEPAG_1) ?: new Parametro(codigo: Parametro.TICKET_PIEPAG_1, nombre: "TICKET_PIEPAG_1", valor: "Completar pie #1").save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.TICKET_PIEPAG_2) ?: new Parametro(codigo: Parametro.TICKET_PIEPAG_2, nombre: "TICKET_PIEPAG_2", valor: "Completar pie #2").save(flush: true, failOnError: true)
 
         //Estado Mesa.
         EstadoMesa disponible=EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE) ?:new EstadoMesa(codigo: EstadoMesa.DISPONIBLE,nombre: "Disponible").save(flush: true, failOnError: true)

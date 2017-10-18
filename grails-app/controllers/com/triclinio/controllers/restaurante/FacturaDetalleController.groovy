@@ -9,16 +9,13 @@ import com.triclinio.domains.seguridad.Usuario
 import com.triclinio.domains.venta.EstadoFactura
 import com.triclinio.domains.venta.Factura
 import com.triclinio.domains.venta.FacturaDetalle
-import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
-import org.springframework.web.servlet.ModelAndView
-
 
 @Secured(["ROLE_ADMIN", "ROLE_CAMARERO","ROLE_FACTURADOR","ROLE_SUPERVISOR_FACTURADOR","ROLE_SUPERVISOR_CAMARERO"])
 class FacturaDetalleController {
 
     //Datos dinero
-
+    def matricialService
 
 
     def index() { }
@@ -132,12 +129,14 @@ class FacturaDetalleController {
         [factura: factura]
     }
 
-    def imprimirFactura(){
-        def idParametro=params.id
-        def idFactura=idParametro.toString()
+    def imprimirFactura(long id){
+        /*def idParametro=params.id
+        def idFactura=idParametro.toString()*/
 
-        Factura factura=Factura.findById(idFactura as Long)
-        factura.setEstadoFactura(EstadoFactura.findById(1002))
+        Factura factura=Factura.findById(id)
+        factura.setEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA))
+
+        matricialService.generarFactura(factura.id)
 
         redirect(uri:"/cuenta/cuentasAbiertas")
     }
@@ -163,6 +162,16 @@ class FacturaDetalleController {
 
         factura.delete()
         redirect(uri:"/cuenta/cuentasAbiertas")
+    }
+
+    /**
+     * TODO: implementar el metodo e indicando label que diga reimpresion.
+     * @param facturaId
+     * @return
+     */
+    def reimpresionFactura(long facturaId){
+        matricialService.generarFactura(facturaId);
+        render "Imprimiendo"
     }
 }
 
