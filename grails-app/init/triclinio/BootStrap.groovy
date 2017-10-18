@@ -24,22 +24,22 @@ class BootStrap {
 
             UsuarioPerfil.create(usuario, perfil)
             new Requestmap(url: "/**", configAttribute: "ROLE_ADMIN").save(flush: true, failOnError: true)
-        Perfil admin = new Perfil(authority: "ROLE_ADMIN").save(flush: true, failOnError: true)
-        new Perfil(authority: "ROLE_CAMARERO").save(flush: true, failOnError: true)
-        new Perfil(authority: "ROLE_FACTURADOR").save(flush: true, failOnError: true)
-        new Perfil(authority: "ROLE_SUPERVISOR_FACTURADOR").save(flush: true, failOnError: true)
-        new Perfil(authority: "ROLE_SUPERVISOR_CAMARERO").save(flush: true, failOnError: true)
 
-        UsuarioPerfil.create(usuario, admin)
-        new Requestmap(url: "/**", configAttribute: "ROLE_ADMIN").save(flush: true, failOnError: true)
+            new Perfil(authority: "ROLE_CAMARERO").save(flush: true, failOnError: true)
+            new Perfil(authority: "ROLE_FACTURADOR").save(flush: true, failOnError: true)
+            new Perfil(authority: "ROLE_SUPERVISOR_FACTURADOR").save(flush: true, failOnError: true)
+            new Perfil(authority: "ROLE_SUPERVISOR_CAMARERO").save(flush: true, failOnError: true)
 
-        for (String url in [
-                '/', '/error', '/index', '/index.gsp', '/**/favicon.ico', '/shutdown',
-                '/assets/**', '/**/js/**', '/**/css/**', '/**/images/**',
-                '/login', '/login.*', '/login/*',
-                '/logout', '/logout.*', '/logout/*', '/dbconsole/**']) {
-            new Requestmap(url: url, configAttribute: 'permitAll,ROLE_ANONYMOUS').save(flush: true, failOnError: true)
-        }
+            UsuarioPerfil.create(usuario, admin)
+            new Requestmap(url: "/**", configAttribute: "ROLE_ADMIN").save(flush: true, failOnError: true)
+
+            for (String url in [
+                    '/', '/error', '/index', '/index.gsp', '/**/favicon.ico', '/shutdown',
+                    '/assets/**', '/**/js/**', '/**/css/**', '/**/images/**',
+                    '/login', '/login.*', '/login/*',
+                    '/logout', '/logout.*', '/logout/*', '/dbconsole/**']) {
+                new Requestmap(url: url, configAttribute: 'permitAll,ROLE_ANONYMOUS').save(flush: true, failOnError: true)
+            }
 
 
             new Requestmap(url: '/console/**', configAttribute: 'ROLE_ADMIN').save(flush: true, failOnError: true)
