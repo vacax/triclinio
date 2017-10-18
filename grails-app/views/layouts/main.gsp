@@ -185,7 +185,7 @@ desired effect
                             <!-- The user image in the navbar-->
                             <img src="/webjars/adminlte/2.3.11/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
                             <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                            <span class="hidden-xs">Alexander Pierce</span>
+                            <span class="hidden-xs"><triclinio:nombreUsuario/></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
@@ -193,7 +193,7 @@ desired effect
                                 <img src="/webjars/adminlte/2.3.11/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                                 <p>
-                                    Alexander Pierce - Web Developer
+                                    <triclinio:nombreUsuario/>
                                     <small>Member since Nov. 2012</small>
                                 </p>
                             </li>

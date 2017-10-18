@@ -9,7 +9,7 @@ class UrlMappings {
             }
         }
 
-        "/"(view:"/index")
+        "/"(controller: "app", action: "index")
         "/cuenta/obtenerPlato"(controller: 'obtenerPlato', action: 'obtenerPlato')
 
         "500"(view:'/error')

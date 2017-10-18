@@ -84,7 +84,7 @@ class BootStrap {
 
             println("Aplicación en modo desarrollo")
 
-            //TODO: Crear modelo de Cuenta para poder facturar(Platillo)
+            /*//TODO: Crear modelo de Cuenta para poder facturar(Platillo)
             Plato plato1 = new Plato(nombre: "La Orquesta", precio: 75.00).save(flush: true, failOnError: true)
             Plato plato2 = new Plato(nombre: "Hummus de habichuela", precio: 115.00).save(flush: true, failOnError: true)
             Plato plato3 = new Plato(nombre: "Trio sinfónico", precio: 150.00).save(flush: true, failOnError: true)
@@ -115,7 +115,7 @@ class BootStrap {
             Mesa mesa5 = new Mesa(numeroMesa: 5, nombre: "Mesa 5", estadoMesa: disponible).save(flush: true, failOnError: true)
 //Preguntar al profe
             Mesa mesa6 = new Mesa(numeroMesa: 6, nombre: "Mesa 6", estadoMesa: disponible).save(flush: true, failOnError: true)
-//Preguntar al profe
+//Preguntar al profe*/
 
             //TODO: Crear modelo de Cuenta para poder facturar(Cuenta)
 //        Cuenta cuenta=new Cuenta(usuario: usuario1,estadoCuenta: estadoCuenta).save(flush: true, failOnError: true)//Preguntarle al profe como se pone la lista
