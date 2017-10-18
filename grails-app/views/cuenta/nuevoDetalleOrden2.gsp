@@ -104,10 +104,10 @@
                         <td>${orden.cantidad}</td>
                         <td>${orden.precio}</td>
                         <td>
-                            <sec:ifAnyGranted roles="FACTURADOR">
-                            <g:link action="sacarItemCuenta" controller="cuenta"  params="[clienteCuentaId:clienteCuenta.id, idPlato:orden.plato.id]">
-                            <button type="button" id="verPerfil" class="btn  btn-danger">Eliminar</button>
-                        </g:link>
+                            <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,">
+                                <g:link action="sacarItemCuenta" controller="cuenta"  params="[clienteCuentaId:clienteCuenta.id, idPlato:orden.plato.id]">
+                                    <button type="button" id="verPerfil" class="btn  btn-danger">Eliminar</button>
+                                </g:link>
                             </sec:ifAnyGranted>
                         </td>
 

@@ -278,8 +278,12 @@ desired effect
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/cuenta/nuevaCuenta"><i class="fa fa-link"></i> <span>Nueva Cuenta</span></a></li>
-                        <li><a href="/cuenta/cuentasAbiertas"><i class="fa fa-link"></i> <span>Cuentas abiertas</span></a></li>
+                        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
+                            <li><a href="/cuenta/nuevaCuenta"><i class="fa fa-link"></i> <span>Nueva Cuenta</span></a></li>
+                        </sec:ifAnyGranted>
+                        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO,ROLE_FACTURADOR">
+                            <li><a href="/cuenta/cuentasAbiertas"><i class="fa fa-link"></i> <span>Cuentas abiertas</span></a></li>
+                        </sec:ifAnyGranted>
                     </ul>
                 </li>
 
@@ -292,28 +296,36 @@ desired effect
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="/mesa/mesasOcupadasIndex"><i class="fa fa-circle-o"></i>Desocupar Mesa</a></li>
-                        <li><a href="/mesa/mesasDesactivarActivarIndex"><i class="fa fa-circle-o"></i>Desactivar/Activar Mesa</a></li>
-                        <li><a href="/mesa/historialMesaIndex"><i class="fa fa-circle-o"></i>Historial de Mesas</a></li>
+                        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
+                            <li><a href="/mesa/mesasOcupadasIndex"><i class="fa fa-circle-o"></i>Desocupar Mesa</a></li>
+                        </sec:ifAnyGranted>
+                        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO">
+                            <li><a href="/mesa/mesasDesactivarActivarIndex"><i class="fa fa-circle-o"></i>Desactivar/Activar Mesa</a></li>
+                        </sec:ifAnyGranted>
+                        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO">
+                            <li><a href="/mesa/historialMesaIndex"><i class="fa fa-circle-o"></i>Historial de Mesas</a></li>
+                        </sec:ifAnyGranted>
 
                     </ul>
                 </li>
+                <sec:ifAnyGranted roles="ROLE_ADMIN">
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-laptop"></i>
+                            <span>Crear/Modificar/Eliminar</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="/usuarioCrear/index"><i class="fa fa-circle-o"></i>Usuario</a></li>
+                            <li><a href="/platoCrear/index"><i class="fa fa-circle-o"></i>Plato</a></li>
+                            <li><a href="/mesa/crearMesaIndex"><i class="fa fa-circle-o"></i>Mesa</a></li>
 
-                <li class="treeview">
-                    <a href="#">
-                        <i class="fa fa-laptop"></i>
-                        <span>Crear/Modificar/Eliminar</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="/usuarioCrear/index"><i class="fa fa-circle-o"></i>Usuario</a></li>
-                        <li><a href="/platoCrear/index"><i class="fa fa-circle-o"></i>Plato</a></li>
-                        <li><a href="/mesa/crearMesaIndex"><i class="fa fa-circle-o"></i>Mesa</a></li>
+                        </ul>
+                    </li>
+                </sec:ifAnyGranted>
 
-                    </ul>
-                </li>
                 <li><a href="/facturaDetalle/historialFacturas"><i class="fa fa-link"></i>Ver historial Facturas</a></li>
             </ul>
             <!-- /.sidebar-menu -->

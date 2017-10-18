@@ -209,7 +209,7 @@ class CuentaController {
      * @return
      */
     def sacarItemCuenta(long clienteCuentaId,long idPlato){
-        def cliente = ClienteCuenta.get(clienteCuentaId as Long)
+        def cliente = ClienteCuenta.get(clienteCuentaId)
         cliente.listaOrdenDetalle.each {
             if(it.plato.id==idPlato){
                 it.habilitado=false
