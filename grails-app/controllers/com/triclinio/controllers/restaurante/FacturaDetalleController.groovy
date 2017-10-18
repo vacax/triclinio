@@ -7,10 +7,7 @@ import com.triclinio.domains.seguridad.Usuario
 import com.triclinio.domains.venta.EstadoFactura
 import com.triclinio.domains.venta.Factura
 import com.triclinio.domains.venta.FacturaDetalle
-import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
-import org.springframework.web.servlet.ModelAndView
-
 
 @Secured(["ROLE_ADMIN"])
 class FacturaDetalleController {
@@ -29,7 +26,7 @@ class FacturaDetalleController {
     def procesarOrden(){
         ordenesDetalles = params.OrdenDetalle
         def idsOrdenDetalle=ordenesDetalles.split(",")
-        EstadoFactura estadoFactura=new EstadoFactura(codigo: EstadoFactura.FACTUDA,nombre: "estado FACTURA")
+        EstadoFactura estadoFactura=new EstadoFactura(codigo: EstadoFactura.FACTURADA,nombre: "estado FACTURA")
 
         List<OrdenDetalle> ordenDetalles=new ArrayList<>()
         Factura factura=new Factura().save(flush: true, failOnError: true)

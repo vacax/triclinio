@@ -10,4 +10,8 @@ class HistorialMesa {
 
     static constraints = {
     }
+
+    static mapping = {
+        table 'rest_mesa_historial'
+    }
 }
