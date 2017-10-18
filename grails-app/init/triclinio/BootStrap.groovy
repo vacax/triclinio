@@ -30,7 +30,6 @@ class BootStrap {
             new Perfil(authority: "ROLE_SUPERVISOR_FACTURADOR").save(flush: true, failOnError: true)
             new Perfil(authority: "ROLE_SUPERVISOR_CAMARERO").save(flush: true, failOnError: true)
 
-            UsuarioPerfil.create(usuario, admin)
             new Requestmap(url: "/**", configAttribute: "ROLE_ADMIN").save(flush: true, failOnError: true)
 
             for (String url in [
