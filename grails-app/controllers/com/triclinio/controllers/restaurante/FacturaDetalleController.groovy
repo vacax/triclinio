@@ -1,6 +1,8 @@
 package com.triclinio.controllers.restaurante
 
 import com.triclinio.domains.cxc.Cliente
+import com.triclinio.domains.restaurante.ClienteCuenta
+import com.triclinio.domains.restaurante.Cuenta
 import com.triclinio.domains.restaurante.EstadoCuenta
 import com.triclinio.domains.restaurante.OrdenDetalle
 import com.triclinio.domains.seguridad.Usuario
@@ -14,39 +16,42 @@ import org.springframework.web.servlet.ModelAndView
 
 @Secured(["ROLE_ADMIN"])
 class FacturaDetalleController {
-    static def ordenesDetalles;
+
     //Datos dinero
-    BigDecimal porcientoImpuesto=0
-    BigDecimal porcientoDescuento=0
-    BigDecimal montoBruto=0
-    BigDecimal montoDescuento=0
-    BigDecimal montoImpuesto=0
-    BigDecimal montoNeto=0
+
 
 
     def index() { }
 
-    def procesarOrden(){
+    def procesarOrden() {
+        def ordenesDetalles;
+        BigDecimal porcientoImpuesto=0
+        BigDecimal porcientoDescuento=0
+        BigDecimal montoBruto=0
+        BigDecimal montoDescuento=0
+        BigDecimal montoImpuesto=0
+        BigDecimal montoNeto=0
+
         ordenesDetalles = params.OrdenDetalle
-        def idsOrdenDetalle=ordenesDetalles.split(",")
-        EstadoFactura estadoFactura=new EstadoFactura(codigo: EstadoFactura.FACTUDA,nombre: "estado FACTURA")
+        def idsOrdenDetalle = ordenesDetalles.split(",")
+        EstadoFactura estadoFactura = new EstadoFactura(codigo: EstadoFactura.FACTUDA, nombre: "estado FACTURA")
 
-        List<OrdenDetalle> ordenDetalles=new ArrayList<>()
-        Factura factura=new Factura().save(flush: true, failOnError: true)
+        List<OrdenDetalle> ordenDetalles = new ArrayList<>()
+        Factura factura = new Factura().save(flush: true, failOnError: true)
 
 
-        Cliente cliente=new Cliente()
-        for(int i=0;i<idsOrdenDetalle.size();i++){
-            FacturaDetalle facturaDetalle=new FacturaDetalle()
-            OrdenDetalle ordenDetalleActual=OrdenDetalle.findById(idsOrdenDetalle.getAt(i) as Long)
+        Cliente cliente = new Cliente()
+        for (int i = 0; i < idsOrdenDetalle.size(); i++) {
+            FacturaDetalle facturaDetalle = new FacturaDetalle()
+            OrdenDetalle ordenDetalleActual = OrdenDetalle.findById(idsOrdenDetalle.getAt(i) as Long)
             ordenDetalles.add(ordenDetalleActual)
 
-            porcientoImpuesto=porcientoImpuesto+ordenDetalleActual.porcientoImpuesto
-            porcientoDescuento=porcientoDescuento+ordenDetalleActual.porcientoDescuento
-            montoBruto=montoBruto+ordenDetalleActual.montoBruto
-            montoDescuento=montoDescuento+ordenDetalleActual.montoDescuento
-            montoImpuesto=montoImpuesto+ordenDetalleActual.montoImpuesto
-            montoNeto=montoNeto+ordenDetalleActual.montoNeto
+            porcientoImpuesto = porcientoImpuesto + ordenDetalleActual.porcientoImpuesto
+            porcientoDescuento = porcientoDescuento + ordenDetalleActual.porcientoDescuento
+            montoBruto = montoBruto + ordenDetalleActual.montoBruto
+            montoDescuento = montoDescuento + ordenDetalleActual.montoDescuento
+            montoImpuesto = montoImpuesto + ordenDetalleActual.montoImpuesto
+            montoNeto = montoNeto + ordenDetalleActual.montoNeto
 
             cliente.setNombre(ordenDetalleActual.clienteCuenta.nombre)
 
@@ -55,8 +60,7 @@ class FacturaDetalleController {
             facturaDetalle.save(flush: true, failOnError: true)
         }
 
-//        factura.usuario = (Usuario)springSecurityService.currentUser
-        factura.usuario=(Usuario)applicationContext.springSecurityService.getCurrentUser()
+        factura.usuario = (Usuario) applicationContext.springSecurityService.getCurrentUser()
         factura.setCliente(cliente)
         factura.setPorcientoImpuesto(porcientoImpuesto)
         factura.setPorcientoDescuento(porcientoDescuento)
@@ -67,10 +71,35 @@ class FacturaDetalleController {
         factura.setEstadoFactura(EstadoFactura.findById(1000))
         factura.save(flush: true, failOnError: true)
 
-        for(OrdenDetalle ordenDetalle: ordenDetalles){
+        def idClienteCuenta = ordenDetalles.get(0).clienteCuenta.id
+        def idCuenta = ordenDetalles.get(0).clienteCuenta.cuenta.id
 
-            ordenDetalle.clienteCuenta.cuenta.setEstadoCuenta(EstadoCuenta.findById(2))
+
+        for (OrdenDetalle ordenDetalle : ordenDetalles) {
+            ordenDetalle.clienteCuenta.habilitado = false
+
+//                if(ordenDetalle.clienteCuenta.cuenta.listaClienteCuenta.size())
+//                ordenDetalle.clienteCuenta.cuenta.setEstadoCuenta(EstadoCuenta.findById(2))
             ordenDetalle.save(flush: true, failOnError: true)
+        }
+
+        ClienteCuenta clienteCuenta = ClienteCuenta.findById(idClienteCuenta)
+        clienteCuenta.habilitado = false
+        clienteCuenta.save(flush: true, failOnError: true)
+
+        println "Size cuenta" + Cuenta.findById(idCuenta).listaClienteCuenta.size()
+        boolean habilitado = false
+
+        for (ClienteCuenta clienteCuenta1 : Cuenta.findById(idCuenta).listaClienteCuenta)
+            if (clienteCuenta1.habilitado) {
+                habilitado = true
+                break
+            }
+
+        if (!habilitado) {
+            Cuenta cuenta = Cuenta.findById(idCuenta)
+            cuenta.setEstadoCuenta(EstadoCuenta.findByCodigo(EstadoCuenta.CERRADA))
+            cuenta.save(flush: true, failOnError: true)
         }
 
         render factura.id
@@ -99,7 +128,6 @@ class FacturaDetalleController {
         println "Ver:"+idFactura
 
         Factura factura=Factura.findById(idFactura as Long)
-        //factura.setEstadoFactura(EstadoFactura.findById(1002))
 
         [factura: factura]
     }
@@ -122,23 +150,18 @@ class FacturaDetalleController {
 
     def reversarFactura(){
         def factura=Factura.findById(params.get("idFactura") as Long)
-        factura.setEstadoFactura(EstadoFactura.findById(1000))
-        factura.setMontoImpuesto(0)
-        factura.setMontoNeto(0)
-        factura.setMontoDescuento(0)
-        factura.setMontoBruto(0)
-        factura.setPorcientoDescuento(0)
-        factura.setPorcientoImpuesto(0)
-
-        factura.save(flush:true,failsOnError:true)
-
 
         for(OrdenDetalle ordenDetalle: factura.listaFacturaDetalle.ordenDetalle){
 
             ordenDetalle.clienteCuenta.cuenta.setEstadoCuenta(EstadoCuenta.findById(1))
+            for(ClienteCuenta clienteCuenta: ordenDetalle.clienteCuenta.cuenta.listaClienteCuenta){
+                clienteCuenta.setHabilitado(true)
+                clienteCuenta.save()
+            }
             ordenDetalle.save(flush: true, failOnError: true)
         }
 
+        factura.delete()
         redirect(uri:"/cuenta/cuentasAbiertas")
     }
 }

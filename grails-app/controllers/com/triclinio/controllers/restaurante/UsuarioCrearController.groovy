@@ -56,6 +56,7 @@ class UsuarioCrearController {
         println "Param"+ idUsuario
         Usuario usuario=Usuario.findById(idUsuario as Long)
 
-        [usuario: usuario]
+        java.util.List<UsuarioPerfil> usuarioPerfils=UsuarioPerfil.findAllByUsuario(usuario)
+        [usuario: usuario,usuarioPerfil:usuarioPerfils]
     }
 }

@@ -161,11 +161,26 @@ class CuentaController {
      * @return
      */
     def detalleCuenta(Long idCuenta){
+        List<ClienteCuenta> cuentaArrayList=new ArrayList<>()
+
         def cuenta = Cuenta.findById(idCuenta)
-        [cuenta: cuenta]
+
+
+        for(int i=0;i<cuenta.listaClienteCuenta.size();i++){
+
+            if(cuenta.listaClienteCuenta[i].habilitado){
+                cuentaArrayList.add(cuenta.listaClienteCuenta[i])
+            }
+        }
+//        for(ClienteCuenta clienteCuenta: cuenta.listaClienteCuenta){
+//            if(clienteCuenta.habilitado){
+//                cuentaArrayList.add(clienteCuenta: clienteCuenta)
+//                //cuenta.listaClienteCuenta.remove(clienteCuenta)
+//            }
+//        }
+       // cuenta.save(flush:true,failsOnError:true)
+        [cuenta: cuentaArrayList,mesas:cuenta.listaMesa]
     }
-
-
     /**
      * SACA UN ARTICULO DE UNA CUENTA EXISTENTE
      * @param clienteCuentaId

@@ -36,7 +36,7 @@
                     <!-- /.box-header -->
                     <div class="box-body" style="">
                         <ul>
-                            <g:each in="${cuenta.listaMesa}" var="mesa">
+                            <g:each in="${mesas}" var="mesa">
                                 <li>${mesa.mesa.nombre}</li>
                             </g:each>
                         </ul>
@@ -88,7 +88,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <g:each in="${cuenta.listaClienteCuenta}" var="clientecuenta">
+                        <g:each in="${cuenta}" var="clientecuenta">
                             <tr>
                                 <td>${clientecuenta.nombre}</td>
                                 %{--<td>${ordenesDetalle.nombrePlato}</td>--}%
