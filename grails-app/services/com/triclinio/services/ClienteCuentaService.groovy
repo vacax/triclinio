@@ -1,4 +1,4 @@
-package triclinio
+package com.triclinio.services
 
 import com.triclinio.commands.restaurant.OrdenDetalleCuentaForm
 import com.triclinio.domains.restaurante.ClienteCuenta

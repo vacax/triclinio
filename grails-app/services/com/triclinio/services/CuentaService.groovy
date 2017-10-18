@@ -1,4 +1,4 @@
-package triclinio
+package com.triclinio.services
 
 import grails.gorm.transactions.Transactional
 

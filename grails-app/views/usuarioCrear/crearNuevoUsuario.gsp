@@ -34,16 +34,16 @@
     <g:form action="nuevoUsuario">
         <div class="box-body">
             <div style="margin-bottom:5%" class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">Username</label>
+                <label for="inputEmail3" class="col-sm-2 control-label">Nombre Usuario</label>
                 <div class="col-sm-10">
-                    <input style="border: 1px solid cornflowerblue;" type="text" name="username" class="form-control" id="inputEmail3" placeholder="Email">
+                    <input style="border: 1px solid cornflowerblue;" type="text" name="username" class="form-control" id="inputEmail3" placeholder="entrar nombre usuario">
                 </div>
             </div>
 
             <div style="margin-bottom:10%" class="form-group">
-                <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                <label for="inputPassword3" class="col-sm-2 control-label">Contrasena</label>
                 <div class="col-sm-10">
-                    <input style="border: 1px solid cornflowerblue;" type="password" name="passwordUser" class="form-control" id="inputPassword3" placeholder="Password">
+                    <input style="border: 1px solid cornflowerblue;" type="password" name="passwordUser" class="form-control" id="inputPassword3" placeholder="contrasena">
                 </div>
             </div>
             <div style="margin-top:5%" class="form-group">
@@ -61,7 +61,7 @@
 
                 <option value="ROLE_ADMIN">admin</option>
                 <option value="ROLE_CAMARERO">camarero</option>
-                <option value="ROLE_FACTURADOR">facturarador</option>
+                <option value="ROLE_FACTURADOR">facturador</option>
                 <option value="ROLE_SUPERVISOR_FACTURADOR">Supervisor facturador</option>
                 <option value="ROLE_SUPERVISOR_CAMARERO">Supervisor Camarero</option>
             </select>
@@ -72,10 +72,10 @@
         <div class="box-footer">
             %{--<button type="submit" class="btn btn-danger">Cancel</button>--}%
             <button type="submit" class="btn btn-info pull-right">Crear</button>
-        </div><!-- /.box-footer -->
+        </div>
     </g:form>
 
-</div><!-- /.box -->
+</div>
 
 </body>
 </html>
