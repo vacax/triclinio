@@ -31,8 +31,8 @@
                 </div>
                 <div class="box-body" style="">
                     <ul>
-                        <g:each in="${clienteCuenta.cuenta.listaMesa}" var="mesa">
-                            <li>${mesa.mesa.nombre}</li>
+                        <g:each in="${listadoMesas}" var="mesa">
+                            <li>${mesa.nombre}</li>
                         </g:each>
                     </ul>
                 </div>
@@ -104,10 +104,10 @@
                         <td>${orden.cantidad}</td>
                         <td>${orden.precio}</td>
                         <td>
-                            <sec:ifAnyGranted roles="FACTURADOR">
-                            <g:link action="sacarItemCuenta" controller="cuenta"  params="[clienteCuentaId:clienteCuenta.id, idPlato:orden.plato.id]">
-                            <button type="button" id="verPerfil" class="btn  btn-danger">Eliminar</button>
-                        </g:link>
+                            <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,">
+                                <g:link action="sacarItemCuenta" controller="cuenta"  params="[clienteCuentaId:clienteCuenta.id, idPlato:orden.plato.id]">
+                                    <button type="button" id="verPerfil" class="btn  btn-danger">Eliminar</button>
+                                </g:link>
                             </sec:ifAnyGranted>
                         </td>
 

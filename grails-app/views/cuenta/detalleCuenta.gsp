@@ -36,8 +36,8 @@
                     <!-- /.box-header -->
                     <div class="box-body" style="">
                         <ul>
-                            <g:each in="${cuenta.listaMesa}" var="mesa">
-                                <li>${mesa.mesa.nombre}</li>
+                            <g:each in="${listadoMesas}" var="mesa">
+                                <li>${mesa.nombre}</li>
                             </g:each>
                         </ul>
                     </div>
@@ -88,7 +88,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <g:each in="${cuenta.listaClienteCuenta}" var="clientecuenta">
+                        <g:each in="${cuenta}" var="clientecuenta">
                             <tr>
                                 <td>${clientecuenta.nombre}</td>
                                 %{--<td>${ordenesDetalle.nombrePlato}</td>--}%
@@ -98,13 +98,19 @@
                                     %{--<input hidden="hidden" id="clienteCuenta" name="clienteCuenta" value="${clientecuenta.id}">--}%
                                     %{--<button type="submit" class="btn btn-block btn-danger btn-sm">Facturar</button>--}%
                                 %{--</g:form>--}%
-                                <g:link action="verOrdenes" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-info">Facturar</button></g:link>
+                                <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
+
+                                    <g:link action="verOrdenes" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-info">Facturar</button></g:link>
+                                </sec:ifAnyGranted>
 
 
                                 %{--<g:form action="nuevoDetalleOrden">--}%
                                         <input hidden="hidden" id="clienteCuenta" name="clienteCuenta" value="${clientecuenta.id}">
-                                        <g:link action="nuevoDetalleOrden2" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-adn">Agregar/eliminar orden a la cuenta</button></g:link>
-                                        <g:link action="separarCuenta" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-warning">Separar cuenta</button></g:link>
+                                <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
+
+                                    <g:link action="nuevoDetalleOrden2" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-adn">Agregar/eliminar orden a la cuenta</button></g:link>
+                                </sec:ifAnyGranted>
+                                        %{--<g:link action="separarCuenta" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-warning">Separar cuenta</button></g:link>--}%
 
 
                                     %{--<button type="submit" class="btn btn-block btn-danger btn-sm">Agregar Detalle Orden</button>--}%
@@ -117,6 +123,8 @@
                 </div>
                 <!-- /.col -->
             </div>
+            <g:link action="cuentasAbiertas" controller="cuenta" ><button type="button" class="btn btn-block btn-danger">Volver Atras</button></g:link>
+
 
             <!-- /.row -->
         </section>

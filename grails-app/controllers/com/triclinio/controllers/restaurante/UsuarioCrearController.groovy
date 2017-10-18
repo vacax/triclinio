@@ -7,7 +7,7 @@ import com.triclinio.domains.seguridad.UsuarioPerfil
 import grails.plugin.springsecurity.annotation.Secured
 
 
-@Secured(["ROLE_ADMIN"])
+@Secured(["ROLE_ADMIN", "ROLE_CAMARERO","ROLE_FACTURADOR","ROLE_SUPERVISOR_FACTURADOR","ROLE_SUPERVISOR_CAMARERO"])
 class UsuarioCrearController {
 
     def index() {
@@ -56,6 +56,7 @@ class UsuarioCrearController {
         println "Param"+ idUsuario
         Usuario usuario=Usuario.findById(idUsuario as Long)
 
-        [usuario: usuario]
+        java.util.List<UsuarioPerfil> usuarioPerfils=UsuarioPerfil.findAllByUsuario(usuario)
+        [usuario: usuario,usuarioPerfil:usuarioPerfils]
     }
 }

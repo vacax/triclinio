@@ -31,9 +31,7 @@
                                     <td>Fecha Creado:</td>
                                     <td>${usuario.dateCreated}</td>
                                     <input value="${usuario.id}" type="hidden"  name="idUsuario" class="form-control" id="idUsuario">
-
                                 </tr>
-
                                 </tbody>
                             </table>
 

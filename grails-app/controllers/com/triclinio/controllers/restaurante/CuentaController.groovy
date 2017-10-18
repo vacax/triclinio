@@ -18,7 +18,7 @@ import grails.plugin.springsecurity.annotation.Secured
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
-@Secured(["ROLE_ADMIN"])
+@Secured(["ROLE_ADMIN", "ROLE_CAMARERO","ROLE_FACTURADOR","ROLE_SUPERVISOR_FACTURADOR","ROLE_SUPERVISOR_CAMARERO"])
 class CuentaController {
     def clienteCuentaService
     def ordenDetalleService
@@ -37,7 +37,15 @@ class CuentaController {
         def mesasDesactivadas = Mesa.findAllByEstadoMesa(EstadoMesa.findAllByCodigo(EstadoMesa.DESACTIVADA))
         def mesas = Mesa.list()
         mesas.removeAll(mesasDesactivadas)
-        [mesas: mesas]
+        def listaMostrar = new HashSet()
+
+        mesas.each {
+            if (it.habilitado){
+                listaMostrar.add(it)
+            }
+        }
+
+        [mesas: listaMostrar]
 
     }
 
@@ -115,12 +123,12 @@ class CuentaController {
      * @param idCuenta
      * @return
      */
-    def cuentaAgregarFinalizar(Long id){
+    def cuentaAgregarFinalizar(long id){
         if(id == 0){
             redirect(action: "detalleOrdenIndex", params: [error: "Información ncomplet,,,,"])
             return
         }
-        def cuenta = Cuenta.findById(id)
+        def cuenta = Cuenta.findById(id as Long)
         //TODO: validar...
         [cuenta: cuenta]
     }
@@ -131,8 +139,8 @@ class CuentaController {
      * @param idCuenta
      * @return
      */
-    def cancelarCuentaEnProgreso(Long idCuenta){
-        Cuenta cuenta = Cuenta.get(idCuenta)
+    def cancelarCuentaEnProgreso(long idCuenta){
+        Cuenta cuenta = Cuenta.get(idCuenta as Long)
 
         cuenta.listaMesa.each {
             it.mesa.estadoMesa=EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE)
@@ -160,10 +168,38 @@ class CuentaController {
      * @param idCuenta
      * @return
      */
-    def detalleCuenta(Long idCuenta){
-        def cuenta = Cuenta.findById(idCuenta)
-        [cuenta: cuenta]
+    def detalleCuenta(long idCuenta){
+        List<ClienteCuenta> cuentaArrayList=new ArrayList<>()
+
+        def cuenta = Cuenta.findById(idCuenta as Long)
+
+        def listadoClienteCuentas = CuentaMesa.findAllByCuenta(cuenta)
+        def listadoMesas = new HashSet()
+
+        listadoClienteCuentas.each {
+            if(it.habilitado){
+                listadoMesas.add(it.mesa)
+            }
+        }
+
+        for(int i=0;i<cuenta.listaClienteCuenta.size();i++){
+
+            if(cuenta.listaClienteCuenta[i].habilitado){
+                cuentaArrayList.add(cuenta.listaClienteCuenta[i])
+            }
+        }
+//        for(ClienteCuenta clienteCuenta: cuenta.listaClienteCuenta){
+//            if(clienteCuenta.habilitado){
+//                cuentaArrayList.add(clienteCuenta: clienteCuenta)
+//                //cuenta.listaClienteCuenta.remove(clienteCuenta)
+//            }
+//        }
+        // cuenta.save(flush:true,failsOnError:true)
+        [cuenta: cuentaArrayList,listadoMesas:listadoMesas]
+
     }
+
+
 
 
     /**
@@ -199,7 +235,18 @@ class CuentaController {
                 ordenesActivas.remove(it)
             }
         }
-        [clienteCuenta:clienteCuenta, ordenesActivas: ordenesActivas]
+
+        def listadoClienteCuentas = CuentaMesa.findAllByCuenta(clienteCuenta.cuenta)
+        def listadoMesas = new HashSet()
+
+        listadoClienteCuentas.each {
+            if(it.habilitado){
+                listadoMesas.add(it.mesa)
+            }
+        }
+
+
+        [clienteCuenta:clienteCuenta, ordenesActivas: ordenesActivas, listadoMesas: listadoMesas]
     }
 
 

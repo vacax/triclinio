@@ -111,6 +111,9 @@
                                 Estado de la cuenta
                             </th>
                             <th>
+                                Mesas
+                            </th>
+                            <th>
                                 Acciones
                             </th>
                             </thead>
@@ -123,8 +126,20 @@
                                     <td><span class="label label-success">Abierta</span></td>
                                     </g:if>
                                     <td>
-                                        <g:link action="detalleCuenta" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-success">Ver detalle de la cuenta</button></g:link>
-                                        <g:link action="sacarMesaCuenta" controller="mesa"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Sacar mesa(s) de la cuenta</button></g:link>
+                                        <g:each in="${cuenta.listaMesa}" var="cuentaMesa">
+                                            <g:if test="${cuentaMesa.habilitado}">
+                                                (${cuentaMesa.mesa.nombre})
+                                            </g:if>
+                                        </g:each>
+                                    </td>
+                                    <td>
+                                        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
+                                            <g:link action="detalleCuenta" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-success">Ver detalle de la cuenta</button></g:link>
+                                        </sec:ifAnyGranted>
+                                        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
+
+                                            <g:link action="sacarMesaCuenta" controller="mesa"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Sacar mesa(s) de la cuenta</button></g:link>
+                                        </sec:ifAnyGranted>
 
                                     </td>
 
