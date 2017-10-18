@@ -18,7 +18,7 @@ import grails.plugin.springsecurity.annotation.Secured
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
-@Secured(["ROLE_ADMIN"])
+@Secured(["ROLE_ADMIN", "ROLE_CAMARERO","ROLE_FACTURADOR","ROLE_SUPERVISOR_FACTURADOR","ROLE_SUPERVISOR_CAMARERO"])
 class CuentaController {
     def clienteCuentaService
     def ordenDetalleService

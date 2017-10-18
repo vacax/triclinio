@@ -9,7 +9,7 @@ import com.triclinio.domains.restaurante.Mesa
 import com.triclinio.domains.seguridad.Usuario
 import grails.plugin.springsecurity.annotation.Secured
 
-@Secured(["ROLE_ADMIN"])
+@Secured(["ROLE_ADMIN", "ROLE_CAMARERO","ROLE_SUPERVISOR_CAMARERO"])
 class MesaController {
     def springSecurityService
 

@@ -7,7 +7,7 @@ import com.triclinio.domains.seguridad.Usuario
 import com.triclinio.domains.seguridad.UsuarioPerfil
 import grails.plugin.springsecurity.annotation.Secured
 
-@Secured(["ROLE_ADMIN"])
+@Secured(["ROLE_ADMIN", "ROLE_CAMARERO","ROLE_FACTURADOR","ROLE_SUPERVISOR_FACTURADOR","ROLE_SUPERVISOR_CAMARERO"])
 class PlatoCrearController {
 
 
