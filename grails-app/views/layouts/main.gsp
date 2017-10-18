@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Starter</title>
+    <title>Guava</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="/webjars/AdminLTE/2.4.0/bower_components/bootstrap/dist/css/bootstrap.min.css">
@@ -35,6 +35,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <g:layoutHead/>
 
+    %{-- Para incluir otras recursos.--}%
+    <g:pageProperty name="page.header"/>
 </head>
 <!--
 BODY TAG OPTIONS:
@@ -63,11 +65,11 @@ desired effect
     <header class="main-header">
 
         <!-- Logo -->
-        <a href="index.html" class="logo">
+        <a href="/" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>A</b>LT</span>
+            <span class="logo-mini"><b>G</b>FT</span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Admin</b>LTE</span>
+            <span class="logo-lg"><b>Guava</b><small> Fusión Tropical</small></span>
         </a>
 
         <!-- Header Navbar -->
@@ -326,13 +328,18 @@ desired effect
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>
-                Page Header
-                <small>Optional description</small>
-            </h1>
+            <g:pageProperty name="page.encabezado">
+                <h1>
+                    Page Header
+                    <small>Optional description</small>
+                </h1>
+            </g:pageProperty>
+
             <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
-                <li class="active">Here</li>
+                <g:pageProperty name="page.breadcrumb">
+                    <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+                    <li class="active">Here</li>
+                </g:pageProperty>
             </ol>
         </section>
 
@@ -342,7 +349,9 @@ desired effect
             <!--------------------------
         | Your Page Content Here |
         -------------------------->
+            <g:pageProperty name="page.contenido">
 
+            </g:pageProperty>
 
 
 

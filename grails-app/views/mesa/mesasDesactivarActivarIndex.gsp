@@ -34,7 +34,7 @@
                                     <g:if test="${mesa.estadoMesa.codigo == com.triclinio.domains.restaurante.EstadoMesa.DESACTIVADA}">
                                         <td><span class="label label-warning">Desactivado</span></td>
                                         <td>
-                                            <g:link action="habilitarMesa" controller="mesa"  params="[idMesa: mesa.id, ventanaNombre:'activarDesactivar']"><button type="button" class="btn btn-block btn-success">Activar</button></g:link>
+                                            <g:link action="habilitarMesa2" controller="mesa"  params="[idMesa: mesa.id, ventanaNombre:'activarDesactivar']"><button type="button" class="btn btn-block btn-success">Activar</button></g:link>
                                         </td>
                                     </g:if>
 
