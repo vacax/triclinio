@@ -36,8 +36,8 @@
                     <!-- /.box-header -->
                     <div class="box-body" style="">
                         <ul>
-                            <g:each in="${mesas}" var="mesa">
-                                <li>${mesa.mesa.nombre}</li>
+                            <g:each in="${listadoMesas}" var="mesa">
+                                <li>${mesa.nombre}</li>
                             </g:each>
                         </ul>
                     </div>
@@ -117,6 +117,8 @@
                 </div>
                 <!-- /.col -->
             </div>
+            <g:link action="cuentasAbiertas" controller="cuenta" ><button type="button" class="btn btn-block btn-danger">Volver Atras</button></g:link>
+
 
             <!-- /.row -->
         </section>

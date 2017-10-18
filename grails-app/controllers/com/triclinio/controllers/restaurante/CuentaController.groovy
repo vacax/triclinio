@@ -37,7 +37,15 @@ class CuentaController {
         def mesasDesactivadas = Mesa.findAllByEstadoMesa(EstadoMesa.findAllByCodigo(EstadoMesa.DESACTIVADA))
         def mesas = Mesa.list()
         mesas.removeAll(mesasDesactivadas)
-        [mesas: mesas]
+        def listaMostrar = new HashSet()
+
+        mesas.each {
+            if (it.habilitado){
+                listaMostrar.add(it)
+            }
+        }
+
+        [mesas: listaMostrar]
 
     }
 
@@ -115,12 +123,12 @@ class CuentaController {
      * @param idCuenta
      * @return
      */
-    def cuentaAgregarFinalizar(Long id){
+    def cuentaAgregarFinalizar(long id){
         if(id == 0){
             redirect(action: "detalleOrdenIndex", params: [error: "Información ncomplet,,,,"])
             return
         }
-        def cuenta = Cuenta.findById(id)
+        def cuenta = Cuenta.findById(id as Long)
         //TODO: validar...
         [cuenta: cuenta]
     }
@@ -131,8 +139,8 @@ class CuentaController {
      * @param idCuenta
      * @return
      */
-    def cancelarCuentaEnProgreso(Long idCuenta){
-        Cuenta cuenta = Cuenta.get(idCuenta)
+    def cancelarCuentaEnProgreso(long idCuenta){
+        Cuenta cuenta = Cuenta.get(idCuenta as Long)
 
         cuenta.listaMesa.each {
             it.mesa.estadoMesa=EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE)
@@ -160,11 +168,19 @@ class CuentaController {
      * @param idCuenta
      * @return
      */
-    def detalleCuenta(Long idCuenta){
+    def detalleCuenta(long idCuenta){
         List<ClienteCuenta> cuentaArrayList=new ArrayList<>()
 
-        def cuenta = Cuenta.findById(idCuenta)
+        def cuenta = Cuenta.findById(idCuenta as Long)
 
+        def listadoClienteCuentas = CuentaMesa.findAllByCuenta(cuenta)
+        def listadoMesas = new HashSet()
+
+        listadoClienteCuentas.each {
+            if(it.habilitado){
+                listadoMesas.add(it.mesa)
+            }
+        }
 
         for(int i=0;i<cuenta.listaClienteCuenta.size();i++){
 
@@ -178,9 +194,14 @@ class CuentaController {
 //                //cuenta.listaClienteCuenta.remove(clienteCuenta)
 //            }
 //        }
-       // cuenta.save(flush:true,failsOnError:true)
-        [cuenta: cuentaArrayList,mesas:cuenta.listaMesa]
+        // cuenta.save(flush:true,failsOnError:true)
+        [cuenta: cuentaArrayList,listadoMesas:listadoMesas]
+
     }
+
+
+
+
     /**
      * SACA UN ARTICULO DE UNA CUENTA EXISTENTE
      * @param clienteCuentaId
@@ -188,7 +209,7 @@ class CuentaController {
      * @return
      */
     def sacarItemCuenta(long clienteCuentaId,long idPlato){
-        def cliente = ClienteCuenta.get(clienteCuentaId)
+        def cliente = ClienteCuenta.get(clienteCuentaId as Long)
         cliente.listaOrdenDetalle.each {
             if(it.plato.id==idPlato){
                 it.habilitado=false
@@ -214,7 +235,18 @@ class CuentaController {
                 ordenesActivas.remove(it)
             }
         }
-        [clienteCuenta:clienteCuenta, ordenesActivas: ordenesActivas]
+
+        def listadoClienteCuentas = CuentaMesa.findAllByCuenta(clienteCuenta.cuenta)
+        def listadoMesas = new HashSet()
+
+        listadoClienteCuentas.each {
+            if(it.habilitado){
+                listadoMesas.add(it.mesa)
+            }
+        }
+
+
+        [clienteCuenta:clienteCuenta, ordenesActivas: ordenesActivas, listadoMesas: listadoMesas]
     }
 
 

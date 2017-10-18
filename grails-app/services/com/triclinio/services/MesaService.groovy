@@ -13,7 +13,7 @@ class MesaService {
 
 
    def desactivarMesa(long idMesa){
-      def mesa = Mesa.findById(idMesa)
+      def mesa = Mesa.findById(idMesa as Long)
       mesa.estadoMesa=EstadoMesa.findByCodigo(EstadoMesa.DESACTIVADA)
       mesa.historial.add(new HistorialMesa(usuario:(Usuario)springSecurityService.currentUser, descripcion: "Estado de la muestra actualizado a desactivada", fecha: new Date() ))
       mesa.save(flush: true, failOnError: true)

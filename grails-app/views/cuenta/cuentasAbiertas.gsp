@@ -111,6 +111,9 @@
                                 Estado de la cuenta
                             </th>
                             <th>
+                                Mesas
+                            </th>
+                            <th>
                                 Acciones
                             </th>
                             </thead>
@@ -122,6 +125,13 @@
                                     <g:if test="${cuenta.estadoCuenta.codigo == com.triclinio.domains.restaurante.EstadoCuenta.ABIERTO}">
                                     <td><span class="label label-success">Abierta</span></td>
                                     </g:if>
+                                    <td>
+                                        <g:each in="${cuenta.listaMesa}" var="cuentaMesa">
+                                            <g:if test="${cuentaMesa.habilitado}">
+                                                (${cuentaMesa.mesa.nombre})
+                                            </g:if>
+                                        </g:each>
+                                    </td>
                                     <td>
                                         <g:link action="detalleCuenta" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-success">Ver detalle de la cuenta</button></g:link>
                                         <g:link action="sacarMesaCuenta" controller="mesa"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Sacar mesa(s) de la cuenta</button></g:link>

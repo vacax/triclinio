@@ -49,7 +49,7 @@
                                         <td>${mesa.nombre}</td>
                                         <td><span class="label label-warning">Ocupada</span></td>
                                         <td>
-                                            <g:link action="procesarSacarMesaCuenta" controller="mesa"  params="[idMesa: mesa.id,idCuenta: cuenta.id]"><button type="button" class="btn btn-block btn-success">Desocupar</button></g:link>
+                                            <g:link action="procesarSacarMesaCuenta" controller="mesa"  params="[idMesa: mesa.id,idCuenta: cuenta.id]"><button id="sacarMesa" type="button" class="btn btn-block btn-success">Desocupar</button></g:link>
                                         </td>
                                     </tr>
                                 </g:if>
@@ -59,8 +59,11 @@
                         </table>
 
                     </div>
-                    <!-- /.box-body -->
+
+                <!-- /.box-body -->
                 </div>
+                <g:link action="cuentasAbiertas" controller="cuenta" ><button type="button" class="btn btn-block btn-danger">Volver Atras</button></g:link>
+
 
 
             </g:form>
@@ -71,6 +74,19 @@
     <!-- /.row -->
 
 </section>
+<script type="text/javascript">
+    $(function()
+    {
+        var T = document.getElementById('example');
+        var rows =$(T).find('> tbody > tr').length;
+        //AL CARGAR LA VENTANA
+        if (rows==2) {
+            $('#sacarMesa').each(function(){
+                $('#sacarMesa').prop("disabled", true);
+            })
+        }
+    });
+</script>
 </body>
 
 </html>

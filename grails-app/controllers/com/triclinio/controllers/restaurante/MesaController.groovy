@@ -121,13 +121,51 @@ class MesaController {
 
 
     def historialMesaIndex(){
+        def mesas = Mesa.list()
+        def listaMostrar = new HashSet()
 
-        [mesas:Mesa.list()]
+        mesas.each {
+            if (it.habilitado){
+                listaMostrar.add(it)
+            }
+        }
+
+
+        [mesas:listaMostrar]
     }
 
     def mesaHistorial(long idMesa){
         def mesa = Mesa.get(idMesa)
         [notificaciones:mesa.historial]
     }
+
+
+    def crearMesaIndex(){
+
+        [listadoMesas: Mesa.findAllByHabilitado(true)]
+    }
+
+    def crearMesa(){
+
+    }
+
+    def procesarNuevaMesa(){
+        def mesa = new Mesa()
+        mesa.nombre = params.get("nombreMesa")
+        mesa.numeroMesa = (params.get("numeroMesa") as int)
+        mesa.estadoMesa = EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE)
+        mesa.save(flush:true, failOnError:true)
+        redirect(action: "crearMesaIndex")
+    }
+
+    def eliminarMesa(long idMesa){
+        def mesa = Mesa.get(idMesa as Long)
+        mesa.habilitado=false;
+        mesa.save(flush:true, failOnError:true)
+        redirect(action: "crearMesaIndex")
+
+    }
+
+
 
 }

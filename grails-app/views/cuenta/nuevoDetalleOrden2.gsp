@@ -31,8 +31,8 @@
                 </div>
                 <div class="box-body" style="">
                     <ul>
-                        <g:each in="${clienteCuenta.cuenta.listaMesa}" var="mesa">
-                            <li>${mesa.mesa.nombre}</li>
+                        <g:each in="${listadoMesas}" var="mesa">
+                            <li>${mesa.nombre}</li>
                         </g:each>
                     </ul>
                 </div>
