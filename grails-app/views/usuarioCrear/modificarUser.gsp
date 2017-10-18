@@ -34,9 +34,9 @@
     <g:form action="nuevoUsuario">
         <div class="box-body">
             <div style="margin-bottom:5%" class="form-group">
-                <label for="inputEmail3" class="col-sm-2 control-label">Username</label>
+                <label for="inputEmail3" class="col-sm-2 control-label">Nombre Usuario</label>
                 <div class="col-sm-10">
-                    <input value="${usuario.username}" style="border: 1px solid cornflowerblue;" type="text" name="username" class="form-control" id="inputEmail3" placeholder="Email">
+                    <input value="${usuario.username}" style="border: 1px solid cornflowerblue;" type="text" name="username" class="form-control" id="inputEmail3" placeholder="usuario">
                 </div>
             </div>
 
@@ -57,7 +57,7 @@
                 <label  class="col-sm-2 control-label">Rol</label>
                 <div class="col-sm-10">
 
-                    <select value="${usuarioPerfil.perfil}" style="background-color: #bbbdff" name="SeleccionarRol"  id="SeleccionarRol"  class="selectpicker form-control" multiple>
+                    <select value="${usuarioPerfil.authority}" style="background-color: #bbbdff" name="SeleccionarRol"  id="SeleccionarRol"  class="selectpicker form-control" multiple>
 
                         <option value="ROLE_ADMIN">admin</option>
                         <option value="ROLE_CAMARERO">camarero</option>

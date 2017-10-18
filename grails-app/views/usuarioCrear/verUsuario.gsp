@@ -24,19 +24,25 @@
                             <table class="table table-user-information">
                                 <tbody>
                                 <tr>
-                                    <td>Username:</td>
+                                    <td><b>Username:</b></td>
                                     <td>${usuario.username}</td>
                                 </tr>
                                 <tr>
-                                    <td>Fecha Creado:</td>
+                                    <td><b>Fecha Creado:</b></td>
                                     <td>${usuario.dateCreated}</td>
                                     <input value="${usuario.id}" type="hidden"  name="idUsuario" class="form-control" id="idUsuario">
+                                </tr>
+                                <tr>
+                                    <td><b>Roles: </b></td>
+                                <g:each in="${listaPerfil}" var="perfil">
+                                        <td>${perfil.authority}</td>
+                                </g:each>
                                 </tr>
                                 </tbody>
                             </table>
 
                             <a href="/usuarioCrear/index/" class="btn btn-primary">Ver lista Usuarios</a>
-                            <a href="/usuarioCrear/modificarUser/${usuario.id}" disabled="true" class="btn btn-primary">Editar</a>
+                            <a href="/usuarioCrear/modificarUser/${usuario.id}"  disabled="true" class="btn btn-primary">Editar</a>
                         </div>
                     </div>
                 </div>

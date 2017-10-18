@@ -36,8 +36,6 @@
             <button type="submit" class="btn btn-info pull-right">Crear</button>
         </div><!-- /.box-footer -->
     </g:form>
-
-
 </div>
 
 </body>

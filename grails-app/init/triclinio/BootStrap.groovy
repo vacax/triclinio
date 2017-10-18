@@ -23,7 +23,7 @@ class BootStrap {
             Perfil perfil = new Perfil(authority: "ROLE_ADMIN").save(flush: true, failOnError: true)
 
             UsuarioPerfil.create(usuario, perfil)
-            new Requestmap(url: "/**", configAttribute: "ROLE_ADMIN").save(flush: true, failOnError: true)
+//            new Requestmap(url: "/**", configAttribute: "ROLE_ADMIN").save(flush: true, failOnError: true)
 
             new Perfil(authority: "ROLE_CAMARERO").save(flush: true, failOnError: true)
             new Perfil(authority: "ROLE_FACTURADOR").save(flush: true, failOnError: true)

@@ -58,7 +58,10 @@ class UsuarioCrearController {
         def idUsuario=params.get("id")
         Usuario usuario=Usuario.findById(idUsuario as Long)
 
-        [usuario:usuario]
+        def perfiles=UsuarioPerfil.findAllByUsuario(usuario).perfil
+
+
+        [usuario:usuario,listaPerfil: perfiles]
     }
 
     def modificarUser(){
@@ -66,8 +69,8 @@ class UsuarioCrearController {
 
         println "Param"+ idUsuario
         Usuario usuario=Usuario.findById(idUsuario as Long)
+        def perfiles=UsuarioPerfil.findAllByUsuario(usuario).perfil
 
-        java.util.List<UsuarioPerfil> usuarioPerfils=UsuarioPerfil.findAllByUsuario(usuario)
-        [usuario: usuario,usuarioPerfil:usuarioPerfils]
+        [usuario: usuario,usuarioPerfil:perfiles.get(0)]
     }
 }

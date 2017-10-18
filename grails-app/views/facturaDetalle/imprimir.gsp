@@ -190,34 +190,6 @@
 
 <section class="content">
     <div class="row">
-        <div class="col-md-6">
-            <div class="panel panel-default" style="height:503px;">
-                <div class="panel-heading"> Comida</div>
-                <div class="panel-body">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                        <tr>
-                            <th class="bg-info">#</th>
-                            <th class="bg-info">Comida</th>
-                            <th class="bg-info">Cantidad</th>
-                            <th class="bg-info">Precio/Unidad</th>
-                        </tr>
-                        </thead>
-
-                        <tbody>
-                        <g:each in="${factura.listaFacturaDetalle}" var="fac">
-                            <tr>
-                                <td>${fac.id}</td>
-                                <td>${fac.ordenDetalle.nombrePlato}</td>
-                                <td>${fac.ordenDetalle.cantidad}</td>
-                                <td>${fac.ordenDetalle.precio}</td>
-                            </tr>
-                        </g:each>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
 
 
         <div class="col-md-6">
@@ -285,12 +257,43 @@
                             <g:form  action="imprimirFactura" id="${factura.id}" value="id=${factura.id}">
                                 <button type="submit" id="imprimirFacturar"  class="btn btn-primary btn-block btn-lng">Imprimir</button>
                             </g:form>
-                            
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-default" style="height:503px;">
+                <div class="panel-heading"> Comida</div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th class="bg-info">#</th>
+                            <th class="bg-info">Comida</th>
+                            <th class="bg-info">Cantidad</th>
+                            <th class="bg-info">Precio/Unidad</th>
+                        </tr>
+                        </thead>
+
+                        <tbody>
+                        <g:each in="${factura.listaFacturaDetalle}" var="fac">
+                            <tr>
+                                <td>${fac.id}</td>
+                                <td>${fac.ordenDetalle.nombrePlato}</td>
+                                <td>${fac.ordenDetalle.cantidad}</td>
+                                <td>${fac.ordenDetalle.precio}</td>
+                            </tr>
+                        </g:each>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
     </div>
 </section>
 
