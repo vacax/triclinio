@@ -1,23 +1,11 @@
-<!DOCTYPE html>
-<meta name="layout" content="main"/>
+<%@ page import="com.triclinio.domains.restaurante.EstadoMesa; com.triclinio.domains.restaurante.Cuenta" %>
+<!doctype html>
 <html>
 <head>
     <meta name="layout" content="main"/>
     <title>Bienvenido...</title>
-    <link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-            $('#example').dataTable({
-
-            });
-
-        });
-    </script>
-
+    <asset:link rel="icon" href="favicon.ico" type="image/x-ico" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 </head>
@@ -35,14 +23,14 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body table-responsive no-padding">
-                            <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                            <table class="table table-hover">
                                 <tbody><tr>
                                     <th>MARQUE</th>
                                     <th>NOMBRE DE LA MESA</th>
                                     <th>ESTADO</th>
                                 </tr>
-                                <g:each in="${mesas}" var="mesa">
-                                        <tr>
+                                <g:each in="${com.triclinio.domains.restaurante.Mesa.findAll()}" var="mesa">
+                                    <tr>
                                         <td>
                                             <span>
                                                 <g:if test="${mesa.estadoMesa.codigo == 1000}">
@@ -55,7 +43,7 @@
                                             </span>
                                         </td>
                                         <td>${mesa.nombre}</td>
-                                        <g:if test="${mesa.estadoMesa.codigo == com.triclinio.domains.restaurante.EstadoMesa.OCUPADA}">
+                                        <g:if test="${mesa.estadoMesa.codigo == EstadoMesa.OCUPADA}">
                                             <td><span class="label label-warning">Ocupada</span></td>
                                         </g:if>
                                         <g:if test="${mesa.estadoMesa.codigo == com.triclinio.domains.restaurante.EstadoMesa.DISPONIBLE}">

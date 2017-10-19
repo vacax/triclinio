@@ -144,10 +144,12 @@
     <div class="row">
         <div class="row">
             <div    class="col-xs-8">
-                <g:form action="imprimir" id="${factura.id}" value="id=${factura.id}">
-                    <button type="submit"  class="btn btn-primary btn-lg">Imprimir Factura</button>
-                </g:form>
-            <!-- /.box -->
+                <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
+
+                    <g:link action="imprimirPreCuenta" controller="facturaDetalle"  params="[idFactura: factura.id]"><button type="button" class="btn btn-info">Imprimir</button></g:link>
+
+                </sec:ifAnyGranted>
+
             </div>
         </div>
     </div>

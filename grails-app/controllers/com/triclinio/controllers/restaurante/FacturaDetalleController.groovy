@@ -68,40 +68,19 @@ class FacturaDetalleController {
         factura.setEstadoFactura(EstadoFactura.findById(1000))
         factura.save(flush: true, failOnError: true)
 
-        def idClienteCuenta = ordenDetalles.get(0).clienteCuenta.id
-        def idCuenta = ordenDetalles.get(0).clienteCuenta.cuenta.id
-
-
-        for (OrdenDetalle ordenDetalle : ordenDetalles) {
-            ordenDetalle.clienteCuenta.habilitado = false
-
-//                if(ordenDetalle.clienteCuenta.cuenta.listaClienteCuenta.size())
-//                ordenDetalle.clienteCuenta.cuenta.setEstadoCuenta(EstadoCuenta.findById(2))
-            ordenDetalle.save(flush: true, failOnError: true)
-        }
-
-        ClienteCuenta clienteCuenta = ClienteCuenta.findById(idClienteCuenta)
-        clienteCuenta.habilitado = false
-        clienteCuenta.save(flush: true, failOnError: true)
-
-        println "Size cuenta" + Cuenta.findById(idCuenta).listaClienteCuenta.size()
-        boolean habilitado = false
-
-        for (ClienteCuenta clienteCuenta1 : Cuenta.findById(idCuenta).listaClienteCuenta)
-            if (clienteCuenta1.habilitado) {
-                habilitado = true
-                break
-            }
-
-        if (!habilitado) {
-            Cuenta cuenta = Cuenta.findById(idCuenta)
-            cuenta.setEstadoCuenta(EstadoCuenta.findByCodigo(EstadoCuenta.CERRADA))
-            cuenta.save(flush: true, failOnError: true)
-        }
 
         render factura.id
     }
 
+    def imprimirPreCuenta(long idFactura){
+        Factura factura = Factura.findById(idFactura)
+
+
+      //  matricialService.generarFactura(factura.id)
+        println "Impuesto "+factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id
+
+        redirect(uri:"/cuenta/detalleCuenta?idFactura="+factura.id+"&idCuenta="+factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id)
+    }
 
     def facturar(){
         def idParam=params.factura
@@ -118,16 +97,14 @@ class FacturaDetalleController {
         [facturaDetalles:facturaDetalles,factura:factura]
     }
 
-    def imprimir(){
-        def idParametro=params.id
-        def idFactura=idParametro.toString()
+    def imprimir(long idFactura){
 
         println "Ver:"+idFactura
-
-        Factura factura=Factura.findById(idFactura as Long)
+        Factura factura=Factura.findById(idFactura)
 
         [factura: factura]
     }
+
 
     def imprimirFactura(long id){
         /*def idParametro=params.id
@@ -136,7 +113,35 @@ class FacturaDetalleController {
         Factura factura=Factura.findById(id)
         factura.setEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA))
 
-        matricialService.generarFactura(factura.id)
+       // matricialService.generarFactura(factura.id)
+
+
+        def idClienteCuenta = factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.id
+        def idCuenta =factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id
+
+        for (OrdenDetalle ordenDetalle : factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.listaOrdenDetalle) {
+            ordenDetalle.clienteCuenta.habilitado = false
+            ordenDetalle.save(flush: true, failOnError: true)
+        }
+//
+        ClienteCuenta clienteCuenta = ClienteCuenta.findById(idClienteCuenta)
+        clienteCuenta.habilitado = false
+        clienteCuenta.save(flush: true, failOnError: true)
+//
+//        println "Size cuenta" + Cuenta.findById(idCuenta).listaClienteCuenta.size()
+        boolean habilitado = false
+//
+        for (ClienteCuenta clienteCuenta1 : Cuenta.findById(idCuenta).listaClienteCuenta)
+            if (clienteCuenta1.habilitado) {
+                habilitado = true
+                break
+            }
+//
+        if (!habilitado) {
+            Cuenta cuenta = Cuenta.findById(idCuenta)
+            cuenta.setEstadoCuenta(EstadoCuenta.findByCodigo(EstadoCuenta.CERRADA))
+            cuenta.save(flush: true, failOnError: true)
+        }
 
         redirect(uri:"/cuenta/cuentasAbiertas")
     }

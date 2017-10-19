@@ -13,6 +13,8 @@ import com.triclinio.domains.restaurante.Mesa
 import com.triclinio.domains.restaurante.OrdenDetalle
 import com.triclinio.domains.restaurante.Plato
 import com.triclinio.domains.seguridad.Usuario
+import com.triclinio.domains.venta.EstadoFactura
+import com.triclinio.domains.venta.Factura
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import groovy.json.JsonOutput
@@ -171,10 +173,12 @@ class CuentaController {
     def detalleCuenta(long idCuenta){
         List<ClienteCuenta> cuentaArrayList=new ArrayList<>()
 
+
         def cuenta = Cuenta.findById(idCuenta as Long)
 
         def listadoClienteCuentas = CuentaMesa.findAllByCuenta(cuenta)
         def listadoMesas = new HashSet()
+        Factura factura=Factura.findById(params.get("idFactura") as Long)
 
         listadoClienteCuentas.each {
             if(it.habilitado){
@@ -188,19 +192,11 @@ class CuentaController {
                 cuentaArrayList.add(cuenta.listaClienteCuenta[i])
             }
         }
-//        for(ClienteCuenta clienteCuenta: cuenta.listaClienteCuenta){
-//            if(clienteCuenta.habilitado){
-//                cuentaArrayList.add(clienteCuenta: clienteCuenta)
-//                //cuenta.listaClienteCuenta.remove(clienteCuenta)
-//            }
-//        }
-        // cuenta.save(flush:true,failsOnError:true)
-        [cuenta: cuentaArrayList,listadoMesas:listadoMesas]
+
+
+        [cuenta: cuentaArrayList,listadoMesas:listadoMesas,factura:factura]
 
     }
-
-
-
 
     /**
      * SACA UN ARTICULO DE UNA CUENTA EXISTENTE

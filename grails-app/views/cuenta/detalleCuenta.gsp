@@ -99,8 +99,11 @@
                                     %{--<button type="submit" class="btn btn-block btn-danger btn-sm">Facturar</button>--}%
                                 %{--</g:form>--}%
                                 <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
-
-                                    <g:link action="verOrdenes" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-info">Facturar</button></g:link>
+                                    %{--<g:if test="${factura}">--}%
+                                    %{--<g:if test="${factura.estadoFactura.codigo != 1000}">--}%
+                                    <g:link action="verOrdenes" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-info">Pre Cuenta</button></g:link>
+                                    %{--</g:if>--}%
+                                    %{--</g:if>--}%
                                 </sec:ifAnyGranted>
 
 
@@ -112,7 +115,14 @@
                                 </sec:ifAnyGranted>
                                         %{--<g:link action="separarCuenta" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-warning">Separar cuenta</button></g:link>--}%
 
+                                <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
 
+                                    <g:if test="${factura}">
+                                        <g:if test="${factura.estadoFactura.codigo == 1000}">
+                                        <g:link action="imprimir" controller="facturaDetalle"  params="[idFactura: factura.id]"><button type="button" class="btn btn-info">Pagar</button></g:link>
+                                    </g:if>
+                                    </g:if>
+                                </sec:ifAnyGranted>
                                     %{--<button type="submit" class="btn btn-block btn-danger btn-sm">Agregar Detalle Orden</button>--}%
                                     %{--</g:form>--}%
                                 </td>
