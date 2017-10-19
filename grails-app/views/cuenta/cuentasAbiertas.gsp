@@ -148,7 +148,7 @@
                                     </sec:ifAnyGranted>
                                     <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
 
-                                        <g:link action="imprimirComanda" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Reimprimir comanda</button></g:link>
+                                        <g:link action="reImprimirComanda" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Reimprimir comanda</button></g:link>
 
                                     </sec:ifAnyGranted>
                                     </td>

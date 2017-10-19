@@ -256,6 +256,13 @@ class CuentaController {
         redirect(action: "cuentasAbiertas")
     }
 
+    def reImprimirComanda(long idCuenta){
+        println(idCuenta)
+        matricialService.generarComandaCocina(idCuenta, true, true)
+        matricialService.generarComandaCocina(idCuenta, false, true)
+        redirect(action: "cuentasAbiertas")
+    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

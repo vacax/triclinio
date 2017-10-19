@@ -189,7 +189,7 @@ class MatricialService {
         }
     }
 
-    public void generarComandaCocina(long cuentaId, boolean platosComanda) {
+    public void generarComandaCocina(long cuentaId, boolean platosComanda, boolean reimprimir=false) {
 
         Cuenta cuenta = Cuenta.get(cuentaId)
         boolean clienteNotieneNuevoItem = true;
@@ -236,14 +236,15 @@ class MatricialService {
                 bufferedWriter.newLine()
                 bufferedWriter.write("------------------------------------------")
                 bufferedWriter.newLine()
-                OrdenDetalle.findAllByClienteCuentaAndHabilitado(it, true).each {
-                    if(!it.impreso && it.plato.comanda == platosComanda){
-                        bufferedWriter.write(StringUtils.rightPad(it.plato.nombre, CANTIDAD_COLUMNAS_POS_42))
+                OrdenDetalle.findAllByClienteCuentaAndHabilitado(it, true).each { od->
+
+                    if ((!od.impreso || reimprimir) && od.plato.comanda == platosComanda) {
+                        bufferedWriter.write(StringUtils.rightPad(od.plato.nombre, CANTIDAD_COLUMNAS_POS_42))
                         bufferedWriter.newLine()
-                        bufferedWriter.write(StringUtils.rightPad("                "+it.cantidad as String, CANTIDAD_COLUMNAS_POS_42))
+                        bufferedWriter.write(StringUtils.rightPad("                " + od.cantidad as String, CANTIDAD_COLUMNAS_POS_42))
                         bufferedWriter.newLine()
-                        it.impreso=true
-                        it.save(flush:true,failOnError:true)
+                        od.impreso = true
+                        od.save(flush: true, failOnError: true)
                         clienteNotieneNuevoItem = false
                     }
 
