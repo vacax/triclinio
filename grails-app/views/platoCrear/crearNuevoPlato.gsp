@@ -49,7 +49,7 @@
                 <label  class="col-sm-2 control-label">Comanda</label>
                 <div class="col-sm-10">
                     <div class="checkbox">
-                      <input type="checkbox" name="comanda" required  id="comanda" placeholder="comanda">
+                      <input type="checkbox" name="comanda"  id="comanda" placeholder="comanda">
                     </div>
                 </div>
             </div>
