@@ -60,11 +60,12 @@ class BootStrap {
         Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE) ?: new Parametro(codigo: Parametro.APP_NOMBRE_RESTAURANTE, nombre: "APP_NOMBRE_RESTAURANTE", valor: "GUAVA").save(flush: true, failOnError: true)
 
         //
-        Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_1) ?: new Parametro(codigo: Parametro.TICKET_ENCABEZADO_1, nombre: "TICKET_ENCABEZADO_1", valor: "Completar #1").save(flush: true, failOnError: true)
-        Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_2) ?: new Parametro(codigo: Parametro.TICKET_ENCABEZADO_2, nombre: "TICKET_ENCABEZADO_2", valor: "Completar #2").save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_1) ?: new Parametro(codigo: Parametro.TICKET_ENCABEZADO_1, nombre: "TICKET_ENCABEZADO_1", valor: "PUCMM - ADH").save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_2) ?: new Parametro(codigo: Parametro.TICKET_ENCABEZADO_2, nombre: "TICKET_ENCABEZADO_2", valor: "SANTIAGO, R.D.").save(flush: true, failOnError: true)
         Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_3) ?: new Parametro(codigo: Parametro.TICKET_ENCABEZADO_3, nombre: "TICKET_ENCABEZADO_3", valor: "Completar #3").save(flush: true, failOnError: true)
         Parametro.findByCodigo(Parametro.TICKET_PIEPAG_1) ?: new Parametro(codigo: Parametro.TICKET_PIEPAG_1, nombre: "TICKET_PIEPAG_1", valor: "Completar pie #1").save(flush: true, failOnError: true)
         Parametro.findByCodigo(Parametro.TICKET_PIEPAG_2) ?: new Parametro(codigo: Parametro.TICKET_PIEPAG_2, nombre: "TICKET_PIEPAG_2", valor: "Completar pie #2").save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.COMANDA_ENCABEZADO_3) ?: new Parametro(codigo: Parametro.COMANDA_ENCABEZADO_3, nombre: "COMANDA_ENCABEZADO_3", valor: "COMANDA").save(flush: true, failOnError: true)
 
         //Estado Mesa.
         EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE) ?:new EstadoMesa(codigo: EstadoMesa.DISPONIBLE,nombre: "Disponible").save(flush: true, failOnError: true)
