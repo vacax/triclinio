@@ -250,7 +250,7 @@ class CuentaController {
 
     def imprimirComanda(long idCuenta){
         println(idCuenta)
-        //matricialService.generarComandaCocina(idCuenta)
+        matricialService.generarComandaCocina(idCuenta)
         redirect(action: "cuentasAbiertas")
     }
 
