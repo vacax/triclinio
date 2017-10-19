@@ -108,7 +108,7 @@ class FacturaDetalleController {
 
 
     def historialFacturas(){
-        def facturas=Factura.findAllByEstadoFactura(EstadoFactura.findById(1002))
+        def facturas=Factura.findAllByEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
         [facturas: facturas]
     }
 
@@ -125,7 +125,6 @@ class FacturaDetalleController {
             ordenDetalle.save(flush: true, failOnError: true)
         }
 
-        factura.delete()
         redirect(uri:"/cuenta/cuentasAbiertas")
     }
 

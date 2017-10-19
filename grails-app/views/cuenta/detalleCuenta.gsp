@@ -98,9 +98,11 @@
                                     %{--<input hidden="hidden" id="clienteCuenta" name="clienteCuenta" value="${clientecuenta.id}">--}%
                                     %{--<button type="submit" class="btn btn-block btn-danger btn-sm">Facturar</button>--}%
                                 %{--</g:form>--}%
+
                                 <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
                                     %{--<g:if test="${factura}">--}%
                                     %{--<g:if test="${factura.estadoFactura.codigo != 1000}">--}%
+
                                     <g:link action="verOrdenes" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-info">Pre Cuenta</button></g:link>
                                     %{--</g:if>--}%
                                     %{--</g:if>--}%
@@ -118,7 +120,7 @@
                                 <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
 
                                     <g:if test="${factura}">
-                                        <g:if test="${factura.estadoFactura.codigo == 1000}">
+                                        <g:if test="${factura.estadoFactura.codigo == 1001}">
                                         <g:link action="imprimir" controller="facturaDetalle"  params="[idFactura: factura.id]"><button type="button" class="btn btn-info">Pagar</button></g:link>
                                     </g:if>
                                     </g:if>
