@@ -15,6 +15,11 @@ class Parametro {
     final static int TICKET_PIEPAG_1 = 1008
     final static int TICKET_PIEPAG_2 = 1009
 
+    final static int CANTIDAD_COMANDA = 1010
+    final static int CANTIDAD_FACTURA = 1012
+    final static int CANTIDAD_PRECUENTA = 1013
+
+
 
 
     //TICKET COMANDA

@@ -68,6 +68,12 @@ class BootStrap {
         Parametro.findByCodigo(Parametro.COMANDA_ENCABEZADO_3) ?: new Parametro(codigo: Parametro.COMANDA_ENCABEZADO_3, nombre: "COMANDA_ENCABEZADO_3", valor: "COMANDA").save(flush: true, failOnError: true)
         Parametro.findByCodigo(Parametro.PRECUENTA_ENCABEZADO_3) ?: new Parametro(codigo: Parametro.PRECUENTA_ENCABEZADO_3, nombre: "PRECUENTA_ENCABEZADO_3", valor: "PRECUENTA").save(flush: true, failOnError: true)
 
+        Parametro.findByCodigo(Parametro.CANTIDAD_COMANDA) ?: new Parametro(codigo: Parametro.CANTIDAD_COMANDA, nombre: "CANTIDAD_COMANDA", valor: 3).save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.CANTIDAD_FACTURA) ?: new Parametro(codigo: Parametro.CANTIDAD_FACTURA, nombre: "CANTIDAD_FACTURA", valor: 2).save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.CANTIDAD_PRECUENTA) ?: new Parametro(codigo: Parametro.CANTIDAD_PRECUENTA, nombre: "CANTIDAD_PRECUENTA", valor: 1).save(flush: true, failOnError: true)
+
+
+
 
         //Estado Mesa.
         EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE) ?:new EstadoMesa(codigo: EstadoMesa.DISPONIBLE,nombre: "Disponible").save(flush: true, failOnError: true)

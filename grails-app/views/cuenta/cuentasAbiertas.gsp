@@ -141,6 +141,9 @@
                                             <g:link action="sacarMesaCuenta" controller="mesa"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Sacar mesa(s) de la cuenta</button></g:link>
                                         </sec:ifAnyGranted>
 
+                                        <g:link action="detalleOrdenIndex" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Agregar nuevo cliente</button></g:link>
+
+
                                     </td>
 
                                 </tr>
