@@ -179,7 +179,14 @@ class MatricialService {
                 }
                 clienteNotieneNuevoItem = true
                 bufferedWriter.newLine()
-                bufferedWriter.write("Comentario: "+it.comentario)
+                if(it.comentario!=null){
+                    bufferedWriter.write("Comentario: "+it.comentario)
+                }
+                else{
+                    bufferedWriter.write("Comentario: No existen comentarios.")
+
+                }
+
                 bufferedWriter.newLine()
 
 
