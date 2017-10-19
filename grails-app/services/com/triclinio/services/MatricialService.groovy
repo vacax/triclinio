@@ -305,6 +305,7 @@ class MatricialService {
 
         Cuenta cuenta = Cuenta.get(cuentaId)
         boolean clienteNotieneNuevoItem = true;
+        boolean tieneRegistro=false
 
         String nombreRest = Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE).valor
         try {
@@ -365,6 +366,7 @@ class MatricialService {
                             od.impreso = true
                             od.save(flush: true, failOnError: true)
                             clienteNotieneNuevoItem = false
+                            tieneRegistro=true;
                         }
 
                     }
@@ -414,7 +416,9 @@ class MatricialService {
             println("Salida Comanda: "+tmp);
             //El nombre de la cola sera la caja.
             //TODO: parametrizar cola
-            brokerJmsService.enviarMensaje(Parametro.findByCodigo(Parametro.JMS_COLA).valor, tmp);
+            if(tieneRegistro) {
+                brokerJmsService.enviarMensaje(Parametro.findByCodigo(Parametro.JMS_COLA).valor, tmp);
+            }
 
             file.delete()
         } catch (IOException e) {
