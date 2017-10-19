@@ -2,7 +2,6 @@ package com.triclinio.controllers.restaurante
 
 import com.triclinio.commands.restaurant.OrdenDetalleCuentaForm
 import com.triclinio.commands.restaurant.UpdateOrdenDetalleCuenta
-import com.triclinio.domains.configuracion.Parametro
 import com.triclinio.domains.cxc.Cliente
 import com.triclinio.domains.restaurante.ClienteCuenta
 import com.triclinio.domains.restaurante.Cuenta
@@ -118,7 +117,8 @@ class CuentaController {
         ordenDetalleService.updateProcesarOrdenDetalle(form,clienteCuenta)
 
         println("Nuevo detalle orden agregada!")
-        matricialService.generarComandaCocina(clienteCuenta.cuenta.id)
+        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, true)
+        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, false)
 
 
         render clienteCuenta.cuenta as JSON
@@ -251,7 +251,8 @@ class CuentaController {
 
     def imprimirComanda(long idCuenta){
         println(idCuenta)
-//        matricialService.generarComandaCocina(idCuenta)
+        matricialService.generarComandaCocina(idCuenta, true)
+        matricialService.generarComandaCocina(idCuenta, false)
         redirect(action: "cuentasAbiertas")
     }
 
@@ -282,12 +283,6 @@ class CuentaController {
 
         [listaOrdenDetalle: listaOrdenDetalle, clienteCuentaId: clienteCuenta]
     }
-
-    def agregarNuevoCliente(long idCuenta){
-        redirect(action: "detalleOrdenIndex" ,params:[idCuenta=idCuenta])
-//        redirect(uri:"/cuenta/detalleOrdenIndex?idCuenta="+cuenta.id)
-    }
-
 
 
 
