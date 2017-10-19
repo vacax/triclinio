@@ -3,6 +3,7 @@ package com.triclinio.domains.restaurante
 class Plato {
 
     String nombre
+    String alias
     BigDecimal precio
     boolean comanda
     CategoriaPlato categoriaPlato
@@ -18,6 +19,7 @@ class Plato {
 
 
     static constraints = {
+        alias(nullable: true)
     }
 
     static mapping = {
