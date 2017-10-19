@@ -19,7 +19,8 @@ class PlatoCrearController {
     }
 
     def crearNuevoPlato(){
-        [listaCategoriaPlato :  CategoriaPlato.findAllByHabilitado(true)]
+        def lista = CategoriaPlato.findAllByHabilitado(true)
+        [listaCategoriaPlato :  lista]
     }
 
     def nuevoPlato(String nombrePlato, String precioPlato, boolean comanda){
