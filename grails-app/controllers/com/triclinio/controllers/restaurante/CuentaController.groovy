@@ -165,7 +165,7 @@ class CuentaController {
      * @return
      */
     def cuentasAbiertas(){
-        def cuentasAbiertas = Cuenta.findAllByEstadoCuenta(EstadoCuenta.findByCodigo(EstadoCuenta.ABIERTO))
+        def cuentasAbiertas = Cuenta.findAllByEstadoCuentaAndHabilitado(EstadoCuenta.findByCodigo(EstadoCuenta.ABIERTO), true)
         [cuentasAbiertas:cuentasAbiertas]
     }
 

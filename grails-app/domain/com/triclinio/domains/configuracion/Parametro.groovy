@@ -19,6 +19,7 @@ class Parametro {
 
     //TICKET COMANDA
     final static int COMANDA_ENCABEZADO_3 = 1010
+    final static int PRECUENTA_ENCABEZADO_3 = 1011
 
 
 
