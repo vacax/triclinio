@@ -340,7 +340,9 @@ class MatricialService {
             def listaCategoria = CategoriaPlato.findAllByHabilitado(true);
             listaCategoria.each { cat ->
 
+                println("La categoria: "+cat.nombre)
                 def listaDetalle = OrdenDetalle.executeQuery("from OrdenDetalle o where o.plato.categoriaPlato.id = :categoria and o.clienteCuenta.cuenta.id=:cuentaId", [categoria : cat.id, cuentaId: cuenta.id])
+                println("el detalle seleccionado: "+listaDetalle?.size())
 
                 if(!listaDetalle.isEmpty()) {
                     bufferedWriter.write("------------------------------------------")
@@ -356,7 +358,7 @@ class MatricialService {
                     listaDetalle.each { od ->
 
                         if ((!od.impreso || reimprimir) && od.plato.comanda == platosComanda) {
-                            bufferedWriter.write(StringUtils.rightPad(od.plato.nombre, CANTIDAD_COLUMNAS_POS_42))
+                            bufferedWriter.write(StringUtils.rightPad("${od.plato.nombre} - (${od.plato.alias})", CANTIDAD_COLUMNAS_POS_42))
                             bufferedWriter.newLine()
                             bufferedWriter.write(StringUtils.rightPad("                " + od.cantidad as String, CANTIDAD_COLUMNAS_POS_42))
                             bufferedWriter.newLine()
@@ -367,11 +369,11 @@ class MatricialService {
 
                     }
                 }
-                if(clienteNotieneNuevoItem){
+               /* if(clienteNotieneNuevoItem){
                     bufferedWriter.newLine()
                     bufferedWriter.write("Este cliente no realizo un nuevo pedido!")
                     bufferedWriter.newLine()
-                }
+                }*/
 
                 clienteNotieneNuevoItem = true
                 bufferedWriter.newLine()

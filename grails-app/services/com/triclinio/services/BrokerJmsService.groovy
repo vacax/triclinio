@@ -22,6 +22,12 @@ class BrokerJmsService {
      */
     public void enviarMensaje(String cola, String mensajeEnviar) throws JMSException {
 
+        String habilitado = Parametro.findByCodigo(Parametro.JMS_HABILITAR).valor
+        if(habilitado != "1"){
+            println("Parametro JMS HABILITADO NO DISPONIBLE")
+           return;
+        }
+
         /*String url = Parametro.encontrarParametroPorEmpresa(Parametro.JMS_URL, null)?.valor;
         String usuario = Parametro.encontrarParametroPorEmpresa(Parametro.JMS_USUARIO, null)?.valor;
         String password = Parametro.encontrarParametroPorEmpresa(Parametro.JMS_PASSWORD, null)?.valor;*/

@@ -56,6 +56,7 @@ class BootStrap {
         Parametro.findByCodigo(Parametro.JMS_COLA) ?: new Parametro(codigo: Parametro.JMS_COLA, nombre: "JMS_COLA", valor: "triclinio.caja").save(flush: true, failOnError: true)
         Parametro.findByCodigo(Parametro.JMS_USUARIO) ?: new Parametro(codigo: Parametro.JMS_USUARIO, nombre: "JMS_USUARIO", valor: "admin").save(flush: true, failOnError: true)
         Parametro.findByCodigo(Parametro.JMS_PASSWORD) ?: new Parametro(codigo: Parametro.JMS_PASSWORD, nombre: "JMS_PASSWORD", valor: "admin").save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.JMS_HABILITAR) ?: new Parametro(codigo: Parametro.JMS_HABILITAR, nombre: "JMS_HABILITAR", valor: "1").save(flush: true, failOnError: true)
 
         //
         Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE) ?: new Parametro(codigo: Parametro.APP_NOMBRE_RESTAURANTE, nombre: "APP_NOMBRE_RESTAURANTE", valor: "GUAVA").save(flush: true, failOnError: true)
