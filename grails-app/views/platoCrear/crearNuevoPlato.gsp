@@ -32,6 +32,13 @@
             </div>
 
             <div style="margin-top:10%" class="form-group">
+                <label  class="col-sm-2 control-label">Categoria</label>
+                <div class="col-sm-10">
+                    <g:select name="categoriaId" optionKey="id" from="${listaCategoriaPlato}" optionValue="nombre" noSelection="-1"/>
+                </div>
+            </div>
+
+            <div style="margin-top:10%" class="form-group">
                 <label  class="col-sm-2 control-label">Comanda</label>
                 <div class="col-sm-10">
                     <div class="checkbox">

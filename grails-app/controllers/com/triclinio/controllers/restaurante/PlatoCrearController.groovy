@@ -1,6 +1,7 @@
 package com.triclinio.controllers.restaurante
 
 import com.triclinio.commands.PlatoForm
+import com.triclinio.domains.restaurante.CategoriaPlato
 import com.triclinio.domains.restaurante.Plato
 import com.triclinio.domains.seguridad.Perfil
 import com.triclinio.domains.seguridad.Usuario
@@ -17,7 +18,9 @@ class PlatoCrearController {
         [platos:platos]
     }
 
-    def crearNuevoPlato(){}
+    def crearNuevoPlato(){
+        [listaCategoriaPlato :  CategoriaPlato.findAllByHabilitado(true)]
+    }
 
     def nuevoPlato(String nombrePlato, String precioPlato, boolean comanda){
 

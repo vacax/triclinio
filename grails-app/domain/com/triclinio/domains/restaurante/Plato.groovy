@@ -5,6 +5,8 @@ class Plato {
     String nombre
     BigDecimal precio
     boolean comanda
+    CategoriaPlato categoriaPlato
+    
     
 
     //Datos genericos del dominio.

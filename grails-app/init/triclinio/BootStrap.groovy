@@ -2,6 +2,7 @@ package triclinio
 
 import com.triclinio.domains.configuracion.Parametro
 import com.triclinio.domains.cxc.Cliente
+import com.triclinio.domains.restaurante.CategoriaPlato
 import com.triclinio.domains.restaurante.EstadoCuenta
 import com.triclinio.domains.restaurante.EstadoMesa
 import com.triclinio.domains.restaurante.Mesa
@@ -87,8 +88,11 @@ class BootStrap {
         EstadoFactura.findByCodigo(EstadoFactura.FACTURADA) ?: new EstadoFactura(codigo: EstadoFactura.FACTURADA,nombre: "FACTURADA").save(flush: true, failOnError: true)
         EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA) ?: new EstadoFactura(codigo: EstadoFactura.FACTURADA_COBRADA,nombre: "FACTURADA_COBRADA").save(flush: true, failOnError: true)
 
-
-
+        CategoriaPlato.findByNombre("Entradas") ?: new CategoriaPlato(nombre: "Entradas").save(flush: true, failOnError: true)
+        CategoriaPlato.findByNombre("Ensaladas") ?: new CategoriaPlato(nombre: "Ensaladas").save(flush: true, failOnError: true)
+        CategoriaPlato.findByNombre("Platos Fuertes") ?: new CategoriaPlato(nombre: "Platos Fuertes").save(flush: true, failOnError: true)
+        CategoriaPlato.findByNombre("Postres") ?: new CategoriaPlato(nombre: "Postres").save(flush: true, failOnError: true)
+        CategoriaPlato.findByNombre("Bebidas") ?: new CategoriaPlato(nombre: "Bebidas").save(flush: true, failOnError: true)
 
 
         println("Aplicación en modo ${Environment.current}")
