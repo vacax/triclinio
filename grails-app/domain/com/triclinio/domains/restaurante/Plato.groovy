@@ -4,6 +4,7 @@ class Plato {
 
     String nombre
     BigDecimal precio
+    boolean comanda
     
 
     //Datos genericos del dominio.

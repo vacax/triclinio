@@ -117,7 +117,8 @@ class CuentaController {
         ordenDetalleService.updateProcesarOrdenDetalle(form,clienteCuenta)
 
         println("Nuevo detalle orden agregada!")
-        matricialService.generarComandaCocina(clienteCuenta.cuenta.id)
+        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, true)
+        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, false)
 
 
         render clienteCuenta.cuenta as JSON
@@ -250,7 +251,8 @@ class CuentaController {
 
     def imprimirComanda(long idCuenta){
         println(idCuenta)
-        matricialService.generarComandaCocina(idCuenta)
+        matricialService.generarComandaCocina(idCuenta, true)
+        matricialService.generarComandaCocina(idCuenta, false)
         redirect(action: "cuentasAbiertas")
     }
 

@@ -81,7 +81,7 @@ class MatricialService {
                 bufferedWriter.newLine()
             }
 
-           
+
 
             bufferedWriter.write("------------------------------------------")
             bufferedWriter.newLine()
@@ -115,7 +115,7 @@ class MatricialService {
         }
     }
 
-    public void generarComandaCocina(long cuentaId) {
+    public void generarComandaCocina(long cuentaId, boolean platosComanda) {
 
         Cuenta cuenta = Cuenta.get(cuentaId)
         boolean clienteNotieneNuevoItem = true;
@@ -132,6 +132,8 @@ class MatricialService {
             bufferedWriter.write(StringUtils.center(Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_2).valor, CANTIDAD_COLUMNAS_POS_42))
             bufferedWriter.newLine()
             bufferedWriter.write(StringUtils.center(Parametro.findByCodigo(Parametro.COMANDA_ENCABEZADO_3).valor, CANTIDAD_COLUMNAS_POS_42))
+            bufferedWriter.newLine()
+            bufferedWriter.write(StringUtils.center(platosComanda ? "TICKET PARA COMANDA" : "TICKET PARA BEBIDA", CANTIDAD_COLUMNAS_POS_42))
             bufferedWriter.newLine()
             bufferedWriter.write("------------------------------------------")
             bufferedWriter.newLine()
@@ -160,8 +162,8 @@ class MatricialService {
                 bufferedWriter.newLine()
                 bufferedWriter.write("------------------------------------------")
                 bufferedWriter.newLine()
-                OrdenDetalle.findAllByClienteCuenta(it).each {
-                    if(!it.impreso){
+                OrdenDetalle.findAllByClienteCuentaAndHabilitado(it, true).each {
+                    if(!it.impreso && it.plato.comanda == platosComanda){
                         bufferedWriter.write(StringUtils.rightPad(it.plato.nombre, CANTIDAD_COLUMNAS_POS_42))
                         bufferedWriter.newLine()
                         bufferedWriter.write(StringUtils.rightPad("                "+it.cantidad as String, CANTIDAD_COLUMNAS_POS_42))
@@ -212,6 +214,7 @@ class MatricialService {
             Path wiki_path = Paths.get(file.getPath());
             byte[] arregloByte = Files.readAllBytes(wiki_path);
             String tmp = new String(arregloByte, Charset.forName("UTF-8"));
+            println("Salida Comanda: "+tmp);
             //El nombre de la cola sera la caja.
             //TODO: parametrizar cola
             brokerJmsService.enviarMensaje(Parametro.findByCodigo(Parametro.JMS_COLA).valor, tmp);
