@@ -73,8 +73,6 @@ class BootStrap {
         Parametro.findByCodigo(Parametro.CANTIDAD_PRECUENTA) ?: new Parametro(codigo: Parametro.CANTIDAD_PRECUENTA, nombre: "CANTIDAD_PRECUENTA", valor: 1).save(flush: true, failOnError: true)
 
 
-
-
         //Estado Mesa.
         EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE) ?:new EstadoMesa(codigo: EstadoMesa.DISPONIBLE,nombre: "Disponible").save(flush: true, failOnError: true)
         EstadoMesa.findByCodigo(EstadoMesa.OCUPADA) ?:new EstadoMesa(codigo: EstadoMesa.OCUPADA,nombre: "Ocupada").save(flush: true, failOnError: true)

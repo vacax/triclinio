@@ -15,7 +15,7 @@
     <div class="row">
         <div class="row">
             %{--<div    class="col-xs-8">--}%
-            <g:form action="crearNuevaCuenta">
+            <g:form action="crearNuevaCuenta" useToken="true">
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title"><b>LISTADO DE MESAS</b></h3>

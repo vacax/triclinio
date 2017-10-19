@@ -288,6 +288,9 @@
 </script>
 
 <script>
+
+    var boton_presionado=false;
+
     $("#guardarOrden").click(function () {
         var T = document.getElementById('data_table');
         var rows =$(T).find('> tbody > tr').length;
@@ -295,7 +298,10 @@
         if(rows==2){
             alert("NO TIENE PLATOS SELECCIONADOS!!")
         } else{
-            procesarCliente_OrdenDetalle(cuentaAsignada)
+            if(boton_presionado==false){
+                procesarCliente_OrdenDetalle(cuentaAsignada)
+            }
+            boton_presionado=true;
         }
     });
 

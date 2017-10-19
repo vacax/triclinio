@@ -19,16 +19,13 @@ class PlatoCrearController {
 
     def crearNuevoPlato(){}
 
-    def nuevoPlato(){
+    def nuevoPlato(String nombrePlato, String precioPlato, boolean comanda){
 
         Plato plato=new Plato()
 
-        def nombre=params.get("nombrePlato")
-        def precio=params.get("precioPlato")
-
-
-        plato.setNombre(nombre as String)
-        plato.setPrecio(precio as BigDecimal)
+        plato.setNombre(nombrePlato)
+        plato.setPrecio(new BigDecimal(precioPlato))
+        plato.comanda = comanda
         plato.save(flush:true,failOnError:true)
 
         redirect(uri: "/platoCrear/index")

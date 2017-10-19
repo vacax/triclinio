@@ -57,25 +57,31 @@ class CuentaController {
      * @return
      */
     def crearNuevaCuenta(){
-        Cuenta cuenta = new Cuenta()
-        cuenta.usuario = (Usuario)springSecurityService.currentUser
-        cuenta.estadoCuenta = EstadoCuenta.findByCodigo(EstadoCuenta.ABIERTO)
+        withForm {
+            Cuenta cuenta = new Cuenta()
+            cuenta.usuario = (Usuario)springSecurityService.currentUser
+            cuenta.estadoCuenta = EstadoCuenta.findByCodigo(EstadoCuenta.ABIERTO)
 
-        cuenta.save(flush: true, failOnError: true)
+            cuenta.save(flush: true, failOnError: true)
 
 
 
-        for(int i=0;i<params.list("mesaId").size();i++){
-            new CuentaMesa(mesa: Mesa.findById(params.list("mesaId").get(i)),cuenta: cuenta).save(flush: true, failOnError: true)
-            Mesa mesa = Mesa.findById(params.list("mesaId").get(i))
-            mesa.estadoMesa = EstadoMesa.findByCodigo(EstadoMesa.getOCUPADA())
-            mesa.historial.add(new HistorialMesa(usuario:(Usuario)springSecurityService.currentUser, descripcion: "Se ha creado una cuenta", fecha: new Date() ))
-            mesa.save(flush: true, failOnError: true)
+            for(int i=0;i<params.list("mesaId").size();i++){
+                new CuentaMesa(mesa: Mesa.findById(params.list("mesaId").get(i)),cuenta: cuenta).save(flush: true, failOnError: true)
+                Mesa mesa = Mesa.findById(params.list("mesaId").get(i))
+                mesa.estadoMesa = EstadoMesa.findByCodigo(EstadoMesa.getOCUPADA())
+                mesa.historial.add(new HistorialMesa(usuario:(Usuario)springSecurityService.currentUser, descripcion: "Se ha creado una cuenta", fecha: new Date() ))
+                mesa.save(flush: true, failOnError: true)
+            }
+            println("Nueva cuenta creada!")
+
+
+            redirect(uri:"/cuenta/detalleOrdenIndex?idCuenta="+cuenta.id)
+        }.invalidToken {
+            // bad request
+            redirect(action: "cuentasAbiertas")
         }
-        println("Nueva cuenta creada!")
 
-
-        redirect(uri:"/cuenta/detalleOrdenIndex?idCuenta="+cuenta.id)
 
     }
 

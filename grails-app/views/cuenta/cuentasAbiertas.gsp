@@ -134,26 +134,26 @@
                                     </td>
                                     <td>
                                         <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
-                                            <g:link action="detalleCuenta" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-success">Ver detalle de la cuenta</button></g:link>
+                                            <g:link action="detalleCuenta" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-success">Ver detalle Cuenta</button></g:link>
                                         </sec:ifAnyGranted>
                                         <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
 
-                                            <g:link action="sacarMesaCuenta" controller="mesa"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Sacar mesa(s) de la cuenta</button></g:link>
+                                            <g:link action="sacarMesaCuenta" controller="mesa"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Sacar mesa(s)</button></g:link>
                                         </sec:ifAnyGranted>
 
                                     <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
 
-                                        <g:link action="detalleOrdenIndex" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Agregar nuevo cliente</button></g:link>
+                                        <g:link action="detalleOrdenIndex" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Agregar cliente</button></g:link>
 
                                     </sec:ifAnyGranted>
                                     <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
 
-                                        <g:link action="reImprimirComanda" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Reimprimir comanda</button></g:link>
+                                        <g:link action="reImprimirComanda" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Reimprimir</button></g:link>
 
                                     </sec:ifAnyGranted>
                                     <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO">
 
-                                        <g:link action="cerraCuenta" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Cerrar cuenta</button></g:link>
+                                        <g:link onclick="return window.confirm('Desea Cancelar la cuenta');" action="cerraCuenta" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Cerrar Cuenta</button></g:link>
 
                                     </sec:ifAnyGranted>
                                     </td>

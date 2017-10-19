@@ -14,7 +14,7 @@
         <h3 class="box-title">Crear Plato</h3>
     </div>
 <!-- form start -->
-    <g:form action="nuevoPlato">
+    <g:form action="nuevoPlato" useToken="true">
         <div class="box-body">
 
             <div style="margin-top:5%" class="form-group">
@@ -28,6 +28,15 @@
                 <label  class="col-sm-2 control-label">Precio</label>
                 <div class="col-sm-10">
                     <input style="border: 1px solid cornflowerblue;"  type="number" name="precioPlato" required class="form-control" id="inputPrecio" placeholder="precio">
+                </div>
+            </div>
+
+            <div style="margin-top:10%" class="form-group">
+                <label  class="col-sm-2 control-label">Comanda</label>
+                <div class="col-sm-10">
+                    <div class="checkbox">
+                      <input type="checkbox" name="comanda" required  id="comanda" placeholder="comanda">
+                    </div>
                 </div>
             </div>
         </div><!-- /.box-body -->
