@@ -342,7 +342,7 @@ class MatricialService {
             listaCategoria.each { cat ->
 
                 println("La categoria: "+cat.nombre)
-                def listaDetalle = OrdenDetalle.executeQuery("from OrdenDetalle o where o.plato.categoriaPlato.id = :categoria and o.clienteCuenta.cuenta.id=:cuentaId", [categoria : cat.id, cuentaId: cuenta.id])
+                def listaDetalle = OrdenDetalle.executeQuery("from OrdenDetalle o where o.plato.categoriaPlato.id = :categoria and o.plato.comanda=:comanda and o.clienteCuenta.cuenta.id=:cuentaId", [categoria : cat.id, comanda: platosComanda,cuentaId: cuenta.id])
                 println("el detalle seleccionado: "+listaDetalle?.size())
 
                 if(!listaDetalle.isEmpty()) {
