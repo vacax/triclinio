@@ -265,8 +265,8 @@ class CuentaController {
 
     def reImprimirComanda(long idCuenta){
         println(idCuenta)
-        matricialService.generarComandaCocina(idCuenta, true, true)
-        matricialService.generarComandaCocina(idCuenta, false, true)
+        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true, true)
+        //matricialService.generarComandaCocina(idCuenta, false, true)
         redirect(action: "cuentasAbiertas")
     }
 

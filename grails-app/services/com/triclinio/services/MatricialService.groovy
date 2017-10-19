@@ -2,6 +2,7 @@ package com.triclinio.services
 
 import com.triclinio.commands.restaurant.UpdateOrdenDetalleCuenta
 import com.triclinio.domains.configuracion.Parametro
+import com.triclinio.domains.restaurante.CategoriaPlato
 import com.triclinio.domains.restaurante.ClienteCuenta
 import com.triclinio.domains.restaurante.Cuenta
 import com.triclinio.domains.restaurante.OrdenDetalle
@@ -263,6 +264,125 @@ class MatricialService {
                     bufferedWriter.write("Comentario: No existen comentarios.")
 
                 }
+
+                bufferedWriter.newLine()
+
+
+            }
+            bufferedWriter.write("------------------------------------------")
+            bufferedWriter.newLine()
+            bufferedWriter.write("------------------------------------------")
+            bufferedWriter.newLine()
+            bufferedWriter.newLine()
+            bufferedWriter.newLine()
+            bufferedWriter.write(StringUtils.center("Vamo vamo!!!", CANTIDAD_COLUMNAS_POS_42))
+            bufferedWriter.newLine()
+            bufferedWriter.newLine()
+            bufferedWriter.newLine()
+            bufferedWriter.newLine()
+            bufferedWriter.newLine()
+            bufferedWriter.newLine()
+            bufferedWriter.write(CORTAR_PAGINA)
+
+            bufferedWriter.close()
+            fileWriter.close()
+
+            Path wiki_path = Paths.get(file.getPath());
+            byte[] arregloByte = Files.readAllBytes(wiki_path);
+            String tmp = new String(arregloByte, Charset.forName("UTF-8"));
+            println("Salida Comanda: "+tmp);
+            //El nombre de la cola sera la caja.
+            //TODO: parametrizar cola
+            brokerJmsService.enviarMensaje(Parametro.findByCodigo(Parametro.JMS_COLA).valor, tmp);
+
+            file.delete()
+        } catch (IOException e) {
+            e.printStackTrace()
+        }
+    }
+
+    public void generarComandaCocinaAgrupadaCategoria(long cuentaId, boolean platosComanda, boolean reimprimir=false) {
+
+        Cuenta cuenta = Cuenta.get(cuentaId)
+        boolean clienteNotieneNuevoItem = true;
+
+        String nombreRest = Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE).valor
+        try {
+            File file = File.createTempFile("salida-reimpresion-ticket", ".txt")
+            FileWriter fileWriter = new FileWriter(file)
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)
+            bufferedWriter.write(StringUtils.center(nombreRest, CANTIDAD_COLUMNAS_POS_42))
+            bufferedWriter.newLine()
+            bufferedWriter.write(StringUtils.center(Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_1).valor, CANTIDAD_COLUMNAS_POS_42))
+            bufferedWriter.newLine()
+            bufferedWriter.write(StringUtils.center(Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_2).valor, CANTIDAD_COLUMNAS_POS_42))
+            bufferedWriter.newLine()
+            bufferedWriter.write(StringUtils.center(Parametro.findByCodigo(Parametro.COMANDA_ENCABEZADO_3).valor, CANTIDAD_COLUMNAS_POS_42))
+            bufferedWriter.newLine()
+            bufferedWriter.write(StringUtils.center(platosComanda ? "TICKET PARA COMANDA" : "TICKET PARA BEBIDA", CANTIDAD_COLUMNAS_POS_42))
+            bufferedWriter.newLine()
+            bufferedWriter.write("------------------------------------------")
+            bufferedWriter.newLine()
+            bufferedWriter.write("No. Cuenta " + cuenta.id)
+            bufferedWriter.newLine()
+            bufferedWriter.write("Mesas: ")
+            bufferedWriter.newLine()
+            cuenta.listaMesa.each {
+                if(it.habilitado){
+                    bufferedWriter.write("("+it.mesa.nombre+")")
+                }
+            }
+            bufferedWriter.newLine()
+            bufferedWriter.write("Atendido por: "+cuenta.usuario.nombre)
+            bufferedWriter.newLine()
+            bufferedWriter.write("Fecha: " + cuenta.dateCreated.format("dd-MM-yyyy HH:mm:ss"))
+            bufferedWriter.newLine()
+            def listaCategoria = CategoriaPlato.findAllByHabilitado(true);
+            listaCategoria.each { cat ->
+
+                def listaDetalle = OrdenDetalle.executeQuery("from OrdenDetalle o where o.plato.categoriaPlato.id = :categoria and o.clienteCuenta.cuenta.id=:cuentaId", [categoria : cat.id, cuentaId: cuenta.id])
+
+                if(!listaDetalle.isEmpty()) {
+                    bufferedWriter.write("------------------------------------------")
+                    bufferedWriter.newLine()
+                    bufferedWriter.write("Categoria: " + cat.nombre)
+                    bufferedWriter.newLine()
+                    bufferedWriter.write("------------------------------------------")
+                    bufferedWriter.newLine()
+                    bufferedWriter.write("Articulo      Cantidad")
+                    bufferedWriter.newLine()
+                    bufferedWriter.write("------------------------------------------")
+                    bufferedWriter.newLine()
+                    listaDetalle.each { od ->
+
+                        if ((!od.impreso || reimprimir) && od.plato.comanda == platosComanda) {
+                            bufferedWriter.write(StringUtils.rightPad(od.plato.nombre, CANTIDAD_COLUMNAS_POS_42))
+                            bufferedWriter.newLine()
+                            bufferedWriter.write(StringUtils.rightPad("                " + od.cantidad as String, CANTIDAD_COLUMNAS_POS_42))
+                            bufferedWriter.newLine()
+                            od.impreso = true
+                            od.save(flush: true, failOnError: true)
+                            clienteNotieneNuevoItem = false
+                        }
+
+                    }
+                }
+                if(clienteNotieneNuevoItem){
+                    bufferedWriter.newLine()
+                    bufferedWriter.write("Este cliente no realizo un nuevo pedido!")
+                    bufferedWriter.newLine()
+                }
+
+                clienteNotieneNuevoItem = true
+                bufferedWriter.newLine()
+
+                /*if(it.comentario!=null){
+                    bufferedWriter.write("Comentario: "+it.comentario)
+                }
+                else{
+                    bufferedWriter.write("Comentario: No existen comentarios.")
+
+                }*/
 
                 bufferedWriter.newLine()
 
