@@ -11,7 +11,7 @@ class TriclinioTagLib {
 
     def nombreUsuario={
        Usuario usuario = (Usuario)springSecurityService.currentUser
-        out << "${usuario.nombre}"
+        out << "${usuario?.nombre}"
     }
 
 }

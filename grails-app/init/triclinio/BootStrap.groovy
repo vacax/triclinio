@@ -126,27 +126,27 @@ class BootStrap {
 //            ClienteCuenta clienteCuenta1=new ClienteCuenta(nombre: "Carlos",cuenta: cuenta,porcientoImpuesto: 0.5,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
 //            ClienteCuenta clienteCuenta21=new ClienteCuenta(nombre: "Lisa",cuenta: cuenta2,porcientoImpuesto: 0.9,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
 //
-//            ClienteCuenta clienteCuenta2=new ClienteCuenta(nombre: "Marcano",cuenta: cuenta3,porcientoImpuesto: 150,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
+//        ClienteCuenta clienteCuenta2=new ClienteCuenta(nombre: "Marcano",cuenta: cuenta3,porcientoImpuesto: 150,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
 //
+
+            //TODO: Crear modelo de Cuenta para poder facturar(OrdenDetalle)
+//        OrdenDetalle ordenDetalle=new OrdenDetalle(clienteCuenta: clienteCuenta,plato: plato,cantidad: 1,nombrePlato: "Nuevo Plato",precio: 150,importe: 10,porcientoImpuesto: 0.50,porcientoDescuento: 0.2,montoBruto: 150,montoDescuento: 145,montoImpuesto: 170,montoNeto: 150).save(flush: true, failOnError: true)//Preguntrle al profe porque nombre plato?
 //
-//            //TODO: Crear modelo de Cuenta para poder facturar(OrdenDetalle)
-//            OrdenDetalle ordenDetalle=new OrdenDetalle(clienteCuenta: clienteCuenta,plato: plato,cantidad: 1,nombrePlato: "Nuevo Plato",precio: 150,importe: 10,porcientoImpuesto: 0.50,porcientoDescuento: 0.2,montoBruto: 150,montoDescuento: 145,montoImpuesto: 170,montoNeto: 150).save(flush: true, failOnError: true)//Preguntrle al profe porque nombre plato?
+//        OrdenDetalle ordenDetalle1=new OrdenDetalle(clienteCuenta: clienteCuenta1,plato: plato2,cantidad: 1,nombrePlato: "Nuevo Plato 2",precio: 200,importe: 2,porcientoImpuesto: 0.50,porcientoDescuento: 0.2,montoBruto: 200,montoDescuento: 170,montoImpuesto: 250,montoNeto: 200).save(flush: true, failOnError: true)
+//        OrdenDetalle ordenDetalle12=new OrdenDetalle(clienteCuenta: clienteCuenta1,plato: plato2,cantidad: 1,nombrePlato: "Nuevo Plato 2",precio: 200,importe: 2,porcientoImpuesto: 0.50,porcientoDescuento: 0.2,montoBruto: 200,montoDescuento: 170,montoImpuesto: 250,montoNeto: 200).save(flush: true, failOnError: true)
+//        OrdenDetalle ordenDetalle13=new OrdenDetalle(clienteCuenta: clienteCuenta1,plato: plato2,cantidad: 1,nombrePlato: "Nuevo Plato 2",precio: 200,importe: 2,porcientoImpuesto: 0.50,porcientoDescuento: 0.2,montoBruto: 200,montoDescuento: 170,montoImpuesto: 250,montoNeto: 200).save(flush: true, failOnError: true)
+//        OrdenDetalle ordenDetalle14=new OrdenDetalle(clienteCuenta: clienteCuenta21,plato: plato2,cantidad: 1,nombrePlato: "Nuevo Plato 2",precio: 800,importe: 2,porcientoImpuesto: 0.50,porcientoDescuento: 0.2,montoBruto: 150,montoDescuento: 170,montoImpuesto: 250,montoNeto: 200).save(flush: true, failOnError: true)
 //
-//            OrdenDetalle ordenDetalle1=new OrdenDetalle(clienteCuenta: clienteCuenta1,plato: plato2,cantidad: 1,nombrePlato: "Nuevo Plato 2",precio: 200,importe: 2,porcientoImpuesto: 0.50,porcientoDescuento: 0.2,montoBruto: 200,montoDescuento: 170,montoImpuesto: 250,montoNeto: 200).save(flush: true, failOnError: true)
-//            OrdenDetalle ordenDetalle12=new OrdenDetalle(clienteCuenta: clienteCuenta1,plato: plato2,cantidad: 1,nombrePlato: "Nuevo Plato 2",precio: 200,importe: 2,porcientoImpuesto: 0.50,porcientoDescuento: 0.2,montoBruto: 200,montoDescuento: 170,montoImpuesto: 250,montoNeto: 200).save(flush: true, failOnError: true)
-//            OrdenDetalle ordenDetalle13=new OrdenDetalle(clienteCuenta: clienteCuenta1,plato: plato2,cantidad: 1,nombrePlato: "Nuevo Plato 2",precio: 200,importe: 2,porcientoImpuesto: 0.50,porcientoDescuento: 0.2,montoBruto: 200,montoDescuento: 170,montoImpuesto: 250,montoNeto: 200).save(flush: true, failOnError: true)
-//            OrdenDetalle ordenDetalle14=new OrdenDetalle(clienteCuenta: clienteCuenta21,plato: plato2,cantidad: 1,nombrePlato: "Nuevo Plato 2",precio: 800,importe: 2,porcientoImpuesto: 0.50,porcientoDescuento: 0.2,montoBruto: 150,montoDescuento: 170,montoImpuesto: 250,montoNeto: 200).save(flush: true, failOnError: true)
+//        OrdenDetalle ordenDetalle2=new OrdenDetalle(clienteCuenta: clienteCuenta2,plato: plato3,cantidad: 1,nombrePlato: "Nuevo Plato 3",precio: 150,importe: 10,porcientoImpuesto: 0.50,porcientoDescuento: 0.2,montoBruto: 150,montoDescuento: 145,montoImpuesto: 170,montoNeto: 150).save(flush: true, failOnError: true)
+
+//        //TODO: Crear modelo de Cuenta para poder facturar(Factura)
+//        Factura factura=new Factura(cliente: cliente1,usuario: usuario1,estadoFactura: estadoFactura,porcientoImpuesto: 150,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
 //
-//            OrdenDetalle ordenDetalle2=new OrdenDetalle(clienteCuenta: clienteCuenta2,plato: plato3,cantidad: 1,nombrePlato: "Nuevo Plato 3",precio: 150,importe: 10,porcientoImpuesto: 0.50,porcientoDescuento: 0.2,montoBruto: 150,montoDescuento: 145,montoImpuesto: 170,montoNeto: 150).save(flush: true, failOnError: true)
+//        Factura factura1=new Factura(cliente: cliente2,usuario: usuario2,estadoFactura: estadoFactura1,porcientoImpuesto: 150,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
 //
-//            //TODO: Crear modelo de Cuenta para poder facturar(Factura)
-//            Factura factura=new Factura(cliente: cliente1,usuario: usuario1,estadoFactura: estadoFactura,porcientoImpuesto: 150,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
-//
-//            Factura factura1=new Factura(cliente: cliente2,usuario: usuario2,estadoFactura: estadoFactura1,porcientoImpuesto: 150,porcientoDescuento:0.21,montoBruto:150,montoDescuento:210,montoImpuesto:0.25,montoNeto:121).save(flush: true, failOnError: true)
-//
-//            //TODO: Crear modelo de Cuenta para poder facturar(FacturaDetalle)
-//            new FacturaDetalle(factura: factura,ordenDetalle: ordenDetalle1).save(flush: true, failOnError: true)
-//            new FacturaDetalle(factura: factura1,ordenDetalle: ordenDetalle2).save(flush: true, failOnError: true)
+//        //TODO: Crear modelo de Cuenta para poder facturar(FacturaDetalle)
+//        new FacturaDetalle(factura: factura,ordenDetalle: ordenDetalle1).save(flush: true, failOnError: true)
+//        new FacturaDetalle(factura: factura1,ordenDetalle: ordenDetalle2).save(flush: true, failOnError: true)
         }
 
     }

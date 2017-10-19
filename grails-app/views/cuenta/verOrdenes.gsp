@@ -80,7 +80,7 @@
                     {
                         type:'POST',
 
-                        data:'OrdenDetalle='+valoresOrdenDetalle,
+                        data:'clienteCuentaId=${clienteCuentaId}',
 
                         url:'/facturaDetalle/procesarOrden/',
 

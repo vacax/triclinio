@@ -16,58 +16,19 @@ class FacturaDetalleController {
 
     //Datos dinero
     def matricialService
+    def facturacionService
 
 
     def index() { }
 
-    def procesarOrden() {
-        def ordenesDetalles;
-        BigDecimal porcientoImpuesto=0
-        BigDecimal porcientoDescuento=0
-        BigDecimal montoBruto=0
-        BigDecimal montoDescuento=0
-        BigDecimal montoImpuesto=0
-        BigDecimal montoNeto=0
+    /**
+     * 
+     * @param clienteCuentaId
+     * @return
+     */
+    def procesarOrden(long clienteCuentaId) {
 
-        ordenesDetalles = params.OrdenDetalle
-        def idsOrdenDetalle=ordenesDetalles.split(",")
-        EstadoFactura estadoFactura=new EstadoFactura(codigo: EstadoFactura.FACTURADA,nombre: "estado FACTURA")
-
-        List<OrdenDetalle> ordenDetalles = new ArrayList<>()
-        Factura factura = new Factura().save(flush: true, failOnError: true)
-
-
-        Cliente cliente = new Cliente()
-        for (int i = 0; i < idsOrdenDetalle.size(); i++) {
-            FacturaDetalle facturaDetalle = new FacturaDetalle()
-            OrdenDetalle ordenDetalleActual = OrdenDetalle.findById(idsOrdenDetalle.getAt(i) as Long)
-            ordenDetalles.add(ordenDetalleActual)
-
-            porcientoImpuesto = porcientoImpuesto + ordenDetalleActual.porcientoImpuesto
-            porcientoDescuento = porcientoDescuento + ordenDetalleActual.porcientoDescuento
-            montoBruto = montoBruto + ordenDetalleActual.montoBruto
-            montoDescuento = montoDescuento + ordenDetalleActual.montoDescuento
-            montoImpuesto = montoImpuesto + ordenDetalleActual.montoImpuesto
-            montoNeto = montoNeto + ordenDetalleActual.montoNeto
-
-            cliente.setNombre(ordenDetalleActual.clienteCuenta.nombre)
-
-            facturaDetalle.setOrdenDetalle(ordenDetalleActual)
-            facturaDetalle.setFactura(factura)
-            facturaDetalle.save(flush: true, failOnError: true)
-        }
-
-        factura.usuario = (Usuario) applicationContext.springSecurityService.getCurrentUser()
-        factura.setCliente(cliente)
-        factura.setPorcientoImpuesto(porcientoImpuesto)
-        factura.setPorcientoDescuento(porcientoDescuento)
-        factura.setMontoBruto(montoBruto)
-        factura.setMontoDescuento(montoDescuento)
-        factura.setMontoImpuesto(montoImpuesto)
-        factura.setMontoNeto(montoNeto)
-        factura.setEstadoFactura(EstadoFactura.findById(1000))
-        factura.save(flush: true, failOnError: true)
-
+        Factura factura = facturacionService.procesarOrden(clienteCuentaId, (Usuario) applicationContext.springSecurityService.getCurrentUser())
 
         render factura.id
     }
@@ -82,19 +43,18 @@ class FacturaDetalleController {
         redirect(uri:"/cuenta/detalleCuenta?idFactura="+factura.id+"&idCuenta="+factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id)
     }
 
-    def facturar(){
-        def idParam=params.factura
-        def idFactura=idParam.toString()
-        Factura factura=Factura.findById(idFactura as Long)
+    def facturar(long factura){
+        Factura facturaTmp=Factura.findById(factura)
+        //TODO: cambiar..
         List<FacturaDetalle> facturaDetalles=new ArrayList<>()
 
-        facturaDetalles= FacturaDetalle.findAllByFactura(factura)
+        facturaDetalles= FacturaDetalle.findAllByFactura(facturaTmp)
 
 
-        factura.setEstadoFactura(EstadoFactura.findById(1001))
-        factura.save(flush: true, failOnError: true)
+        facturaTmp.setEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA))
+        facturaTmp.save(flush: true, failOnError: true)
 
-        [facturaDetalles:facturaDetalles,factura:factura]
+        [facturaDetalles:facturaDetalles,factura:facturaTmp]
     }
 
     def imprimir(long idFactura){

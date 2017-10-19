@@ -173,15 +173,15 @@ class CuentaController {
      * @param idCuenta
      * @return
      */
-    def detalleCuenta(long idCuenta){
+    def detalleCuenta(long idCuenta, long idFactura){
         List<ClienteCuenta> cuentaArrayList=new ArrayList<>()
 
 
-        def cuenta = Cuenta.findById(idCuenta as Long)
+        def cuenta = Cuenta.findById(idCuenta)
 
         def listadoClienteCuentas = CuentaMesa.findAllByCuenta(cuenta)
         def listadoMesas = new HashSet()
-        Factura factura=Factura.findById(params.get("idFactura") as Long)
+        Factura factura=Factura.get(idFactura)
 
         listadoClienteCuentas.each {
             if(it.habilitado){
@@ -266,19 +266,20 @@ class CuentaController {
     }
 
 
-    def verOrdenes(){
+    def verOrdenes(long clienteCuenta){
 
-        def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta") as Long)
+        def clienteCuentaTmp = ClienteCuenta.findById(clienteCuenta)
 //        def clienteCuenta = ClienteCuenta.findById(id)
         def listaOrdenDetalle=new ArrayList()
 
-        for(OrdenDetalle ordenDetalle: clienteCuenta.listaOrdenDetalle){
+        //TODO: cambiar..
+        for(OrdenDetalle ordenDetalle: clienteCuentaTmp.listaOrdenDetalle){
             if(ordenDetalle.habilitado){
                 listaOrdenDetalle.add(ordenDetalle)
             }
         }
 
-        [listaOrdenDetalle: listaOrdenDetalle]
+        [listaOrdenDetalle: listaOrdenDetalle, clienteCuentaId: clienteCuenta]
     }
 
 

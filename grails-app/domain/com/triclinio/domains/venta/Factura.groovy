@@ -10,6 +10,7 @@ class Factura {
 
     EstadoFactura estadoFactura
 
+    //static belongsTo = [estadoFactura : EstadoFactura]
     static hasMany = [listaFacturaDetalle : FacturaDetalle]
 
     //Datos dinero
@@ -37,7 +38,7 @@ class Factura {
         montoNeto(nullable: true)
         cliente(nullable: true)
         usuario(nullable: true)
-        estadoFactura(nullable: true)
+        //estadoFactura(nullable: true)
     }
 
     static mapping = {
