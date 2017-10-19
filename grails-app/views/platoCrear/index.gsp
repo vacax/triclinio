@@ -73,10 +73,16 @@
         Nombre
     </th>
     <th>
+        Alias
+    </th>
+    <th>
         Precio
     </th>
     <th>
         Es Comanda
+    </th>
+    <th>
+       Categoria
     </th>
     <th>
         Acciones
@@ -87,8 +93,10 @@
         <tr>
             <td>${pla.id}</td>
             <td>${pla.nombre}</td>
+            <td>${pla.alias}</td>
             <td>${pla.precio}</td>
             <td>${pla.comanda}</td>
+            <td>${pla?.categoriaPlato?.nombre}</td>
             <td>
                     <g:link action="modificarPlato" controller="platoCrear"  params="[id: pla.id]"><button type="button" id="modificarUsuario" class="btn btn-link">Modificar</button></g:link>
                     <button style="text-decoration: none" type="button" class="eliminarPlato btn-link" id="${pla.id}">Eliminar</button>

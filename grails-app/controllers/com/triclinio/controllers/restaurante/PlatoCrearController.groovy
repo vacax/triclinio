@@ -23,14 +23,21 @@ class PlatoCrearController {
         [listaCategoriaPlato :  lista]
     }
 
-    def nuevoPlato(String nombrePlato, String precioPlato, boolean comanda){
+    def nuevoPlato(String nombrePlato, String precioPlato, boolean comanda, long categoriaId, String alias){
 
-        Plato plato=new Plato()
+        withForm {
+            Plato plato=new Plato()
 
-        plato.setNombre(nombrePlato)
-        plato.setPrecio(new BigDecimal(precioPlato))
-        plato.comanda = comanda
-        plato.save(flush:true,failOnError:true)
+            plato.setNombre(nombrePlato)
+            plato.setPrecio(new BigDecimal(precioPlato))
+            plato.comanda = comanda
+            plato.alias = alias
+            plato.categoriaPlato = CategoriaPlato.get(categoriaId)
+            plato.save(flush:true,failOnError:true)
+
+        }.invalidToken {
+            println "Doble Posteo detectado"
+        }
 
         redirect(uri: "/platoCrear/index")
 
@@ -48,20 +55,37 @@ class PlatoCrearController {
 
         def idPlato=params.get("id")
         def plato=Plato.findById(idPlato as Long)
-        [plato: plato]
+        [plato: plato, listaCategoriaPlato: CategoriaPlato.findAllByHabilitado(true)]
     }
 
-    def modificarPlatoPost(){
+    /**
+     * 
+     * @param idPlato
+     * @param nombrePlato
+     * @param precioPlato
+     * @param alias
+     * @param comanda
+     * @param categoriaId
+     * @return
+     */
+    def modificarPlatoPost(long idPlato, String nombrePlato, String precioPlato, String alias, boolean comanda, long categoriaId){
 
-        def idPlato=params.get("idPlato")
-        def plato=Plato.findById(idPlato as Long)
+        withForm {
+            def plato=Plato.get(idPlato)
 
-        plato.nombre=params.get("nombrePlato")
-        plato.precio= params.get("precioPlato") as BigDecimal
+            plato.nombre=nombrePlato
+            plato.precio= new BigDecimal(precioPlato)
+            plato.alias = alias
+            plato.comanda = comanda
+            plato.categoriaPlato = CategoriaPlato.get(categoriaId)
 
-        plato.save(flush:true, failsOnError:true)
+            plato.save(flush:true, failsOnError:true)
+
+
+        }.invalidToken {
+          println("Doble posteo detectado...")
+        }
 
         redirect(action: "index")
-
     }
 }

@@ -24,6 +24,13 @@
                 </div>
             </div>
 
+            <div style="margin-top:5%" class="form-group">
+                <label  class="col-sm-2 control-label">Alias</label>
+                <div class="col-sm-10">
+                    <input style="border: 1px solid cornflowerblue;"  type="text" name="alias" required class="form-control" id="alias" placeholder="alias">
+                </div>
+            </div>
+
             <div style="margin-top:10%" class="form-group">
                 <label  class="col-sm-2 control-label">Precio</label>
                 <div class="col-sm-10">
@@ -34,7 +41,7 @@
             <div style="margin-top:10%" class="form-group">
                 <label  class="col-sm-2 control-label">Categoria</label>
                 <div class="col-sm-10">
-                    <g:select name="categoriaId" optionKey="id" from="${listaCategoriaPlato}" optionValue="nombre" noSelection="-1"/>
+                    <g:select class="form-control" name="categoriaId" from="${listaCategoriaPlato}" optionKey="id" optionValue="nombre"/>
                 </div>
             </div>
 
@@ -46,6 +53,7 @@
                     </div>
                 </div>
             </div>
+            
         </div><!-- /.box-body -->
         <div class="box-footer">
             <a href="/platoCrear/index"  style="margin-bottom: 20px;" class="btn btn-danger">Cancel</a>
