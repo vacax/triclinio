@@ -7,6 +7,8 @@ class OrdenDetalle {
     int cantidad=0
     String nombrePlato
     boolean activa = true
+    boolean impreso =false
+
 
     //Precio del articulo
     BigDecimal precio

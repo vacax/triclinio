@@ -16,6 +16,13 @@ class Parametro {
     final static int TICKET_PIEPAG_2 = 1009
 
 
+
+    //TICKET COMANDA
+    final static int COMANDA_ENCABEZADO_3 = 1010
+
+
+
+
     int codigo
     String nombre
     String valor

@@ -108,7 +108,7 @@
         %{----}%
         %{--</g:form>--}%
             <g:link action="detalleOrdenIndex" controller="cuenta"  params="[idCuenta: cuenta.id]"> <button type="button" class="btn btn-block btn-success btn-lg">AGREGAR NUEVO CLIENTE</button></g:link>
-            <g:link action="cuentasAbiertas" controller="cuenta"  > <button type="button" class="btn btn-block btn-danger btn-lg">FINALIZAR</button></g:link>
+            <g:link action="imprimirComanda" controller="cuenta" params="[idCuenta: cuenta.id]"   > <button type="button" class="btn btn-block btn-danger btn-lg">FINALIZAR</button></g:link>
 
         %{--<g:form action="indexRedirect" >--}%
         %{--<button type="submit" class="btn btn-block btn-danger btn-lg">FINALIZAR</button>--}%

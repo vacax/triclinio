@@ -25,6 +25,7 @@ class CuentaController {
     def clienteCuentaService
     def ordenDetalleService
     def springSecurityService
+    def matricialService
 
 
 
@@ -116,6 +117,8 @@ class CuentaController {
         ordenDetalleService.updateProcesarOrdenDetalle(form,clienteCuenta)
 
         println("Nuevo detalle orden agregada!")
+        matricialService.generarComandaCocina(clienteCuenta.cuenta.id)
+
 
         render clienteCuenta.cuenta as JSON
     }
@@ -243,6 +246,12 @@ class CuentaController {
 
 
         [clienteCuenta:clienteCuenta, ordenesActivas: ordenesActivas, listadoMesas: listadoMesas]
+    }
+
+    def imprimirComanda(long idCuenta){
+        println(idCuenta)
+        matricialService.generarComandaCocina(idCuenta)
+        redirect(action: "cuentasAbiertas")
     }
 
 
