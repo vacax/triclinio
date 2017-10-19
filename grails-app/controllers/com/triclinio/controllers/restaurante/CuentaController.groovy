@@ -250,6 +250,7 @@ class CuentaController {
     }
 
     def imprimirComanda(long idCuenta){
+
         println(idCuenta)
         matricialService.generarComandaCocina(idCuenta, true)
         matricialService.generarComandaCocina(idCuenta, false)
@@ -289,6 +290,14 @@ class CuentaController {
         }
 
         [listaOrdenDetalle: listaOrdenDetalle, clienteCuentaId: clienteCuenta]
+    }
+
+    def cerraCuenta(long idCuenta){
+        Cuenta cuenta = Cuenta.get(idCuenta)
+        cuenta.habilitado = false
+        cuenta.save(flush:true, failOnError:true)
+        redirect(action: "cuentasAbiertas")
+
     }
 
 

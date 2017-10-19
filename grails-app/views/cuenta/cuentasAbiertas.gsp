@@ -151,6 +151,11 @@
                                         <g:link action="reImprimirComanda" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Reimprimir comanda</button></g:link>
 
                                     </sec:ifAnyGranted>
+                                    <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO">
+
+                                        <g:link action="cerraCuenta" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Cerrar cuenta</button></g:link>
+
+                                    </sec:ifAnyGranted>
                                     </td>
 
                                 </tr>
