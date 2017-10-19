@@ -37,7 +37,7 @@ class FacturaDetalleController {
         Factura factura = Factura.findById(idFactura)
 
 
-      //  matricialService.generarFactura(factura.id)
+        matricialService.generarFactura(factura.id)
         println "Impuesto "+factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id
 
         redirect(uri:"/cuenta/detalleCuenta?idFactura="+factura.id+"&idCuenta="+factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id)
@@ -73,7 +73,7 @@ class FacturaDetalleController {
         Factura factura=Factura.findById(id)
         factura.setEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA))
 
-       // matricialService.generarFactura(factura.id)
+        matricialService.generarFactura(factura.id)
 
 
         def idClienteCuenta = factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.id

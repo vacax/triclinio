@@ -95,38 +95,33 @@
                                 <td>
 
                                 %{--<g:form action="verOrdenes">--}%
-                                    %{--<input hidden="hidden" id="clienteCuenta" name="clienteCuenta" value="${clientecuenta.id}">--}%
-                                    %{--<button type="submit" class="btn btn-block btn-danger btn-sm">Facturar</button>--}%
+                                %{--<input hidden="hidden" id="clienteCuenta" name="clienteCuenta" value="${clientecuenta.id}">--}%
+                                %{--<button type="submit" class="btn btn-block btn-danger btn-sm">Facturar</button>--}%
                                 %{--</g:form>--}%
 
-                                <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
+                                    <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
                                     %{--<g:if test="${factura}">--}%
                                     %{--<g:if test="${factura.estadoFactura.codigo != 1000}">--}%
 
-                                    <g:link action="verOrdenes" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-info">Pre Cuenta</button></g:link>
+                                        <g:link action="verOrdenes" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-info">Pre Cuenta</button></g:link>
                                     %{--</g:if>--}%
                                     %{--</g:if>--}%
-                                </sec:ifAnyGranted>
+                                    </sec:ifAnyGranted>
 
 
                                 %{--<g:form action="nuevoDetalleOrden">--}%
-                                        <input hidden="hidden" id="clienteCuenta" name="clienteCuenta" value="${clientecuenta.id}">
-                                <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
+                                    <input hidden="hidden" id="clienteCuenta" name="clienteCuenta" value="${clientecuenta.id}">
+                                    <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
 
-                                    <g:link action="nuevoDetalleOrden2" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-adn">Agregar/eliminar orden a la cuenta</button></g:link>
-                                </sec:ifAnyGranted>
-                                        %{--<g:link action="separarCuenta" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-warning">Separar cuenta</button></g:link>--}%
+                                        <g:link action="nuevoDetalleOrden2" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-adn">Agregar/eliminar orden a la cuenta</button></g:link>
+                                    </sec:ifAnyGranted>
+                                %{--<g:link action="separarCuenta" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-warning">Separar cuenta</button></g:link>--}%
 
-                                <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
-
-                                    <g:if test="${factura}">
-                                        <g:if test="${factura.estadoFactura.codigo == 1001}">
-                                        <g:link action="imprimir" controller="facturaDetalle"  params="[idFactura: factura.id]"><button type="button" class="btn btn-info">Pagar</button></g:link>
-                                    </g:if>
-                                    </g:if>
-                                </sec:ifAnyGranted>
-                                    %{--<button type="submit" class="btn btn-block btn-danger btn-sm">Agregar Detalle Orden</button>--}%
-                                    %{--</g:form>--}%
+                                    <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
+                                        <triclinio:botonPagar cuentaClienteId="${clientecuenta.id}"/>
+                                    </sec:ifAnyGranted>
+                                %{--<button type="submit" class="btn btn-block btn-danger btn-sm">Agregar Detalle Orden</button>--}%
+                                %{--</g:form>--}%
                                 </td>
                             </tr>
                         </g:each>
@@ -138,7 +133,7 @@
             <g:link action="cuentasAbiertas" controller="cuenta" ><button type="button" class="btn btn-block btn-danger">Volver Atras</button></g:link>
 
 
-            <!-- /.row -->
+        <!-- /.row -->
         </section>
     </div>
 </section>
