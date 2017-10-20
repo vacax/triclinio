@@ -237,6 +237,7 @@ class CuentaController {
      * @return
      */
     def nuevoDetalleOrden2(){
+        def listadoPlatos = Plato.findAllByHabilitado(true)
         def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
 
         def ordenesActivas = OrdenDetalle.findAllByHabilitadoAndClienteCuenta(true, clienteCuenta)
@@ -259,7 +260,7 @@ class CuentaController {
         }
 
 
-        [clienteCuenta:clienteCuenta, ordenesActivas: ordenesActivas, listadoMesas: listadoMesas]
+        [listaPlatos: listadoPlatos, clienteCuenta:clienteCuenta, ordenesActivas: ordenesActivas, listadoMesas: listadoMesas]
     }
 
     def imprimirComanda(long idCuenta){

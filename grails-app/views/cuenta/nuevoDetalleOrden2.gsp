@@ -152,7 +152,7 @@
                 </tr>
                 </tfoot>
                 <tbody>
-                <g:each in="${com.triclinio.domains.restaurante.Plato.list()}" status="counter" var="plato">
+                <g:each in="${listaPlatos}" status="counter" var="plato">
                     <tr>
                         <td  hidden="hidden">${plato.id}</td>
                         <td>${plato.nombre}</td>
