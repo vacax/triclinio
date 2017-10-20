@@ -215,14 +215,19 @@ class CuentaController {
      * @return
      */
     def sacarItemCuenta(long clienteCuentaId,long idPlato){
-        def cliente = ClienteCuenta.get(clienteCuentaId)
-        cliente.listaOrdenDetalle.each {
-            if(it.plato.id==idPlato){
-                it.habilitado=false
-                it.save(flush:true, failOnError:true)
 
-            }
-        }
+        OrdenDetalle ordenDetalle = OrdenDetalle.findByClienteCuentaAndPlato(ClienteCuenta.get(clienteCuentaId), Plato.get(idPlato))
+        println(ordenDetalle.plato.nombre)
+        ordenDetalle.habilitado = false
+        ordenDetalle.save(flush:true, failOnError:true)
+//        def cliente = ClienteCuenta.get(clienteCuentaId)
+//        cliente.listaOrdenDetalle.each {
+//            if(it.plato.id==idPlato){
+//                it.habilitado=false
+//                it.save(flush:true, failOnError:true)
+//
+//            }
+//        }
         redirect(action: "nuevoDetalleOrden2", params:[ clienteCuenta : clienteCuentaId])
 
     }
@@ -234,13 +239,15 @@ class CuentaController {
     def nuevoDetalleOrden2(){
         def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
 
-        def ordenesActivas = clienteCuenta.listaOrdenDetalle
+        def ordenesActivas = OrdenDetalle.findAllByHabilitadoAndClienteCuenta(true, clienteCuenta)
 
-        ordenesActivas.each {
-            if(!it.habilitado){
-                ordenesActivas.remove(it)
-            }
-        }
+//        def ordenesActivas = clienteCuenta.listaOrdenDetalle
+
+//        ordenesActivas.each {
+//            if(!it.habilitado){
+//                ordenesActivas.remove(it)
+//            }
+//        }
 
         def listadoClienteCuentas = CuentaMesa.findAllByCuenta(clienteCuenta.cuenta)
         def listadoMesas = new HashSet()
@@ -258,15 +265,18 @@ class CuentaController {
     def imprimirComanda(long idCuenta){
 
         println(idCuenta)
-        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true)
-        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false)
+        //matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true)
+        //matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false)
         redirect(action: "cuentasAbiertas")
     }
 
     def reImprimirComanda(long idCuenta){
         println(idCuenta)
-        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true, true)
-        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false, true)
+        //matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true, true)
+        //matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false, true)
+
+
+
         //matricialService.generarComandaCocina(idCuenta, false, true)
         redirect(action: "cuentasAbiertas")
     }

@@ -102,10 +102,10 @@ class BootStrap {
 
             println("Aplicación en modo desarrollo")
 
-            //Platos para pruebas
-            Plato.findByNombre("La Orquesta")?: new Plato(nombre: "La Orquesta", precio: 75.00).save(flush: true, failOnError: true)
-            Plato.findByNombre("Popurri")?: new Plato(nombre: "Popurri", precio: 95.00).save(flush: true, failOnError: true)
-            Plato.findByNombre("Dulce Tentación")?: new Plato(nombre: "Dulce Tentación", precio: 125.00).save(flush: true, failOnError: true)
+//            //Platos para pruebas
+//            Plato.findByNombre("La Orquesta")?: new Plato(nombre: "La Orquesta", precio: 75.00).save(flush: true, failOnError: true)
+//            Plato.findByNombre("Popurri")?: new Plato(nombre: "Popurri", precio: 95.00).save(flush: true, failOnError: true)
+//            Plato.findByNombre("Dulce Tentación")?: new Plato(nombre: "Dulce Tentación", precio: 125.00).save(flush: true, failOnError: true)
 
             //Mesas para pruebas
             Mesa.findByNumeroMesa(1) ?: new Mesa(numeroMesa: 1, nombre: "Mesa 1", estadoMesa: EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE)).save(flush: true, failOnError: true)
