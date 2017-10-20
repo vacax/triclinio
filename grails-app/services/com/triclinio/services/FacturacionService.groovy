@@ -39,8 +39,11 @@ class FacturacionService {
         factura.usuario = usuario
         factura.cliente = cliente
         factura.save(flush: true, failOnError: true)
-        
-        clienteCuenta.listaOrdenDetalle.each {
+
+        def ordenesActivas = OrdenDetalle.findAllByHabilitadoAndClienteCuenta(true, clienteCuenta)
+
+
+        ordenesActivas.each {
             
             FacturaDetalle facturaDetalle = new FacturaDetalle()
 

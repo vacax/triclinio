@@ -265,20 +265,47 @@ class CuentaController {
     def imprimirComanda(long idCuenta){
 
         println(idCuenta)
-        //matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true)
-        //matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false)
+        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true)
+        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false)
         redirect(action: "cuentasAbiertas")
     }
 
     def reImprimirComanda(long idCuenta){
         println(idCuenta)
-        //matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true, true)
-        //matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false, true)
+        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true, true)
+        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false, true)
 
 
 
         //matricialService.generarComandaCocina(idCuenta, false, true)
         redirect(action: "cuentasAbiertas")
+    }
+
+    def previewCuentaCliente(long clienteCuentaId){
+        def clienteCuenta = ClienteCuenta.get(clienteCuentaId)
+
+        def ordenesActivas = OrdenDetalle.findAllByHabilitadoAndClienteCuenta(true, clienteCuenta)
+
+        double totalCuenta = 0
+        ordenesActivas.each {
+            totalCuenta+=it.importe
+        }
+
+        def listadoClienteCuentas = CuentaMesa.findAllByCuenta(clienteCuenta.cuenta)
+        def listadoMesas = new HashSet()
+
+        listadoClienteCuentas.each {
+            if(it.habilitado){
+                listadoMesas.add(it.mesa)
+            }
+        }
+
+        println(totalCuenta)
+
+
+        [clienteCuenta:clienteCuenta, ordenesActivas: ordenesActivas, listadoMesas: listadoMesas,totalCuenta: totalCuenta]
+
+
     }
 
 
