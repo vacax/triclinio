@@ -341,6 +341,11 @@ class CuentaController {
         Cuenta cuenta = Cuenta.get(idCuenta)
         cuenta.habilitado = false
         cuenta.save(flush:true, failOnError:true)
+        cuenta.listaMesa.each { //TODO: mejorar....
+            def mesa = Mesa.get(it.mesa.id)
+            mesa.estadoMesa = EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE)
+            mesa.save(flush: true, failOnError:true)
+        }
         redirect(action: "cuentasAbiertas")
 
     }
