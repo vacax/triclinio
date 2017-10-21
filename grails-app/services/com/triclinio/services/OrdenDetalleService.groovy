@@ -47,6 +47,8 @@ class OrdenDetalleService {
             ordenDetalle.cantidad=it.cantidad
             ordenDetalle.nombrePlato=plato.nombre
 
+            ordenDetalle.facturada=false
+
             //calculo de dinero
             ordenDetalle.precio = plato.precio
             ordenDetalle.importe = cantidad * ordenDetalle.precio
