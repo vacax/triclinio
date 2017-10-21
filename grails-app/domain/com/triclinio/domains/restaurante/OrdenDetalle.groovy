@@ -8,6 +8,7 @@ class OrdenDetalle {
     String nombrePlato
     boolean activa = true
     boolean impreso =false
+    boolean facturada=false
 
 
     //Precio del articulo

@@ -326,8 +326,12 @@ desired effect
                     </li>
                 </sec:ifAnyGranted>
 
-                <li><a href="/facturaDetalle/historialFacturas"><i class="fa fa-link"></i>Ver historial Facturas</a></li>
-            </ul>
+                <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
+                <li><a href="/facturaDetalle/historialFacturas"><i class="fa fa-link"></i>Reversar Facturas</a></li>
+                <li><a href="/facturaDetalle/cuadre"><i class="fa fa-link"></i>Ver Cuadre</a></li>
+
+                </sec:ifAnyGranted>
+                </ul>
             <!-- /.sidebar-menu -->
         </section>
         <!-- /.sidebar -->

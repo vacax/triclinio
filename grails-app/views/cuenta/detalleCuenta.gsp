@@ -119,7 +119,7 @@
                                 %{--<g:link action="separarCuenta" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-warning">Separar cuenta</button></g:link>--}%
 
                                     <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
-                                        <triclinio:botonPagar cuentaClienteId="${clientecuenta.id}"/>
+                                        <triclinio:botonPagar  cuentaClienteId="${clientecuenta.id}"/>
                                     </sec:ifAnyGranted>
 
 

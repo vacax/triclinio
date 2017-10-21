@@ -91,8 +91,6 @@
             <td>${factura.montoNeto}</td>
             <td>
             <button style="text-decoration: none" type="button" class="reversarFactura btn btn-link" id="${factura.id}">Reversar factura</button>
-            %{--<g:link action="verOrdenEspecifico" controller="cuenta"  params="[idOrden: listaOrden.id]"><button type="button" class="btn">Ver Detalle Orden</button></g:link>--}%
-
             </td>
         </tr>
 

@@ -28,7 +28,6 @@ class Factura {
     Date dateCreated;
     Date lastUpdated;
 
-
     static constraints = {
         porcientoImpuesto(nullable: true)
         porcientoDescuento(nullable: true)

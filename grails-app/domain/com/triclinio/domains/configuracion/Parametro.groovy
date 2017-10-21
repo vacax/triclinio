@@ -19,6 +19,8 @@ class Parametro {
     final static int CANTIDAD_FACTURA = 1012
     final static int CANTIDAD_PRECUENTA = 1013
 
+    final static int CANTIDAD_IMPRESION_FACTURA= 1014
+
 
 
 

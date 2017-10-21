@@ -2,6 +2,7 @@ package com.triclinio.services
 
 import com.triclinio.domains.cxc.Cliente
 import com.triclinio.domains.restaurante.ClienteCuenta
+import com.triclinio.domains.restaurante.Cuenta
 import com.triclinio.domains.restaurante.OrdenDetalle
 import com.triclinio.domains.seguridad.Usuario
 import com.triclinio.domains.venta.EstadoFactura
@@ -20,6 +21,11 @@ class FacturacionService {
     Factura procesarOrden(long clienteCuentaId, Usuario usuario){
 
         ClienteCuenta clienteCuenta = ClienteCuenta.get(clienteCuentaId)
+
+        OrdenDetalle ordenDetalle = OrdenDetalle.findByClienteCuentaAndHabilitado(clienteCuenta, true)
+        Factura facturaTmp = FacturaDetalle.findByOrdenDetalle(ordenDetalle)?.factura
+
+
         
         BigDecimal porcientoImpuesto=0
         BigDecimal porcientoDescuento=0
@@ -38,10 +44,17 @@ class FacturacionService {
         factura.estadoFactura = estadoFactura
         factura.usuario = usuario
         factura.cliente = cliente
-        factura.save(flush: true, failOnError: true)
+
+        if(facturaTmp){
+            println "Ya facturada"
+            println "Imprimiendo factura"+facturaTmp
+           // facturaTmp.merge(flush: true, failOnError: true)
+        }else{
+            factura.save(flush: true, failOnError: true)
+        }
+
 
         def ordenesActivas = OrdenDetalle.findAllByHabilitadoAndClienteCuenta(true, clienteCuenta)
-
 
         ordenesActivas.each {
             
@@ -53,12 +66,28 @@ class FacturacionService {
             montoDescuento = montoDescuento + it.montoDescuento
             montoImpuesto = montoImpuesto + it.montoImpuesto
             montoNeto = montoNeto + it.montoNeto
-            
-            facturaDetalle.ordenDetalle = it
-            facturaDetalle.factura = factura
-            facturaDetalle.save(flush: true, failOnError: true)
-        }
 
+
+            //Para no mostrar la lista de ordenes detalle dos veces
+            if(facturaTmp){
+                //Tengo un flag en el orden detalle que dice facturada
+                if(!it.facturada) {
+                    facturaDetalle.ordenDetalle = it
+                    facturaDetalle.factura = facturaTmp
+                    facturaDetalle.save(flush: true, failOnError: true)
+                }else{
+
+                }
+            }else {
+                //Si es la primera, ponme que sea true y guardame
+                it.facturada=true
+                facturaDetalle.ordenDetalle = it
+                facturaDetalle.factura = factura
+                facturaDetalle.save(flush: true, failOnError: true)
+                it.save(flush:true,failOnError:true)
+            }
+
+        }
 
         factura.porcientoImpuesto=porcientoImpuesto
         factura.porcientoDescuento=porcientoDescuento
@@ -66,8 +95,21 @@ class FacturacionService {
         factura.montoDescuento=montoDescuento
         factura.montoImpuesto=montoImpuesto
         factura.montoNeto=montoNeto
-        
-        factura.save(flush: true, failOnError: true)
+
+
+        //Para guardar la cantidad total
+        if(facturaTmp){
+            println "Ya facturada"
+            facturaTmp.porcientoImpuesto=porcientoImpuesto
+            facturaTmp.porcientoDescuento=porcientoDescuento
+            facturaTmp.montoBruto=montoBruto
+            facturaTmp.montoDescuento=montoDescuento
+            facturaTmp.montoImpuesto=montoImpuesto
+            facturaTmp.montoNeto=montoNeto
+            facturaTmp.merge(flush: true, failOnError: true)
+        }else{
+            factura.save(flush: true, failOnError: true)
+        }
 
 
     }

@@ -278,7 +278,7 @@ class CuentaController {
 
 
 
-        //matricialService.generarComandaCocina(idCuenta, false, true)
+        matricialService.generarComandaCocina(idCuenta, false, true)
         redirect(action: "cuentasAbiertas")
     }
 

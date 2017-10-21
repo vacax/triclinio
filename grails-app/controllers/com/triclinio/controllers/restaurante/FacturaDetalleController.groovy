@@ -1,5 +1,6 @@
 package com.triclinio.controllers.restaurante
 
+import com.triclinio.domains.configuracion.Parametro
 import com.triclinio.domains.cxc.Cliente
 import com.triclinio.domains.restaurante.ClienteCuenta
 import com.triclinio.domains.restaurante.Cuenta
@@ -22,7 +23,7 @@ class FacturaDetalleController {
     def index() { }
 
     /**
-     * 
+     *
      * @param clienteCuentaId
      * @return
      */
@@ -36,7 +37,6 @@ class FacturaDetalleController {
     def imprimirPreCuenta(long idFactura){
         Factura factura = Factura.findById(idFactura)
 
-
         matricialService.generarPreCuenta(factura.id)
         println "Impuesto "+factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id
 
@@ -45,12 +45,10 @@ class FacturaDetalleController {
 
     def facturar(long factura){
         Factura facturaTmp=Factura.findById(factura)
-        //TODO: cambiar..
+
         List<FacturaDetalle> facturaDetalles=new ArrayList<>()
 
         facturaDetalles= FacturaDetalle.findAllByFactura(facturaTmp)
-
-
         facturaTmp.setEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA))
         facturaTmp.save(flush: true, failOnError: true)
 
@@ -65,16 +63,14 @@ class FacturaDetalleController {
         [factura: factura]
     }
 
-
     def imprimirFactura(long id){
-        /*def idParametro=params.id
-        def idFactura=idParametro.toString()*/
-
         Factura factura=Factura.findById(id)
-        factura.setEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA))
+        factura.setEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
+        int cantidadImpresion=Parametro.findByCodigo(Parametro.CANTIDAD_IMPRESION_FACTURA).valor.toInteger()
 
-        matricialService.generarFactura(factura.id)
-
+        for (int i=1;i<cantidadImpresion;i++) {
+            matricialService.generarFactura(factura.id)
+        }
 
         def idClienteCuenta = factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.id
         def idCuenta =factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id
@@ -83,32 +79,31 @@ class FacturaDetalleController {
             ordenDetalle.clienteCuenta.habilitado = false
             ordenDetalle.save(flush: true, failOnError: true)
         }
-//
+
         ClienteCuenta clienteCuenta = ClienteCuenta.findById(idClienteCuenta)
         clienteCuenta.habilitado = false
         clienteCuenta.save(flush: true, failOnError: true)
-//
-//        println "Size cuenta" + Cuenta.findById(idCuenta).listaClienteCuenta.size()
+
         boolean habilitado = false
-//
+
         for (ClienteCuenta clienteCuenta1 : Cuenta.findById(idCuenta).listaClienteCuenta)
             if (clienteCuenta1.habilitado) {
                 habilitado = true
                 break
             }
-//
+
         if (!habilitado) {
             Cuenta cuenta = Cuenta.findById(idCuenta)
             cuenta.setEstadoCuenta(EstadoCuenta.findByCodigo(EstadoCuenta.CERRADA))
             cuenta.save(flush: true, failOnError: true)
         }
+        factura.save(flush:true,failOnError:true)
 
         redirect(uri:"/cuenta/cuentasAbiertas")
     }
 
-
     def historialFacturas(){
-        def facturas=Factura.findAllByEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
+        def facturas=Factura.findAllByHabilitadoAndEstadoFactura(true,EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
         [facturas: facturas]
     }
 
@@ -125,17 +120,36 @@ class FacturaDetalleController {
             ordenDetalle.save(flush: true, failOnError: true)
         }
 
+        factura.estadoFactura = EstadoFactura.findByCodigoAndHabilitado(EstadoFactura.FACTURADA,true)
+        factura.save(flush:true,failOnError:true)
         redirect(uri:"/cuenta/cuentasAbiertas")
     }
 
-    /**
+    /**agar
      * TODO: implementar el metodo e indicando label que diga reimpresion.
      * @param facturaId
      * @return
      */
+
     def reimpresionFactura(long facturaId){
         matricialService.generarFactura(facturaId);
         render "Imprimiendo"
+    }
+
+    def cuadre(){
+        def today = new Date()
+
+        List<Factura> facturas=Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA),today-1,today)
+
+        [facturas: facturas]
+    }
+
+    def verDetalleFactura(long id){
+        Factura factura1=Factura.findById(id)
+
+        println "Id Factura"+factura1.id
+
+        [factura: factura1]
     }
 }
 

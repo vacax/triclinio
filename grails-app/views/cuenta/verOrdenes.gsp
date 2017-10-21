@@ -144,11 +144,7 @@
 <g:submitButton id="target"  class="btn btn-primary btn-lg" name="Procesar Orden" />
 <button class="btn btn-danger btn-lg"  onclick="window.history.back();" >Cancelar Proceso</button>
 %{--<a style="background-color: #4c59ff;color: #FFFFFF; ;width: 150px; height: 150px;" href="#" onclick="window.history.back();">Cancelar</a>--}%
-
-
 </body>
-
-
 </html>
 
 
