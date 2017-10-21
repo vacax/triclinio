@@ -245,6 +245,7 @@ class CuentaController {
 //        def ordenesActivas = clienteCuenta.listaOrdenDetalle
 
 //        ordenesActivas.each {
+//        ordenesActivas.each {
 //            if(!it.habilitado){
 //                ordenesActivas.remove(it)
 //            }
@@ -340,6 +341,7 @@ class CuentaController {
     def cerraCuenta(long idCuenta){
         Cuenta cuenta = Cuenta.get(idCuenta)
         cuenta.habilitado = false
+        cuenta.estadoCuenta = EstadoCuenta.findByCodigo(EstadoCuenta.ELIMINADA)
         cuenta.save(flush:true, failOnError:true)
         cuenta.listaMesa.each { //TODO: mejorar....
             def mesa = Mesa.get(it.mesa.id)
