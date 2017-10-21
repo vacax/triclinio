@@ -4,6 +4,7 @@ class EstadoCuenta {
 
     final static int ABIERTO = 1000
     final static int CERRADA = 1001
+    final static int ELIMINADA = 1003
     
     int codigo
     String nombre
