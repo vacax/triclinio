@@ -1,6 +1,8 @@
 package com.triclinio.taglibs
 
 import com.triclinio.domains.restaurante.ClienteCuenta
+import com.triclinio.domains.restaurante.Cuenta
+import com.triclinio.domains.restaurante.EstadoCuenta
 import com.triclinio.domains.restaurante.OrdenDetalle
 import com.triclinio.domains.seguridad.Usuario
 import com.triclinio.domains.venta.EstadoFactura
@@ -18,6 +20,11 @@ class TriclinioTagLib {
     def nombreUsuario={
        Usuario usuario = (Usuario)springSecurityService.currentUser
         out << "${usuario?.nombre}"
+    }
+
+    def numeroCuentasAbiertas={
+        def numeroCuentasAbiertas = Cuenta.findAllByHabilitadoAndEstadoCuenta(true,EstadoCuenta.findByCodigo(EstadoCuenta.ABIERTO))
+        out << "${numeroCuentasAbiertas?.size()}"
     }
 
     /**
