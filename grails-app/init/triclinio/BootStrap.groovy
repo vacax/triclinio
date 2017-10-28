@@ -83,6 +83,7 @@ class BootStrap {
         //Estado de Cuenta
         EstadoCuenta.findByCodigo(EstadoCuenta.ABIERTO) ?: new EstadoCuenta(codigo: EstadoCuenta.ABIERTO,nombre: "ABIERTO").save(flush: true, failOnError: true)
         EstadoCuenta.findByCodigo(EstadoCuenta.CERRADA) ?:new EstadoCuenta(codigo: EstadoCuenta.CERRADA,nombre: "CERRADA").save(flush: true, failOnError: true)
+        EstadoCuenta.findByCodigo(EstadoCuenta.ELIMINADA) ?:new EstadoCuenta(codigo: EstadoCuenta.ELIMINADA,nombre: "ELIMINADA").save(flush: true, failOnError: true)
 
         //Estado de factura.
         EstadoFactura.findByCodigo(EstadoFactura.PREFACTURA) ?: new EstadoFactura(codigo: EstadoFactura.PREFACTURA,nombre: "PRE_FACTURADA").save(flush: true, failOnError: true)

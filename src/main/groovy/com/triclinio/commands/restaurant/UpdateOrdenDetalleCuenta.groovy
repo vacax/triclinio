@@ -4,8 +4,7 @@ import grails.validation.Validateable
 
 class UpdateOrdenDetalleCuenta implements Validateable {
 
-    long cuentaId
-    long clienteId
+    long clienteCuentaId
     String comentario
     List<OrdenDetallePlatoForm> listaPlato
 

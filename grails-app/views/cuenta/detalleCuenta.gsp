@@ -114,7 +114,8 @@
                                 %{--<g:form action="nuevoDetalleOrden">--}%
                                     <input hidden="hidden" id="clienteCuenta" name="clienteCuenta" value="${clientecuenta.id}">
                                     <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
-                                        <g:link action="nuevoDetalleOrden2" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-adn">Agregar/eliminar orden a la cuenta</button></g:link>
+                                        <g:link action="agregarOrdenDetalleClienteCuenta" controller="cuenta"  params="[clienteCuentaId: clientecuenta.id]"><button type="button" class="btn btn-foursquare">Agregar orden</button></g:link>
+                                        <g:link action="eliminarOrdenDetalleClienteCuenta" controller="cuenta"  params="[clienteCuentaId: clientecuenta.id]"><button type="button" class="btn btn-danger">Eliminar orden</button></g:link>
                                     </sec:ifAnyGranted>
                                 %{--<g:link action="separarCuenta" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-warning">Separar cuenta</button></g:link>--}%
 

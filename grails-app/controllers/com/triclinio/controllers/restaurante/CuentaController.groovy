@@ -114,17 +114,20 @@ class CuentaController {
      * @param form
      * @return
      */
+
     def nuevaOrdenDetalleCuentaExistentes(UpdateOrdenDetalleCuenta form){
-        def clienteCuenta = ClienteCuenta.findById(form.clienteId)
+        ClienteCuenta clienteCuenta = ClienteCuenta.get(form.clienteCuentaId)
+        println(clienteCuenta.id)
+        //TODO COMENTARIOS AREGLAR (SE ESTA REMPLAZANDO)
         clienteCuenta.comentario=form.comentario
         clienteCuenta.save(flush:true,failOnError:true)
         ordenDetalleService.updateProcesarOrdenDetalle(form,clienteCuenta)
-
+//
         println("Nuevo detalle orden agregada!")
         matricialService.generarComandaCocina(clienteCuenta.cuenta.id, true)
         matricialService.generarComandaCocina(clienteCuenta.cuenta.id, false)
-
-
+//
+//
         render clienteCuenta.cuenta as JSON
     }
 
@@ -181,6 +184,7 @@ class CuentaController {
     def detalleCuenta(long idCuenta, long idFactura){
         List<ClienteCuenta> cuentaArrayList=new ArrayList<>()
 
+        println(idCuenta)
 
         def cuenta = Cuenta.findById(idCuenta)
 
@@ -213,75 +217,51 @@ class CuentaController {
      * @return
      */
     def sacarItemCuenta(long clienteCuentaId,long idPlato){
-
         OrdenDetalle ordenDetalle = OrdenDetalle.findByClienteCuentaAndPlato(ClienteCuenta.get(clienteCuentaId), Plato.get(idPlato))
-        Factura facturaTmp = FacturaDetalle.findByOrdenDetalle(ordenDetalle)?.factura
-
-        if(facturaTmp){
-            facturaTmp.listaFacturaDetalle.each {
-
-                if(ordenDetalle.id==it.ordenDetalle.id){
-
-                    facturaTmp.executeUpdate("delete FacturaDetalle f  where f.ordenDetalle=:idOrdenDetalle",[idOrdenDetalle:it.ordenDetalle])
-                    ordenDetalle.habilitado = false
-                    ordenDetalle.save(flush:true, failOnError:true)
-                }
-            }
-        }else {
-            println(ordenDetalle.plato.nombre)
-            ordenDetalle.habilitado = false
-//            ordenDetalle.eliminada=true
-            ordenDetalle.save(flush:true, failOnError:true)
-        }
-
-//        def cliente = ClienteCuenta.get(clienteCuentaId)
-//        cliente.listaOrdenDetalle.each {
-//            if(it.plato.id==idPlato){
-//                it.habilitado=false
-//                it.save(flush:true, failOnError:true)
-//
-//            }
-//        }
-        redirect(action: "nuevoDetalleOrden2", params:[ clienteCuenta : clienteCuentaId])
+        ordenDetalle.habilitado = false
+        ordenDetalle.save(flush:true, failOnError:true)
+        redirect(action: "eliminarOrdenDetalleClienteCuenta", params:[ clienteCuentaId : ClienteCuenta.get(clienteCuentaId).id])
 
     }
 
-    /**
-     * VENTANA QUE MUESTRA LAS ORDENES DEL CLIENTE EN UNA CUENTA EXISTENTE, ASI COMO PARA AGREGAR NUEVO ITEMS
-     * @return
-     */
-    def nuevoDetalleOrden2(){
+    def agregarOrdenDetalleClienteCuenta(long clienteCuentaId){
         def listadoPlatos = Plato.findAllByHabilitado(true)
-        def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
+        ClienteCuenta clienteCuenta = ClienteCuenta.get(clienteCuentaId)
 
-        def ordenesActivas = OrdenDetalle.findAllByHabilitadoAndClienteCuenta(true, clienteCuenta)
-
-//        def ordenesActivas = clienteCuenta.listaOrdenDetalle
-
-//        ordenesActivas.each {
-//        ordenesActivas.each {
-//            if(!it.habilitado){
-//                ordenesActivas.remove(it)
-//            }
-//        }
-
-        def listadoClienteCuentas = CuentaMesa.findAllByCuenta(clienteCuenta.cuenta)
         def listadoMesas = new HashSet()
 
-        listadoClienteCuentas.each {
+        CuentaMesa.findAllByCuenta(clienteCuenta.cuenta).each {
             if(it.habilitado){
                 listadoMesas.add(it.mesa)
             }
         }
 
 
-        [listaPlatos: listadoPlatos, clienteCuenta:clienteCuenta, ordenesActivas: ordenesActivas, listadoMesas: listadoMesas]
+        [listaPlatos: listadoPlatos, clienteCuenta:clienteCuenta, listadoMesas: listadoMesas]
     }
 
+    def eliminarOrdenDetalleClienteCuenta(long clienteCuentaId){
+        ClienteCuenta clienteCuenta = ClienteCuenta.get(clienteCuentaId)
+
+        def ordenesActivas = OrdenDetalle.findAllByHabilitadoAndClienteCuenta(true, clienteCuenta)
+
+
+
+        def listadoMesas = new HashSet()
+
+        CuentaMesa.findAllByCuenta(clienteCuenta.cuenta).each {
+            if(it.habilitado){
+                listadoMesas.add(it.mesa)
+            }
+        }
+
+
+        [ clienteCuenta:clienteCuenta, ordenesActivas: ordenesActivas, listadoMesas: listadoMesas]
+    }
     def imprimirComanda(long idCuenta){
 
         println(idCuenta)
-        //.generarComandaCocinaAgrupadaCategoria(idCuenta, true)
+        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true)
         matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false)
         redirect(action: "cuentasAbiertas")
     }

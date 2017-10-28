@@ -17,6 +17,7 @@
 
 <section class="content">
 
+    <input type="text" value="${clienteCuenta.id}" name="clienteCuentaId" id="clienteCuentaId" class="form-control">
 
     <div class="row">
         <div class="col-md-3">
@@ -98,7 +99,7 @@
 
                 </tr>
                 <g:each in="${ordenesActivas}" var="orden">
-                     <tr>
+                    <tr>
                         <td>${orden.id}</td>
                         <td>${orden.nombrePlato}</td>
                         <td>${orden.cantidad}</td>
@@ -116,90 +117,21 @@
 
 
             %{--<tr hidden="hidden">--}%
-                    %{--<td><input type="text" id="idPlatilloAgregado"></td>--}%
-                    %{--<td><input type="text" id="nombrePlatilloAgregado"></td>--}%
-                    %{--<td><input type="text" id="cantidadPlatilloAgregado"></td>--}%
-                    %{--<td><input type="text" id="precioPlatilloAgregado"></td>--}%
-                    %{--<td><input type="text"></td>--}%
-                %{--</tr>--}%
+            %{--<td><input type="text" id="idPlatilloAgregado"></td>--}%
+            %{--<td><input type="text" id="nombrePlatilloAgregado"></td>--}%
+            %{--<td><input type="text" id="cantidadPlatilloAgregado"></td>--}%
+            %{--<td><input type="text" id="precioPlatilloAgregado"></td>--}%
+            %{--<td><input type="text"></td>--}%
+            %{--</tr>--}%
 
 
             </table>
         </div>
     </div>
 
-
-    <!--    TABLA LISTADO ITEMS-->
-    <div class="box">
-        <input hidden="hidden" id="cuentaAsignada" name="cuentaAsignada" value="${clienteCuenta.cuenta.id}">
-        <div class="box-header with-border">
-            <h3 class="box-title"><b>LISTADO ITEMS</b></h3>
-        </div>
-        <div class="box-body">
-            <table id="example" class="table table-bordered" cellspacing="0" width="100%">
-                <thead>
-                <tr>
-                    <th hidden="hidden">ID</th>
-                    <th>Nombre Item / Platillo</th>
-                    <th>Precio</th>
-                </tr>
-                </thead>
-                <tfoot>
-                <tr>
-                    <th hidden="hidden">ID</th>
-                    <th>Nombre Item / Platillo</th>
-                    <th>Precio</th>
-                </tr>
-                </tfoot>
-                <tbody>
-                <g:each in="${listaPlatos}" status="counter" var="plato">
-                    <tr>
-                        <td  hidden="hidden">${plato.id}</td>
-                        <td>${plato.nombre}</td>
-                        <td>${plato.precio}</td>
-                    </tr>
-                </g:each>
-                </tbody>
-            </table>
-
-        </div>
-        <div style="margin-bottom: 2%" class="box-footer clearfix">
-            <input hidden="hidden" id="rowSelected" name="rowSelected">
-            <input hidden="hidden"  id="nombrePlato" name="nombrePlato">
-            <input hidden="hidden"  id="precioPlato" name="precioPlato">
-            <button onclick="add_row()" disabled="disabled" id="agregarDetalle" type="button" class="btn btn-success btn-block">Agregar</button>
-        </div>
-    </div>
-
-<!--    TABLA ITEMS AGREGADOS-->
-    <div class="box">
-        <div class="box-header">
-            <h3 class="box-title"><b>ITEMS AGREGADOS</b></h3>
-        </div>
-        <div class="box-body no-padding">
-            <table align='center' class="table table-condensed" cellspacing=2 cellpadding=5 id="data_table" >
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre Item/Platillo</th>
-                    <th>Cantidad</th>
-                    <th>Precio</th>
-                    <th>Acciones</th>
-
-                </tr>
-
-                <tr hidden="hidden">
-                    <td><input type="text" id="idPlatilloAgregado"></td>
-                    <td><input type="text" id="nombrePlatilloAgregado"></td>
-                    <td><input type="text" id="cantidadPlatilloAgregado"></td>
-                    <td><input type="text" id="precioPlatilloAgregado"></td>
-                    <td><input type="text"></td>
-                </tr>
+    <g:link action="detalleCuenta" controller="cuenta" params="[idCuenta: clienteCuenta.cuenta.id]" ><button type="button" class="btn btn-danger btn-block">Volver atras</button></g:link>
 
 
-            </table>
-            <button id="guardarOrden" name="guardarOrden" style="margin-top: 2%" type="summit" class="btn btn-danger btn-block">Guardar</button>
-        </div>
-    </div>
 
 </section>
 
@@ -233,57 +165,57 @@
     } );
 
     %{--$("#guardarOrden").click(function () {--}%
-        %{--var T = document.getElementById('data_table');--}%
-        %{--var rows =$(T).find('> tbody > tr').length;--}%
+    %{--var T = document.getElementById('data_table');--}%
+    %{--var rows =$(T).find('> tbody > tr').length;--}%
 
-        %{--var cuentaAsignada = document.getElementById("cuentaAsignada").value--}%
+    %{--var cuentaAsignada = document.getElementById("cuentaAsignada").value--}%
 
-        %{--var idCliente=${clienteCuenta.id}--}%
+    %{--var idCliente=${clienteCuenta.id}--}%
 
-        %{--alert(rows)--}%
-        %{--if(rows==2){--}%
-            %{--alert("NO TIENE PLATOS SELECCIONADOS!!")--}%
-        %{--}--}%
-        %{--else{--}%
-            %{--crearPlato(idCliente)--}%
-
-
+    %{--alert(rows)--}%
+    %{--if(rows==2){--}%
+    %{--alert("NO TIENE PLATOS SELECCIONADOS!!")--}%
+    %{--}--}%
+    %{--else{--}%
+    %{--crearPlato(idCliente)--}%
 
 
 
 
-            %{--parent.location="/cuenta/cuentaAgregarFinalizar?idCuenta="+cuentaAsignada;--}%
 
 
-        %{--}--}%
+    %{--parent.location="/cuenta/cuentaAgregarFinalizar?idCuenta="+cuentaAsignada;--}%
+
+
+    %{--}--}%
     %{--});--}%
 
-//    function crearPlato(idCliente) {
-//        var T = document.getElementById('data_table');
-//        var rows =$(T).find('> tbody > tr').length;
-//
-//        $(T).find('> tbody > tr').each(function (index,value) {
-//            if(index!=0 && index!=rows-1){
-//                var idPlato=$(this).find("td").eq(0).html();
-//                var cantidad=$(this).find("td").eq(2).html();
-//                $.ajax({
-//                    type: "POST",
-//                    url:"/cuenta/nuevaOrdenDetalle?idPlato="+idPlato+"&cantidad="+cantidad+"&idCliente="+idCliente,
-//                    dataType: "JSON",
-//                    contentType:"application/json; charset=utf-8",
-//                    success:(
-//                        function (data) {
-//                            console.log("SE ENTREGO! ORDEN");
-//                        }),
-//                    error :(function(data){
-//                        alert("ERROR PLATOS!")
-//                    })
-//                });
-//
-//            }
-//        });
-//
-//    }
+    //    function crearPlato(idCliente) {
+    //        var T = document.getElementById('data_table');
+    //        var rows =$(T).find('> tbody > tr').length;
+    //
+    //        $(T).find('> tbody > tr').each(function (index,value) {
+    //            if(index!=0 && index!=rows-1){
+    //                var idPlato=$(this).find("td").eq(0).html();
+    //                var cantidad=$(this).find("td").eq(2).html();
+    //                $.ajax({
+    //                    type: "POST",
+    //                    url:"/cuenta/nuevaOrdenDetalle?idPlato="+idPlato+"&cantidad="+cantidad+"&idCliente="+idCliente,
+    //                    dataType: "JSON",
+    //                    contentType:"application/json; charset=utf-8",
+    //                    success:(
+    //                        function (data) {
+    //                            console.log("SE ENTREGO! ORDEN");
+    //                        }),
+    //                    error :(function(data){
+    //                        alert("ERROR PLATOS!")
+    //                    })
+    //                });
+    //
+    //            }
+    //        });
+    //
+    //    }
 
     function delete_row(no) {
         document.getElementById("row"+no+"").outerHTML="";
@@ -388,6 +320,10 @@
 
 
 </html>
+
+
+
+
 
 
 
