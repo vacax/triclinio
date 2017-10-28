@@ -101,14 +101,7 @@
                                 %{--<button type="submit" class="btn btn-block btn-danger btn-sm">Facturar</button>--}%
                                 %{--</g:form>--}%
 
-                                    <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
-                                    %{--<g:if test="${factura}">--}%
-                                    %{--<g:if test="${factura.estadoFactura.codigo != 1000}">--}%
 
-                                        <g:link action="verOrdenes" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-info">Pre Cuenta</button></g:link>
-                                    %{--</g:if>--}%
-                                    %{--</g:if>--}%
-                                    </sec:ifAnyGranted>
 
 
                                 %{--<g:form action="nuevoDetalleOrden">--}%
@@ -119,6 +112,14 @@
                                     </sec:ifAnyGranted>
                                 %{--<g:link action="separarCuenta" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-warning">Separar cuenta</button></g:link>--}%
 
+                                <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
+                                %{--<g:if test="${factura}">--}%
+                                %{--<g:if test="${factura.estadoFactura.codigo != 1000}">--}%
+
+                                    <g:link action="verOrdenes" controller="cuenta"  params="[clienteCuenta: clientecuenta.id]"><button type="button" class="btn btn-info">Pre Cuenta</button></g:link>
+                                %{--</g:if>--}%
+                                %{--</g:if>--}%
+                                </sec:ifAnyGranted>
                                     <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
                                         <triclinio:botonPagar  cuentaClienteId="${clientecuenta.id}"/>
                                     </sec:ifAnyGranted>

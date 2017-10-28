@@ -114,17 +114,6 @@
 
                     </tr>
                 </g:each>
-
-
-            %{--<tr hidden="hidden">--}%
-            %{--<td><input type="text" id="idPlatilloAgregado"></td>--}%
-            %{--<td><input type="text" id="nombrePlatilloAgregado"></td>--}%
-            %{--<td><input type="text" id="cantidadPlatilloAgregado"></td>--}%
-            %{--<td><input type="text" id="precioPlatilloAgregado"></td>--}%
-            %{--<td><input type="text"></td>--}%
-            %{--</tr>--}%
-
-
             </table>
         </div>
     </div>

@@ -107,6 +107,8 @@
             <h2><b>TOTAL:RD$ ${totalCuenta}</b></h2>
         </div>
     </div>
+    <g:link action="detalleCuenta" controller="cuenta" params="[idCuenta: clienteCuenta.cuenta.id]"><button type="button" class="btn btn-block btn-danger">Volver Atras</button></g:link>
+
 
 </section>
 
