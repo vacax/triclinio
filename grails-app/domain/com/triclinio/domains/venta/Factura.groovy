@@ -12,6 +12,7 @@ class Factura {
 
     //static belongsTo = [estadoFactura : EstadoFactura]
     static hasMany = [listaFacturaDetalle : FacturaDetalle]
+    static fetchMode = [listaFacturaDetalle: 'lazy']
 
     //Datos dinero
     BigDecimal porcientoImpuesto

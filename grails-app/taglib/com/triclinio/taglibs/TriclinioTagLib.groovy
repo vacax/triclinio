@@ -12,6 +12,7 @@ class TriclinioTagLib {
     static namespace = "triclinio"
     static defaultEncodeAs = [taglib:'html']
     static encodeAsForTags = [botonPagar: [taglib:'none']]
+
     def springSecurityService
 
     def nombreUsuario={
@@ -22,21 +23,22 @@ class TriclinioTagLib {
     /**
      * @param attr.cuentaClienteId
      */
-    def botonPagar={attrs,body ->
-        
-       println("Cliente cuenta: ${attrs.cuentaClienteId}")
-       ClienteCuenta clienteCuenta = ClienteCuenta.get(attrs.cuentaClienteId)
-        println("La cuenta: "+clienteCuenta?.properties)
-        if(!clienteCuenta){
-            return 
+    def botonPagar= { attrs, body ->
+
+        println("Cliente cuenta: ${attrs.cuentaClienteId}")
+        ClienteCuenta clienteCuenta = ClienteCuenta.get(attrs.cuentaClienteId)
+        println("La cuenta: " + clienteCuenta?.properties)
+        if (!clienteCuenta) {
+            return
         }
+
+
         OrdenDetalle ordenDetalle = OrdenDetalle.findByClienteCuentaAndHabilitado(clienteCuenta, true)
-        Factura factura = FacturaDetalle.findByOrdenDetalle(ordenDetalle)?.factura;
-        if(factura && factura.estadoFactura.codigo == EstadoFactura.FACTURADA){
-           out << g.link(class: "btn btn-info", controller: "facturaDetalle", action: "imprimir", params: [idFactura: factura.id]){
-               "Pagar"
-           }
+        Factura factura = FacturaDetalle.findByOrdenDetalle(ordenDetalle)?.factura
+        if (factura && factura.estadoFactura.codigo == EstadoFactura.FACTURADA) {
+            out << g.link(class: "btn btn-info", controller: "facturaDetalle", action: "imprimir", params: [idFactura: factura.id]) {
+                "Pagar"
+            }
         }
     }
-
 }

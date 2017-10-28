@@ -14,7 +14,7 @@
     </content>
 
     <content tag="contenido">
-         TODO:
+        TODO:
     </content>
 
 </g:applyLayout>

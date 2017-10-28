@@ -9,6 +9,7 @@ class OrdenDetalle {
     boolean activa = true
     boolean impreso =false
     boolean facturada=false
+    boolean eliminada=false
 
 
     //Precio del articulo

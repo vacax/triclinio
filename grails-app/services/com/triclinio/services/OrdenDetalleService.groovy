@@ -48,6 +48,8 @@ class OrdenDetalleService {
             ordenDetalle.nombrePlato=plato.nombre
 
             ordenDetalle.facturada=false
+//            ordenDetalle.habilitado=true
+//            ordenDetalle.eliminada=false
 
             //calculo de dinero
             ordenDetalle.precio = plato.precio

@@ -75,8 +75,6 @@ class FacturacionService {
                     facturaDetalle.ordenDetalle = it
                     facturaDetalle.factura = facturaTmp
                     facturaDetalle.save(flush: true, failOnError: true)
-                }else{
-
                 }
             }else {
                 //Si es la primera, ponme que sea true y guardame

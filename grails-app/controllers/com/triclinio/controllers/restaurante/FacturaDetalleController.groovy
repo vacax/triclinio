@@ -19,7 +19,6 @@ class FacturaDetalleController {
     def matricialService
     def facturacionService
 
-
     def index() { }
 
     /**
@@ -137,9 +136,24 @@ class FacturaDetalleController {
     }
 
     def cuadre(){
+        def exportService
+        def grailsApplication
+
         def today = new Date()
 
-        List<Factura> facturas=Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA),today-1,today)
+        List<Factura> facturas=Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA),today.minus(1),today)
+
+
+//        def list = {
+//            if (!params.max) params.max = 10
+//
+//            if (params?.format && params.format != "html") {
+//                response.contentType = grailsApplication.config.grails.mime.types[params.format]
+//                response.setHeader("Content-disposition", "attachment; filename=Factura.${params.extension}")
+//
+//                exportService.export(params.format, response.outputStream, Factura.list(params), [:], [:])
+//            }
+//        }
 
         [facturas: facturas]
     }
@@ -147,9 +161,10 @@ class FacturaDetalleController {
     def verDetalleFactura(long id){
         Factura factura1=Factura.findById(id)
 
-        println "Id Factura"+factura1.id
 
-        [factura: factura1]
+       // renderPdf(template: "/facturaDetalle/cuadre", model: [report: factura1], filename: factura1.usuario)
+        renderPdf(template: '/templates/pdf/verDetalleFactura', model: [invoice: factura1], filename: "factura")
+        println "Done"
+//        [factura: factura1]
     }
 }
-

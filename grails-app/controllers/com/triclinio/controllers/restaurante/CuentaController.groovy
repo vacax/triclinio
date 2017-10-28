@@ -15,6 +15,7 @@ import com.triclinio.domains.restaurante.Plato
 import com.triclinio.domains.seguridad.Usuario
 import com.triclinio.domains.venta.EstadoFactura
 import com.triclinio.domains.venta.Factura
+import com.triclinio.domains.venta.FacturaDetalle
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import groovy.json.JsonOutput
@@ -26,9 +27,6 @@ class CuentaController {
     def ordenDetalleService
     def springSecurityService
     def matricialService
-
-
-
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -217,9 +215,25 @@ class CuentaController {
     def sacarItemCuenta(long clienteCuentaId,long idPlato){
 
         OrdenDetalle ordenDetalle = OrdenDetalle.findByClienteCuentaAndPlato(ClienteCuenta.get(clienteCuentaId), Plato.get(idPlato))
-        println(ordenDetalle.plato.nombre)
-        ordenDetalle.habilitado = false
-        ordenDetalle.save(flush:true, failOnError:true)
+        Factura facturaTmp = FacturaDetalle.findByOrdenDetalle(ordenDetalle)?.factura
+
+        if(facturaTmp){
+            facturaTmp.listaFacturaDetalle.each {
+
+                if(ordenDetalle.id==it.ordenDetalle.id){
+
+                    facturaTmp.executeUpdate("delete FacturaDetalle f  where f.ordenDetalle=:idOrdenDetalle",[idOrdenDetalle:it.ordenDetalle])
+                    ordenDetalle.habilitado = false
+                    ordenDetalle.save(flush:true, failOnError:true)
+                }
+            }
+        }else {
+            println(ordenDetalle.plato.nombre)
+            ordenDetalle.habilitado = false
+//            ordenDetalle.eliminada=true
+            ordenDetalle.save(flush:true, failOnError:true)
+        }
+
 //        def cliente = ClienteCuenta.get(clienteCuentaId)
 //        cliente.listaOrdenDetalle.each {
 //            if(it.plato.id==idPlato){
@@ -267,7 +281,7 @@ class CuentaController {
     def imprimirComanda(long idCuenta){
 
         println(idCuenta)
-        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true)
+        //.generarComandaCocinaAgrupadaCategoria(idCuenta, true)
         matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false)
         redirect(action: "cuentasAbiertas")
     }
