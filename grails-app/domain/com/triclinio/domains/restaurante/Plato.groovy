@@ -7,6 +7,7 @@ class Plato {
     BigDecimal precio
     boolean comanda
     CategoriaPlato categoriaPlato
+    PlatoTanda platoTanda
     
     
 
@@ -20,6 +21,7 @@ class Plato {
 
     static constraints = {
         alias(nullable: true)
+        platoTanda(nullable: true)
     }
 
     static mapping = {

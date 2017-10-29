@@ -15,6 +15,34 @@
 
     <content tag="contenido">
         <div class="row">
+            <g:if test="${tandaPlatos.valor=="0"}">
+
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="fa fa-sun-o"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text"></span>
+                        <span class="info-box-number">Habilitar Tanda Dia</span>
+                        <g:link action="tandaPlatos" controller="app" ><button type="button" class="btn btn-block btn-warning btn-xs"><b>Presione aqui para activar</b></button></g:link>
+                    </div>
+                    <!-- /.info-box-content -->
+                <!-- /.info-box -->
+                </div>
+            </g:if>
+            <g:if test="${tandaPlatos.valor=="1"}">
+                <div class="info-box">
+                    <span class="info-box-icon bg-blue"><i class="fa fa-star"></i></span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text"></span>
+                        <span class="info-box-number">Habilitar Tanda Noche</span>
+                        <g:link action="tandaPlatos" controller="app" ><button type="button" class="btn btn-block btn-blue btn-xs"><b>Presione aqui para activar</b></button></g:link>
+                    </div>
+                    <!-- /.info-box-content -->
+                    <!-- /.info-box -->
+                </div>
+            </g:if>
+        </div>
+        <div class="row">
             %{--<div class="col-lg-5 col-xs-6">--}%
                 <!-- small box -->
                 <div class="small-box bg-green">

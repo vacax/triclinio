@@ -7,6 +7,7 @@ import com.triclinio.domains.restaurante.EstadoCuenta
 import com.triclinio.domains.restaurante.EstadoMesa
 import com.triclinio.domains.restaurante.Mesa
 import com.triclinio.domains.restaurante.Plato
+import com.triclinio.domains.restaurante.PlatoTanda
 import com.triclinio.domains.seguridad.Perfil
 import com.triclinio.domains.seguridad.Requestmap
 import com.triclinio.domains.seguridad.Usuario
@@ -57,6 +58,7 @@ class BootStrap {
         Parametro.findByCodigo(Parametro.JMS_USUARIO) ?: new Parametro(codigo: Parametro.JMS_USUARIO, nombre: "JMS_USUARIO", valor: "admin").save(flush: true, failOnError: true)
         Parametro.findByCodigo(Parametro.JMS_PASSWORD) ?: new Parametro(codigo: Parametro.JMS_PASSWORD, nombre: "JMS_PASSWORD", valor: "admin").save(flush: true, failOnError: true)
         Parametro.findByCodigo(Parametro.JMS_HABILITAR) ?: new Parametro(codigo: Parametro.JMS_HABILITAR, nombre: "JMS_HABILITAR", valor: "1").save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.TANDADIA) ?: new Parametro(codigo: Parametro.TANDADIA, nombre: "TANDA_DIA", valor: "1").save(flush: true, failOnError: true)
 
         //
         Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE) ?: new Parametro(codigo: Parametro.APP_NOMBRE_RESTAURANTE, nombre: "APP_NOMBRE_RESTAURANTE", valor: "GUAVA").save(flush: true, failOnError: true)
@@ -95,6 +97,11 @@ class BootStrap {
         CategoriaPlato.findByNombre("Platos Fuertes") ?: new CategoriaPlato(nombre: "Platos Fuertes").save(flush: true, failOnError: true)
         CategoriaPlato.findByNombre("Postres") ?: new CategoriaPlato(nombre: "Postres").save(flush: true, failOnError: true)
         CategoriaPlato.findByNombre("Bebidas") ?: new CategoriaPlato(nombre: "Bebidas").save(flush: true, failOnError: true)
+
+
+        PlatoTanda.findByNombre("Dia") ?: new PlatoTanda(nombre: "Dia", codigo: PlatoTanda.DIA).save(flush: true, failOnError: true)
+        PlatoTanda.findByNombre("Noche") ?: new PlatoTanda(nombre: "Noche", codigo: PlatoTanda.NOCHE).save(flush: true, failOnError: true)
+        PlatoTanda.findByNombre("Todo el dia") ?: new PlatoTanda(nombre: "Todo el dia", codigo: PlatoTanda.TODOELDIA).save(flush: true, failOnError: true)
 
 
         println("Aplicación en modo ${Environment.current}")
