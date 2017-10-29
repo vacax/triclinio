@@ -124,8 +124,10 @@ class CuentaController {
         ordenDetalleService.updateProcesarOrdenDetalle(form,clienteCuenta)
 //
         println("Nuevo detalle orden agregada!")
-        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, true)
-        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, false)
+//        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, true)
+//        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, false)
+        matricialService.generarComandaCocinaAgrupadaCategoria(clienteCuenta.cuenta.id, true)
+        matricialService.generarComandaCocinaAgrupadaCategoria(clienteCuenta.cuenta.id, false)
 //
 //
         render clienteCuenta.cuenta as JSON
@@ -182,31 +184,32 @@ class CuentaController {
      * @return
      */
     def detalleCuenta(long idCuenta, long idFactura){
-        List<ClienteCuenta> cuentaArrayList=new ArrayList<>()
+//        List<ClienteCuenta> cuentaArrayList=new ArrayList<>()
 
-        println(idCuenta)
+        def cuenta = Cuenta.get(idCuenta)
 
-        def cuenta = Cuenta.findById(idCuenta)
+//        def listadoClienteCuentas = CuentaMesa.findAllByCuenta(cuenta)
+        def listadoMesas = CuentaMesa.findAllByHabilitadoAndCuenta(true,cuenta).mesa
 
-        def listadoClienteCuentas = CuentaMesa.findAllByCuenta(cuenta)
-        def listadoMesas = new HashSet()
         Factura factura=Factura.get(idFactura)
 
-        listadoClienteCuentas.each {
-            if(it.habilitado){
-                listadoMesas.add(it.mesa)
-            }
-        }
 
-        for(int i=0;i<cuenta.listaClienteCuenta.size();i++){
+//        listadoClienteCuentas.each {
+//            if(it.habilitado){
+//                listadoMesas.add(it.mesa)
+//            }
+//        }
+        def clienteCuenta = ClienteCuenta.findAllByHabilitadoAndCuenta(true,cuenta)
 
-            if(cuenta.listaClienteCuenta[i].habilitado){
-                cuentaArrayList.add(cuenta.listaClienteCuenta[i])
-            }
-        }
+//        for(int i=0;i<cuenta.listaClienteCuenta.size();i++){
+//
+//            if(cuenta.listaClienteCuenta[i].habilitado){
+//                cuentaArrayList.add(cuenta.listaClienteCuenta[i])
+//            }
+//        }
 
 
-        [cuenta: cuentaArrayList,listadoMesas:listadoMesas,factura:factura]
+        [cuenta:cuenta,clienteCuenta: clienteCuenta,listadoMesas:listadoMesas,factura:factura]
 
     }
 
