@@ -12,6 +12,7 @@ class Parametro {
     final static int TICKET_ENCABEZADO_1 = 1005
     final static int TICKET_ENCABEZADO_2 = 1006
     final static int TICKET_ENCABEZADO_3 = 1007
+    final static int TICKET_ENCABEZADO_4 = 1008
     final static int TICKET_PIEPAG_1 = 1008
     final static int TICKET_PIEPAG_2 = 1009
 

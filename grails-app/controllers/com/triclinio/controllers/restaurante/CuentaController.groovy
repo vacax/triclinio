@@ -124,8 +124,8 @@ class CuentaController {
         ordenDetalleService.updateProcesarOrdenDetalle(form,clienteCuenta)
 //
         println("Nuevo detalle orden agregada!")
-        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, true)
-        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, false)
+       // matricialService.generarComandaCocina(clienteCuenta.cuenta.id, true)
+        //matricialService.generarComandaCocina(clienteCuenta.cuenta.id, false)
 //
 //
         render clienteCuenta.cuenta as JSON
@@ -216,10 +216,34 @@ class CuentaController {
      * @param idPlato
      * @return
      */
-    def sacarItemCuenta(long clienteCuentaId,long idPlato){
+    def sacarItemCuenta(long clienteCuentaId,long idPlato,long ordenDetalleId){
         OrdenDetalle ordenDetalle = OrdenDetalle.findByClienteCuentaAndPlato(ClienteCuenta.get(clienteCuentaId), Plato.get(idPlato))
-        ordenDetalle.habilitado = false
-        ordenDetalle.save(flush:true, failOnError:true)
+
+        OrdenDetalle ordenDetalle1=OrdenDetalle.findById(ordenDetalleId)
+        Factura facturaTmp = FacturaDetalle.findByOrdenDetalle(ordenDetalle1)?.factura
+
+        if(facturaTmp) {
+
+            facturaTmp.porcientoImpuesto = facturaTmp.porcientoImpuesto - ordenDetalle1.porcientoImpuesto
+            facturaTmp.porcientoDescuento = facturaTmp.porcientoDescuento - ordenDetalle1.porcientoDescuento
+            facturaTmp.montoBruto = facturaTmp.montoBruto - ordenDetalle1.montoBruto
+            facturaTmp.montoDescuento = facturaTmp.montoDescuento - ordenDetalle1.montoDescuento
+            facturaTmp.montoImpuesto = facturaTmp.montoImpuesto - ordenDetalle1.montoImpuesto
+            facturaTmp.montoNeto = facturaTmp.montoNeto - ordenDetalle1.montoNeto
+
+            facturaTmp.save(flush: true, failOnError: true)
+
+            facturaTmp.executeUpdate("delete FacturaDetalle f where f.ordenDetalle=:idOrdenDetalle", [idOrdenDetalle: ordenDetalle1])
+
+            ordenDetalle.habilitado = false
+            ordenDetalle.save(flush: true, failOnError: true)
+
+
+        }else{
+            ordenDetalle.habilitado = false
+            ordenDetalle.save(flush:true, failOnError:true)
+        }
+
         redirect(action: "eliminarOrdenDetalleClienteCuenta", params:[ clienteCuentaId : ClienteCuenta.get(clienteCuentaId).id])
 
     }
@@ -261,19 +285,19 @@ class CuentaController {
     def imprimirComanda(long idCuenta){
 
         println(idCuenta)
-        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true)
-        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false)
+       // matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true)
+        //matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false)
         redirect(action: "cuentasAbiertas")
     }
 
     def reImprimirComanda(long idCuenta){
         println(idCuenta)
-        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true, true)
-        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false, true)
+       // matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true, true)
+        //matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false, true)
 
 
 
-        matricialService.generarComandaCocina(idCuenta, false, true)
+       // matricialService.generarComandaCocina(idCuenta, false, true)
         redirect(action: "cuentasAbiertas")
     }
 

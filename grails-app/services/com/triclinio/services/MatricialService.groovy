@@ -115,7 +115,7 @@ class MatricialService {
             e.printStackTrace()
         }
     }
-    public void generarFactura(long facturaid) {
+    public void generarFactura(long facturaid,boolean reimpresion=false) {
 
         Factura factura = Factura.get(facturaid)
 
@@ -130,8 +130,13 @@ class MatricialService {
             bufferedWriter.newLine()
             bufferedWriter.write(StringUtils.center(Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_2).valor, CANTIDAD_COLUMNAS_POS_42))
             bufferedWriter.newLine()
-            bufferedWriter.write(StringUtils.center(Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_3).valor, CANTIDAD_COLUMNAS_POS_42))
-            bufferedWriter.newLine()
+            if(!reimpresion) {
+                bufferedWriter.write(StringUtils.center(Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_3).valor, CANTIDAD_COLUMNAS_POS_42))
+                bufferedWriter.newLine()
+            }else if(reimpresion){
+                bufferedWriter.write(StringUtils.center(Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_4).valor, CANTIDAD_COLUMNAS_POS_42))
+                bufferedWriter.newLine()
+            }
             bufferedWriter.write("------------------------------------------")
             bufferedWriter.newLine()
             bufferedWriter.write("No. Factura" + factura.id)

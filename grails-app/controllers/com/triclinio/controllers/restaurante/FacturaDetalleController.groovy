@@ -12,6 +12,9 @@ import com.triclinio.domains.venta.Factura
 import com.triclinio.domains.venta.FacturaDetalle
 import grails.plugin.springsecurity.annotation.Secured
 
+import java.text.SimpleDateFormat
+
+
 @Secured(["ROLE_ADMIN", "ROLE_CAMARERO","ROLE_FACTURADOR","ROLE_SUPERVISOR_FACTURADOR","ROLE_SUPERVISOR_CAMARERO"])
 class FacturaDetalleController {
 
@@ -33,10 +36,11 @@ class FacturaDetalleController {
         render factura.id
     }
 
+
     def imprimirPreCuenta(long idFactura){
         Factura factura = Factura.findById(idFactura)
 
-        matricialService.generarPreCuenta(factura.id)
+        //matricialService.generarPreCuenta(factura.id)
         println "Impuesto "+factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id
 
         redirect(uri:"/cuenta/detalleCuenta?idFactura="+factura.id+"&idCuenta="+factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id)
@@ -68,7 +72,7 @@ class FacturaDetalleController {
         int cantidadImpresion=Parametro.findByCodigo(Parametro.CANTIDAD_IMPRESION_FACTURA).valor.toInteger()
 
         for (int i=1;i<cantidadImpresion;i++) {
-            matricialService.generarFactura(factura.id)
+            //matricialService.generarFactura(factura.id)
         }
 
         def idClienteCuenta = factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.id
@@ -130,41 +134,78 @@ class FacturaDetalleController {
      * @return
      */
 
-    def reimpresionFactura(long facturaId){
-        matricialService.generarFactura(facturaId);
+    def facturaReimprimir(){
+        def facturas=Factura.findAllByHabilitadoAndEstadoFactura(true,EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
+        [facturas: facturas]
+    }
+
+    def reimpresionFactura(long facturaid){
+
+       // matricialService.generarFactura(facturaid,true);
         render "Imprimiendo"
     }
 
     def cuadre(){
-        def exportService
-        def grailsApplication
 
-        def today = new Date()
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        Calendar upperDate = Calendar.getInstance()
+        Calendar lowerDate = Calendar.getInstance()
+        upperDate.set(Calendar.HOUR_OF_DAY, 23)
+        upperDate.set(Calendar.MINUTE, 59)
+        upperDate.set(Calendar.SECOND, 59)
 
-        List<Factura> facturas=Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA),today.minus(1),today)
+        lowerDate.set(Calendar.HOUR, 0)
+        lowerDate.set(Calendar.MINUTE, 0)
+        lowerDate.set(Calendar.SECOND, 0)
+        lowerDate.set(Calendar.HOUR_OF_DAY, 0)
 
+        println "Fecha UpperDate"+sdf.parse(sdf.format(upperDate.getTime()))
+        println "Fecha Lower Date"+sdf.parse(sdf.format(lowerDate.getTime()))
 
-//        def list = {
-//            if (!params.max) params.max = 10
-//
-//            if (params?.format && params.format != "html") {
-//                response.contentType = grailsApplication.config.grails.mime.types[params.format]
-//                response.setHeader("Content-disposition", "attachment; filename=Factura.${params.extension}")
-//
-//                exportService.export(params.format, response.outputStream, Factura.list(params), [:], [:])
-//            }
-//        }
+        List<Factura> facturas=Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA),sdf.parse(sdf.format(lowerDate.getTime())),sdf.parse(sdf.format(upperDate.getTime())))
 
         [facturas: facturas]
     }
 
     def verDetalleFactura(long id){
         Factura factura1=Factura.findById(id)
-
-
        // renderPdf(template: "/facturaDetalle/cuadre", model: [report: factura1], filename: factura1.usuario)
-        renderPdf(template: '/templates/pdf/verDetalleFactura', model: [invoice: factura1], filename: "factura")
+//        renderPdf(template: '/templates/pdf/verDetalleFactura', model: [invoice: factura1], filename: "factura")
         println "Done"
-//        [factura: factura1]
+        [factura: factura1]
     }
+
+//    def pdfReport() {
+//        try {
+//            String reportName, jrxmlFileName, dotJasperFileName
+//            jrxmlFileName = "as_sala_mu_alai_kum"
+//            reportName = grailsApplication.mainContext.getResource('reports/' + jrxmlFileName + '.jrxml').file.getAbsoluteFile()
+//            dotJasperFileName = grailsApplication.mainContext.getResource('reports/' + jrxmlFileName + '.jasper').file.getAbsoluteFile()
+//
+//            // Report parameter
+//            Map<String, String> reportParam = new HashMap<String, String>()
+//            reportParam.put("detailsData", 'Report parameter [ detailsData ] value passed from application')
+//            // compiles jrxml
+//            JasperCompileManager.compileReportToFile(reportName);
+//            // fills compiled report with parameters and a connection
+//            JasperPrint print = JasperFillManager.fillReport(dotJasperFileName, reportParam, dataSource.getConnection());
+//
+//            ByteArrayOutputStream  pdfStream = new ByteArrayOutputStream();
+//
+//            // exports report to pdf
+//            JRExporter exporter = new JRPdfExporter();
+//            exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
+//            exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, pdfStream); // your output goes here
+//
+//            exporter.exportReport();
+//            //println 'pdfStream = '+pdfStream.size()
+//
+//        } catch (Exception e) {
+//
+//            throw new RuntimeException("It's not possible to generate the pdf report.", e);
+//        } finally {
+//            //render(file: pdfStream.toByteArray(), contentType: 'application/pdf')
+//            render(file: pdfStream.toByteArray(), fileName: 'DownloadReport.pdf', contentType: 'application/pdf')
+//        }
+//    }
 }

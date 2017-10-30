@@ -106,7 +106,7 @@
                         <td>${orden.precio}</td>
                         <td>
                             <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,">
-                                <g:link action="sacarItemCuenta" controller="cuenta"  params="[clienteCuentaId:clienteCuenta.id, idPlato:orden.plato.id]">
+                                <g:link action="sacarItemCuenta" controller="cuenta"  params="[clienteCuentaId:clienteCuenta.id, idPlato:orden.plato.id,ordenDetalleId:orden.id]">
                                     <button type="button" id="verPerfil" class="btn  btn-danger">Eliminar</button>
                                 </g:link>
                             </sec:ifAnyGranted>

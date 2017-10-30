@@ -5,7 +5,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 -->
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="u0tf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Guava</title>
     <!-- Tell the browser to be responsive to screen width -->
@@ -328,6 +328,7 @@ desired effect
 
                 <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
                 <li><a href="/facturaDetalle/historialFacturas"><i class="fa fa-link"></i>Reversar Facturas</a></li>
+                <li><a href="/facturaDetalle/facturaReimprimir"><i class="fa fa-link"></i>Reimprimir Facturas</a></li>
                 <li><a href="/facturaDetalle/cuadre"><i class="fa fa-link"></i>Ver Cuadre</a></li>
 
                 </sec:ifAnyGranted>

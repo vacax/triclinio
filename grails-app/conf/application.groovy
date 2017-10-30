@@ -39,3 +39,24 @@ grails.plugin.springsecurity.filterChain.chainMap = [
 	[pattern: '/**',             filters: 'JOINED_FILTERS']
 ]
 
+grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
+					  xml: ['text/xml', 'application/xml'],
+					  text: 'text-plain',
+					  js: 'text/javascript',
+					  rss: 'application/rss+xml',
+					  atom: 'application/atom+xml',
+					  css: 'text/css',
+					  csv: 'text/csv',
+					  pdf: 'application/pdf',
+					  rtf: 'application/rtf',
+					  excel: 'application/vnd.ms-excel',
+					  ods: 'application/vnd.oasis.opendocument.spreadsheet',
+					  all: '*/*',
+					  json: ['application/json','text/json'],
+					  form: 'application/x-www-form-urlencoded',
+					  multipartForm: 'multipart/form-data'
+]
+
+
+
+

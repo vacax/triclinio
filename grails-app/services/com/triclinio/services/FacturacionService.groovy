@@ -14,101 +14,130 @@ import grails.gorm.transactions.Transactional
 class FacturacionService {
 
     /**
-     * 
+     *
      * @param clienteCuentaId
      * @return
      */
-    Factura procesarOrden(long clienteCuentaId, Usuario usuario){
+    Factura procesarOrden(long clienteCuentaId, Usuario usuario) {
 
         ClienteCuenta clienteCuenta = ClienteCuenta.get(clienteCuentaId)
 
-        OrdenDetalle ordenDetalle = OrdenDetalle.findByClienteCuentaAndHabilitado(clienteCuenta, true)
-        Factura facturaTmp = FacturaDetalle.findByOrdenDetalle(ordenDetalle)?.factura
+        List<OrdenDetalle> ordenDetalles = OrdenDetalle.findAllByClienteCuentaAndHabilitado(clienteCuenta, true)
+//        Factura facturaTmp = FacturaDetalle.findByOrdenDetalle(ordenDetalle)?.factura
+
+        BigDecimal porcientoImpuesto = 0
+        BigDecimal porcientoDescuento = 0
+        BigDecimal montoBruto = 0
+        BigDecimal montoDescuento = 0
+        BigDecimal montoImpuesto = 0
+        BigDecimal montoNeto = 0
 
 
-        
-        BigDecimal porcientoImpuesto=0
-        BigDecimal porcientoDescuento=0
-        BigDecimal montoBruto=0
-        BigDecimal montoDescuento=0
-        BigDecimal montoImpuesto=0
-        BigDecimal montoNeto=0
+        Factura facturaTmp;
+        boolean tieneFactura = false
 
-        Cliente cliente = new Cliente()
-        cliente.nombre = clienteCuenta.nombre
-
-        //TODO: cambiar...
-        Factura factura = new Factura()
-        EstadoFactura estadoFactura = EstadoFactura.findByCodigo(EstadoFactura.PREFACTURA)
-        println("La factura Estado: ${estadoFactura.properties}")
-        factura.estadoFactura = estadoFactura
-        factura.usuario = usuario
-        factura.cliente = cliente
-
-        if(facturaTmp){
-            println "Ya facturada"
-            println "Imprimiendo factura"+facturaTmp
-           // facturaTmp.merge(flush: true, failOnError: true)
-        }else{
-            factura.save(flush: true, failOnError: true)
+        for (OrdenDetalle ordenDetalle : ordenDetalles) {
+            println "Ya en orden Detalle"
+            facturaTmp = FacturaDetalle.findByOrdenDetalle(ordenDetalle)?.factura
+            if (facturaTmp) {
+                println "Ya tiene factura"
+                tieneFactura = true
+                break
+            }
         }
-
 
         def ordenesActivas = OrdenDetalle.findAllByHabilitadoAndClienteCuenta(true, clienteCuenta)
 
-        ordenesActivas.each {
-            
-            FacturaDetalle facturaDetalle = new FacturaDetalle()
+        if (tieneFactura) {
+            println "Ya facturada"
 
-            porcientoImpuesto = porcientoImpuesto + it.porcientoImpuesto
-            porcientoDescuento = porcientoDescuento + it.porcientoDescuento
-            montoBruto = montoBruto + it.montoBruto
-            montoDescuento = montoDescuento + it.montoDescuento
-            montoImpuesto = montoImpuesto + it.montoImpuesto
-            montoNeto = montoNeto + it.montoNeto
+            ordenesActivas.each {
+                if (!it.facturada) {
+                    println "No se ha facturado"
+                    FacturaDetalle facturaDetalle = new FacturaDetalle()
+
+                    facturaTmp.porcientoImpuesto = facturaTmp.porcientoImpuesto + it.porcientoImpuesto
+                    facturaTmp.porcientoDescuento = facturaTmp.porcientoDescuento + it.porcientoDescuento
+                    facturaTmp.montoBruto = facturaTmp.montoBruto + it.montoBruto
+                    facturaTmp.montoDescuento = facturaTmp.montoDescuento + it.montoDescuento
+                    facturaTmp.montoImpuesto = facturaTmp.montoImpuesto + it.montoImpuesto
+                    facturaTmp.montoNeto = facturaTmp.montoNeto + it.montoNeto
 
 
-            //Para no mostrar la lista de ordenes detalle dos veces
-            if(facturaTmp){
-                //Tengo un flag en el orden detalle que dice facturada
-                if(!it.facturada) {
+                    it.facturada = true
+                    it.save(flush: true, failOnError: true)
+
                     facturaDetalle.ordenDetalle = it
                     facturaDetalle.factura = facturaTmp
                     facturaDetalle.save(flush: true, failOnError: true)
                 }
-            }else {
-                //Si es la primera, ponme que sea true y guardame
-                it.facturada=true
+            }
+
+//            facturaTmp.porcientoImpuesto = porcientoImpuesto
+//            facturaTmp.porcientoDescuento = porcientoDescuento
+//            facturaTmp.montoBruto = montoBruto
+//            facturaTmp.montoDescuento = montoDescuento
+//            facturaTmp.montoImpuesto = montoImpuesto
+//            facturaTmp.montoNeto = montoNeto
+//
+//
+            facturaTmp.save(flush: true, failOnError: true)
+
+        } else {
+            println "Nueva Factura"
+            Cliente cliente = new Cliente()
+            cliente.nombre = clienteCuenta.nombre
+
+            //TODO: cambiar...
+            Factura factura = new Factura()
+
+            factura.setEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.PREFACTURA))
+            factura.usuario = usuario
+            factura.cliente = cliente
+
+            factura.save(flush: true, failOnError: true)
+
+            ordenesActivas.each {
+                println "Creando Nueva factura"
+                FacturaDetalle facturaDetalle = new FacturaDetalle()
+
+                porcientoImpuesto = porcientoImpuesto + it.porcientoImpuesto
+                porcientoDescuento = porcientoDescuento + it.porcientoDescuento
+                montoBruto = montoBruto + it.montoBruto
+                montoDescuento = montoDescuento + it.montoDescuento
+                montoImpuesto = montoImpuesto + it.montoImpuesto
+                montoNeto = montoNeto + it.montoNeto
+
+                it.facturada = true
+                it.save(flush: true, failOnError: true)
                 facturaDetalle.ordenDetalle = it
                 facturaDetalle.factura = factura
                 facturaDetalle.save(flush: true, failOnError: true)
-                it.save(flush:true,failOnError:true)
+
             }
 
-        }
+            factura.porcientoImpuesto = porcientoImpuesto
+            factura.porcientoDescuento = porcientoDescuento
+            factura.montoBruto = montoBruto
+            factura.montoDescuento = montoDescuento
+            factura.montoImpuesto = montoImpuesto
+            factura.montoNeto = montoNeto
 
-        factura.porcientoImpuesto=porcientoImpuesto
-        factura.porcientoDescuento=porcientoDescuento
-        factura.montoBruto=montoBruto
-        factura.montoDescuento=montoDescuento
-        factura.montoImpuesto=montoImpuesto
-        factura.montoNeto=montoNeto
-
-
-        //Para guardar la cantidad total
-        if(facturaTmp){
-            println "Ya facturada"
-            facturaTmp.porcientoImpuesto=porcientoImpuesto
-            facturaTmp.porcientoDescuento=porcientoDescuento
-            facturaTmp.montoBruto=montoBruto
-            facturaTmp.montoDescuento=montoDescuento
-            facturaTmp.montoImpuesto=montoImpuesto
-            facturaTmp.montoNeto=montoNeto
-            facturaTmp.merge(flush: true, failOnError: true)
-        }else{
+//        //Para guardar la cantidad total
+//        if(facturaTmp){
+//            println "Ya facturada"
+//            facturaTmp.porcientoImpuesto=porcientoImpuesto
+//            facturaTmp.porcientoDescuento=porcientoDescuento
+//            facturaTmp.montoBruto=montoBruto
+//            facturaTmp.montoDescuento=montoDescuento
+//            facturaTmp.montoImpuesto=montoImpuesto
+//            facturaTmp.montoNeto=montoNeto
+//            facturaTmp.merge(flush: true, failOnError: true)
+//        }else{
             factura.save(flush: true, failOnError: true)
+            // }
+
+
         }
-
-
     }
 }

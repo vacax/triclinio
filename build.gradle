@@ -75,19 +75,30 @@ dependencies {
     compile 'org.webjars:bootstrap:3.3.7'
     compile 'org.webjars:AdminLTE:2.4.0'
 
+// https://mvnrepository.com/artifact/com.itextpdf/itextpdf
+    compile group: 'com.itextpdf', name: 'itextpdf', version: '5.5.12'
+
+    // https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports
+    compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '4.5.0'
+
+//    compile "org.grails.plugins:pdf:0.6"
+//    compile "org.grails.plugins:export:2.0.0"
 //    compile 'org.webjars.bower:datatables.net:1.10.16'
+//    compile ":export:1.6"
+// https://mvnrepository.com/artifact/org.grails.plugins/export
+//    compile group: 'org.grails.plugins', name: 'export', version: '1.6'
+//    compile "org.grails.plugins:export:1.6"
+    compile "org.grails.plugins:export:2.0.0"
+    compile 'org.grails.plugins:rendering:2.0.3'
 
 // https://mvnrepository.com/artifact/org.webjars/datatables
-    compile group: 'org.webjars', name: 'datatables', version: '1.10.12'
-
-
+   // compile group: 'org.webjars', name: 'datatables', version: '1.10.12'
 }
 
 bootRun {
     jvmArgs('-Dspring.output.ansi.enabled=always')
     addResources = true
 }
-
 
 assets {
     minifyJs = true
