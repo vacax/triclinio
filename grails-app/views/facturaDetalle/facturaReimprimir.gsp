@@ -89,7 +89,7 @@
             <td>${factura.cliente.nombre}</td>
             <td>${factura.montoNeto}</td>
             <td>
-                <button style="text-decoration: none" type="button" class="reimprimirFactura btn btn-link" id="${factura.id}">Reimprimir Factura</button>
+                <button style="text-decoration: none" type="button" class="reimprimirFactura btn btn-primary" id="${factura.id}">Reimprimir Factura</button>
             </td>
         </tr>
 

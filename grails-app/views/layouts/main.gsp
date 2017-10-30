@@ -333,7 +333,8 @@ desired effect
                 <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
                 <li><a href="/facturaDetalle/historialFacturas"><i class="fa fa-link"></i>Reversar Facturas</a></li>
                 <li><a href="/facturaDetalle/facturaReimprimir"><i class="fa fa-link"></i>Reimprimir Facturas</a></li>
-                <li><a href="/facturaDetalle/cuadre"><i class="fa fa-link"></i>Ver Cuadre</a></li>
+                %{--<li><a href="/facturaDetalle/cuadre"><i class="fa fa-link"></i>Ver Cuadre</a></li>--}%
+                <li><a href="/facturaDetalle/indexCuadre"><i class="fa fa-link"></i>Ver Cuadre</a></li>
 
                 </sec:ifAnyGranted>
                 </ul>

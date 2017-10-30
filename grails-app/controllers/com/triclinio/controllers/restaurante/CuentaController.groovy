@@ -126,8 +126,8 @@ class CuentaController {
         println("Nuevo detalle orden agregada!")
 //        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, true)
 //        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, false)
-        matricialService.generarComandaCocinaAgrupadaCategoria(clienteCuenta.cuenta.id, true)
-        matricialService.generarComandaCocinaAgrupadaCategoria(clienteCuenta.cuenta.id, false)
+       // matricialService.generarComandaCocinaAgrupadaCategoria(clienteCuenta.cuenta.id, true)
+        //matricialService.generarComandaCocinaAgrupadaCategoria(clienteCuenta.cuenta.id, false)
 //
 //
         render clienteCuenta.cuenta as JSON
@@ -288,19 +288,19 @@ class CuentaController {
     def imprimirComanda(long idCuenta){
 
         println(idCuenta)
-        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true)
-        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false)
+       // matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true)
+       // matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false)
         redirect(action: "cuentasAbiertas")
     }
 
     def reImprimirComanda(long idCuenta){
         println(idCuenta)
-        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true, true)
-        matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false, true)
+        //matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true, true)
+        //matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false, true)
 
 
 
-        matricialService.generarComandaCocina(idCuenta, false, true)
+        //matricialService.generarComandaCocina(idCuenta, false, true)
         redirect(action: "cuentasAbiertas")
     }
 
