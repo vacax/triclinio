@@ -3,6 +3,7 @@ package com.triclinio.controllers.restaurante
 import com.triclinio.commands.PlatoForm
 import com.triclinio.domains.restaurante.CategoriaPlato
 import com.triclinio.domains.restaurante.Plato
+import com.triclinio.domains.restaurante.PlatoTanda
 import com.triclinio.domains.seguridad.Perfil
 import com.triclinio.domains.seguridad.Usuario
 import com.triclinio.domains.seguridad.UsuarioPerfil
@@ -23,7 +24,8 @@ class PlatoCrearController {
         [listaCategoriaPlato :  lista]
     }
 
-    def nuevoPlato(String nombrePlato, String precioPlato, boolean comanda, long categoriaId, String alias){
+    def nuevoPlato(String nombrePlato, String precioPlato, boolean comanda, long categoriaId, String alias, String tandaId){
+
 
         withForm {
             Plato plato=new Plato()
@@ -33,6 +35,7 @@ class PlatoCrearController {
             plato.comanda = comanda
             plato.alias = alias
             plato.categoriaPlato = CategoriaPlato.get(categoriaId)
+            plato.platoTanda=PlatoTanda.get(tandaId)
             plato.save(flush:true,failOnError:true)
 
         }.invalidToken {

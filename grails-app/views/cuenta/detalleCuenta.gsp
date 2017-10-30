@@ -88,7 +88,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <g:each in="${cuenta}" var="clientecuenta">
+                        <g:each in="${clienteCuenta}" var="clientecuenta">
                             <tr>
                                 <td>${clientecuenta.nombre}</td>
                                 %{--<td>${ordenesDetalle.nombrePlato}</td>--}%

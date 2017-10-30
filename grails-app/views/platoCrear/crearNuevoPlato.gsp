@@ -46,6 +46,13 @@
             </div>
 
             <div style="margin-top:10%" class="form-group">
+                <label  class="col-sm-2 control-label">Tanda:</label>
+                <div class="col-sm-10">
+                    <g:select class="form-control" name="tandaId" from="${com.triclinio.domains.restaurante.PlatoTanda.list()}" optionKey="id" optionValue="nombre"/>
+                </div>
+            </div>
+
+            <div style="margin-top:10%" class="form-group">
                 <label  class="col-sm-2 control-label">Comanda</label>
                 <div class="col-sm-10">
                     <div class="checkbox">

@@ -33,7 +33,7 @@ class MesaController {
         }
         mesasOcupadas.removeAll(listadoMesasNoCandidatasDesocupar)
 
-        [mesasOcupadas: mesasOcupadas]
+        [mesasOcupadas: mesasOcupadas.sort{it.id}]
 
 
     }
@@ -82,14 +82,14 @@ class MesaController {
         def listadoMesas = Mesa.findAllByEstadoMesa(EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE))
         listadoMesas.addAll(Mesa.findAllByEstadoMesa(EstadoMesa.findByCodigo(EstadoMesa.DESACTIVADA)))
 
-        def listaMostrar = new HashSet()
+        Set<Mesa> listaMostrar = new HashSet()
 
         listadoMesas.each {
             if (it.habilitado){
                 listaMostrar.add(it)
             }
         }
-        [listadoMesas: listaMostrar]
+        [listadoMesas: listaMostrar.sort{it.id}]
     }
 
     def sacarMesaCuenta(long idCuenta){
@@ -129,17 +129,9 @@ class MesaController {
 
 
     def historialMesaIndex(){
-        def mesas = Mesa.list()
-        def listaMostrar = new HashSet()
+        def mesas = Mesa.findAllByHabilitado(true)
 
-        mesas.each {
-            if (it.habilitado){
-                listaMostrar.add(it)
-            }
-        }
-
-
-        [mesas:listaMostrar]
+        [mesas:mesas.sort{it.id}]
     }
 
     def mesaHistorial(long idMesa){
