@@ -15,6 +15,8 @@
 
     <content tag="contenido">
         <div class="row">
+            <sec:ifAnyGranted roles="ROLE_ADMIN">
+
             <g:if test="${tandaPlatos.valor=="0"}">
 
                 <div class="info-box">
@@ -28,6 +30,7 @@
                 <!-- /.info-box -->
                 </div>
             </g:if>
+            </sec:ifAnyGranted>
             <g:if test="${tandaPlatos.valor=="1"}">
                 <div class="info-box">
                     <span class="info-box-icon bg-blue"><i class="fa fa-star"></i></span>
