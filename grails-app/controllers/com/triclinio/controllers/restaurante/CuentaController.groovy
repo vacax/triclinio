@@ -126,10 +126,9 @@ class CuentaController {
         println("Nuevo detalle orden agregada!")
 //        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, true)
 //        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, false)
-       // matricialService.generarComandaCocinaAgrupadaCategoria(clienteCuenta.cuenta.id, true)
-        //matricialService.generarComandaCocinaAgrupadaCategoria(clienteCuenta.cuenta.id, false)
-//
-//
+        matricialService.generarComandaCocinaAgrupadaCategoria(clienteCuenta.cuenta.id, true)
+        matricialService.generarComandaCocinaAgrupadaCategoria(clienteCuenta.cuenta.id, false)
+
         render clienteCuenta.cuenta as JSON
     }
 
