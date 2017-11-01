@@ -71,9 +71,9 @@ class FacturaDetalleController {
         factura.setEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
         int cantidadImpresion=Parametro.findByCodigo(Parametro.CANTIDAD_IMPRESION_FACTURA).valor.toInteger()
 
-        for (int i=1;i<cantidadImpresion;i++) {
-            matricialService.generarFactura(factura.id)
-        }
+//        for (int i=1;i<cantidadImpresion;i++) {
+        matricialService.generarFactura(factura.id)
+//        }
 
         def idClienteCuenta = factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.id
         def idCuenta =factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id
@@ -141,7 +141,7 @@ class FacturaDetalleController {
 
     def reimpresionFactura(long facturaid){
 
-       // matricialService.generarFactura(facturaid,true);
+        matricialService.generarFactura(facturaid);
         render "Imprimiendo"
     }
 
