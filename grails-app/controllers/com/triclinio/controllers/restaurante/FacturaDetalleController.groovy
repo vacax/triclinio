@@ -40,7 +40,7 @@ class FacturaDetalleController {
     def imprimirPreCuenta(long idFactura){
         Factura factura = Factura.findById(idFactura)
 
-        //matricialService.generarPreCuenta(factura.id)
+        matricialService.generarPreCuenta(factura.id)
         println "Impuesto "+factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id
 
         redirect(uri:"/cuenta/detalleCuenta?idFactura="+factura.id+"&idCuenta="+factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id)
@@ -72,7 +72,7 @@ class FacturaDetalleController {
         int cantidadImpresion=Parametro.findByCodigo(Parametro.CANTIDAD_IMPRESION_FACTURA).valor.toInteger()
 
         for (int i=1;i<cantidadImpresion;i++) {
-            //matricialService.generarFactura(factura.id)
+            matricialService.generarFactura(factura.id)
         }
 
         def idClienteCuenta = factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.id
