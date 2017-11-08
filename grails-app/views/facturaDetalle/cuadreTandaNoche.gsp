@@ -6,7 +6,7 @@
 
 
     %{--<meta name="layout" content="mainCuadre"/>--}%
-    <title>Cuadre Factura</title>
+    <title>Cuadre Factura Tanda Noche</title>
 
 
 
@@ -27,6 +27,7 @@
     <script type="text/javascript" charset="utf8" src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.4.2/js/buttons.print.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/1.10.16/api/sum().js"></script>
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -47,25 +48,56 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
     <script type="text/javascript">
+
+
         $(document).ready(function() {
+
             var table = $('#example').DataTable( {
+
+                responsive: true,
+                "footerCallback": function ( row, data, start, end, display ) {
+                    var api = this.api(), data;
+
+                    // converting to interger to find total
+                    var intVal = function ( i ) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '')*1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+
+
+                    var thuTotal = api
+                        .column( 4 )
+                        .data()
+                        .reduce( function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0 );
+
+
+                    // Update footer by showing the total with the reference of the column index
+                    $( api.column( 0 ).footer() ).html('Total De todas las facturas');
+                    $( api.column( 1 ).footer() ).html(thuTotal+" (Monto Neto Total)");
+                },
+
                 dom: 'Bfrtip',
                 lengthChange: false,
-                buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print' ]
-            } );
+                buttons: [
+                    {
+                        extend: 'print',
+                        footer: true
+                    },
+                    {
+                        extend: 'pdf',
+                        footer: true
+                    }
+                ]
 
-//                buttons: [
-//                    'copy', 'csv', 'excel', 'pdf', 'print'
-//                ]
-//            } );
-        } );
+
+                });
+            });
     </script>
 
-    %{--<g:layoutHead/>--}%
-
-    %{-- Para incluir otras recursos.--}%
-    %{--<g:pageProperty name="page.header"/>--}%
-    %{----}%
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 
@@ -89,8 +121,6 @@
 
 <div  style="margin-top: 1%;margin-left: 1%;margin-bottom: 1%;margin-right: 1%">
     <table style="width:1500px; margin:0 auto; margin-top: 10%" id="example" class="table striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-
-
         <thead>
         <th>
             ID
@@ -109,7 +139,9 @@
         </th>
 
         </thead>
-        <tbody>
+        <tfoot align="right">
+        <tr><th></th><th></th><th></th></tr>
+        </tfoot>
         <g:each in="${facturas}" var="factura">
             <tr>
                 <td>${factura.id}</td>
@@ -120,7 +152,6 @@
                 <td>${factura.montoNeto}</td>
             </tr>
         </g:each>
-        </tbody>
     </table>
     <button class="btn btn-danger btn-lg"  onclick="window.history.back();" >Terminar</button>
 </div>

@@ -19,41 +19,41 @@
         });
     </script>
 
-    <script type="text/javascript">
-        $(document).ready(function() {
+    %{--<script type="text/javascript">--}%
+        %{--$(document).ready(function() {--}%
 
-            $('#example tbody').on( 'click', 'tr', function () {
-                $(this).toggleClass('selected');
-            } );
+            %{--$('#example tbody').on( 'click', 'tr', function () {--}%
+                %{--$(this).toggleClass('selected');--}%
+            %{--} );--}%
 
 
 
-            $(".reimprimirFactura").click(function () {
+            %{--$(".reimprimirFactura").click(function () {--}%
 
-                var id = $(this).attr('id');
-                var parent = $(this).parent().parent();
-                jQuery.ajax(
-                    {
-                        type:'POST',
-                        data:'facturaid='+id,
+                %{--var id = $(this).attr('id');--}%
+                %{--var parent = $(this).parent().parent();--}%
+                %{--jQuery.ajax(--}%
+                    %{--{--}%
+                        %{--type:'POST',--}%
+                        %{--data:'facturaid='+id,--}%
 
-                        url:'/facturaDetalle/reimpresionFactura/',
-                        cache: false,
-                        success: function()
-                        {
-                              //window.location = "/cuenta/cuentasAbiertas";
-                              alert("Factura Reimpuesto!!!")
-//                            parent.fadeOut(1000, function() {$(this).remove();});
-                        },
+                        %{--url:'/facturaDetalle/reimpresionFactura/',--}%
+                        %{--cache: false,--}%
+                        %{--success: function()--}%
+                        %{--{--}%
+                              %{--//window.location = "/cuenta/cuentasAbiertas";--}%
+                              %{--alert("Factura Reimpuesto!!!")--}%
+%{--//                            parent.fadeOut(1000, function() {$(this).remove();});--}%
+                        %{--},--}%
 
-                        error:function(XMLHttpRequest,textStatus,errorThrown){}
-                    });
+                        %{--error:function(XMLHttpRequest,textStatus,errorThrown){}--}%
+                    %{--});--}%
 
-            });
+            %{--});--}%
 
-        });
+        %{--});--}%
 
-    </script>
+    %{--</script>--}%
 </head>
 <body>
 
@@ -89,7 +89,9 @@
             <td>${factura.cliente.nombre}</td>
             <td>${factura.montoNeto}</td>
             <td>
-                <button style="text-decoration: none" type="button" class="reimprimirFactura btn btn-primary" id="${factura.id}">Reimprimir Factura</button>
+                <g:link style="text-decoration: none"  action="reimpresionFactura" controller="facturaDetalle"  params="[facturaid: factura.id]"><button onclick="alert('Factura Reimpuesto')" type="button" class="reimprimirFactura btn btn-primary">Reimprimir Factura</button></g:link>
+
+                %{--<button style="text-decoration: none" type="button" class="reimprimirFactura btn btn-primary" id="${factura.id}">Reimprimir Factura</button>--}%
             </td>
         </tr>
 

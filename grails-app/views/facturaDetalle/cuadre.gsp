@@ -4,11 +4,7 @@
 <html>
 <head>
 
-
-    %{--<meta name="layout" content="mainCuadre"/>--}%
-    <title>Cuadre Factura</title>
-
-
+    <title>Cuadre Factura Dia Completo</title>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
@@ -48,16 +44,47 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            var table = $('#example').DataTable( {
+            var table = $('#example').DataTable({
+
+                responsive: true,
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+
+                    // converting to interger to find total
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+
+
+                    var thuTotal = api
+                        .column(4)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+
+                    // Update footer by showing the total with the reference of the column index
+                    $(api.column(0).footer()).html('Total De todas las facturas');
+                    $(api.column(1).footer()).html(thuTotal + " (Monto Neto Total)");
+                },
+
                 dom: 'Bfrtip',
                 lengthChange: false,
-                buttons: [ 'copy', 'csv', 'excel', 'pdf', 'print' ]
-            } );
-
-//                buttons: [
-//                    'copy', 'csv', 'excel', 'pdf', 'print'
-//                ]
-//            } );
+                buttons: [
+                    {
+                        extend: 'print',
+                        footer: true
+                    },
+                    {
+                        extend: 'pdf',
+                        footer: true
+                    }
+                ]
+            });
         } );
     </script>
 
@@ -89,8 +116,6 @@
 
 <div  style="margin-top: 1%;margin-left: 1%;margin-bottom: 1%;margin-right: 1%">
 <table style="width:1500px; margin:0 auto; margin-top: 10%" id="example" class="table striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-
-
     <thead>
     <th>
         ID
@@ -109,7 +134,9 @@
     </th>
 
     </thead>
-    <tbody>
+    <tfoot align="right">
+    <tr><th></th><th></th><th></th></tr>
+    </tfoot>
     <g:each in="${facturas}" var="factura">
         <tr>
             <td>${factura.id}</td>
@@ -120,7 +147,6 @@
             <td>${factura.montoNeto}</td>
         </tr>
     </g:each>
-    </tbody>
 </table>
 <button class="btn btn-danger btn-lg"  onclick="window.history.back();" >Terminar</button>
 </div>

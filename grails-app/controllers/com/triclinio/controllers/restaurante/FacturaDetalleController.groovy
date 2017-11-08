@@ -142,8 +142,9 @@ class FacturaDetalleController {
     def reimpresionFactura(long facturaid){
 
         matricialService.generarFactura(facturaid);
-        render "Imprimiendo"
+        redirect(uri:"/facturaDetalle/facturaReimprimir");
     }
+
 
     def cuadre(){
 
