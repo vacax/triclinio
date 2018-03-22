@@ -30,6 +30,8 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 
 ]
 
+
+
 grails.plugin.springsecurity.filterChain.chainMap = [
 	[pattern: '/assets/**',      filters: 'none'],
 	[pattern: '/**/js/**',       filters: 'none'],
@@ -56,6 +58,7 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
 					  form: 'application/x-www-form-urlencoded',
 					  multipartForm: 'multipart/form-data'
 ]
+
 
 
 

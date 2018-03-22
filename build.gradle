@@ -80,20 +80,23 @@ dependencies {
 
     // https://mvnrepository.com/artifact/net.sf.jasperreports/jasperreports
     compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '4.5.0'
-
-//    compile "org.grails.plugins:pdf:0.6"
-//    compile "org.grails.plugins:export:2.0.0"
-//    compile 'org.webjars.bower:datatables.net:1.10.16'
-//    compile ":export:1.6"
-// https://mvnrepository.com/artifact/org.grails.plugins/export
-//    compile group: 'org.grails.plugins', name: 'export', version: '1.6'
-//    compile "org.grails.plugins:export:1.6"
+    
     compile "org.grails.plugins:export:2.0.0"
     compile 'org.grails.plugins:rendering:2.0.3'
 
-// https://mvnrepository.com/artifact/org.webjars/datatables
-   // compile group: 'org.webjars', name: 'datatables', version: '1.10.12'
 }
+
+task stage() {
+    dependsOn clean, war
+}
+tasks.stage.doLast() {
+    delete fileTree(dir: "build/distributions")
+    delete fileTree(dir: "build/assetCompile")
+    delete fileTree(dir: "build/distributions")
+    delete fileTree(dir: "build/libs", exclude: "*.war")
+}
+war.mustRunAfter clean
+
 
 bootRun {
     jvmArgs('-Dspring.output.ansi.enabled=always')
@@ -104,3 +107,7 @@ assets {
     minifyJs = true
     minifyCss = true
 }
+
+
+
+
