@@ -20,6 +20,10 @@ apply plugin:"org.grails.grails-web"
 apply plugin:"asset-pipeline"
 apply plugin:"org.grails.grails-gsp"
 
+//Incluyendo la opción para generar el war con el ambiente de trabajo
+String env = System.getProperty('grails.env') ?: 'prod'
+war.baseName "${rootProject.name}-${env}"
+
 repositories {
     mavenLocal()
     maven { url "https://repo.grails.org/grails/core" }
