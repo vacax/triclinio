@@ -67,9 +67,9 @@ desired effect
         <!-- Logo -->
         <a href="/" class="logo">
             <!-- mini logo for sidebar mini 50x50 pixels -->
-            <span class="logo-mini"><b>G</b>FT</span>
+            <span class="logo-mini"><b>M</b></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Guava</b><small> Fusión Tropical</small></span>
+            <span class="logo-lg"><b>Marco</b><small> Cocina Internacional de Autor</small></span>
         </a>
 
         <!-- Header Navbar -->

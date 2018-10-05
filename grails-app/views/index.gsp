@@ -46,55 +46,79 @@
             </g:if>
         </div>
         <div class="row">
-            %{--<div class="col-lg-5 col-xs-6">--}%
+            <a href="/cuenta/nuevaCuenta">
+
                 <!-- small box -->
                 <div class="small-box bg-green">
                     <div class="inner">
-                        <h3>Cuenta<sup style="font-size: 20px"></sup></h3>
+                        <h3>Abrir</h3>
 
-                        <p><small>Listado de cuentas abiertas</small></p>
+                        <p><small>Abrir Cuenta Nueva</small></p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-plus"></i>
                     </div>
-                    <a href="/cuenta/nuevaCuenta" class="small-box-footer">Realizar nueva cuenta<i class="fa fa-arrow-circle-right"></i></a>
+
                 </div>
-            %{--</div>--}%
+
+            </a>
         </div>
+            %{--</div>--}%
         <div class="row">
+            <a href="/cuenta/cuentasAbiertas">
             %{--<div class="col-lg-5 col-xs-6">--}%
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3><triclinio:numeroCuentasAbiertas/></h3>
+                        <h3>Modificar</h3>
 
-                        <p># Cuentas Abiertas</p>
+                        <p>Cuentas Abiertas: <triclinio:numeroCuentasAbiertas/></p>
                     </div>
                     <div class="icon">
                         <i class="fa fa-cutlery"></i>
                     </div>
-                    <a href="/cuenta/cuentasAbiertas" class="small-box-footer">Ver cuenta abiertas <i class="fa fa-arrow-circle-right"></i></a>
+
                 </div>
+            </a>
             %{--</div>--}%
 
         </div>
         <div class="row">
+            <a href="/mesa/mesasOcupadasIndex">
+
             %{--<div class="col-lg-5 col-xs-6">--}%
             <!-- small box -->
             <div class="small-box bg-yellow">
                 <div class="inner">
-                    <h3>Desocupar mesa</h3>
+                    <h3>Desocupar</h3>
 
-                    <p><small>Listado de mesas ocupadas</small></p>
+                    <p><small>Desocupar Mesa</small></p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-check"></i>
+                </div>
+            </div>
+            %{--</div>--}%
+        </div>
+            </a>
+    <div class="row">
+            %{--<div class="col-lg-5 col-xs-6">--}%
+            <!-- small box -->
+            <a href="#">
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>Reservas</h3>
+
+                    <p><small>Gestionar Reserva</small></p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-table"></i>
                 </div>
-                <a href="/mesa/mesasOcupadasIndex" class="small-box-footer">Ver mesas ocupadas <i class="fa fa-arrow-circle-right"></i></a>
             </div>
+        </a>
             %{--</div>--}%
-
         </div>
+
     </content>
 
 </g:applyLayout>
