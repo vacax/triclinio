@@ -11,6 +11,10 @@ class CategoriaPlato {
     Date dateCreated;
     Date lastUpdated
 
+    String toString(){
+        return nombre
+    }
+
     static constraints = {
     }
 

@@ -21,27 +21,26 @@ import grails.plugin.springsecurity.annotation.Secured
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
-@Secured(["ROLE_ADMIN", "ROLE_CAMARERO","ROLE_FACTURADOR","ROLE_SUPERVISOR_FACTURADOR","ROLE_SUPERVISOR_CAMARERO"])
+@Secured(["ROLE_ADMIN", "ROLE_CAMARERO", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
 class CuentaController {
     def clienteCuentaService
     def ordenDetalleService
     def springSecurityService
     def matricialService
 
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * VENTANA QUE MUESTRA EL LISTADO DE MESAS PARA INICIAR CON LA CREACION DE LA CUENTA
      * @return
      */
-    def nuevaCuenta(){
+    def nuevaCuenta() {
         def mesasDesactivadas = Mesa.findAllByEstadoMesa(EstadoMesa.findAllByCodigo(EstadoMesa.DESACTIVADA))
         def mesas = Mesa.list()
         mesas.removeAll(mesasDesactivadas)
         def listaMostrar = new HashSet()
 
         mesas.each {
-            if (it.habilitado){
+            if (it.habilitado) {
                 listaMostrar.add(it)
             }
         }
@@ -54,27 +53,27 @@ class CuentaController {
      * PROCESA LA CUENTA LUEGO DE SELECCIONAR LAS MESAS
      * @return
      */
-    def crearNuevaCuenta(){
+    def crearNuevaCuenta() {
         withForm {
             Cuenta cuenta = new Cuenta()
-            cuenta.usuario = (Usuario)springSecurityService.currentUser
+            cuenta.usuario = (Usuario) springSecurityService.currentUser
             cuenta.estadoCuenta = EstadoCuenta.findByCodigo(EstadoCuenta.ABIERTO)
 
             cuenta.save(flush: true, failOnError: true)
 
 
 
-            for(int i=0;i<params.list("mesaId").size();i++){
-                new CuentaMesa(mesa: Mesa.findById(params.list("mesaId").get(i)),cuenta: cuenta).save(flush: true, failOnError: true)
+            for (int i = 0; i < params.list("mesaId").size(); i++) {
+                new CuentaMesa(mesa: Mesa.findById(params.list("mesaId").get(i)), cuenta: cuenta).save(flush: true, failOnError: true)
                 Mesa mesa = Mesa.findById(params.list("mesaId").get(i))
                 mesa.estadoMesa = EstadoMesa.findByCodigo(EstadoMesa.getOCUPADA())
-                mesa.historial.add(new HistorialMesa(usuario:(Usuario)springSecurityService.currentUser, descripcion: "Se ha creado una cuenta", fecha: new Date() ))
+                mesa.historial.add(new HistorialMesa(usuario: (Usuario) springSecurityService.currentUser, descripcion: "Se ha creado una cuenta", fecha: new Date()))
                 mesa.save(flush: true, failOnError: true)
             }
             println("Nueva cuenta creada!")
 
 
-            redirect(uri:"/cuenta/detalleOrdenIndex?idCuenta="+cuenta.id)
+            redirect(uri: "/cuenta/detalleOrdenIndex?idCuenta=" + cuenta.id)
         }.invalidToken {
             // bad request
             redirect(action: "cuentasAbiertas")
@@ -88,21 +87,31 @@ class CuentaController {
      * @param idCuenta
      * @return
      */
-    def detalleOrdenIndex(long idCuenta){
+    def detalleOrdenIndex(long idCuenta) {
         def listaPlatos = Plato.findAllByHabilitado(true)
-        [listaPlatos:listaPlatos,cuenta: Cuenta.findById(idCuenta)]
-    }
 
+        def platosPorCategoria = [:]
+
+        listaPlatos.each {
+            if (platosPorCategoria.containsKey(it.categoriaPlato)) {
+                platosPorCategoria[it.categoriaPlato].add(it)
+            } else {
+                platosPorCategoria[it.categoriaPlato] = [it]
+            }
+        }
+
+        [listaPlatos: listaPlatos, platosPorCategoria: platosPorCategoria, cuenta: Cuenta.findById(idCuenta)]
+    }
 
     /**
      * PROCESA LA ORDEN DEL CLIENTE, ES DECIR, CADA ORDEN DETALLE DEL CLIENTE
      * @param form
      * @return
      */
-    def nuevaOrdenDetalle(OrdenDetalleCuentaForm form){
+    def nuevaOrdenDetalle(OrdenDetalleCuentaForm form) {
 
         def clienteCuenta = clienteCuentaService.procesarClienteCuenta(form)
-        ordenDetalleService.procesarOrdenDetalle(form,clienteCuenta)
+        ordenDetalleService.procesarOrdenDetalle(form, clienteCuenta)
 
         println("Nuevo detalle orden creado!")
 
@@ -115,13 +124,13 @@ class CuentaController {
      * @return
      */
 
-    def nuevaOrdenDetalleCuentaExistentes(UpdateOrdenDetalleCuenta form){
+    def nuevaOrdenDetalleCuentaExistentes(UpdateOrdenDetalleCuenta form) {
         ClienteCuenta clienteCuenta = ClienteCuenta.get(form.clienteCuentaId)
         println(clienteCuenta.id)
         //TODO COMENTARIOS AREGLAR (SE ESTA REMPLAZANDO)
-        clienteCuenta.comentario=form.comentario
-        clienteCuenta.save(flush:true,failOnError:true)
-        ordenDetalleService.updateProcesarOrdenDetalle(form,clienteCuenta)
+        clienteCuenta.comentario = form.comentario
+        clienteCuenta.save(flush: true, failOnError: true)
+        ordenDetalleService.updateProcesarOrdenDetalle(form, clienteCuenta)
 //
         println("Nuevo detalle orden agregada!")
 //        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, true)
@@ -137,8 +146,8 @@ class CuentaController {
      * @param idCuenta
      * @return
      */
-    def cuentaAgregarFinalizar(long id){
-        if(id == 0){
+    def cuentaAgregarFinalizar(long id) {
+        if (id == 0) {
             redirect(action: "detalleOrdenIndex", params: [error: "Información ncomplet,,,,"])
             return
         }
@@ -153,11 +162,11 @@ class CuentaController {
      * @param idCuenta
      * @return
      */
-    def cancelarCuentaEnProgreso(long idCuenta){
+    def cancelarCuentaEnProgreso(long idCuenta) {
         Cuenta cuenta = Cuenta.get(idCuenta as Long)
 
         cuenta.listaMesa.each {
-            it.mesa.estadoMesa=EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE)
+            it.mesa.estadoMesa = EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE)
             it.mesa.save(flush: true, failOnError: true)
 
         }
@@ -172,9 +181,9 @@ class CuentaController {
      * VENTANA QUE MUESTRA EL LISTADO DE CUENTAS ABIERTAS
      * @return
      */
-    def cuentasAbiertas(){
+    def cuentasAbiertas() {
         def cuentasAbiertas = Cuenta.findAllByEstadoCuentaAndHabilitado(EstadoCuenta.findByCodigo(EstadoCuenta.ABIERTO), true)
-        [cuentasAbiertas:cuentasAbiertas]
+        [cuentasAbiertas: cuentasAbiertas]
     }
 
     /**
@@ -182,23 +191,22 @@ class CuentaController {
      * @param idCuenta
      * @return
      */
-    def detalleCuenta(long idCuenta, long idFactura){
+    def detalleCuenta(long idCuenta, long idFactura) {
 //        List<ClienteCuenta> cuentaArrayList=new ArrayList<>()
 
         def cuenta = Cuenta.get(idCuenta)
 
 //        def listadoClienteCuentas = CuentaMesa.findAllByCuenta(cuenta)
-        def listadoMesas = CuentaMesa.findAllByHabilitadoAndCuenta(true,cuenta).mesa
+        def listadoMesas = CuentaMesa.findAllByHabilitadoAndCuenta(true, cuenta).mesa
 
-        Factura factura=Factura.get(idFactura)
-
+        Factura factura = Factura.get(idFactura)
 
 //        listadoClienteCuentas.each {
 //            if(it.habilitado){
 //                listadoMesas.add(it.mesa)
 //            }
 //        }
-        def clienteCuenta = ClienteCuenta.findAllByHabilitadoAndCuenta(true,cuenta)
+        def clienteCuenta = ClienteCuenta.findAllByHabilitadoAndCuenta(true, cuenta)
 
 //        for(int i=0;i<cuenta.listaClienteCuenta.size();i++){
 //
@@ -208,7 +216,7 @@ class CuentaController {
 //        }
 
 
-        [cuenta:cuenta,clienteCuenta: clienteCuenta,listadoMesas:listadoMesas,factura:factura]
+        [cuenta: cuenta, clienteCuenta: clienteCuenta, listadoMesas: listadoMesas, factura: factura]
 
     }
 
@@ -218,13 +226,13 @@ class CuentaController {
      * @param idPlato
      * @return
      */
-    def sacarItemCuenta(long clienteCuentaId,long idPlato,long ordenDetalleId){
+    def sacarItemCuenta(long clienteCuentaId, long idPlato, long ordenDetalleId) {
         OrdenDetalle ordenDetalle = OrdenDetalle.findByClienteCuentaAndPlato(ClienteCuenta.get(clienteCuentaId), Plato.get(idPlato))
 
-        OrdenDetalle ordenDetalle1=OrdenDetalle.findById(ordenDetalleId)
+        OrdenDetalle ordenDetalle1 = OrdenDetalle.findById(ordenDetalleId)
         Factura facturaTmp = FacturaDetalle.findByOrdenDetalle(ordenDetalle1)?.factura
 
-        if(facturaTmp) {
+        if (facturaTmp) {
 
             facturaTmp.porcientoImpuesto = facturaTmp.porcientoImpuesto - ordenDetalle1.porcientoImpuesto
             facturaTmp.porcientoDescuento = facturaTmp.porcientoDescuento - ordenDetalle1.porcientoDescuento
@@ -241,32 +249,32 @@ class CuentaController {
             ordenDetalle.save(flush: true, failOnError: true)
 
 
-        }else{
+        } else {
             ordenDetalle.habilitado = false
-            ordenDetalle.save(flush:true, failOnError:true)
+            ordenDetalle.save(flush: true, failOnError: true)
         }
 
-        redirect(action: "eliminarOrdenDetalleClienteCuenta", params:[ clienteCuentaId : ClienteCuenta.get(clienteCuentaId).id])
+        redirect(action: "eliminarOrdenDetalleClienteCuenta", params: [clienteCuentaId: ClienteCuenta.get(clienteCuentaId).id])
 
     }
 
-    def agregarOrdenDetalleClienteCuenta(long clienteCuentaId){
+    def agregarOrdenDetalleClienteCuenta(long clienteCuentaId) {
         def listadoPlatos = Plato.findAllByHabilitado(true)
         ClienteCuenta clienteCuenta = ClienteCuenta.get(clienteCuentaId)
 
         def listadoMesas = new HashSet()
 
         CuentaMesa.findAllByCuenta(clienteCuenta.cuenta).each {
-            if(it.habilitado){
+            if (it.habilitado) {
                 listadoMesas.add(it.mesa)
             }
         }
 
 
-        [listaPlatos: listadoPlatos, clienteCuenta:clienteCuenta, listadoMesas: listadoMesas]
+        [listaPlatos: listadoPlatos, clienteCuenta: clienteCuenta, listadoMesas: listadoMesas]
     }
 
-    def eliminarOrdenDetalleClienteCuenta(long clienteCuentaId){
+    def eliminarOrdenDetalleClienteCuenta(long clienteCuentaId) {
         ClienteCuenta clienteCuenta = ClienteCuenta.get(clienteCuentaId)
 
         def ordenesActivas = OrdenDetalle.findAllByHabilitadoAndClienteCuenta(true, clienteCuenta)
@@ -276,15 +284,16 @@ class CuentaController {
         def listadoMesas = new HashSet()
 
         CuentaMesa.findAllByCuenta(clienteCuenta.cuenta).each {
-            if(it.habilitado){
+            if (it.habilitado) {
                 listadoMesas.add(it.mesa)
             }
         }
 
 
-        [ clienteCuenta:clienteCuenta, ordenesActivas: ordenesActivas, listadoMesas: listadoMesas]
+        [clienteCuenta: clienteCuenta, ordenesActivas: ordenesActivas, listadoMesas: listadoMesas]
     }
-    def imprimirComanda(long idCuenta){
+
+    def imprimirComanda(long idCuenta) {
 
         println(idCuenta)
         matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true)
@@ -292,32 +301,30 @@ class CuentaController {
         redirect(action: "cuentasAbiertas")
     }
 
-    def reImprimirComanda(long idCuenta){
+    def reImprimirComanda(long idCuenta) {
         println(idCuenta)
         matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true, true)
         matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false, true)
-
-
 
         //matricialService.generarComandaCocina(idCuenta, false, true)
         redirect(action: "cuentasAbiertas")
     }
 
-    def previewCuentaCliente(long clienteCuentaId){
+    def previewCuentaCliente(long clienteCuentaId) {
         def clienteCuenta = ClienteCuenta.get(clienteCuentaId)
 
         def ordenesActivas = OrdenDetalle.findAllByHabilitadoAndClienteCuenta(true, clienteCuenta)
 
         double totalCuenta = 0
         ordenesActivas.each {
-            totalCuenta+=it.importe
+            totalCuenta += it.importe
         }
 
         def listadoClienteCuentas = CuentaMesa.findAllByCuenta(clienteCuenta.cuenta)
         def listadoMesas = new HashSet()
 
         listadoClienteCuentas.each {
-            if(it.habilitado){
+            if (it.habilitado) {
                 listadoMesas.add(it.mesa)
             }
         }
@@ -325,32 +332,30 @@ class CuentaController {
         println(totalCuenta)
 
 
-        [clienteCuenta:clienteCuenta, ordenesActivas: ordenesActivas, listadoMesas: listadoMesas,totalCuenta: totalCuenta]
+        [clienteCuenta: clienteCuenta, ordenesActivas: ordenesActivas, listadoMesas: listadoMesas, totalCuenta: totalCuenta]
 
 
     }
-
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
     //OJOOO!
-    def separarCuenta(){
+    def separarCuenta() {
         def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
-        [clienteCuenta:clienteCuenta]
+        [clienteCuenta: clienteCuenta]
 
     }
 
 
-    def verOrdenes(long clienteCuenta){
+    def verOrdenes(long clienteCuenta) {
 
         def clienteCuentaTmp = ClienteCuenta.findById(clienteCuenta)
 //        def clienteCuenta = ClienteCuenta.findById(id)
-        def listaOrdenDetalle=new ArrayList()
+        def listaOrdenDetalle = new ArrayList()
 
         //TODO: cambiar..
-        for(OrdenDetalle ordenDetalle: clienteCuentaTmp.listaOrdenDetalle){
-            if(ordenDetalle.habilitado){
+        for (OrdenDetalle ordenDetalle : clienteCuentaTmp.listaOrdenDetalle) {
+            if (ordenDetalle.habilitado) {
                 listaOrdenDetalle.add(ordenDetalle)
             }
         }
@@ -358,39 +363,19 @@ class CuentaController {
         [listaOrdenDetalle: listaOrdenDetalle, clienteCuentaId: clienteCuenta]
     }
 
-    def cerraCuenta(long idCuenta){
+    def cerraCuenta(long idCuenta) {
         Cuenta cuenta = Cuenta.get(idCuenta)
         cuenta.habilitado = false
         cuenta.estadoCuenta = EstadoCuenta.findByCodigo(EstadoCuenta.ELIMINADA)
-        cuenta.save(flush:true, failOnError:true)
+        cuenta.save(flush: true, failOnError: true)
         cuenta.listaMesa.each { //TODO: mejorar....
             def mesa = Mesa.get(it.mesa.id)
             mesa.estadoMesa = EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE)
-            mesa.save(flush: true, failOnError:true)
+            mesa.save(flush: true, failOnError: true)
         }
         redirect(action: "cuentasAbiertas")
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 //
 //    //TODO CHEQUEAR ESTOOO!!!!
@@ -496,7 +481,6 @@ class CuentaController {
 //        render clienteCuenta.cuenta as JSON
 //
 //    }
-
 
 
 }
