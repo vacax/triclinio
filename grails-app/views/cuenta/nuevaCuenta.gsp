@@ -15,12 +15,20 @@
 <section class="content">
     <div class="row">
         <div class="row">
-        %{--<div    class="col-xs-8">--}%
-            <g:form action="crearNuevaCuenta" useToken="true">
+            %{--<div    class="col-xs-8">--}%
+
+            <div class="box">
+                <g:form action="crearNuevaCuenta" method="get" useToken="true">
+                    <input id="mesa" name="mesaId" value="44" hidden/>
+                    <input type="submit" class="btn btn-warning" value="Take Out" style="width: 100%;">
+                </g:form>
+            </div>
+            <hr>
+
+            <g:form action="crearNuevaCuenta" method="get" useToken="true">
                 <div class="box">
                     <div class="box-header">
-                        <h3 class="box-title"><b>LISTADO DE MESAS</b></h3>
-
+                        <h3 class="box-title"><b>LISTADO DE MESAS DISPONIBLES</b></h3>
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
@@ -28,40 +36,36 @@
                             <tbody><tr>
                                 <th>MARQUE</th>
                                 <th>NOMBRE DE LA MESA</th>
-                                <th>ESTADO</th>
+                                <th>ACCION</th>
                             </tr>
-                            <g:each in="${Mesa.findAll()}" var="mesa">
-                                <tr>
-                                    <td>
-                                        <span>
-                                            <g:if test="${mesa.estadoMesa.codigo == 1000}">
-                                                <input class="myCheckBox" id="mesaId" name="mesaId" type="checkbox"
-                                                       value="${mesa.id}" disabled="disabled"/>
+                            <g:each in="${mesas}" var="mesa">
+                                <g:if test="${mesa.numeroMesa != 0}">
+                                    <tr>
+                                        <td>
+                                            <span>
+                                                <g:if test="${mesa.numeroMesa != 0}">
+                                                    <input class="myCheckBox" name="mesaId" value="${mesa.id}"
+                                                           type="checkbox"/>
+                                                </g:if>
+                                            </span>
+                                        </td>
+                                        <g:if test="${mesa.numeroMesa != 0}">
+                                            <td>${mesa.nombre}</td>
+                                            <g:if test="${mesa.estadoMesa.codigo == EstadoMesa.DISPONIBLE}">
+                                                <td><span class="label label-success">Disponible</span></td>
                                             </g:if>
-                                            <g:if test="${mesa.estadoMesa.codigo == 1001}">
-                                                <input class="myCheckBox" id="mesaId" name="mesaId" value="${mesa.id}"
-                                                       type="checkbox"/>
-                                            </g:if>
-
-                                        </span>
-                                    </td>
-                                    <td>${mesa.nombre}</td>
-                                    <g:if test="${mesa.estadoMesa.codigo == EstadoMesa.OCUPADA}">
-                                        <td><span class="label label-warning">Ocupada</span></td>
-                                    </g:if>
-                                    <g:if test="${mesa.estadoMesa.codigo == EstadoMesa.DISPONIBLE}">
-                                        <td><span class="label label-success">Disponible</span></td>
-                                    </g:if>
-                                </tr>
+                                        </g:if>
+                                    </tr>
+                                </g:if>
                             </g:each>
-
-                            </tbody></table>
+                            </tbody>
+                        </table>
                     </div>
                     <!-- /.box-body -->
                 </div>
                 <g:link action="cuentasAbiertas" controller="cuenta"><button type="button"
                                                                              class="btn btn-danger btn-block">Cancelar</button></g:link>
-                <button id="crearCuenta" name="crearCuenta" type="summit"
+                <button id="crearCuenta" name="crearCuenta" type="submit"
                         class="btn btn-success btn-block">Crear cuenta</button>
 
             </g:form>

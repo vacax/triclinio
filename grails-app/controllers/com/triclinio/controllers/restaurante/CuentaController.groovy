@@ -34,19 +34,8 @@ class CuentaController {
      * @return
      */
     def nuevaCuenta() {
-        def mesasDesactivadas = Mesa.findAllByEstadoMesa(EstadoMesa.findAllByCodigo(EstadoMesa.DESACTIVADA))
-        def mesas = Mesa.list()
-        mesas.removeAll(mesasDesactivadas)
-        def listaMostrar = new HashSet()
-
-        mesas.each {
-            if (it.habilitado) {
-                listaMostrar.add(it)
-            }
-        }
-
-        [mesas: listaMostrar]
-
+        def mesas = Mesa.findAllByEstadoMesaNotEqual(EstadoMesa.findAllByCodigo(EstadoMesa.OCUPADA).first())
+        [mesas: mesas]
     }
 
     /**
@@ -61,12 +50,12 @@ class CuentaController {
 
             cuenta.save(flush: true, failOnError: true)
 
-
-
             for (int i = 0; i < params.list("mesaId").size(); i++) {
                 new CuentaMesa(mesa: Mesa.findById(params.list("mesaId").get(i)), cuenta: cuenta).save(flush: true, failOnError: true)
                 Mesa mesa = Mesa.findById(params.list("mesaId").get(i))
-                mesa.estadoMesa = EstadoMesa.findByCodigo(EstadoMesa.getOCUPADA())
+                if (mesa.numeroMesa != 0) {
+                    mesa.estadoMesa = EstadoMesa.findByCodigo(EstadoMesa.getOCUPADA())
+                }
                 mesa.historial.add(new HistorialMesa(usuario: (Usuario) springSecurityService.currentUser, descripcion: "Se ha creado una cuenta", fecha: new Date()))
                 mesa.save(flush: true, failOnError: true)
             }
