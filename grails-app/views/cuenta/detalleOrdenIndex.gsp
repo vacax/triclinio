@@ -124,7 +124,7 @@
                         <th hidden="hidden">ID</th>
                         <th>Seleccionar</th>
                         <th>Nombre Item / Platillo</th>
-                        <th>Precio</th>
+                        <th hidden>Precio</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -132,7 +132,7 @@
                         <th hidden="hidden">ID</th>
                         <th>Seleccionar</th>
                         <th>Nombre Item / Platillo</th>
-                        <th>Precio</th>
+                        <th hidden>Precio</th>
                     </tr>
                     </tfoot>
                     <tbody>
@@ -143,7 +143,7 @@
                                     onclick="add_row(${plato.id}, '${plato.nombre}', ${plato.precio});"
                                     class="btn btn-primary">Agregar</button></td>
                             <td>${plato.nombre}</td>
-                            <td>${plato.precio}</td>
+                            <td hidden>${plato.precio}</td>
                         </tr>
                     </g:each>
                     </tbody>
@@ -158,7 +158,7 @@
                             <th hidden="hidden">ID</th>
                             <th>Seleccionar</th>
                             <th>Nombre Item / Platillo</th>
-                            <th>Precio</th>
+                            <th hidden>Precio</th>
                         </tr>
                         </thead>
                         <tfoot>
@@ -166,7 +166,7 @@
                             <th hidden="hidden">ID</th>
                             <th>Seleccionar</th>
                             <th>Nombre Item / Platillo</th>
-                            <th>Precio</th>
+                            <th hidden>Precio</th>
                         </tr>
                         </tfoot>
                         <tbody>
@@ -177,7 +177,7 @@
                                         onclick="add_row(${plato.id}, '${plato.nombre}', ${plato.precio});"
                                         class="btn btn-primary">Agregar</button></td>
                                 <td>${plato.nombre}</td>
-                                <td>${plato.precio}</td>
+                                <td hidden>${plato.precio}</td>
                             </tr>
                         </g:each>
                         </tbody>
@@ -197,17 +197,17 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body no-padding">
-            <table align='center' class="table table-condensed" cellspacing=2 cellpadding=5 id="data_table">
+            <table align='center' class="table table-condensed" id="data_table">
                 <tr>
-                    <th>ID</th>
+                    <th hidden>ID</th>
                     <th>Nombre Item/Platillo</th>
                     <th>Cantidad</th>
-                    <th>Precio</th>
+                    <th hidden>Precio</th>
                     <th>Acciones</th>
 
                 </tr>
                 <tr hidden="hidden">
-                    <td><input type="text" id="idPlatilloAgregado"></td>
+                    <td><input type="text" id="idPlatilloAgregado" hidden></td>
                     <td><input type="text" id="nombrePlatilloAgregado"></td>
                     <td><input type="text" id="cantidadPlatilloAgregado"></td>
                     <td><input type="text" id="precioPlatilloAgregado"></td>
@@ -299,10 +299,10 @@
             var table_len = (table.rows.length) - 1;
             var row = table.insertRow(table_len).outerHTML = "" +
                 "<tr id='row" + table_len + "'>" +
-                "<td id='idPlatillo_row" + table_len + "'>" + idPlatilloAgregado + "</td>" +
+                "<td id='idPlatillo_row" + table_len + "' hidden>" + idPlatilloAgregado + "</td>" +
                 "<td id='nombrePlatillo_row" + table_len + "'>" + nombrePlatilloAgregado + "</td>" +
                 "<td id='cantidadPlatillo_row" + table_len + "'>" + 1 + "</td>" +
-                "<td id='precioPlatillo_row" + table_len + "'>" + precioPlatilloAgregado + "</td>" +
+                "<td id='precioPlatillo_row" + table_len + "' hidden>" + precioPlatilloAgregado + "</td>" +
                 "<td>" + "<input type='button' value='Eliminar' class='delete' onclick='delete_row(" + table_len + ")'></td>" +
                 "</tr>";
         }
