@@ -16,20 +16,27 @@
 
 <section class="content">
     <div class="row">
-        <g:form>
-            <label>A Nombre De:
-                <input class="form-control" name="aNombreDe">
-            </label>
-            <label>Cantidad de Personas:
-                <input class="form-control" name="cantidadPersonas" type="number">
-            </label>
-            <label>Fecha
-                <input class="form-control" name="fecha" type="date">
-            </label>
-            <label>Hora
-                <input class="form-control" name="hora" type="time">
-            </label>
-        </g:form>
+
+        <div class="box">
+            <div class="box-header with-border" style="text-align: center">
+                <h3 class="box-title"><b>CREAR NUEVA RESERVACION</b></h3>
+            </div>
+
+            <div class="box-body">
+                <g:form action="save" method="post">
+                    <h4>A nombe de:</h4>
+                    <input class="form-control" name="aNombreDe">
+                    <h4>Cantidad de personas:</h4>
+                    <input class="form-control" name="cantidadPersonas" type="number">
+                    <h4>Fecha:</h4>
+                    <g:datePicker class="form-control" precision="" name="fecha" value="${new Date()}" noSelection="['': '-Choose-']"/>
+                    <br><br>
+                    <input style="width: 100%;" type="submit" value="Aceptar" class="btn btn-primary">
+                </g:form>
+
+            </div>
+        </div>
+
     </div>
 </section>
 </body>

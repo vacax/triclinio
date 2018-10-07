@@ -2,12 +2,14 @@ package com.triclinio.domains.restaurante
 
 class Reserva {
 
+    public static int ACTIVO = 1001;
+    public static int CANCELADA = 1002;
+    public static int APROBADA = 1003;
+
     String aNombreDe;
     Integer cantidadPersonas;
     Date fecha;
-    Date hora;
-    boolean utilizada;
-    boolean activa;
+    int estado;
 
     Date dateCreated;
     Date lastUpdated;
@@ -17,8 +19,7 @@ class Reserva {
 
     static mapping = {
         table 'rest_reserva'
-        utilizada defaultValue: false
-        activa defaultValue: true
+        estado defaultValue: 1001
     }
 
 }

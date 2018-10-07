@@ -17,16 +17,14 @@
 <section class="content">
     <div class="row">
         <div class="row">
-            <g:link class="btn btn-warning" style="width: 100%;" action="crear"><b>CREAR RESERVACIÓN</b></g:link>
-            <g:link class="btn btn-success" style="width: 100%;"
-                    action="historial"><b>HISTORIAL DE RESERVACIONES</b></g:link>
+            <g:link class="btn btn-warning" style="width: 100%;" action="index"><b>LISTA DE RESERVACIONES</b></g:link>
         </div>
         <hr>
 
         <div class="row">
             <div class="box">
                 <div class="box-header with-border" style="text-align: center">
-                    <h3 class="box-title"><b>LISTA DE RESERVACIONES</b></h3>
+                    <h3 class="box-title"><b>HISTORIAL DE RESERVACIONES</b></h3>
                 </div>
 
                 <div class="box-body">
@@ -36,7 +34,7 @@
                             <th style="text-align: center">Nombre</th>
                             <th style="text-align: center">Cantidad Personas</th>
                             <th style="text-align: center">Fecha y Hora</th>
-                            <th style="text-align: center">Acciones</th>
+                            <th style="text-align: center">Estado</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -46,13 +44,15 @@
                                 <td style="text-align: center">${r.cantidadPersonas}</td>
                                 <td style="text-align: center">${r.fecha}</td>
                                 <td style="text-align: center">
-                                    <g:if test="${r.estado != 1002}">
-                                        <a class="btn btn-success" href="aprobar/${r.id}">Aceptar</a>
-                                        <a class="btn btn-danger" href="cancelar/${r.id}">Cancelar</a>
+                                    <g:if test="${r.estado == 1001}">
+                                        <p class="btn-warning">ACTIVO</p>
                                     </g:if>
-                                    <g:else>
-                                        <a class="btn btn-warning" href="activar/${r.id}">Activar</a>
-                                    </g:else>
+                                    <g:if test="${r.estado == 1002}">
+                                        <p class="btn-danger">CANCELADA</p>
+                                    </g:if>
+                                    <g:if test="${r.estado == 1003}">
+                                        <p class="btn-success">APROBADA</p>
+                                    </g:if>
                                 </td>
                             </tr>
                         </g:each>
