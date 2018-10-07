@@ -5,7 +5,7 @@ class Reserva {
     String aNombreDe;
     Integer cantidadPersonas;
     Date fecha;
-    Date fecha;
+    Date hora;
     boolean utilizada;
     boolean activa;
 
