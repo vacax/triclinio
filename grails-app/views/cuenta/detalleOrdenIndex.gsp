@@ -9,7 +9,7 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.2.3/js/dataTables.select.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -229,10 +229,10 @@
     %{--</div>--}%
 
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
 <script>
     $(document).ready(function () {
-        //$('.table').DataTable();
         var table = $('#table_Todo').DataTable();
         var table1 = $('#table_1').DataTable();
         var table2 = $('#table_3').DataTable();
@@ -240,26 +240,6 @@
         var table4 = $('#table_5').DataTable();
         var table5 = $('#table_6').DataTable();
     });
-
-    //    function agregarNuevoPlato() {
-    //        add_row();
-    //
-    //        var idPlato = document.getElementById("rowSelected").value
-    //        $.ajax({
-    //            type: "POST",
-    //            url:"/cuenta/nuevaOrdenDetalle?idPlato="+idPlato,
-    //            dataType: "JSON",
-    //            contentType:"application/json; charset=utf-8",
-    //            success:(
-    //                function (data) {
-    //                    console.log("SE ENTREGO!");
-    //                    add_row();
-    //                }),
-    //            error :(function(data){
-    //                alert("ERROR")
-    //            })
-    //        });
-    //    }
 
 </script>
 <script>

@@ -35,6 +35,7 @@ class CuentaController {
      */
     def nuevaCuenta() {
         def mesas = Mesa.findAllByEstadoMesaNotEqual(EstadoMesa.findAllByCodigo(EstadoMesa.OCUPADA).first())
+
         [mesas: mesas]
     }
 
