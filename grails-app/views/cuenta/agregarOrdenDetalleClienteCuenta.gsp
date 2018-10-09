@@ -71,7 +71,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                <input id="nombreCliente" disabled="disableda" value="${clienteCuenta.nombre}" name="nombreCliente" placeholder="Nombre del cliente" type="text" class="form-control">
+                                <input id="nombreCliente" disabled="disabled" value="${clienteCuenta.nombre}" name="nombreCliente" placeholder="Nombre del cliente" type="text" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label>Comentario: </label>
