@@ -9,7 +9,7 @@ import groovy.time.TimeCategory
 class ReservaController {
 
     def index() {
-        ['reservas': reservas]
+        ['reservas': Reserva.findAllByEstadoNotEqual(1003)]
     }
 
     def crear() {

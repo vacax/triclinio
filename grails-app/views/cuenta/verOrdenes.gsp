@@ -103,7 +103,7 @@
             %{--<g:link action="verOrdenEspecifico" controller="cuenta"  params="[idOrden: listaOrden.id]"><button type="button" class="btn">Ver Detalle Orden</button></g:link>--}%
             %{--</td>--}%
         </tr>
-    </g:each>
+        </g:each>
     </tbody>
 
 </table>
