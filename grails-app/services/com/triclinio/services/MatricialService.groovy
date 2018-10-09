@@ -304,6 +304,12 @@ class MatricialService {
         }
     }
 
+    /**
+     * 
+     * @param cuentaId
+     * @param platosComanda
+     * @param reimprimir
+     */
     public void generarComandaCocinaAgrupadaCategoria(long cuentaId, boolean platosComanda, boolean reimprimir=false) {
 
         Cuenta cuenta = Cuenta.get(cuentaId)

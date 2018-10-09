@@ -283,6 +283,11 @@ class CuentaController {
         [clienteCuenta: clienteCuenta, ordenesActivas: ordenesActivas, listadoMesas: listadoMesas]
     }
 
+    /**
+     * 
+     * @param idCuenta
+     * @return
+     */
     def imprimirComanda(long idCuenta) {
 
         println(idCuenta)
@@ -291,6 +296,11 @@ class CuentaController {
         redirect(action: "cuentasAbiertas")
     }
 
+    /**
+     * 
+     * @param idCuenta
+     * @return
+     */
     def reImprimirComanda(long idCuenta) {
         println(idCuenta)
         matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true, true)
