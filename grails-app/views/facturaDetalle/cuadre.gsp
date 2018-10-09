@@ -126,9 +126,7 @@
     <th>
         Fecha
     </th>
-    <th>
-        Cliente
-    </th>
+
     <th>
         Monto
     </th>
@@ -143,7 +141,6 @@
             <td>${factura.usuario.nombre}</td>
             %{--<td>${factura.listaFacturaDetalle.ordenDetalle.clienteCuenta.cuenta.listaMesa.numeroMesa.first()}</td>--}%
             <td><g:formatDate format="yyyy-MM-dd HH:mm:ss" date="${factura.dateCreated}"/></td>
-            <td>${factura.cliente.nombre}</td>
             <td>${factura.montoNeto}</td>
         </tr>
     </g:each>

@@ -34,17 +34,8 @@ class CuentaController {
      * @return
      */
     def nuevaCuenta() {
-        def listaMostrar = new HashSet()
-        def listaMesas = Mesa.findAllByEstadoMesa(EstadoMesa.findAllByCodigo(EstadoMesa.DISPONIBLE))
-
-        listaMesas.each {
-            if (it.habilitado) {
-                listaMostrar.add(it)
-            }
-        }
-
-        [mesas: listaMostrar]
-
+        def mesas = Mesa.findAllByEstadoMesaNotEqualAndHabilitado(EstadoMesa.findAllByCodigo(EstadoMesa.OCUPADA).first(), true)
+        [mesas: mesas]
     }
 
     /**
@@ -292,7 +283,7 @@ class CuentaController {
     }
 
     /**
-     * 
+     *
      * @param idCuenta
      * @return
      */
@@ -305,7 +296,7 @@ class CuentaController {
     }
 
     /**
-     * 
+     *
      * @param idCuenta
      * @return
      */

@@ -16,7 +16,7 @@
             <div class="row">
                 <div class="col-xs-12">
                     <h2 class="page-header">
-                        <i class="fa fa-globe"></i> Clientes/Ordenes tomadas.
+                        <i class="fa fa-globe"></i> Clientes/Ordenes Tomadas.
                     </h2>
                 </div>
                 <!-- /.col -->
@@ -56,8 +56,10 @@
                             <!-- text input -->
                             <div class="form-group">
                                 <div class="input-group">
+                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
+                                    <input type="text" value="Atendido por ${cuenta.usuario.nombre}" class="form-control" disabled>
                                     <span class="input-group-addon"><i class="fa fa-calculator"></i></span>
-                                    <input type="text" value="Cuenta #${cuenta.id}" class="form-control">
+                                    <input type="text" value="Cuenta #${cuenta.id}" class="form-control" disabled>
                                 </div>
                             </div>
 

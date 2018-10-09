@@ -15,14 +15,14 @@ import grails.plugin.springsecurity.annotation.Secured
 import java.text.SimpleDateFormat
 
 
-@Secured(["ROLE_ADMIN", "ROLE_CAMARERO","ROLE_FACTURADOR","ROLE_SUPERVISOR_FACTURADOR","ROLE_SUPERVISOR_CAMARERO"])
+@Secured(["ROLE_ADMIN", "ROLE_CAMARERO", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
 class FacturaDetalleController {
 
     //Datos dinero
     def matricialService
     def facturacionService
 
-    def index() { }
+    def index() {}
 
     /**
      *
@@ -37,46 +37,46 @@ class FacturaDetalleController {
     }
 
 
-    def imprimirPreCuenta(long idFactura){
+    def imprimirPreCuenta(long idFactura) {
         Factura factura = Factura.findById(idFactura)
 
         matricialService.generarPreCuenta(factura.id)
-        println "Impuesto "+factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id
+        println "Impuesto " + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id
 
-        redirect(uri:"/cuenta/detalleCuenta?idFactura="+factura.id+"&idCuenta="+factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id)
+        redirect(uri: "/cuenta/detalleCuenta?idFactura=" + factura.id + "&idCuenta=" + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id)
     }
 
-    def facturar(long factura){
-        Factura facturaTmp=Factura.findById(factura)
+    def facturar(long factura) {
+        Factura facturaTmp = Factura.findById(factura)
 
-        List<FacturaDetalle> facturaDetalles=new ArrayList<>()
+        List<FacturaDetalle> facturaDetalles = new ArrayList<>()
 
-        facturaDetalles= FacturaDetalle.findAllByFactura(facturaTmp)
+        facturaDetalles = FacturaDetalle.findAllByFactura(facturaTmp)
         facturaTmp.setEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA))
         facturaTmp.save(flush: true, failOnError: true)
 
-        [facturaDetalles:facturaDetalles,factura:facturaTmp]
+        [facturaDetalles: facturaDetalles, factura: facturaTmp]
     }
 
-    def imprimir(long idFactura){
+    def imprimir(long idFactura) {
 
-        println "Ver:"+idFactura
-        Factura factura=Factura.findById(idFactura)
+        println "Ver:" + idFactura
+        Factura factura = Factura.findById(idFactura)
 
         [factura: factura]
     }
 
-    def imprimirFactura(long id){
-        Factura factura=Factura.findById(id)
+    def imprimirFactura(long id) {
+        Factura factura = Factura.findById(id)
         factura.setEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
-        int cantidadImpresion=Parametro.findByCodigo(Parametro.CANTIDAD_IMPRESION_FACTURA).valor.toInteger()
+        int cantidadImpresion = Parametro.findByCodigo(Parametro.CANTIDAD_IMPRESION_FACTURA).valor.toInteger()
 
 //        for (int i=1;i<cantidadImpresion;i++) {
         matricialService.generarFactura(factura.id)
 //        }
 
         def idClienteCuenta = factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.id
-        def idCuenta =factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id
+        def idCuenta = factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.id
 
         for (OrdenDetalle ordenDetalle : factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.listaOrdenDetalle) {
             ordenDetalle.clienteCuenta.habilitado = false
@@ -100,32 +100,32 @@ class FacturaDetalleController {
             cuenta.setEstadoCuenta(EstadoCuenta.findByCodigo(EstadoCuenta.CERRADA))
             cuenta.save(flush: true, failOnError: true)
         }
-        factura.save(flush:true,failOnError:true)
+        factura.save(flush: true, failOnError: true)
 
-        redirect(uri:"/cuenta/cuentasAbiertas")
+        redirect(uri: "/cuenta/cuentasAbiertas")
     }
 
-    def historialFacturas(){
-        def facturas=Factura.findAllByHabilitadoAndEstadoFactura(true,EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
+    def historialFacturas() {
+        def facturas = Factura.findAllByHabilitadoAndEstadoFactura(true, EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
         [facturas: facturas]
     }
 
-    def reversarFactura(){
-        def factura=Factura.findById(params.get("idFactura") as Long)
+    def reversarFactura() {
+        def factura = Factura.findById(params.get("idFactura") as Long)
 
-        for(OrdenDetalle ordenDetalle: factura.listaFacturaDetalle.ordenDetalle){
+        for (OrdenDetalle ordenDetalle : factura.listaFacturaDetalle.ordenDetalle) {
 
             ordenDetalle.clienteCuenta.cuenta.setEstadoCuenta(EstadoCuenta.findById(1))
-            for(ClienteCuenta clienteCuenta: ordenDetalle.clienteCuenta.cuenta.listaClienteCuenta){
+            for (ClienteCuenta clienteCuenta : ordenDetalle.clienteCuenta.cuenta.listaClienteCuenta) {
                 clienteCuenta.setHabilitado(true)
                 clienteCuenta.save()
             }
             ordenDetalle.save(flush: true, failOnError: true)
         }
 
-        factura.estadoFactura = EstadoFactura.findByCodigoAndHabilitado(EstadoFactura.FACTURADA,true)
-        factura.save(flush:true,failOnError:true)
-        redirect(uri:"/cuenta/cuentasAbiertas")
+        factura.estadoFactura = EstadoFactura.findByCodigoAndHabilitado(EstadoFactura.FACTURADA, true)
+        factura.save(flush: true, failOnError: true)
+        redirect(uri: "/cuenta/cuentasAbiertas")
     }
 
     /**agar
@@ -134,19 +134,18 @@ class FacturaDetalleController {
      * @return
      */
 
-    def facturaReimprimir(){
-        def facturas=Factura.findAllByHabilitadoAndEstadoFactura(true,EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
+    def facturaReimprimir() {
+        def facturas = Factura.findAllByHabilitadoAndEstadoFactura(true, EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
         [facturas: facturas]
     }
 
-    def reimpresionFactura(long facturaid){
-
+    def reimpresionFactura(long facturaid) {
         matricialService.generarFactura(facturaid);
-        redirect(uri:"/facturaDetalle/facturaReimprimir");
+        redirect(uri: "/facturaDetalle/facturaReimprimir");
     }
 
 
-    def cuadre(){
+    def cuadre() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         Calendar upperDate = Calendar.getInstance()
@@ -160,18 +159,18 @@ class FacturaDetalleController {
         lowerDate.set(Calendar.SECOND, 0)
         lowerDate.set(Calendar.HOUR_OF_DAY, 0)
 
-        println "Fecha UpperDate"+sdf.parse(sdf.format(upperDate.getTime()))
-        println "Fecha Lower Date"+sdf.parse(sdf.format(lowerDate.getTime()))
+        println "Fecha UpperDate" + sdf.parse(sdf.format(upperDate.getTime()))
+        println "Fecha Lower Date" + sdf.parse(sdf.format(lowerDate.getTime()))
 
-        List<Factura> facturas=Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA),sdf.parse(sdf.format(lowerDate.getTime())),sdf.parse(sdf.format(upperDate.getTime())))
+        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), sdf.parse(sdf.format(lowerDate.getTime())), sdf.parse(sdf.format(upperDate.getTime())))
 
         [facturas: facturas]
     }
 
-    def indexCuadre(){}
+    def indexCuadre() {}
 
 
-    def cuadreTandaMedioDia(){
+    def cuadreTandaMedioDia() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         Calendar upperDate = Calendar.getInstance()
@@ -185,17 +184,16 @@ class FacturaDetalleController {
         lowerDate.set(Calendar.SECOND, 0)
         lowerDate.set(Calendar.HOUR_OF_DAY, 0)
 
-        println "Fecha UpperDate"+sdf.parse(sdf.format(upperDate.getTime()))
-        println "Fecha Lower Date"+sdf.parse(sdf.format(lowerDate.getTime()))
+        println "Fecha UpperDate" + sdf.parse(sdf.format(upperDate.getTime()))
+        println "Fecha Lower Date" + sdf.parse(sdf.format(lowerDate.getTime()))
 
-        List<Factura> facturas=Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA),sdf.parse(sdf.format(lowerDate.getTime())),sdf.parse(sdf.format(upperDate.getTime())))
+        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), sdf.parse(sdf.format(lowerDate.getTime())), sdf.parse(sdf.format(upperDate.getTime())))
 
         [facturas: facturas]
     }
 
 
-
-    def cuadreTandaNoche(){
+    def cuadreTandaNoche() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
         Calendar upperDate = Calendar.getInstance()
@@ -209,16 +207,16 @@ class FacturaDetalleController {
         lowerDate.set(Calendar.SECOND, 0)
         lowerDate.set(Calendar.HOUR_OF_DAY, 17)
 
-        println "Fecha UpperDate"+sdf.parse(sdf.format(upperDate.getTime()))
-        println "Fecha Lower Date"+sdf.parse(sdf.format(lowerDate.getTime()))
+        println "Fecha UpperDate" + sdf.parse(sdf.format(upperDate.getTime()))
+        println "Fecha Lower Date" + sdf.parse(sdf.format(lowerDate.getTime()))
 
-        List<Factura> facturas=Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA),sdf.parse(sdf.format(lowerDate.getTime())),sdf.parse(sdf.format(upperDate.getTime())))
+        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), sdf.parse(sdf.format(lowerDate.getTime())), sdf.parse(sdf.format(upperDate.getTime())))
 
         [facturas: facturas]
     }
 
-    def verDetalleFactura(long id){
-        Factura factura1=Factura.findById(id)
+    def verDetalleFactura(long id) {
+        Factura factura1 = Factura.findById(id)
         [factura: factura1]
     }
 

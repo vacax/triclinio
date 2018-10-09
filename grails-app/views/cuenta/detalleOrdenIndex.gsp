@@ -9,7 +9,7 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.2.3/js/dataTables.select.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -124,7 +124,7 @@
                         <th hidden="hidden">ID</th>
                         <th>Seleccionar</th>
                         <th>Nombre Item / Platillo</th>
-                        <th>Precio</th>
+                        <th hidden>Precio</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -132,7 +132,7 @@
                         <th hidden="hidden">ID</th>
                         <th>Seleccionar</th>
                         <th>Nombre Item / Platillo</th>
-                        <th>Precio</th>
+                        <th hidden>Precio</th>
                     </tr>
                     </tfoot>
                     <tbody>
@@ -143,7 +143,7 @@
                                     onclick="add_row(${plato.id}, '${plato.nombre}', ${plato.precio});"
                                     class="btn btn-primary">Agregar</button></td>
                             <td>${plato.nombre}</td>
-                            <td>${plato.precio}</td>
+                            <td hidden>${plato.precio}</td>
                         </tr>
                     </g:each>
                     </tbody>
@@ -158,7 +158,7 @@
                             <th hidden="hidden">ID</th>
                             <th>Seleccionar</th>
                             <th>Nombre Item / Platillo</th>
-                            <th>Precio</th>
+                            <th hidden>Precio</th>
                         </tr>
                         </thead>
                         <tfoot>
@@ -166,7 +166,7 @@
                             <th hidden="hidden">ID</th>
                             <th>Seleccionar</th>
                             <th>Nombre Item / Platillo</th>
-                            <th>Precio</th>
+                            <th hidden>Precio</th>
                         </tr>
                         </tfoot>
                         <tbody>
@@ -177,7 +177,7 @@
                                         onclick="add_row(${plato.id}, '${plato.nombre}', ${plato.precio});"
                                         class="btn btn-primary">Agregar</button></td>
                                 <td>${plato.nombre}</td>
-                                <td>${plato.precio}</td>
+                                <td hidden>${plato.precio}</td>
                             </tr>
                         </g:each>
                         </tbody>
@@ -197,17 +197,17 @@
         </div>
         <!-- /.box-header -->
         <div class="box-body no-padding">
-            <table align='center' class="table table-condensed" cellspacing=2 cellpadding=5 id="data_table">
+            <table align='center' class="table table-condensed" id="data_table">
                 <tr>
-                    <th>ID</th>
+                    <th hidden>ID</th>
                     <th>Nombre Item/Platillo</th>
                     <th>Cantidad</th>
-                    <th>Precio</th>
+                    <th hidden>Precio</th>
                     <th>Acciones</th>
 
                 </tr>
                 <tr hidden="hidden">
-                    <td><input type="text" id="idPlatilloAgregado"></td>
+                    <td><input type="text" id="idPlatilloAgregado" hidden></td>
                     <td><input type="text" id="nombrePlatilloAgregado"></td>
                     <td><input type="text" id="cantidadPlatilloAgregado"></td>
                     <td><input type="text" id="precioPlatilloAgregado"></td>
@@ -229,10 +229,10 @@
     %{--</div>--}%
 
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
 <script>
     $(document).ready(function () {
-        //$('.table').DataTable();
         var table = $('#table_Todo').DataTable();
         var table1 = $('#table_1').DataTable();
         var table2 = $('#table_3').DataTable();
@@ -240,26 +240,6 @@
         var table4 = $('#table_5').DataTable();
         var table5 = $('#table_6').DataTable();
     });
-
-    //    function agregarNuevoPlato() {
-    //        add_row();
-    //
-    //        var idPlato = document.getElementById("rowSelected").value
-    //        $.ajax({
-    //            type: "POST",
-    //            url:"/cuenta/nuevaOrdenDetalle?idPlato="+idPlato,
-    //            dataType: "JSON",
-    //            contentType:"application/json; charset=utf-8",
-    //            success:(
-    //                function (data) {
-    //                    console.log("SE ENTREGO!");
-    //                    add_row();
-    //                }),
-    //            error :(function(data){
-    //                alert("ERROR")
-    //            })
-    //        });
-    //    }
 
 </script>
 <script>
@@ -299,10 +279,10 @@
             var table_len = (table.rows.length) - 1;
             var row = table.insertRow(table_len).outerHTML = "" +
                 "<tr id='row" + table_len + "'>" +
-                "<td id='idPlatillo_row" + table_len + "'>" + idPlatilloAgregado + "</td>" +
+                "<td id='idPlatillo_row" + table_len + "' hidden>" + idPlatilloAgregado + "</td>" +
                 "<td id='nombrePlatillo_row" + table_len + "'>" + nombrePlatilloAgregado + "</td>" +
                 "<td id='cantidadPlatillo_row" + table_len + "'>" + 1 + "</td>" +
-                "<td id='precioPlatillo_row" + table_len + "'>" + precioPlatilloAgregado + "</td>" +
+                "<td id='precioPlatillo_row" + table_len + "' hidden>" + precioPlatilloAgregado + "</td>" +
                 "<td>" + "<input type='button' value='Eliminar' class='delete' onclick='delete_row(" + table_len + ")'></td>" +
                 "</tr>";
         }

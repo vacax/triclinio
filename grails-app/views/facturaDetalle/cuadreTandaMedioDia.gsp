@@ -7,23 +7,33 @@
     <title>Cuadre Factura Tanda MedioDia</title>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css">
 
     %{--<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>--}%
     <script
             src="https://code.jquery.com/jquery-1.12.4.js"
             integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
             crossorigin="anonymous"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.4.2/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="//cdn.datatables.net/buttons/1.4.2/js/buttons.flash.min.js"></script>
 
-    <script type="text/javascript" charset="utf8" src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
-    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/buttons/1.4.2/js/buttons.print.min.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/1.10.16/api/sum().js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="//cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="//cdn.datatables.net/buttons/1.4.2/js/buttons.print.min.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/plug-ins/1.10.16/api/sum().js"></script>
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -44,33 +54,33 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
     <script type="text/javascript">
-        $(document).ready(function() {
-            var table = $('#example').DataTable( {
+        $(document).ready(function () {
+            var table = $('#example').DataTable({
 
                 responsive: true,
-                "footerCallback": function ( row, data, start, end, display ) {
+                "footerCallback": function (row, data, start, end, display) {
                     var api = this.api(), data;
 
                     // converting to interger to find total
-                    var intVal = function ( i ) {
+                    var intVal = function (i) {
                         return typeof i === 'string' ?
-                            i.replace(/[\$,]/g, '')*1 :
+                            i.replace(/[\$,]/g, '') * 1 :
                             typeof i === 'number' ?
                                 i : 0;
                     };
 
 
                     var thuTotal = api
-                        .column( 4 )
+                        .column(4)
                         .data()
-                        .reduce( function (a, b) {
+                        .reduce(function (a, b) {
                             return intVal(a) + intVal(b);
-                        }, 0 );
+                        }, 0);
 
 
                     // Update footer by showing the total with the reference of the column index
-                    $( api.column( 0 ).footer() ).html('Total De todas las facturas');
-                    $( api.column( 1 ).footer() ).html(thuTotal+" (Monto Neto Total)");
+                    $(api.column(0).footer()).html('Total De todas las facturas');
+                    $(api.column(1).footer()).html(thuTotal + " (Monto Neto Total)");
                 },
 
                 dom: 'Bfrtip',
@@ -87,9 +97,9 @@
                 ]
 
 
-            } );
+            });
 
-        } );
+        });
     </script>
 
     %{--<g:layoutHead/>--}%
@@ -98,6 +108,7 @@
     %{--<g:pageProperty name="page.header"/>--}%
     %{----}%
 </head>
+
 <body class="hold-transition skin-blue sidebar-mini">
 
 <!-- Main Header -->
@@ -108,7 +119,7 @@
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>G</b>FT</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Guava</b><small> Fusión Tropical</small></span>
+        <span class="logo-lg"><b>Guava</b><small>Fusión Tropical</small></span>
     </a>
 
     <!-- Header Navbar -->
@@ -118,10 +129,9 @@
     </nav>
 </header>
 
-<div  style="margin-top: 1%;margin-left: 1%;margin-bottom: 1%;margin-right: 1%">
-    <table style="width:1500px; margin:0 auto; margin-top: 10%" id="example" class="table striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-
-
+<div style="margin-top: 1%;margin-left: 1%;margin-bottom: 1%;margin-right: 1%">
+    <table style="width:1500px; margin:0 auto; margin-top: 10%" id="example"
+           class="table striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
         <thead>
         <th>
             ID
@@ -131,9 +141,6 @@
         </th>
         <th>
             Fecha
-        </th>
-        <th>
-            Cliente
         </th>
         <th>
             Monto
@@ -149,12 +156,11 @@
                 <td>${factura.usuario.nombre}</td>
                 %{--<td>${factura.listaFacturaDetalle.ordenDetalle.clienteCuenta.cuenta.listaMesa.numeroMesa.first()}</td>--}%
                 <td><g:formatDate format="yyyy-MM-dd HH:mm:ss" date="${factura.dateCreated}"/></td>
-                <td>${factura.cliente.nombre}</td>
                 <td>${factura.montoNeto}</td>
             </tr>
         </g:each>
     </table>
-    <button class="btn btn-danger btn-lg"  onclick="window.history.back();" >Terminar</button>
+    <button class="btn btn-danger btn-lg" onclick="window.history.back();">Terminar</button>
 </div>
 </body>
 

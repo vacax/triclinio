@@ -5,7 +5,6 @@ class Mesa {
     int numeroMesa
     String nombre;
     EstadoMesa estadoMesa
-    
 
     //Datos genericos del dominio.
     boolean habilitado = true;
@@ -14,11 +13,11 @@ class Mesa {
     Date dateCreated;
     Date lastUpdated;
 
-    static hasMany = [historial :  HistorialMesa]
-
+    static hasMany = [historial: HistorialMesa]
 
     static constraints = {
         historial(nullable: true)
+        numeroMesa 'unique': true
     }
 
     static mapping = {

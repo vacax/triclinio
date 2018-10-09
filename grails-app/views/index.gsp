@@ -104,12 +104,12 @@
     <div class="row" style="margin: 1%">
             %{--<div class="col-lg-5 col-xs-6">--}%
             <!-- small box -->
-            <a href="#">
+            <a href="/reserva/index">
             <div class="small-box bg-red">
                 <div class="inner">
-                    <h3>Reservas</h3>
+                    <h3>Reservaciones</h3>
 
-                    <p><small>Gestionar Reserva</small></p>
+                    <p><small>Gestionar Reservaciones</small></p>
                 </div>
                 <div class="icon">
                     <i class="fa fa-table"></i>
