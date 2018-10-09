@@ -45,7 +45,7 @@
                 </div>
             </g:if>
         </div>
-        <div class="row">
+        <div class="row" style="margin: 1%">
             <a href="/cuenta/nuevaCuenta">
 
                 <!-- small box -->
@@ -64,13 +64,13 @@
             </a>
         </div>
             %{--</div>--}%
-        <div class="row">
-            <a href="/cuenta/cuentasAbiertas">
+        <div class="row" style="margin: 1%">
+            <a href="/cuenta/cuentasAbiertas" >
             %{--<div class="col-lg-5 col-xs-6">--}%
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>Modificar</h3>
+                        <h3>Editar Cuenta</h3>
 
                         <p>Cuentas Abiertas: <triclinio:numeroCuentasAbiertas/></p>
                     </div>
@@ -83,7 +83,7 @@
             %{--</div>--}%
 
         </div>
-        <div class="row">
+        <div class="row" style="margin: 1%">
             <a href="/mesa/mesasOcupadasIndex">
 
             %{--<div class="col-lg-5 col-xs-6">--}%
@@ -101,7 +101,7 @@
             %{--</div>--}%
         </div>
             </a>
-    <div class="row">
+    <div class="row" style="margin: 1%">
             %{--<div class="col-lg-5 col-xs-6">--}%
             <!-- small box -->
             <a href="#">

@@ -30,7 +30,7 @@
                                 <th>NOMBRE DE LA MESA</th>
                                 <th>ESTADO</th>
                             </tr>
-                            <g:each in="${Mesa.findAll()}" var="mesa">
+                            <g:each in="${mesas}" var="mesa">
                                 <tr>
                                     <td>
                                         <span>

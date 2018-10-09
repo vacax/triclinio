@@ -34,12 +34,10 @@ class CuentaController {
      * @return
      */
     def nuevaCuenta() {
-        def mesasDesactivadas = Mesa.findAllByEstadoMesa(EstadoMesa.findAllByCodigo(EstadoMesa.DESACTIVADA))
-        def mesas = Mesa.list()
-        mesas.removeAll(mesasDesactivadas)
         def listaMostrar = new HashSet()
+        def listaMesas = Mesa.findAllByEstadoMesa(EstadoMesa.findAllByCodigo(EstadoMesa.DISPONIBLE))
 
-        mesas.each {
+        listaMesas.each {
             if (it.habilitado) {
                 listaMostrar.add(it)
             }
