@@ -16,7 +16,7 @@
         <div class="row">
             <div class="box">
                 <g:form action="crearNuevaCuenta" method="get" useToken="true">
-                    <input id="mesa" name="mesaId" value="44" hidden/>
+                    <input id="mesa" name="mesaNumero" value="44" hidden/>
                     <input type="submit" class="btn btn-warning" value="Take Out" style="width: 100%;">
                 </g:form>
             </div>

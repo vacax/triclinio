@@ -43,25 +43,23 @@ class CuentaController {
      * @return
      */
     def crearNuevaCuenta() {
+
+        def mesas = Mesa.findAllByEstadoMesaNotEqualAndHabilitado(EstadoMesa.findAllByCodigo(EstadoMesa.OCUPADA).first(), true)
+
         withForm {
             Cuenta cuenta = new Cuenta()
             cuenta.usuario = (Usuario) springSecurityService.currentUser
             cuenta.estadoCuenta = EstadoCuenta.findByCodigo(EstadoCuenta.ABIERTO)
-
             cuenta.save(flush: true, failOnError: true)
-
-
-
             for (int i = 0; i < params.list("mesaId").size(); i++) {
                 new CuentaMesa(mesa: Mesa.findById(params.list("mesaId").get(i)), cuenta: cuenta).save(flush: true, failOnError: true)
                 Mesa mesa = Mesa.findById(params.list("mesaId").get(i))
+                // if (mesa.numeroMesa != Mesa.NUMERO_MESA_TAKEOUT) {
                 mesa.estadoMesa = EstadoMesa.findByCodigo(EstadoMesa.getOCUPADA())
+                //}
                 mesa.historial.add(new HistorialMesa(usuario: (Usuario) springSecurityService.currentUser, descripcion: "Se ha creado una cuenta", fecha: new Date()))
                 mesa.save(flush: true, failOnError: true)
             }
-            println("Nueva cuenta creada!")
-
-
             redirect(uri: "/cuenta/detalleOrdenIndex?idCuenta=" + cuenta.id)
         }.invalidToken {
             // bad request
