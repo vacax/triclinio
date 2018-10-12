@@ -37,6 +37,7 @@
                             <th style="text-align: center">Nombre</th>
                             <th style="text-align: center">Cantidad Personas</th>
                             <th style="text-align: center">Fecha y Hora</th>
+                            <th style="text-align: center">Observaciones</th>
                             <th style="text-align: center">Acciones</th>
                         </tr>
                         </thead>
@@ -46,6 +47,10 @@
                                 <td style="text-align: center">${r.aNombreDe}</td>
                                 <td style="text-align: center">${r.cantidadPersonas}</td>
                                 <td style="text-align: center">${r.fecha}</td>
+                                <td style="text-align: center"><button type="button" class="btn btn-info"
+                                                                       data-toggle="modal"
+                                                                       data-target="#modalObserv${r.id}">Ver</button>
+                                </td>
                                 <td style="text-align: center">
                                     <g:if test="${r.estado != 1002}">
                                         <button type="button" class="reserv_button btn btn-info"
@@ -59,6 +64,28 @@
                                     </g:else>
                                 </td>
                             </tr>
+
+                            <div id="modalObserv${r.id}" class="modal fade" role="dialog">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content" style="word-wrap: break-word;">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h4 class="modal-title">Observaciones de ${r.aNombreDe}</h4>
+                                        </div>
+
+                                        <div class="modal-body">
+                                            <p>${r.observaciones}</p>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-danger"
+                                                    data-dismiss="modal">OK</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div id="myModal${r.id}" class="modal fade" role="dialog">
                                 <div class="modal-dialog">
