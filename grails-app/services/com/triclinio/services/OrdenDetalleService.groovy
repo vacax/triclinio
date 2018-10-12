@@ -10,17 +10,18 @@ import grails.gorm.transactions.Transactional
 @Transactional
 class OrdenDetalleService {
 
-    def procesarOrdenDetalle(OrdenDetalleCuentaForm form, ClienteCuenta clienteCuenta){
+    def procesarOrdenDetalle(OrdenDetalleCuentaForm form, ClienteCuenta clienteCuenta) {
 
         form.listaPlato.each {
             Plato plato = Plato.get(it.idPlato)
             int cantidad = it.cantidad;
 
             def ordenDetalle = new OrdenDetalle()
-            ordenDetalle.clienteCuenta=clienteCuenta
-            ordenDetalle.plato=plato
-            ordenDetalle.cantidad=it.cantidad
-            ordenDetalle.nombrePlato=plato.nombre
+            ordenDetalle.clienteCuenta = clienteCuenta
+            ordenDetalle.plato = plato
+            ordenDetalle.cantidad = it.cantidad
+            ordenDetalle.nombrePlato = plato.nombre
+            ordenDetalle.activa = true
 
             //calculo de dinero
             ordenDetalle.precio = plato.precio
@@ -35,19 +36,22 @@ class OrdenDetalleService {
             ordenDetalle.save(flush: true, failOnError: true)
         }
     }
-    def updateProcesarOrdenDetalle(UpdateOrdenDetalleCuenta form, ClienteCuenta clienteCuenta){
+
+    def updateProcesarOrdenDetalle(UpdateOrdenDetalleCuenta form, ClienteCuenta clienteCuenta) {
 
         form.listaPlato.each {
+
             Plato plato = Plato.get(it.idPlato)
+
             int cantidad = it.cantidad;
 
             def ordenDetalle = new OrdenDetalle()
-            ordenDetalle.clienteCuenta=clienteCuenta
-            ordenDetalle.plato=plato
-            ordenDetalle.cantidad=it.cantidad
-            ordenDetalle.nombrePlato=plato.nombre
+            ordenDetalle.clienteCuenta = clienteCuenta
+            ordenDetalle.plato = plato
+            ordenDetalle.cantidad = it.cantidad
+            ordenDetalle.nombrePlato = plato.nombre
 
-            ordenDetalle.facturada=false
+            ordenDetalle.facturada = false
 //            ordenDetalle.habilitado=true
 //            ordenDetalle.eliminada=false
 

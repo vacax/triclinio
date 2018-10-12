@@ -53,7 +53,6 @@ class CuentaController {
             cuenta.save(flush: true, failOnError: true)
             for (int i = 0; i < params.list("mesaId").size(); i++) {
                 Mesa mesa = Mesa.findByNumeroMesa(params.list("mesaId").get(i) as int)
-                println(mesa)
                 new CuentaMesa(mesa: mesa, cuenta: cuenta).save(flush: true, failOnError: true)
                 if (mesa.numeroMesa != 0) {
                     mesa.estadoMesa = EstadoMesa.findByCodigo(EstadoMesa.getOCUPADA())
@@ -101,7 +100,6 @@ class CuentaController {
         def clienteCuenta = clienteCuentaService.procesarClienteCuenta(form)
         ordenDetalleService.procesarOrdenDetalle(form, clienteCuenta)
 
-        println("Nuevo detalle orden creado!")
 
         render clienteCuenta.cuenta as JSON
     }
@@ -113,14 +111,16 @@ class CuentaController {
      */
 
     def nuevaOrdenDetalleCuentaExistentes(UpdateOrdenDetalleCuenta form) {
+
         ClienteCuenta clienteCuenta = ClienteCuenta.get(form.clienteCuentaId)
-        println(clienteCuenta.id)
+
+
+
         //TODO COMENTARIOS AREGLAR (SE ESTA REMPLAZANDO)
         clienteCuenta.comentario = form.comentario
         clienteCuenta.save(flush: true, failOnError: true)
         ordenDetalleService.updateProcesarOrdenDetalle(form, clienteCuenta)
 //
-        println("Nuevo detalle orden agregada!")
 //        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, true)
 //        matricialService.generarComandaCocina(clienteCuenta.cuenta.id, false)
         matricialService.generarComandaCocinaAgrupadaCategoria(clienteCuenta.cuenta.id, true)
@@ -247,10 +247,22 @@ class CuentaController {
     }
 
     def agregarOrdenDetalleClienteCuenta(long clienteCuentaId) {
+
+
         def listadoPlatos = Plato.findAllByHabilitado(true)
         ClienteCuenta clienteCuenta = ClienteCuenta.get(clienteCuentaId)
 
         def listadoMesas = new HashSet()
+
+        def platosPorCategoria = [:]
+
+        listadoPlatos.each {
+            if (platosPorCategoria.containsKey(it.categoriaPlato)) {
+                platosPorCategoria[it.categoriaPlato].add(it)
+            } else {
+                platosPorCategoria[it.categoriaPlato] = [it]
+            }
+        }
 
         CuentaMesa.findAllByCuenta(clienteCuenta.cuenta).each {
             if (it.habilitado) {
@@ -259,7 +271,7 @@ class CuentaController {
         }
 
 
-        [listaPlatos: listadoPlatos, clienteCuenta: clienteCuenta, listadoMesas: listadoMesas]
+        [listaPlatos: listadoPlatos, platosPorCategoria: platosPorCategoria, clienteCuenta: clienteCuenta, listadoMesas: listadoMesas]
     }
 
     def eliminarOrdenDetalleClienteCuenta(long clienteCuentaId) {
@@ -288,7 +300,6 @@ class CuentaController {
      */
     def imprimirComanda(long idCuenta) {
 
-        println(idCuenta)
         matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true)
         matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false)
         redirect(action: "cuentasAbiertas")
@@ -300,7 +311,6 @@ class CuentaController {
      * @return
      */
     def reImprimirComanda(long idCuenta) {
-        println(idCuenta)
         matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, true, true)
         matricialService.generarComandaCocinaAgrupadaCategoria(idCuenta, false, true)
 
@@ -327,7 +337,6 @@ class CuentaController {
             }
         }
 
-        println(totalCuenta)
 
 
         [clienteCuenta: clienteCuenta, ordenesActivas: ordenesActivas, listadoMesas: listadoMesas, totalCuenta: totalCuenta]
@@ -400,7 +409,6 @@ class CuentaController {
 //
 //    def eliminarOrdenDetalle(){
 //        def orden = ClienteCuenta.findById(params.get("orden") as Long)
-//        println "Orden : "+orden
 //        redirect(action:'detalleCuenta')
 //    }
 
@@ -420,7 +428,6 @@ class CuentaController {
 //        clienteCuenta.montoNeto = 0.00
 //        clienteCuenta.save(flush: true, failOnError: true)
 //
-//        println("Nuevo cliente creado!")
 //
 //        render clienteCuenta as JSON
 //    }
@@ -434,10 +441,6 @@ class CuentaController {
 //     */
 //    def nuevaOrdenDetalle(OrdenDetalleCuentaForm form){
 //        def json = request.getJSON();
-//        println("EL JSON: "+json)
-//        println "El form recibido: "+(form as JSON)
-//        println "Los parametros enviandos: "+params
-//        //ORDEN DETALLE
 //
 //        ClienteCuenta clienteCuenta = new ClienteCuenta()
 //        clienteCuenta.cuenta = Cuenta.get(form.cuentaId)
@@ -471,7 +474,6 @@ class CuentaController {
 //        }
 //
 //
-//        println("Nuevo detalle orden creado!")
 //
 //
 //
