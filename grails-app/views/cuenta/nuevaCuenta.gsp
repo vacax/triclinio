@@ -16,7 +16,7 @@
         <div class="row">
             <div class="box">
                 <g:form action="crearNuevaCuenta" method="get" useToken="true">
-                    <input id="mesa" name="mesaNumero" value="44" hidden/>
+                    <input id="mesaId" name="mesaId" value="0" hidden/>
                     <input type="submit" class="btn btn-warning" value="Take Out" style="width: 100%;">
                 </g:form>
             </div>
@@ -40,7 +40,7 @@
                                         <td>
                                             <span>
                                                 <g:if test="${mesa.numeroMesa != 0}">
-                                                    <input class="myCheckBox" name="mesaId" value="${mesa.id}"
+                                                    <input class="myCheckBox" name="mesaId" value="${mesa.numeroMesa}"
                                                            type="checkbox"/>
                                                 </g:if>
                                             </span>

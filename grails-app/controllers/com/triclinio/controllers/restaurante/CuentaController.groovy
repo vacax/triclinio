@@ -52,11 +52,12 @@ class CuentaController {
             cuenta.estadoCuenta = EstadoCuenta.findByCodigo(EstadoCuenta.ABIERTO)
             cuenta.save(flush: true, failOnError: true)
             for (int i = 0; i < params.list("mesaId").size(); i++) {
-                new CuentaMesa(mesa: Mesa.findById(params.list("mesaId").get(i)), cuenta: cuenta).save(flush: true, failOnError: true)
-                Mesa mesa = Mesa.findById(params.list("mesaId").get(i))
-                // if (mesa.numeroMesa != Mesa.NUMERO_MESA_TAKEOUT) {
-                mesa.estadoMesa = EstadoMesa.findByCodigo(EstadoMesa.getOCUPADA())
-                //}
+                Mesa mesa = Mesa.findByNumeroMesa(params.list("mesaId").get(i) as int)
+                println(mesa)
+                new CuentaMesa(mesa: mesa, cuenta: cuenta).save(flush: true, failOnError: true)
+                if (mesa.numeroMesa != 0) {
+                    mesa.estadoMesa = EstadoMesa.findByCodigo(EstadoMesa.getOCUPADA())
+                }
                 mesa.historial.add(new HistorialMesa(usuario: (Usuario) springSecurityService.currentUser, descripcion: "Se ha creado una cuenta", fecha: new Date()))
                 mesa.save(flush: true, failOnError: true)
             }
