@@ -15,7 +15,7 @@ class ReservaController {
         def camareros = []
         def l = UsuarioPerfil.findAllByPerfil(Perfil.findAllByAuthority('ROLE_CAMARERO'))
         l.each{ camareros.add(it.usuario) }
-        ['reservas': Reserva.findAllByEstadoNotEqual(1004), 'camareros': camareros]
+        ['reservas': Reserva.findAllByEstadoNotEqualAndEstadoNotEqual(1003, 1004), 'camareros': camareros]
     }
 
     def crear() {

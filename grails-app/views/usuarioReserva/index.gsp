@@ -3,6 +3,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
+    <meta charset="utf-8"/>
     <title>Bienvenido...</title>
     %{--<link href='http://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>--}%
     <script src="//code.jquery.com/jquery-1.12.4.js"></script>
@@ -17,14 +18,9 @@
 <section class="content">
     <div class="row">
         <div class="row">
-            <g:link class="btn btn-warning" style="width: 100%;" action="index"><b>LISTA DE RESERVACIONES</b></g:link>
-        </div>
-        <hr>
-
-        <div class="row">
             <div class="box">
                 <div class="box-header with-border" style="text-align: center">
-                    <h3 class="box-title"><b>HISTORIAL DE RESERVACIONES</b></h3>
+                    <h3 class="box-title"><b>LISTA DE RESERVACIONES PENDIENTES</b></h3>
                 </div>
 
                 <div class="box-body">
@@ -34,28 +30,17 @@
                             <th style="text-align: center">Nombre</th>
                             <th style="text-align: center">Cantidad Personas</th>
                             <th style="text-align: center">Fecha y Hora</th>
-                            <th style="text-align: center">Estado</th>
+                            <th style="text-align: center">Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <g:each in="${reservas}" var="r">
+                        <g:each in="${pendientes}" var="r">
                             <tr>
                                 <td style="text-align: center">${r.aNombreDe}</td>
                                 <td style="text-align: center">${r.cantidadPersonas}</td>
                                 <td style="text-align: center">${r.fecha}</td>
                                 <td style="text-align: center">
-                                    <g:if test="${r.estado == 1001}">
-                                        <p class="btn-warning">ACTIVO</p>
-                                    </g:if>
-                                    <g:if test="${r.estado == 1002}">
-                                        <p class="btn-danger">CANCELADA</p>
-                                    </g:if>
-                                    <g:if test="${r.estado == 1003}">
-                                        <p class="btn-success">APROBADA</p>
-                                    </g:if>
-                                    <g:if test="${r.estado == 1004}">
-                                        <p class="btn-warning">PENDIENTE</p>
-                                    </g:if>
+                                    <a href="abrirCuenta/${r.id}" class="btn btn-success">Abrir cuenta</a>
                                 </td>
                             </tr>
                         </g:each>
@@ -66,6 +51,9 @@
         </div>
     </div>
 </section>
+
+<script>
+</script>
 </body>
 </html>
 
