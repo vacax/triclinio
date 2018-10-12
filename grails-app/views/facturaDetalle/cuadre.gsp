@@ -80,6 +80,18 @@
 </header>
 
 <div style="margin-top: 1%;margin-left: 1%;margin-bottom: 1%;margin-right: 1%">
+
+    <div>
+        <p>Desde:</p>
+        <g:datePicker name="desde" id="fecha_desde" value="${new Date()}" precision="day"/>
+        <p>Hasta:</p>
+        <g:datePicker name="hasta" id="fecha_hasta" value="${new Date()}" precision="day"/>
+        <br><br>
+        <button id="refrescar_button" class="btn btn-instagram">Refrescar Data</button>
+    </div>
+
+    <hr>
+
     <table style="width:1500px; margin:0 auto; margin-top: 10%" id="example"
            class="table striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
         <thead>
@@ -159,6 +171,21 @@
     });
 </script>
 
+<script>
+    $("#refrescar_button").on('click', function () {
+        var desde = $("#fecha_desde_year").val() + '-' + $("#fecha_desde_month").val() + '-' + $("#fecha_desde_day").val();
+        var hasta = $("#fecha_hasta_year").val() + '-' + $("#fecha_hasta_month").val() + '-' + $("#fecha_hasta_day").val();
+        var data = desde + '_' + hasta;
+        $.ajax({
+            url: "/cuadre/refrescar/",
+            data: {data: data},
+            success: function (data) {
+                console.log(data);
+                //window.location = "/cuenta/cuentaAgregarFinalizar/" + data.id
+            }
+        });
+    })
+</script>
 </body>
 
 </html>

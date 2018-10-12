@@ -167,6 +167,11 @@ class FacturaDetalleController {
         [facturas: facturas]
     }
 
+    def refrescar(String data){
+        println(data)
+        render 'ok'
+    }
+
     def indexCuadre() {}
 
 
