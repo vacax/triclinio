@@ -16,6 +16,8 @@ class Cuenta {
     Date dateCreated;
     Date lastUpdated;
 
+    boolean reservacion = false
+
     static constraints = {
 
     }

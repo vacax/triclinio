@@ -18,6 +18,7 @@
                 <g:form action="crearNuevaCuenta" method="get" useToken="true">
                     <input id="mesaId" name="mesaId" value="0" hidden/>
                     <input type="submit" class="btn btn-warning" value="Take Out" style="width: 100%;">
+                    <input id="reservaId" name="reservaId" value="${reservacion}" hidden/>
                 </g:form>
             </div>
             <hr>
@@ -27,7 +28,7 @@
                     <div class="box-header">
                         <h3 class="box-title"><b>LISTADO DE MESAS DISPONIBLES</b></h3>
                     </div>
-
+                    <input id="reservaId2" name="reservaId" value="${reservacion}" hidden/>
                     <div class="box-body table-responsive no-padding">
                         <table class="table table-hover">
                             <tbody><tr>

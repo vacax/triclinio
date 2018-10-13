@@ -28,14 +28,6 @@ class UsuarioReservaController {
         if (reserva == null) {
             return
         }
-
-        try {
-            reserva.estado = Reserva.APROBADA
-            reserva.save(flush: true, failOnError: true)
-        } catch (ValidationException e) {
-
-        }
-
-        redirect(controller: 'cuenta' , action: "nuevaCuenta", method: 'GET')
+        redirect(controller: 'cuenta', action: "nuevaCuenta", method: 'GET', params: [reservacion: reserva.id])
     }
 }

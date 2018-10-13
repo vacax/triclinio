@@ -12,6 +12,7 @@ import com.triclinio.domains.restaurante.HistorialMesa
 import com.triclinio.domains.restaurante.Mesa
 import com.triclinio.domains.restaurante.OrdenDetalle
 import com.triclinio.domains.restaurante.Plato
+import com.triclinio.domains.restaurante.Reserva
 import com.triclinio.domains.seguridad.Usuario
 import com.triclinio.domains.venta.EstadoFactura
 import com.triclinio.domains.venta.Factura
@@ -34,8 +35,9 @@ class CuentaController {
      * @return
      */
     def nuevaCuenta() {
+        println(params)
         def mesas = Mesa.findAllByEstadoMesaNotEqualAndHabilitado(EstadoMesa.findAllByCodigo(EstadoMesa.OCUPADA).first(), true)
-        [mesas: mesas]
+        [mesas: mesas, 'reservacion': params.reservacion]
     }
 
     /**
@@ -44,12 +46,22 @@ class CuentaController {
      */
     def crearNuevaCuenta() {
 
+        println(params)
+
         def mesas = Mesa.findAllByEstadoMesaNotEqualAndHabilitado(EstadoMesa.findAllByCodigo(EstadoMesa.OCUPADA).first(), true)
 
         withForm {
             Cuenta cuenta = new Cuenta()
             cuenta.usuario = (Usuario) springSecurityService.currentUser
             cuenta.estadoCuenta = EstadoCuenta.findByCodigo(EstadoCuenta.ABIERTO)
+            if (params.reservaId != ""){
+                Reserva reserva = Reserva.findById(params.reservaId as Long)
+                if (reserva != null){
+                    cuenta.reservacion = true
+                    reserva.estado = Reserva.APROBADA
+                    reserva.save()
+                }
+            }
             cuenta.save(flush: true, failOnError: true)
             for (int i = 0; i < params.list("mesaId").size(); i++) {
                 Mesa mesa = Mesa.findByNumeroMesa(params.list("mesaId").get(i) as int)

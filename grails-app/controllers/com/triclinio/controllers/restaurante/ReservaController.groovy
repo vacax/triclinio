@@ -13,8 +13,8 @@ class ReservaController {
 
     def index() {
         def camareros = []
-        def l = UsuarioPerfil.findAllByPerfil(Perfil.findAllByAuthority('ROLE_CAMARERO'))
-        l.each{ camareros.add(it.usuario) }
+        def l = UsuarioPerfil.findAllByPerfil(Perfil.findAllByAuthorityOrAuthority('ROLE_CAMARERO', 'ROLE_ADMIN'))
+        l.each { camareros.add(it.usuario) }
         ['reservas': Reserva.findAllByEstadoNotEqualAndEstadoNotEqual(1003, 1004), 'camareros': camareros]
     }
 
