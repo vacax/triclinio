@@ -132,9 +132,11 @@
 <div style="margin-top: 1%;margin-left: 1%;margin-bottom: 1%;margin-right: 1%">
     <div>
         <p>Desde:</p>
-        <g:datePicker name="desde" id="fecha_desde" value="${new Date()}" precision="day"/>
+        <g:datePicker name="desde" id="fecha_desde" value="${new Date()}" precision="day"
+                      years="${Calendar.getInstance().get(Calendar.YEAR)..2017}"/>
         <p>Hasta:</p>
-        <g:datePicker name="hasta" id="fecha_hasta" value="${new Date()}" precision="day"/>
+        <g:datePicker name="hasta" id="fecha_hasta" value="${new Date()}" precision="day"
+                      years="${Calendar.getInstance().get(Calendar.YEAR)..2017}" />
         <br><br>
         <button id="refrescar_button" class="btn btn-instagram">Refrescar Data</button>
     </div>
@@ -166,7 +168,7 @@
                 <td>${factura.id}</td>
                 <td>${factura.usuario}</td>
                 %{--<td>${factura.listaFacturaDetalle.ordenDetalle.clienteCuenta.cuenta.listaMesa.numeroMesa.first()}</td>--}%
-                <td><g:formatDate format="yyyy-MM-dd HH:mm:ss" date="${factura.fecha}"/></td>
+                <td>${factura.fecha}</td>
                 <td>${factura.monto}</td>
             </tr>
         </g:each>
