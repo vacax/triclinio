@@ -10,6 +10,7 @@ import com.triclinio.domains.seguridad.Usuario
 import com.triclinio.domains.venta.EstadoFactura
 import com.triclinio.domains.venta.Factura
 import com.triclinio.domains.venta.FacturaDetalle
+import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 
 import java.text.SimpleDateFormat
@@ -163,13 +164,66 @@ class FacturaDetalleController {
         println "Fecha Lower Date" + sdf.parse(sdf.format(lowerDate.getTime()))
 
         List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), sdf.parse(sdf.format(lowerDate.getTime())), sdf.parse(sdf.format(upperDate.getTime())))
-
+        print(facturas)
         [facturas: facturas]
     }
 
-    def refrescar(String data){
-        println(data)
-        render 'ok'
+    def refrescar(String data) {
+        def (inicio, fin) = data.tokenize('_')
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss")
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd")
+        Calendar upperDate = Calendar.getInstance()
+        upperDate.setTime(sdf2.parse(fin))
+        upperDate.set(Calendar.HOUR_OF_DAY, 23)
+        upperDate.set(Calendar.MINUTE, 59)
+        upperDate.set(Calendar.SECOND, 59)
+
+        Calendar lowerDate = Calendar.getInstance()
+        lowerDate.setTime(sdf2.parse(inicio))
+
+        println "Fecha UpperDate " + upperDate.getTime()
+        println "Fecha Lower Date " + lowerDate.getTime()
+        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), sdf.parse(sdf.format(lowerDate.getTime())), sdf.parse(sdf.format(upperDate.getTime())))
+
+        render facturas as JSON
+    }
+
+    def refrescarDia(String data) {
+        def (inicio, fin) = data.tokenize('_')
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd")
+        Calendar upperDate = Calendar.getInstance()
+        Calendar lowerDate = Calendar.getInstance()
+
+        upperDate.setTime(sdf2.parse(fin))
+        lowerDate.setTime(sdf2.parse(inicio))
+
+        upperDate.set(Calendar.HOUR_OF_DAY, 16)
+        upperDate.set(Calendar.MINUTE, 59)
+        upperDate.set(Calendar.SECOND, 59)
+
+        lowerDate.set(Calendar.HOUR, 0)
+        lowerDate.set(Calendar.MINUTE, 0)
+        lowerDate.set(Calendar.SECOND, 0)
+        lowerDate.set(Calendar.HOUR_OF_DAY, 0)
+
+        lowerDate.setTime(sdf2.parse(inicio))
+
+        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), sdf.parse(sdf.format(lowerDate.getTime())), sdf.parse(sdf.format(upperDate.getTime())))
+
+        def fs = []
+
+        facturas.each {
+            def map = [:]
+            map['id'] = it.id
+            map['usuario'] = it.usuario.nombre
+            map['fecha'] = it.dateCreated
+            map['monto'] = it.montoNeto
+            fs.add(map)
+        }
+        render fs as JSON
     }
 
     def indexCuadre() {}
@@ -189,12 +243,20 @@ class FacturaDetalleController {
         lowerDate.set(Calendar.SECOND, 0)
         lowerDate.set(Calendar.HOUR_OF_DAY, 0)
 
-        println "Fecha UpperDate" + sdf.parse(sdf.format(upperDate.getTime()))
-        println "Fecha Lower Date" + sdf.parse(sdf.format(lowerDate.getTime()))
-
         List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), sdf.parse(sdf.format(lowerDate.getTime())), sdf.parse(sdf.format(upperDate.getTime())))
 
-        [facturas: facturas]
+        def fs = []
+
+        facturas.each {
+            def map = [:]
+            map['id'] = it.id
+            map['usuario'] = it.usuario.nombre
+            map['fecha'] = it.dateCreated
+            map['monto'] = it.montoNeto
+            fs.add(map)
+        }
+
+        [facturas: fs]
     }
 
 
@@ -211,9 +273,6 @@ class FacturaDetalleController {
         lowerDate.set(Calendar.MINUTE, 0)
         lowerDate.set(Calendar.SECOND, 0)
         lowerDate.set(Calendar.HOUR_OF_DAY, 17)
-
-        println "Fecha UpperDate" + sdf.parse(sdf.format(upperDate.getTime()))
-        println "Fecha Lower Date" + sdf.parse(sdf.format(lowerDate.getTime()))
 
         List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), sdf.parse(sdf.format(lowerDate.getTime())), sdf.parse(sdf.format(upperDate.getTime())))
 

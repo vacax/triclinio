@@ -51,7 +51,51 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var table = $('#example').DataTable({
 
+                responsive: true,
+                "footerCallback": function (row, data, start, end, display) {
+                    var api = this.api(), data;
+
+                    // converting to interger to find total
+                    var intVal = function (i) {
+                        return typeof i === 'string' ?
+                            i.replace(/[\$,]/g, '') * 1 :
+                            typeof i === 'number' ?
+                                i : 0;
+                    };
+
+
+                    var thuTotal = api
+                        .column(4)
+                        .data()
+                        .reduce(function (a, b) {
+                            return intVal(a) + intVal(b);
+                        }, 0);
+
+
+                    // Update footer by showing the total with the reference of the column index
+                    $(api.column(0).footer()).html('Total De todas las facturas');
+                    $(api.column(1).footer()).html(thuTotal + " (Monto Neto Total)");
+                },
+
+                dom: 'Bfrtip',
+                lengthChange: false,
+                buttons: [
+                    {
+                        extend: 'print',
+                        footer: true
+                    },
+                    {
+                        extend: 'pdf',
+                        footer: true
+                    }
+                ]
+            });
+        });
+    </script>
     %{--<g:layoutHead/>--}%
 
     %{-- Para incluir otras recursos.--}%
@@ -125,51 +169,6 @@
     </table>
     <button class="btn btn-danger btn-lg" onclick="window.history.back();">Terminar</button>
 </div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        var table = $('#example').DataTable({
-
-            responsive: true,
-            "footerCallback": function (row, data, start, end, display) {
-                var api = this.api(), data;
-
-                // converting to interger to find total
-                var intVal = function (i) {
-                    return typeof i === 'string' ?
-                        i.replace(/[\$,]/g, '') * 1 :
-                        typeof i === 'number' ?
-                            i : 0;
-                };
-
-
-                var thuTotal = api
-                    .column(4)
-                    .data()
-                    .reduce(function (a, b) {
-                        return intVal(a) + intVal(b);
-                    }, 0);
-
-
-                // Update footer by showing the total with the reference of the column index
-                $(api.column(0).footer()).html('Total De todas las facturas');
-                $(api.column(1).footer()).html(thuTotal + " (Monto Neto Total)");
-            },
-
-            dom: 'Bfrtip',
-            lengthChange: false,
-            buttons: [
-                {
-                    extend: 'print',
-                    footer: true
-                },
-                {
-                    extend: 'pdf',
-                    footer: true
-                }
-            ]
-        });
-    });
-</script>
 
 <script>
     $("#refrescar_button").on('click', function () {
@@ -177,10 +176,10 @@
         var hasta = $("#fecha_hasta_year").val() + '-' + $("#fecha_hasta_month").val() + '-' + $("#fecha_hasta_day").val();
         var data = desde + '_' + hasta;
         $.ajax({
-            url: "/cuadre/refrescar/",
+            url: "refrescar/",
             data: {data: data},
             success: function (data) {
-                console.log(data);
+                console.log(data)
                 //window.location = "/cuenta/cuentaAgregarFinalizar/" + data.id
             }
         });

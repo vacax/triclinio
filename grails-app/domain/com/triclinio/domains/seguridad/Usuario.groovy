@@ -17,6 +17,9 @@ class Usuario {
     Date dateCreated;
     Date lastUpdated;
 
+    static fetchMode = [responses: 'eager']
+
+
     Set<Perfil> getAuthorities() {
         (UsuarioPerfil.findAllByUsuario(this) as List<UsuarioPerfil>)*.perfil as Set<Perfil>
     }
