@@ -10,6 +10,7 @@ import com.triclinio.domains.seguridad.Usuario
 import com.triclinio.domains.venta.EstadoFactura
 import com.triclinio.domains.venta.Factura
 import com.triclinio.domains.venta.FacturaDetalle
+import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 
 import java.text.SimpleDateFormat
@@ -145,74 +146,242 @@ class FacturaDetalleController {
     }
 
 
+    def indexCuadre() {}
+
     def cuadre() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        SimpleDateFormat hrs = new SimpleDateFormat("HH:mm:ss")
+
         Calendar upperDate = Calendar.getInstance()
         Calendar lowerDate = Calendar.getInstance()
+
         upperDate.set(Calendar.HOUR_OF_DAY, 23)
         upperDate.set(Calendar.MINUTE, 59)
         upperDate.set(Calendar.SECOND, 59)
 
-        lowerDate.set(Calendar.HOUR, 0)
+        lowerDate.set(Calendar.HOUR_OF_DAY, 0)
         lowerDate.set(Calendar.MINUTE, 0)
         lowerDate.set(Calendar.SECOND, 0)
-        lowerDate.set(Calendar.HOUR_OF_DAY, 0)
 
         println "Fecha UpperDate" + sdf.parse(sdf.format(upperDate.getTime()))
         println "Fecha Lower Date" + sdf.parse(sdf.format(lowerDate.getTime()))
 
-        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), sdf.parse(sdf.format(lowerDate.getTime())), sdf.parse(sdf.format(upperDate.getTime())))
+        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), lowerDate.getTime(), upperDate.getTime())
+        def fs = []
+        facturas.each {
+            if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
+                if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
+                    def map = [:]
+                    map['id'] = it.id
+                    map['usuario'] = it.usuario.nombre
+                    map['fecha'] = sdf.format(it.dateCreated)
+                    map['monto'] = it.montoNeto
+                    fs.add(map)
+                }
+            }
+        }
 
-        [facturas: facturas]
+        [facturas: fs]
     }
 
-    def indexCuadre() {}
+    def refrescar(String data) {
+        def (inicio, fin) = data.tokenize('_')
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss")
+        SimpleDateFormat hrs = new SimpleDateFormat("HH:mm:ss")
+
+        Calendar upperDate = Calendar.getInstance()
+
+        upperDate.set(Calendar.YEAR, fin.tokenize('-')[0] as int)
+        upperDate.set(Calendar.MONTH, ((fin.tokenize('-')[1] as int) - 1))
+        upperDate.set(Calendar.DAY_OF_MONTH, fin.tokenize('-')[2] as int)
+        upperDate.set(Calendar.HOUR_OF_DAY, 23)
+        upperDate.set(Calendar.MINUTE, 59)
+        upperDate.set(Calendar.SECOND, 59)
+
+        Calendar lowerDate = Calendar.getInstance()
+        lowerDate.set(Calendar.YEAR, inicio.tokenize('-')[0] as int)
+        upperDate.set(Calendar.MONTH, ((inicio.tokenize('-')[1] as int) - 1))
+        lowerDate.set(Calendar.DAY_OF_MONTH, inicio.tokenize('-')[2] as int)
+        lowerDate.set(Calendar.HOUR_OF_DAY, 0)
+        lowerDate.set(Calendar.MINUTE, 0)
+        lowerDate.set(Calendar.SECOND, 0)
+
+        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), lowerDate.getTime(), upperDate.getTime())
+
+        def fs = []
+        facturas.each {
+            if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
+                if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
+                    def map = [:]
+                    map['id'] = it.id
+                    map['usuario'] = it.usuario.nombre
+                    map['fecha'] = sdf.format(it.dateCreated)
+                    map['monto'] = it.montoNeto
+                    fs.add(map)
+                }
+            }
+        }
+
+        render fs as JSON
+    }
 
 
     def cuadreTandaMedioDia() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        SimpleDateFormat hrs = new SimpleDateFormat("HH:mm:ss")
+
         Calendar upperDate = Calendar.getInstance()
         Calendar lowerDate = Calendar.getInstance()
         upperDate.set(Calendar.HOUR_OF_DAY, 16)
         upperDate.set(Calendar.MINUTE, 59)
         upperDate.set(Calendar.SECOND, 59)
 
-        lowerDate.set(Calendar.HOUR, 0)
+        lowerDate.set(Calendar.HOUR_OF_DAY, 0)
         lowerDate.set(Calendar.MINUTE, 0)
         lowerDate.set(Calendar.SECOND, 0)
+
+        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), lowerDate.getTime(), upperDate.getTime())
+
+        def fs = []
+
+        facturas.each {
+            if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
+                if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
+                    def map = [:]
+                    map['id'] = it.id
+                    map['usuario'] = it.usuario.nombre
+                    map['fecha'] = sdf.format(it.dateCreated)
+                    map['monto'] = it.montoNeto
+                    fs.add(map)
+                }
+            }
+        }
+
+        [facturas: fs]
+    }
+
+    def refrescarDia(String data) {
+        def (inicio, fin) = data.tokenize('_')
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        SimpleDateFormat hrs = new SimpleDateFormat("HH:mm:ss")
+
+        Calendar upperDate = Calendar.getInstance()
+        Calendar lowerDate = Calendar.getInstance()
+
+        upperDate.set(Calendar.YEAR, fin.tokenize('-')[0] as int)
+        upperDate.set(Calendar.MONTH, ((fin.tokenize('-')[1] as int) - 1))
+        upperDate.set(Calendar.DAY_OF_MONTH, fin.tokenize('-')[2] as int)
+        upperDate.set(Calendar.HOUR_OF_DAY, 16)
+        upperDate.set(Calendar.MINUTE, 59)
+        upperDate.set(Calendar.SECOND, 59)
+
+        lowerDate.set(Calendar.YEAR, inicio.tokenize('-')[0] as int)
+        upperDate.set(Calendar.MONTH, ((inicio.tokenize('-')[1] as int) - 1))
+        lowerDate.set(Calendar.DAY_OF_MONTH, inicio.tokenize('-')[2] as int)
         lowerDate.set(Calendar.HOUR_OF_DAY, 0)
+        lowerDate.set(Calendar.MINUTE, 0)
+        lowerDate.set(Calendar.SECOND, 0)
 
-        println "Fecha UpperDate" + sdf.parse(sdf.format(upperDate.getTime()))
-        println "Fecha Lower Date" + sdf.parse(sdf.format(lowerDate.getTime()))
+        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), lowerDate.getTime(), upperDate.getTime())
 
-        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), sdf.parse(sdf.format(lowerDate.getTime())), sdf.parse(sdf.format(upperDate.getTime())))
+        def fs = []
 
-        [facturas: facturas]
+        facturas.each {
+            if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
+                if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
+                    def map = [:]
+                    map['id'] = it.id
+                    map['usuario'] = it.usuario.nombre
+                    map['fecha'] = sdf.format(it.dateCreated)
+                    map['monto'] = it.montoNeto
+                    fs.add(map)
+                }
+            }
+        }
+        render fs as JSON
     }
 
 
     def cuadreTandaNoche() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        SimpleDateFormat hrs = new SimpleDateFormat("HH:mm:ss")
+
         Calendar upperDate = Calendar.getInstance()
         Calendar lowerDate = Calendar.getInstance()
         upperDate.set(Calendar.HOUR_OF_DAY, 23)
         upperDate.set(Calendar.MINUTE, 59)
         upperDate.set(Calendar.SECOND, 59)
 
-        lowerDate.set(Calendar.HOUR, 17)
+        lowerDate.set(Calendar.HOUR_OF_DAY, 17)
         lowerDate.set(Calendar.MINUTE, 0)
         lowerDate.set(Calendar.SECOND, 0)
+
+        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), lowerDate.getTime(), upperDate.getTime())
+
+        def fs = []
+        facturas.each {
+            if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
+                if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
+                    def map = [:]
+                    map['id'] = it.id
+                    map['usuario'] = it.usuario.nombre
+                    map['fecha'] = sdf.format(it.dateCreated)
+                    map['monto'] = it.montoNeto
+                    fs.add(map)
+                }
+            }
+        }
+
+        [facturas: fs]
+    }
+
+    def refrescarNoche(String data) {
+        def (inicio, fin) = data.tokenize('_')
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        SimpleDateFormat hrs = new SimpleDateFormat("HH:mm:ss")
+
+        Calendar upperDate = Calendar.getInstance()
+        Calendar lowerDate = Calendar.getInstance()
+
+
+        upperDate.set(Calendar.YEAR, fin.tokenize('-')[0] as int)
+        upperDate.set(Calendar.MONTH, ((fin.tokenize('-')[1] as int) - 1))
+        upperDate.set(Calendar.DAY_OF_MONTH, fin.tokenize('-')[2] as int)
+        upperDate.set(Calendar.HOUR_OF_DAY, 23)
+        upperDate.set(Calendar.MINUTE, 59)
+        upperDate.set(Calendar.SECOND, 59)
+
+        lowerDate.set(Calendar.YEAR, inicio.tokenize('-')[0] as int)
+        lowerDate.set(Calendar.MONTH, ((inicio.tokenize('-')[1] as int) - 1))
+        lowerDate.set(Calendar.DAY_OF_MONTH, inicio.tokenize('-')[2] as int)
         lowerDate.set(Calendar.HOUR_OF_DAY, 17)
+        lowerDate.set(Calendar.MINUTE, 0)
+        lowerDate.set(Calendar.SECOND, 0)
 
-        println "Fecha UpperDate" + sdf.parse(sdf.format(upperDate.getTime()))
-        println "Fecha Lower Date" + sdf.parse(sdf.format(lowerDate.getTime()))
 
-        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), sdf.parse(sdf.format(lowerDate.getTime())), sdf.parse(sdf.format(upperDate.getTime())))
+        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), lowerDate.getTime(), upperDate.getTime())
 
-        [facturas: facturas]
+        def fs = []
+
+        facturas.each {
+            if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
+                if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
+                    def map = [:]
+                    map['id'] = it.id
+                    map['usuario'] = it.usuario.nombre
+                    map['fecha'] = sdf.format(it.dateCreated)
+                    map['monto'] = it.montoNeto
+                    fs.add(map)
+                }
+            }
+        }
+        render fs as JSON
     }
 
     def verDetalleFactura(long id) {

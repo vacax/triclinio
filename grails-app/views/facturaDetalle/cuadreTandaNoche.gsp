@@ -4,10 +4,7 @@
 <html>
 <head>
 
-    %{--<meta name="layout" content="mainCuadre"/>--}%
-    <title>Cuadre Factura Tanda Noche</title>
-
-
+    <title>Cuadre Factura Tanda MedioDia</title>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css"
@@ -57,10 +54,7 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 
     <script type="text/javascript">
-
-
         $(document).ready(function () {
-
             var table = $('#example').DataTable({
 
                 responsive: true,
@@ -77,7 +71,7 @@
 
 
                     var thuTotal = api
-                        .column(4)
+                        .column(3)
                         .data()
                         .reduce(function (a, b) {
                             return intVal(a) + intVal(b);
@@ -104,9 +98,15 @@
 
 
             });
+
         });
     </script>
 
+    %{--<g:layoutHead/>--}%
+
+    %{-- Para incluir otras recursos.--}%
+    %{--<g:pageProperty name="page.header"/>--}%
+    %{----}%
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -130,6 +130,19 @@
 </header>
 
 <div style="margin-top: 1%;margin-left: 1%;margin-bottom: 1%;margin-right: 1%">
+    <div>
+        <p>Desde:</p>
+        <g:datePicker name="desde" id="fecha_desde" value="${new Date()}" precision="day"
+                      years="${Calendar.getInstance().get(Calendar.YEAR)..2017}"/>
+        <p>Hasta:</p>
+        <g:datePicker name="hasta" id="fecha_hasta" value="${new Date()}" precision="day"
+                      years="${Calendar.getInstance().get(Calendar.YEAR)..2017}" />
+        <br><br>
+        <button id="refrescar_button" class="btn btn-instagram">Refrescar Data</button>
+    </div>
+
+    <hr>
+
     <table style="width:1500px; margin:0 auto; margin-top: 10%" id="example"
            class="table striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
         <thead>
@@ -153,15 +166,82 @@
         <g:each in="${facturas}" var="factura">
             <tr>
                 <td>${factura.id}</td>
-                <td>${factura.usuario.nombre}</td>
+                <td>${factura.usuario}</td>
                 %{--<td>${factura.listaFacturaDetalle.ordenDetalle.clienteCuenta.cuenta.listaMesa.numeroMesa.first()}</td>--}%
-                <td><g:formatDate format="yyyy-MM-dd HH:mm:ss" date="${factura.dateCreated}"/></td>
-                <td>${factura.montoNeto}</td>
+                <td>${factura.fecha}</td>
+                <td>${factura.monto}</td>
             </tr>
         </g:each>
     </table>
     <button class="btn btn-danger btn-lg" onclick="window.history.back();">Terminar</button>
 </div>
+
+
+<script>
+    $("#refrescar_button").on('click', function () {
+        var desde = $("#fecha_desde_year").val() + '-' + $("#fecha_desde_month").val() + '-' + $("#fecha_desde_day").val();
+        var hasta = $("#fecha_hasta_year").val() + '-' + $("#fecha_hasta_month").val() + '-' + $("#fecha_hasta_day").val();
+        var data = desde + '_' + hasta;
+        $.ajax({
+            url: "refrescarNoche/",
+            data: {data: data},
+            success: function (data) {
+                console.log(data);
+
+                $('#example').DataTable({
+                    "data": data,
+                    "columns": [
+                        {"data": "id"},
+                        {"data": "usuario"},
+                        {"data": "fecha"},
+                        {"data": "monto"}
+                    ],
+                    "destroy": true,
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        // converting to interger to find total
+                        var intVal = function (i) {
+                            return typeof i === 'string' ?
+                                i.replace(/[\$,]/g, '') * 1 :
+                                typeof i === 'number' ?
+                                    i : 0;
+                        };
+
+                        var thuTotal = api
+                            .column(3)
+                            .data()
+                            .reduce(function (a, b) {
+                                return intVal(a) + intVal(b);
+                            }, 0);
+
+
+                        // Update footer by showing the total with the reference of the column index
+                        $(api.column(0).footer()).html('Total De todas las facturas');
+                        $(api.column(1).footer()).html(thuTotal + " (Monto Neto Total)");
+                    },
+
+                    dom: 'Bfrtip',
+                    lengthChange: false,
+                    buttons: [
+                        {
+                            extend: 'print',
+                            footer: true
+                        },
+                        {
+                            extend: 'pdf',
+                            footer: true
+                        }
+                    ]
+
+                });
+
+                //window.location = "/cuenta/cuentaAgregarFinalizar/" + data.id
+            }
+        });
+    })
+</script>
+
 </body>
 
 </html>

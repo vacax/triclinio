@@ -53,6 +53,9 @@
                                     <g:if test="${r.estado == 1003}">
                                         <p class="btn-success">APROBADA</p>
                                     </g:if>
+                                    <g:if test="${r.estado == 1004}">
+                                        <p class="btn-warning">PENDIENTE</p>
+                                    </g:if>
                                 </td>
                             </tr>
                         </g:each>

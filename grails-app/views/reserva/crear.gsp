@@ -29,7 +29,10 @@
                     <h4>Cantidad de personas:</h4>
                     <input class="form-control" name="cantidadPersonas" type="number">
                     <h4>Fecha:</h4>
-                    <g:datePicker class="form-control" precision="" name="fecha" value="${new Date()}" noSelection="['': '-Choose-']"/>
+                    <g:datePicker class="form-control" precision="" name="fecha" value="${new Date()}"
+                                  noSelection="['': '-Choose-']"/>
+                    <h4>Observaciones:</h4>
+                    <textarea maxlength="140" class="form-control" name="observaciones"></textarea>
                     <br><br>
                     <input style="width: 100%;" type="submit" value="Aceptar" class="btn btn-primary">
                 </g:form>

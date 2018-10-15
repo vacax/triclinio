@@ -7,35 +7,29 @@ import com.triclinio.domains.seguridad.UsuarioPerfil
 import grails.plugin.springsecurity.annotation.Secured
 
 
-@Secured(["ROLE_ADMIN", "ROLE_CAMARERO","ROLE_FACTURADOR","ROLE_SUPERVISOR_FACTURADOR","ROLE_SUPERVISOR_CAMARERO"])
+@Secured(["ROLE_ADMIN", "ROLE_CAMARERO", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
 class UsuarioCrearController {
 
     def index() {
-        def usuarios=Usuario.list()
-
-        [listaUsuarios:usuarios]
+        def usuarios = Usuario.list()
+        [listaUsuarios: usuarios]
     }
 
-    def crearNuevoUsuario(){}
+    def crearNuevoUsuario() {}
 
-    def nuevoUsuario(){
-        String[] roles=params.get("SeleccionarRol")
-       // println "Roles "+roles.toList()
-        println "Roles "+roles
+    def nuevoUsuario() {
+        String[] roles = params.get("SeleccionarRol")
+        Usuario usuario = new Usuario()
 
-        Usuario usuario=new Usuario()
-
-        def username=params.get("username")
-        def password=params.get("passwordUser")
-        def nombre=params.get("nombreUser")
-
+        def username = params.get("username")
+        def password = params.get("passwordUser")
+        def nombre = params.get("nombreUser")
 
         usuario.setNombre(nombre as String)
         usuario.setUsername(username as String)
         usuario.setPassword(password as String)
 
-        usuario.save(flush:true,failOnError:true)
-
+        usuario.save(flush: true, failOnError: true)
 
         if (roles.size() >= 2 && roles.size() <= 5) {
             for (int i = 0; i < roles.size(); i++) {
@@ -54,23 +48,23 @@ class UsuarioCrearController {
     }
 
 
-    def verUsuario(){
-        def idUsuario=params.get("id")
-        Usuario usuario=Usuario.findById(idUsuario as Long)
+    def verUsuario() {
+        def idUsuario = params.get("id")
+        Usuario usuario = Usuario.findById(idUsuario as Long)
 
-        def perfiles=UsuarioPerfil.findAllByUsuario(usuario).perfil
+        def perfiles = UsuarioPerfil.findAllByUsuario(usuario).perfil
 
 
-        [usuario:usuario,listaPerfil: perfiles]
+        [usuario: usuario, listaPerfil: perfiles]
     }
 
-    def modificarUser(){
-        def idUsuario=params.get("id")
+    def modificarUser() {
+        def idUsuario = params.get("id")
 
-        println "Param"+ idUsuario
-        Usuario usuario=Usuario.findById(idUsuario as Long)
-        def perfiles=UsuarioPerfil.findAllByUsuario(usuario).perfil
+        println "Param" + idUsuario
+        Usuario usuario = Usuario.findById(idUsuario as Long)
+        def perfiles = UsuarioPerfil.findAllByUsuario(usuario).perfil
 
-        [usuario: usuario,usuarioPerfil:perfiles.get(0)]
+        [usuario: usuario, usuarioPerfil: perfiles.get(0)]
     }
 }

@@ -4,14 +4,13 @@ class OrdenDetalle {
 
     ClienteCuenta clienteCuenta
     Plato plato
-    int cantidad=0
+    int cantidad = 0
     String nombrePlato
     boolean activa = true
-    boolean impreso =false
+    boolean impreso = false
 
-    boolean facturada=false
-    boolean eliminada=false
-
+    boolean facturada = false
+    boolean eliminada = false
 
     //Precio del articulo
     BigDecimal precio

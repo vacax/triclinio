@@ -2,6 +2,8 @@ package com.triclinio.domains.restaurante
 
 class Mesa {
 
+    int NUMERO_MESA_TAKEOUT = 0
+
     int numeroMesa
     String nombre;
     EstadoMesa estadoMesa

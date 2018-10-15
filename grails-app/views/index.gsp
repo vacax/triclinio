@@ -70,7 +70,7 @@
                 <!-- small box -->
                 <div class="small-box bg-aqua">
                     <div class="inner">
-                        <h3>Editar Cuenta</h3>
+                        <h3>Cuentas Abiertas</h3>
 
                         <p>Cuentas Abiertas: <triclinio:numeroCuentasAbiertas/></p>
                     </div>
@@ -102,8 +102,6 @@
         </div>
             </a>
     <div class="row" style="margin: 1%">
-            %{--<div class="col-lg-5 col-xs-6">--}%
-            <!-- small box -->
             <a href="/reserva/index">
             <div class="small-box bg-red">
                 <div class="inner">
@@ -118,6 +116,21 @@
         </a>
             %{--</div>--}%
         </div>
+
+    <div class="row" style="margin: 1%">
+        <a href="/usuarioReserva/index">
+            <div class="small-box bg-maroon">
+                <div class="inner">
+                    <h3>Reservaciones Pendientes de Camareros</h3>
+                    <p><small>Reservaciones Pendientes de Camareros</small></p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-table"></i>
+                </div>
+            </div>
+        </a>
+        %{--</div>--}%
+    </div>
 
     </content>
 
