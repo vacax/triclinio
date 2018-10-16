@@ -15,7 +15,9 @@ class UsuarioCrearController {
         [listaUsuarios: usuarios]
     }
 
-    def crearNuevoUsuario() {}
+    def crearNuevoUsuario() {
+        [roles: Perfil.list()]
+    }
 
     def nuevoUsuario() {
         String[] roles = params.get("SeleccionarRol")

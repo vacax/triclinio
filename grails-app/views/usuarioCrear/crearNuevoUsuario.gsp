@@ -58,12 +58,16 @@
                 <div class="col-sm-10">
 
             <select style="background-color: #bbbdff" name="SeleccionarRol"  id="SeleccionarRol"  class="selectpicker form-control" multiple>
-
+                %{--<g:each in="roles" var="r">
+                    <option value="${r.authority}">admin</option>
+                </g:each>--}%
                 <option value="ROLE_ADMIN">admin</option>
                 <option value="ROLE_CAMARERO">camarero</option>
                 <option value="ROLE_FACTURADOR">facturador</option>
                 <option value="ROLE_SUPERVISOR_FACTURADOR">Supervisor facturador</option>
                 <option value="ROLE_SUPERVISOR_CAMARERO">Supervisor Camarero</option>
+                <option value="ROLE_RESERVADOR">Reservador</option>
+                <option value="ROLE_HOST">Host</option>
             </select>
                 </div>
              </div>
