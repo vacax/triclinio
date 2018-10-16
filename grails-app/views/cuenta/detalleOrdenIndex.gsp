@@ -174,7 +174,7 @@
                             <tr>
                                 <td hidden="hidden">${plato.id}</td>
                                 <td width="5%"><button
-                                        onclick="add_row(${plato.id}, '${plato.nombre}', ${plato.precio});"
+                                        onclick="add_row(${plato.id}, '${plato.nombre}', ${plato.precio}, '${categoria.toString()}', ${plato.prefix});"
                                         class="btn btn-primary">Agregar</button></td>
                                 <td>${plato.nombre}</td>
                                 <td hidden>${plato.precio}</td>
@@ -375,7 +375,6 @@
                 listaPlato[contadorFila].idPlato = parseInt($(this).find("td").eq(0).text());
                 listaPlato[contadorFila].cantidad = parseInt($(this).find("td").eq(2).text());
                 listaPlato[contadorFila].comentario = $(this).find('td:eq(4) input[type="text"]').val();
-                alert(listaPlato[contadorFila].comentario);
                 contadorFila++;
             }
             console.log("" + JSON.stringify(listaPlato));

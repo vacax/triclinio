@@ -6,7 +6,7 @@ class OrdenDetallePlatoForm implements Validateable {
 
     long idPlato
     int cantidad
-    int comentario
+    String comentario
 
 
 

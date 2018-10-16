@@ -175,7 +175,7 @@
                             <tr>
                                 <td hidden="hidden">${plato.id}</td>
                                 <td width="5%"><button
-                                        onclick="add_row(${plato.id}, '${plato.nombre}', ${plato.precio});"
+                                        onclick="add_row(${plato.id}, '${plato.nombre}', ${plato.precio}, '${categoria.toString()}', ${plato.prefix});"
                                         class="btn btn-primary">Agregar</button></td>
                                 <td>${plato.nombre}</td>
                                 <td hidden>${plato.precio}</td>
@@ -382,10 +382,10 @@
                 "<td id='categoriaPlatillo_row" + table_len + "' hidden>" + categoriaPlatilloAgregado + "</td>" +
                 "<td>" + "<input type='button' value='Eliminar' class='delete' onclick='delete_row(" + table_len + ")'></td>" +
                 "</tr>";
-            if(prefix && categoria === "Otros"){
+           if(prefix && categoria === "Otros"){
                 prefixAgregado = true;
             }
-            if (prefix && !prefixAgregado){
+          /*  if (prefix && !prefixAgregado){
                 table_len = (table.rows.length) - 1;
                 var row1 = table.insertRow(table_len).outerHTML = "" +
                     "<tr id='row" + table_len + "'>" +
@@ -398,7 +398,7 @@
                     "<td>" + "<input type='button' value='Eliminar' class='delete' onclick='delete_row(" + table_len + ")'></td>" +
                     "</tr>";
                 prefixAgregado = true;
-            }
+            }*/
         }
     }
 </script>
@@ -436,6 +436,7 @@
                 contadorFila++;
             }
         });
+        console.log();
         objeto.listaPlato = listaPlato;
         console.log("" + JSON.stringify(objeto));
 
