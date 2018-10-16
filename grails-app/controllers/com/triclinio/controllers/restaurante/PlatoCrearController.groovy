@@ -29,7 +29,6 @@ class PlatoCrearController {
 
         withForm {
             Plato plato = new Plato()
-
             plato.setNombre(nombrePlato)
             plato.setPrecio(new BigDecimal(precioPlato))
             plato.comanda = comanda
