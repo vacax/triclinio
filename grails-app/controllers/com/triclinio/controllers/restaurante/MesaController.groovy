@@ -9,7 +9,7 @@ import com.triclinio.domains.restaurante.Mesa
 import com.triclinio.domains.seguridad.Usuario
 import grails.plugin.springsecurity.annotation.Secured
 
-@Secured(["ROLE_ADMIN", "ROLE_CAMARERO","ROLE_SUPERVISOR_CAMARERO"])
+@Secured(["ROLE_ADMIN", "ROLE_CAMARERO","ROLE_SUPERVISOR_CAMARERO", "ROLE_HOST", "ROLE_RESERVADOR"])
 class MesaController {
     def springSecurityService
 
@@ -34,8 +34,6 @@ class MesaController {
         mesasOcupadas.removeAll(listadoMesasNoCandidatasDesocupar)
 
         [mesasOcupadas: mesasOcupadas.sort{it.id}]
-
-
     }
 
     /**
