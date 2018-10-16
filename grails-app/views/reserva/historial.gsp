@@ -35,6 +35,7 @@
                             <th style="text-align: center">Cantidad Personas</th>
                             <th style="text-align: center">Fecha y Hora</th>
                             <th style="text-align: center">Estado</th>
+                            <th style="text-align: center">Acciones</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -56,6 +57,15 @@
                                     <g:if test="${r.estado == 1004}">
                                         <p class="btn-warning">PENDIENTE</p>
                                     </g:if>
+                                </td>
+                                <td class="text-center">
+                                    <g:if test="${r.estado == 1004}">
+                                        <g:link class="btn btn-primary" action="retornar" controller="reserva"
+                                                params="[reservaId: r.id]">Retornar</g:link>
+                                    </g:if>
+                                    <g:else>
+                                        <p>-</p>
+                                    </g:else>
                                 </td>
                             </tr>
                         </g:each>

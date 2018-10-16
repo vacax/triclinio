@@ -48,13 +48,13 @@
         var fecha = $("#fecha_year").val() + "-" + $("#fecha_month").val() + "-" + $("#fecha_day").val() + " " + $("#fecha_hour").val() + ":" + $("#fecha_minute").val();
         console.log(fecha);
         console.log(new Date());
-        if(new Date() >= new Date(fecha)){
+        if (new Date() >= new Date(fecha)) {
             e.preventDefault();
             alert('La Fecha de la Reservación tiene que ser mayor a la actual.');
-        } else if(!$("#aNombreDe").val()){
+        } else if (!$("#aNombreDe").val()) {
             e.preventDefault();
             alert('Debe ingresar un nombre a la reservación');
-        } else if(!$("#cantidadPersonas").val()){
+        } else if (!$("#cantidadPersonas").val()) {
             e.preventDefault();
             alert('La cantidad de personas debe ser un número mayor a 1.');
         }

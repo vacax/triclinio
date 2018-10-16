@@ -14,13 +14,14 @@
 <section class="content">
     <div class="row">
         <div class="row">
-            <div class="box">
-                <g:form action="crearNuevaCuenta" method="get" useToken="true">
-                    <input id="mesaId" name="mesaId" value="0" hidden/>
-                    <input type="submit" class="btn btn-warning" value="Take Out" style="width: 100%;">
-                    <input id="reservaId" name="reservaId" value="${reservacion}" hidden/>
-                </g:form>
-            </div>
+            <g:if test="${!reservacion}">
+                <div class="box">
+                    <g:form action="crearNuevaCuenta" method="get" useToken="true">
+                        <input id="mesaId" name="mesaId" value="0" hidden/>
+                        <input type="submit" class="btn btn-warning" value="Take Out" style="width: 100%;">
+                    </g:form>
+                </div>
+            </g:if>
             <hr>
 
             <g:form action="crearNuevaCuenta" method="get" useToken="true">

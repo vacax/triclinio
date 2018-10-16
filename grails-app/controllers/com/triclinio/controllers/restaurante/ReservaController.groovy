@@ -98,6 +98,21 @@ class ReservaController {
         ['reservas': Reserva.list()]
     }
 
+    def retornar() {
+        Reserva r = Reserva.findById(params.reservaId as Long)
+
+        def response = true
+
+        if (r != null) {
+            r.estado = Reserva.ACTIVO
+            r.save(flush: true, failOnError: true)
+        } else {
+            response = false
+        }
+
+        redirect action: "index", method: "GET", params: response
+    }
+
 
     protected void notFound() {
         request.withFormat {
