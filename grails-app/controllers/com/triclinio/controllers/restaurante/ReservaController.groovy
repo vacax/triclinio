@@ -110,7 +110,7 @@ class ReservaController {
             response = false
         }
 
-        redirect action: "index", method: "GET", params: response
+        redirect action: "index", method: "GET", params: [ok: response]
     }
 
 
