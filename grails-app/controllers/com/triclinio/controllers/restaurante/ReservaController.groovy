@@ -13,7 +13,7 @@ class ReservaController {
 
     def index() {
         def camareros = []
-        def l = UsuarioPerfil.findAllByPerfil(Perfil.findAllByAuthority('ROLE_CAMARERO') as Perfil)
+        def l = UsuarioPerfil.findAllByPerfil(Perfil.findAllByAuthority('ROLE_CAMARERO'))
         l.each { camareros.add(it.usuario) }
         ['reservas': Reserva.findAllByEstadoNotEqualAndEstadoNotEqual(1003, 1004), 'camareros': camareros]
     }
@@ -24,6 +24,8 @@ class ReservaController {
 
     def save(Reserva reserva) {
 
+        println(reserva.id)
+
         if (reserva == null) {
             notFound()
             return
@@ -31,7 +33,7 @@ class ReservaController {
 
         try {
             reserva.estado = Reserva.ACTIVO
-            reserva.save()
+            reserva.save(flush: true, failOnError: true)
         } catch (ValidationException e) {
             respond reserva.errors, view: 'crear'
             return
