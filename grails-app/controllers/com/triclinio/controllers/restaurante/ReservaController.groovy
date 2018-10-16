@@ -13,13 +13,22 @@ import java.text.SimpleDateFormat
 @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO", "ROLE_HOST", "ROLE_RESERVADOR"])
 class ReservaController {
 
+    def springSecurityService
+
     def index() {
+        def user = (Usuario) springSecurityService.currentUser
+        def authorities = []
+        user.authorities.each {
+            authorities.add(it.authority)
+        }
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd")
         def camareros = []
         def reservas = Reserva.findAllByEstadoNotEqualAndEstadoNotEqualAndFechaGreaterThanEquals(1003, 1004, sdf.parse(sdf.format(new Date())))
         def l = UsuarioPerfil.findAllByPerfil(Perfil.findAllByAuthority('ROLE_CAMARERO'))
         l.each { camareros.add(it.usuario) }
-        ['reservas': reservas, 'camareros': camareros]
+
+        ['reservas': reservas, 'camareros': camareros, 'authorities': authorities]
     }
 
     @Secured(['ROLE_ADMIN', 'ROLE_RESERVADOR'])
