@@ -37,7 +37,6 @@ class FacturaDetalleController {
         render factura.id
     }
 
-
     def imprimirPreCuenta(long idFactura) {
         Factura factura = Factura.findById(idFactura)
 
@@ -148,6 +147,7 @@ class FacturaDetalleController {
 
     def indexCuadre() {}
 
+    @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
     def cuadre() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -227,7 +227,7 @@ class FacturaDetalleController {
         render fs as JSON
     }
 
-
+    @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
     def cuadreTandaMedioDia() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
@@ -305,7 +305,7 @@ class FacturaDetalleController {
         render fs as JSON
     }
 
-
+    @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
     def cuadreTandaNoche() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")

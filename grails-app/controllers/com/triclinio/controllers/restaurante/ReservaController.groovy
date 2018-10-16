@@ -10,7 +10,7 @@ import grails.validation.ValidationException
 
 import java.text.SimpleDateFormat
 
-@Secured(["ROLE_ADMIN", "ROLE_CAMARERO", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO", "ROLE_HOST", "ROLE_RESERVADOR "])
+@Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO", "ROLE_HOST", "ROLE_RESERVADOR"])
 class ReservaController {
 
     def index() {
@@ -22,14 +22,12 @@ class ReservaController {
         ['reservas': reservas, 'camareros': camareros]
     }
 
+    @Secured(['ROLE_ADMIN', 'ROLE_RESERVADOR'])
     def crear() {
         respond new Reserva(params)
     }
 
     def save(Reserva reserva) {
-
-        println(reserva.id)
-
         if (reserva == null) {
             notFound()
             return
@@ -42,7 +40,6 @@ class ReservaController {
             respond reserva.errors, view: 'crear'
             return
         }
-
         redirect action: "index", method: "GET"
     }
 
@@ -59,9 +56,9 @@ class ReservaController {
             respond reserva.errors, view: 'index'
             return
         }
-
         redirect action: "index", method: "GET"
     }
+
 
     def cancelar(Reserva reserva) {
 
@@ -107,7 +104,7 @@ class ReservaController {
 
         reservas.each {
             def usuarioReserva = UsuarioReserva.findByReservacion(it)
-            if (usuarioReserva != null){
+            if (usuarioReserva != null) {
                 usuarioReservas[it.id] = usuarioReserva.usuario.nombre
             }
         }
@@ -117,7 +114,6 @@ class ReservaController {
 
     def retornar() {
         Reserva r = Reserva.findById(params.reservaId as Long)
-
         def response = true
 
         if (r != null) {
@@ -128,7 +124,6 @@ class ReservaController {
         } else {
             response = false
         }
-
         redirect action: "index", method: "GET", params: [ok: response]
     }
 

@@ -11,7 +11,6 @@ class AppController {
     def springSecurityService;
 
     def index() {
-        println("entro al index....")
         render(view: "/index", model:[tandaPlatos: Parametro.findByCodigo(Parametro.TANDADIA)])
     }
 
