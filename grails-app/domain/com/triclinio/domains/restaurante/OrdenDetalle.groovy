@@ -12,6 +12,9 @@ class OrdenDetalle {
     boolean facturada = false
     boolean eliminada = false
 
+    //comentario sobre el plato, si existen excepciones
+    String comentario
+
     //Precio del articulo
     BigDecimal precio
     //Cantidad por precio.

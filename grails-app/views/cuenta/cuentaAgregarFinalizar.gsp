@@ -80,11 +80,13 @@
                         <tbody><tr>
                             <th>Item</th>
                             <th>Cantidad</th>
+                            <th>Comentario</th>
                         </tr>
                         <g:each in="${clientecuenta.listaOrdenDetalle}" var="orden">
                             <tr>
                                 <td>${orden.cantidad}</td>
                                 <td>${orden.nombrePlato}</td>
+                                <td>${orden.comentario}</td>
                             </tr>
                         </g:each>
 

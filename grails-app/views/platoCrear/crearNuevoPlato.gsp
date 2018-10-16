@@ -52,14 +52,29 @@
                 </div>
             </div>
 
-            <div style="margin-top:10%" class="form-group">
+            <div class="row" style="margin-left: 0.1%">
+                %{--<div class="col-lg-5 col-xs-6">--}%
+                <!-- small box -->
                 <label  class="col-sm-2 control-label">Comanda</label>
                 <div class="col-sm-10">
                     <div class="checkbox">
-                      <input type="checkbox" name="comanda"  id="comanda" placeholder="comanda">
+                        <input type="checkbox" name="comanda"  id="comanda" placeholder="comanda">
                     </div>
                 </div>
             </div>
+
+        <div class="row" style="margin-left: 0.1%">
+            %{--<div class="col-lg-5 col-xs-6">--}%
+            <!-- small box -->
+            <label  class="col-sm-2 control-label">Prefix</label>
+            <div class="col-sm-10">
+                <div class="checkbox">
+                    <input type="checkbox" name="prefix"  id="prefix" placeholder="prefix">
+                </div>
+            </div>
+                </div>
+
+
             
         </div><!-- /.box-body -->
         <div class="box-footer">

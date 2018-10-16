@@ -141,7 +141,7 @@
                         <tr>
                             <td hidden="hidden">${plato.id}</td>
                             <td width="5%"><button
-                                    onclick="add_row(${plato.id}, '${plato.nombre}', ${plato.precio});"
+                                    onclick="add_row(${plato.id}, '${plato.nombre}', ${plato.precio}, '${plato.categoriaPlato.toString()}', ${plato.prefix});"
                                     class="btn btn-primary">Agregar</button></td>
                             <td>${plato.nombre}</td>
                             <td hidden>${plato.precio}</td>
@@ -187,6 +187,10 @@
             </g:each>
 
             <input id="div_activo" value="div_Todo" hidden>
+            <input id="prefixId" value="${precioPrefix.id}" hidden>
+            <input id="prefixNombre" value="${precioPrefix.nombre}" hidden>
+            <input id="prefixPrecio" value="${precioPrefix.precio}" hidden>
+            <input id="prefixCategoria" value="${precioPrefix.prefix}" hidden>
         </div>
         <!-- /.box-body -->
     </div>
@@ -204,6 +208,7 @@
                     <th>Nombre Item/Platillo</th>
                     <th>Cantidad</th>
                     <th hidden>Precio</th>
+                    <th>Comentario</th>
                     <th>Acciones</th>
 
                 </tr>
@@ -212,6 +217,7 @@
                     <td><input type="text" id="nombrePlatilloAgregado"></td>
                     <td><input type="text" id="cantidadPlatilloAgregado"></td>
                     <td><input type="text" id="precioPlatilloAgregado"></td>
+                    <td><input type="text" id="comentarioPlatilloAgregado"></td>
                     <td><input type="text"></td>
                 </tr>
 
@@ -246,13 +252,11 @@
             if ($(this).hasClass('selected')) {
                 //HABILITA O DESABILITA EL BOTON SI NO HAY NADA SELECCIONADO
                 $('#agregarDetalle').prop("disabled", true);
-
                 $(this).removeClass('selected');
             }
             else {
                 //HABILITA O DESABILITA EL BOTON SI NO HAY NADA SELECCIONADO
                 $('#agregarDetalle').prop("disabled", false);
-
                 table.$('tr.selected').removeClass('selected');
                 $(this).addClass('selected');
                 var pos = table.row(this).index();
@@ -262,9 +266,7 @@
                 document.getElementById("precioPlato").value = row[2]
             }
         });
-
     });
-
     %{--$("#guardarOrden").click(function () {--}%
     %{--var T = document.getElementById('data_table');--}%
     %{--var rows =$(T).find('> tbody > tr').length;--}%
@@ -318,22 +320,45 @@
     //
     //    }
 
+    var prefixAgregado = false;
+    var precioPrefix = document.getElementById('prefixPrecio').value;
+    var nombrePrefix = document.getElementById('prefixNombre').value;
+    var idPrefix = document.getElementById('prefixId').value;
+    var categoriaPrefix = document.getElementById('prefixCategoria').value;
+
     function delete_row(no) {
-        document.getElementById("row" + no + "").outerHTML = "";
+        var eliminarFila = document.getElementById("idPlatillo_row" + no + "").innerText;
+
+        if (eliminarFila === "8" ){
+
+            var tablaItems = document.getElementById('data_table');
+            $(tablaItems).find('tr').each(function (index, value) {
+                if(index < 2){
+                    index.continue;
+                }
+                if($(this).find("td").eq(5).text() === "true"){
+                    document.getElementById("row" + index + "").outerHTML = "";
+                }
+            });
+
+            //document.getElementById("row" + no + "").outerHTML = "";
+            prefixAgregado = false;
+        }
+        else{
+            document.getElementById("row" + no + "").outerHTML = "";
+        }
     }
-
-    function add_row(id, nombre, precio) {
-
+    function add_row(id, nombre, precio, categoria, prefix) {
         var idPlatilloAgregado = id;
         var nombrePlatilloAgregado = nombre;
         var precioPlatilloAgregado = precio;
+        var categoriaPlatilloAgregado = prefix;
 
 //        CHEQUEO SI EL PLATO YA EXISTE
         var T = document.getElementById('data_table');
         var rows = $(T).find('> tbody > tr').length;
         var existe = 0;
         $(T).find('> tbody > tr').each(function (index, value) {
-
             if (index !== 0 && index !== rows - 1) {
                 console.log($(this).find("td").eq(0).html() === $(this).find("td").eq(0).html());
                 if ($(this).find("td").eq(0).html() === idPlatilloAgregado) {
@@ -341,14 +366,9 @@
                     $(this).find("td").eq(2).html(cantidadAnterior + 1);
                     existe = 1;
                 }
-
             }
-
-
         });
-
         //SINO EXISTE AGREGO NUEVO FILA
-
         if (existe !== 1) {
             var table = document.getElementById("data_table");
             var table_len = (table.rows.length) - 1;
@@ -358,8 +378,27 @@
                 "<td id='nombrePlatillo_row" + table_len + "'>" + nombrePlatilloAgregado + "</td>" +
                 "<td id='cantidadPlatillo_row" + table_len + "'>" + 1 + "</td>" +
                 "<td id='precioPlatillo_row" + table_len + "' hidden>" + precioPlatilloAgregado + "</td>" +
+                "<td>" + "<input type='text' id='comentarioPlatillo_row" + table_len + "' placeholder='Comentario'></td>" +
+                "<td id='categoriaPlatillo_row" + table_len + "' hidden>" + categoriaPlatilloAgregado + "</td>" +
                 "<td>" + "<input type='button' value='Eliminar' class='delete' onclick='delete_row(" + table_len + ")'></td>" +
                 "</tr>";
+            if(prefix && categoria === "Otros"){
+                prefixAgregado = true;
+            }
+            if (prefix && !prefixAgregado){
+                table_len = (table.rows.length) - 1;
+                var row1 = table.insertRow(table_len).outerHTML = "" +
+                    "<tr id='row" + table_len + "'>" +
+                    "<td id='idPlatillo_row" + table_len + "' hidden>" + idPrefix + "</td>" +
+                    "<td id='nombrePlatillo_row" + table_len + "'>" + nombrePrefix + "</td>" +
+                    "<td id='cantidadPlatillo_row" + table_len + "'>" + 1 + "</td>" +
+                    "<td id='precioPlatillo_row" + table_len + "' hidden>" + precioPrefix + "</td>" +
+                    "<td>" + "<input type='text' id='comentarioPlatillo_row" + table_len + "' placeholder='Comentario'></td>" +
+                    "<td id='categoriaPlatillo_row" + table_len + "' hidden>" + categoriaPrefix + "</td>" +
+                    "<td>" + "<input type='button' value='Eliminar' class='delete' onclick='delete_row(" + table_len + ")'></td>" +
+                    "</tr>";
+                prefixAgregado = true;
+            }
         }
     }
 </script>
@@ -375,8 +414,6 @@
             procesarCliente_OrdenDetalle(cuentaAsignada)
         }
     });
-
-
     function procesarCliente_OrdenDetalle(cuentaId) {
         var objeto = {};
         %{--alert(${clienteCuenta.cuenta.id + clienteCuenta.id})--}%
@@ -385,24 +422,20 @@
         //objeto.clienteCuentaId = document.getElementById("clienteCuentaId").value;
         objeto.clienteCuentaId = cuentaId
         objeto.comentario = document.getElementById("comentario").value;
-
-
         var listaPlato = [];
-
         var T = document.getElementById('data_table');
         var rows = $(T).find('> tbody > tr').length;
-
         var contadorFila = 0; //TODO: mejorar...
         $(T).find('> tbody > tr').each(function (index, value) {
             if (index != 0 && index != rows - 1) {   //TODO:// mejorar...
                 listaPlato[contadorFila] = {};
                 listaPlato[contadorFila].idPlato = parseInt($(this).find("td").eq(0).text());
                 listaPlato[contadorFila].cantidad = parseInt($(this).find("td").eq(2).text());
+                listaPlato[contadorFila].comentario = $(this).find('td:eq(4) input[type="text"]').val();
+                alert(listaPlato[contadorFila].comentario);
                 contadorFila++;
             }
-
         });
-
         objeto.listaPlato = listaPlato;
         console.log("" + JSON.stringify(objeto));
 
@@ -416,9 +449,7 @@
                window.location = "/cuenta/detalleCuenta?idCuenta=" + data.id
             }
         });
-
     }
-
 </script>
 
 <script type="text/javascript">
@@ -431,6 +462,3 @@
 </body>
 
 </html>
-
-
-
