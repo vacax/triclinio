@@ -82,6 +82,9 @@
         Es Comanda
     </th>
     <th>
+        Prefix
+    </th>
+    <th>
        Categoria
     </th>
     <th>
@@ -96,6 +99,7 @@
             <td>${pla.alias}</td>
             <td>${pla.precio}</td>
             <td>${pla.comanda}</td>
+            <td>${pla.prefix}</td>
             <td>${pla?.categoriaPlato?.nombre}</td>
             <td>
                     <g:link action="modificarPlato" controller="platoCrear"  params="[id: pla.id]"><button type="button" id="modificarUsuario" class="btn btn-link">Modificar</button></g:link>

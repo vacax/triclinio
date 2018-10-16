@@ -46,11 +46,20 @@
                 </div>
             </div>
 
-            <div style="margin-top:10%" class="form-group">
+            <div style="margin-top:0.1%" class="row">
                 <label  class="col-sm-2 control-label">Comanda</label>
                 <div class="col-sm-10">
                     <div class="checkbox">
                         <g:checkBox name="comanda" value="${plato.comanda}" />
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:0.1%" class="row">
+                <label  class="col-sm-2 control-label">Prefix</label>
+                <div class="col-sm-10">
+                    <div class="checkbox">
+                        <g:checkBox name="prefix" value="${plato.prefix}" />
                     </div>
                 </div>
             </div>

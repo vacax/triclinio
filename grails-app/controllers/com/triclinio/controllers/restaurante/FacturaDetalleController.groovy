@@ -68,6 +68,9 @@ class FacturaDetalleController {
 
     def imprimirFactura(long id) {
         Factura factura = Factura.findById(id)
+        factura.numeroAutorizacion = params.get("numeroAutorizacion" as String)
+        factura.terminalTarjeta = params.get("terminalTarjeta" as String)
+        factura.save(flush: true, failOnError: true)
         factura.setEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
         int cantidadImpresion = Parametro.findByCodigo(Parametro.CANTIDAD_IMPRESION_FACTURA).valor.toInteger()
 

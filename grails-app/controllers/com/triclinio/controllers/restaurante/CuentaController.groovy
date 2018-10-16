@@ -78,7 +78,7 @@ class CuentaController {
      */
     def detalleOrdenIndex(long idCuenta) {
         def listaPlatos = Plato.findAllByHabilitado(true)
-
+        Plato precioPrefix = Plato.findById(8)
         def platosPorCategoria = [:]
 
         listaPlatos.each {
@@ -89,7 +89,7 @@ class CuentaController {
             }
         }
 
-        [listaPlatos: listaPlatos, platosPorCategoria: platosPorCategoria, cuenta: Cuenta.findById(idCuenta)]
+        [listaPlatos: listaPlatos, platosPorCategoria: platosPorCategoria, cuenta: Cuenta.findById(idCuenta), precioPrefix:precioPrefix]
     }
 
     /**
@@ -250,7 +250,7 @@ class CuentaController {
     def agregarOrdenDetalleClienteCuenta(long clienteCuentaId) {
         def listadoPlatos = Plato.findAllByHabilitado(true)
         ClienteCuenta clienteCuenta = ClienteCuenta.get(clienteCuentaId)
-
+        Plato precioPrefix = Plato.findById(8)
         def listadoMesas = new HashSet()
 
         CuentaMesa.findAllByCuenta(clienteCuenta.cuenta).each {
@@ -260,7 +260,7 @@ class CuentaController {
         }
 
 
-        [listaPlatos: listadoPlatos, clienteCuenta: clienteCuenta, listadoMesas: listadoMesas]
+        [listaPlatos: listadoPlatos, clienteCuenta: clienteCuenta, listadoMesas: listadoMesas, precioPrefix: precioPrefix]
     }
 
     def eliminarOrdenDetalleClienteCuenta(long clienteCuentaId) {

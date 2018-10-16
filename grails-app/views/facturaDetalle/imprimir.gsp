@@ -116,6 +116,10 @@
 
             if(valorSelect==="seleccionarPago"){
                 $("#imprimirFacturar").prop('disabled', true);
+                $("#numeroAutorizacion").hide();
+                $("#basic-addon1").hide();
+                $("#terminalTarjeta").hide();
+                $("#basic-addon2").hide();
             }
 
             
@@ -123,21 +127,39 @@
 
 
 
-              if(this.value===("tarjeta") || this.value===("credito")){
+              if(this.value===("credito")){
 
                     $("#cantidad").hide();
                     $("#procesar").hide();
                     $("#cambio").hide();
                     $("#labelCambio").hide();
+                    $("#numeroAutorizacion").hide();
+                    $("#basic-addon1").hide();
+                    $("#terminalTarjeta").hide();
+                    $("#basic-addon2").hide();
                     $("#imprimirFacturar").prop('disabled', false);
                 }else if (this.value==="efectivo"){
                     $("#cantidad").show();
                     $("#procesar").show();
                     $("#cambio").show();
                     $("#labelCambio").show();
-                    $("#imprimirFacturar").prop('disabled', false);
-                }else if(this.value==="seleccionarPago"){
+                    $("#numeroAutorizacion").hide();
+                    $("#basic-addon1").hide();
+                    $("#terminalTarjeta").hide();
+                    $("#basic-addon2").hide();
+                  $("#imprimirFacturar").prop('disabled', false);
+                }else if(this.value==="seleccionarPago") {
                   $("#imprimirFacturar").prop('disabled', true);
+              }else if (this.value === "tarjeta"){
+                  $("#cantidad").hide();
+                  $("#procesar").hide();
+                  $("#cambio").hide();
+                  $("#labelCambio").hide();
+                  $("#numeroAutorizacion").show();
+                  $("#basic-addon1").show();
+                  $("#terminalTarjeta").show();
+                  $("#basic-addon2").show();
+                  $("#imprimirFacturar").prop('disabled', false);
               }
 
                 var modal = document.getElementById('myModal');
@@ -179,7 +201,17 @@
         })
 
     </script>
+    <script>
+        function asignacionValores() {
+            var aut = document.getElementById("numeroAutorizacion").value;
+            var term = document.getElementById("terminalTarjeta").value;
+            if (aut && term){
+                document.getElementById("campoAutorizacion").value = aut;
+                document.getElementById("campoTerminal").value = term;
+            }
 
+        }
+    </script>
 </head>
 
 <body>
@@ -206,6 +238,20 @@
                             <button id="procesar" class="btn btn-primary" type="button">Procesar</button>
                         </span>
                     </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">No. Autorización</span>
+                        </div>
+                        <input id="numeroAutorizacion" onchange="asignacionValores()" type="text" class="form-control" placeholder="Numero de Autorización" aria-label="Username" aria-describedby="basic-addon1" pattern="[0-9][0-9][0-9][0-9][0-9][0-9]">
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon2">Ult. 4 Digitos</span>
+                        </div>
+                        <input id="terminalTarjeta" onchange="asignacionValores()" type="text" class="form-control" placeholder="Últimos 4 Digitos" aria-label="Username" aria-describedby="basic-addon1" pattern="[0-9][0-9][0-9][0-9]">
+                    </div>
+
 
                     <div style="padding-top: 5%; padding-left:4%" class="row">
                         <div class="table-responsive">
@@ -254,6 +300,8 @@
 
                             <g:form  action="imprimirFactura" id="${factura.id}" value="id=${factura.id}">
                                 <button type="submit" id="imprimirFacturar"  class="btn btn-primary btn-block btn-lng">Imprimir</button>
+                                <input id="campoAutorizacion" name="numeroAutorizacion" hidden/>
+                                <input id="campoTerminal" name="terminalTarjeta" hidden/>
                             </g:form>
 
                         </div>
