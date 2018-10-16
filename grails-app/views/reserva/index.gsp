@@ -31,7 +31,7 @@
                 </div>
 
                 <div class="box-body">
-                    <table class="table table-hover">
+                    <table id="tabla_reservaciones" class="table table-hover">
                         <thead>
                         <tr>
                             <th style="text-align: center">Nombre</th>
@@ -128,6 +128,9 @@
 </section>
 
 <script>
+
+    $("#tabla_reservaciones").DataTable();
+
     $('.select_camareros').change(function (e) {
         $('#selected_camarero').val(this.value);
     });

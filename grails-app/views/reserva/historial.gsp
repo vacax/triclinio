@@ -28,12 +28,13 @@
                 </div>
 
                 <div class="box-body">
-                    <table class="table table-hover">
+                    <table id="tabla_historial" class="table table-hover">
                         <thead>
                         <tr>
                             <th style="text-align: center">Nombre</th>
                             <th style="text-align: center">Cantidad Personas</th>
                             <th style="text-align: center">Fecha y Hora</th>
+                            <th style="text-align: center">Camarero Asignado</th>
                             <th style="text-align: center">Estado</th>
                             <th style="text-align: center">Acciones</th>
                         </tr>
@@ -44,6 +45,14 @@
                                 <td style="text-align: center">${r.aNombreDe}</td>
                                 <td style="text-align: center">${r.cantidadPersonas}</td>
                                 <td style="text-align: center">${r.fecha}</td>
+                                <td style="text-align: center">
+                                    <p>
+                                        <g:if test="${usuarioReservas[r.id]}">
+                                            ${usuarioReservas[r.id]}
+                                        </g:if>
+                                        <g:else>N/A</g:else>
+                                    </p>
+                                </td>
                                 <td style="text-align: center">
                                     <g:if test="${r.estado == 1001}">
                                         <p class="btn-warning">ACTIVO</p>
@@ -76,6 +85,9 @@
         </div>
     </div>
 </section>
+<script>
+    $("#tabla_historial").DataTable()
+</script>
 </body>
 </html>
 

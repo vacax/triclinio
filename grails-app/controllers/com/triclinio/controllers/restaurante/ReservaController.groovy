@@ -8,14 +8,18 @@ import com.triclinio.domains.seguridad.UsuarioPerfil
 import grails.plugin.springsecurity.annotation.Secured
 import grails.validation.ValidationException
 
+import java.text.SimpleDateFormat
+
 @Secured(["ROLE_ADMIN", "ROLE_CAMARERO", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO", "ROLE_HOST", "ROLE_RESERVADOR "])
 class ReservaController {
 
     def index() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd")
         def camareros = []
+        def reservas = Reserva.findAllByEstadoNotEqualAndEstadoNotEqualAndFechaGreaterThanEquals(1003, 1004, sdf.parse(sdf.format(new Date())))
         def l = UsuarioPerfil.findAllByPerfil(Perfil.findAllByAuthority('ROLE_CAMARERO'))
         l.each { camareros.add(it.usuario) }
-        ['reservas': Reserva.findAllByEstadoNotEqualAndEstadoNotEqual(1003, 1004), 'camareros': camareros]
+        ['reservas': reservas, 'camareros': camareros]
     }
 
     def crear() {
@@ -97,7 +101,18 @@ class ReservaController {
     }
 
     def historial() {
-        ['reservas': Reserva.list()]
+
+        def usuarioReservas = [:]
+        def reservas = Reserva.list()
+
+        reservas.each {
+            def usuarioReserva = UsuarioReserva.findByReservacion(it)
+            if (usuarioReserva != null){
+                usuarioReservas[it.id] = usuarioReserva.usuario.nombre
+            }
+        }
+
+        ['reservas': reservas, 'usuarioReservas': usuarioReservas]
     }
 
     def retornar() {
@@ -108,6 +123,8 @@ class ReservaController {
         if (r != null) {
             r.estado = Reserva.ACTIVO
             r.save(flush: true, failOnError: true)
+            def ur = UsuarioReserva.findByReservacion(r)
+            ur.delete(flush: true)
         } else {
             response = false
         }
