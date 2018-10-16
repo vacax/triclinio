@@ -98,7 +98,7 @@ class CuentaController {
      * @return
      */
     def nuevaOrdenDetalle(OrdenDetalleCuentaForm form) {
-
+        //println(form.listaPlato.get(0).comentario)
         def clienteCuenta = clienteCuentaService.procesarClienteCuenta(form)
         ordenDetalleService.procesarOrdenDetalle(form, clienteCuenta)
 

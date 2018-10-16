@@ -242,16 +242,15 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">No. Autorización</span>
                         </div>
-                        <input id="numeroAutorizacion" onchange="asignacionValores()" type="text" class="form-control" placeholder="Numero de Autorización" aria-label="Username" aria-describedby="basic-addon1" pattern="[0-9][0-9][0-9][0-9][0-9][0-9]">
+                        <input id="numeroAutorizacion" onchange="asignacionValores()" type="text" class="form-control" placeholder="Numero de Autorización" aria-label="Username" aria-describedby="basic-addon1" pattern="[0-9]{6}">
                     </div>
 
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon2">Ult. 4 Digitos</span>
                         </div>
-                        <input id="terminalTarjeta" onchange="asignacionValores()" type="text" class="form-control" placeholder="Últimos 4 Digitos" aria-label="Username" aria-describedby="basic-addon1" pattern="[0-9][0-9][0-9][0-9]">
+                        <input id="terminalTarjeta" onchange="asignacionValores()" type="text" class="form-control" placeholder="Últimos 4 Digitos" aria-label="Username" aria-describedby="basic-addon1" pattern="[0-9]{4}">
                     </div>
-
 
                     <div style="padding-top: 5%; padding-left:4%" class="row">
                         <div class="table-responsive">
@@ -300,8 +299,8 @@
 
                             <g:form  action="imprimirFactura" id="${factura.id}" value="id=${factura.id}">
                                 <button type="submit" id="imprimirFacturar"  class="btn btn-primary btn-block btn-lng">Imprimir</button>
-                                <input id="campoAutorizacion" name="numeroAutorizacion" hidden/>
-                                <input id="campoTerminal" name="terminalTarjeta" hidden/>
+                                <input id="campoAutorizacion" name="numeroAutorizacion" pattern="[0-9]{6}" hidden/>
+                                <input id="campoTerminal" name="terminalTarjeta" pattern="[0-9]{4}" hidden/>
                             </g:form>
 
                         </div>

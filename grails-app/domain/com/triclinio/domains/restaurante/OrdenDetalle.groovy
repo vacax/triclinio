@@ -13,7 +13,7 @@ class OrdenDetalle {
     boolean eliminada=false
 
     //comentario sobre el plato, si existen excepciones
-    String comentario
+    String comentario = ""
 
     //Precio del articulo
     BigDecimal precio
@@ -41,6 +41,7 @@ class OrdenDetalle {
 
 
     static constraints = {
+        comentario (nullable: true)
     }
 
     static mapping = {
