@@ -32,7 +32,9 @@ class BootStrap {
             new Perfil(authority: "ROLE_FACTURADOR").save(flush: true, failOnError: true)
             new Perfil(authority: "ROLE_SUPERVISOR_FACTURADOR").save(flush: true, failOnError: true)
             new Perfil(authority: "ROLE_SUPERVISOR_CAMARERO").save(flush: true, failOnError: true)
-            
+            new Perfil(authority: "ROLE_RESERVADOR").save(flush: true, failOnError: true)
+            new Perfil(authority: "ROLE_HOST").save(flush: true, failOnError: true)
+
             for (String url in [
                     '/', '/error', '/index', '/index.gsp', '/**/favicon.ico', '/shutdown',
                     '/assets/**', '/**/js/**', '/**/css/**', '/**/images/**',
@@ -119,6 +121,7 @@ class BootStrap {
             Mesa.findByNumeroMesa(1) ?: new Mesa(numeroMesa: 1, nombre: "Mesa 1", estadoMesa: EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE)).save(flush: true, failOnError: true)
             Mesa.findByNumeroMesa(2) ?:  new Mesa(numeroMesa: 2, nombre: "Mesa 2", estadoMesa: EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE)).save(flush: true, failOnError: true)
             Mesa.findByNumeroMesa(3) ?:  new Mesa(numeroMesa: 3, nombre: "Mesa 3", estadoMesa: EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE)).save(flush: true, failOnError: true)
+            Mesa.findByNumeroMesa(0) ?:  new Mesa(numeroMesa: 0, nombre: "Take Out", estadoMesa: EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE)).save(flush: true, failOnError: true)
 
 //            //TODO: Crear modelo de Cuenta para poder facturar(Usuario)
 //            Usuario usuario1 = new Usuario(username: "john", password: "1234", nombre: "N/A").save(flush: true, failOnError: true)
