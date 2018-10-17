@@ -35,7 +35,6 @@ class CuentaController {
      * @return
      */
     def nuevaCuenta() {
-        println(params)
         def mesas = Mesa.findAllByEstadoMesaNotEqualAndHabilitado(EstadoMesa.findAllByCodigo(EstadoMesa.OCUPADA).first(), true)
         [mesas: mesas, 'reservacion': params.reservacion]
     }
@@ -108,7 +107,6 @@ class CuentaController {
      * @return
      */
     def nuevaOrdenDetalle(OrdenDetalleCuentaForm form) {
-        //println(form.listaPlato.get(0).comentario)
         def clienteCuenta = clienteCuentaService.procesarClienteCuenta(form)
         ordenDetalleService.procesarOrdenDetalle(form, clienteCuenta)
 

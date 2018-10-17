@@ -75,10 +75,8 @@
                 <div class="box-header with-border">
                     <h3 class="box-title"><b>Cliente atendido:</b></h3>
                 </div>
-                <!-- /.box-header -->
                 <div class="box-body">
                     <form role="form">
-                        <!-- text input -->
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
@@ -192,15 +190,12 @@
             <input id="prefixPrecio" value="${precioPrefix.precio}" hidden>
             <input id="prefixCategoria" value="${precioPrefix.prefix}" hidden>
         </div>
-        <!-- /.box-body -->
     </div>
-    <!-- /.box -->
 
     <div class="box">
         <div class="box-header">
             <h3 class="box-title"><b>ITEMS AGREGADOS</b></h3>
         </div>
-        <!-- /.box-header -->
         <div class="box-body no-padding">
             <table align='center' class="table table-condensed" id="data_table">
                 <tr>
@@ -230,10 +225,10 @@
                     type="button" id="cancelarOrden" class="btn btn-danger btn-block">Cancelar</button></g:link>
 
         </div>
-        <!-- /.box-body -->
     </div>
-    <!-- /.box -->
-    %{--</div>--}%
+
+    <g:link action="detalleCuenta" params="[idCuenta: clienteCuenta.cuenta.id]" controller="cuenta" ><button type="button" class="btn btn-danger btn-block">Cancelar</button></g:link>
+
 
 </section>
 
@@ -432,11 +427,10 @@
                 listaPlato[contadorFila].idPlato = parseInt($(this).find("td").eq(0).text());
                 listaPlato[contadorFila].cantidad = parseInt($(this).find("td").eq(2).text());
                 listaPlato[contadorFila].comentario = $(this).find('td:eq(4) input[type="text"]').val();
-                alert(listaPlato[contadorFila].comentario);
                 contadorFila++;
             }
         });
-        console.log();
+
         objeto.listaPlato = listaPlato;
         console.log("" + JSON.stringify(objeto));
 
