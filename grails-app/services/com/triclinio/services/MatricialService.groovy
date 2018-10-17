@@ -41,14 +41,14 @@ class MatricialService {
     final String CORTAR_PAGINA = ESC + Character.toString((char) 105)
 
 
-    public void generarPreCuenta(long facturaid) {
+    void generarPreCuenta(long facturaid) {
 
         Factura factura = Factura.get(facturaid)
 
         String nombreRest = Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE).valor
         try {
             File file = File.createTempFile("salida-reimpresion-ticket", ".txt")
-            FileWriter fileWriter = new FileWriter(file);
+            FileWriter fileWriter = new FileWriter(file)
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)
             bufferedWriter.write(StringUtils.center(nombreRest, CANTIDAD_COLUMNAS_POS_42))
             bufferedWriter.newLine()
@@ -62,9 +62,9 @@ class MatricialService {
             bufferedWriter.newLine()
             bufferedWriter.write("No. Factura" + factura.id)
             bufferedWriter.newLine()
-            bufferedWriter.write(""+factura.cliente.nombre)
+            bufferedWriter.write("" + factura.cliente.nombre)
             bufferedWriter.newLine()
-            bufferedWriter.write(""+factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.creadoPor)
+            bufferedWriter.write("" + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.creadoPor)
             bufferedWriter.newLine()
             bufferedWriter.write("Fecha: " + factura.dateCreated.format("dd-MM-yyyy HH:mm:ss"))
             bufferedWriter.newLine()
@@ -78,7 +78,7 @@ class MatricialService {
             factura.listaFacturaDetalle.each {
                 bufferedWriter.write(StringUtils.rightPad(it.ordenDetalle.plato.nombre, CANTIDAD_COLUMNAS_POS_42))
                 bufferedWriter.newLine()
-                bufferedWriter.write(StringUtils.center(it.ordenDetalle.cantidad+"\t"+it.ordenDetalle.importe, CANTIDAD_COLUMNAS_POS_42))
+                bufferedWriter.write(StringUtils.center(it.ordenDetalle.cantidad + "\t" + it.ordenDetalle.importe, CANTIDAD_COLUMNAS_POS_42))
                 bufferedWriter.newLine()
             }
 
@@ -96,19 +96,17 @@ class MatricialService {
             bufferedWriter.newLine()
             bufferedWriter.newLine()
             bufferedWriter.newLine()
-            bufferedWriter.newLine()
-            bufferedWriter.newLine()
             bufferedWriter.write(CORTAR_PAGINA)
 
             bufferedWriter.close()
             fileWriter.close()
 
-            Path wiki_path = Paths.get(file.getPath());
-            byte[] arregloByte = Files.readAllBytes(wiki_path);
-            String tmp = new String(arregloByte, Charset.forName("UTF-8"));
+            Path wiki_path = Paths.get(file.getPath())
+            byte[] arregloByte = Files.readAllBytes(wiki_path)
+            String tmp = new String(arregloByte, Charset.forName("UTF-8"))
             //El nombre de la cola sera la caja.
             //TODO: parametrizar cola
-            brokerJmsService.enviarMensaje(Parametro.findByCodigo(Parametro.JMS_COLA).valor, tmp);
+            brokerJmsService.enviarMensaje(Parametro.findByCodigo(Parametro.JMS_COLA).valor, tmp)
 
             file.delete()
         } catch (IOException e) {
@@ -116,14 +114,14 @@ class MatricialService {
         }
     }
 
-    public void generarFactura(long facturaid) {
+    void generarFactura(long facturaid) {
 
         Factura factura = Factura.get(facturaid)
 
         String nombreRest = Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE).valor
         try {
             File file = File.createTempFile("salida-reimpresion-ticket", ".txt")
-            FileWriter fileWriter = new FileWriter(file);
+            FileWriter fileWriter = new FileWriter(file)
             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)
             bufferedWriter.write(StringUtils.center(nombreRest, CANTIDAD_COLUMNAS_POS_42))
             bufferedWriter.newLine()
@@ -139,9 +137,9 @@ class MatricialService {
             bufferedWriter.newLine()
             bufferedWriter.write("No. Factura " + factura.id)
             bufferedWriter.newLine()
-            bufferedWriter.write(""+factura.cliente.nombre)
+            bufferedWriter.write("" + factura.cliente.nombre)
             bufferedWriter.newLine()
-            bufferedWriter.write(""+factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.creadoPor)
+            bufferedWriter.write("" + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.creadoPor)
             bufferedWriter.newLine()
             bufferedWriter.write("Fecha: " + factura.dateCreated.format("dd-MM-yyyy HH:mm:ss"))
             bufferedWriter.newLine()
@@ -155,7 +153,7 @@ class MatricialService {
             factura.listaFacturaDetalle.each {
                 bufferedWriter.write(StringUtils.rightPad(it.ordenDetalle.plato.nombre, CANTIDAD_COLUMNAS_POS_42))
                 bufferedWriter.newLine()
-                bufferedWriter.write(StringUtils.center(it.ordenDetalle.cantidad+"\t"+it.ordenDetalle.importe, CANTIDAD_COLUMNAS_POS_42))
+                bufferedWriter.write(StringUtils.center(it.ordenDetalle.cantidad + "\t" + it.ordenDetalle.importe, CANTIDAD_COLUMNAS_POS_42))
                 bufferedWriter.newLine()
             }
 
@@ -180,12 +178,12 @@ class MatricialService {
             bufferedWriter.close()
             fileWriter.close()
 
-            Path wiki_path = Paths.get(file.getPath());
-            byte[] arregloByte = Files.readAllBytes(wiki_path);
-            String tmp = new String(arregloByte, Charset.forName("UTF-8"));
+            Path wiki_path = Paths.get(file.getPath())
+            byte[] arregloByte = Files.readAllBytes(wiki_path)
+            String tmp = new String(arregloByte, Charset.forName("UTF-8"))
             //El nombre de la cola sera la caja.
             //TODO: parametrizar cola
-            brokerJmsService.enviarMensaje(Parametro.findByCodigo(Parametro.JMS_COLA).valor, tmp);
+            brokerJmsService.enviarMensaje(Parametro.findByCodigo(Parametro.JMS_COLA).valor, tmp)
 
             file.delete()
         } catch (IOException e) {
@@ -193,10 +191,10 @@ class MatricialService {
         }
     }
 
-    public void generarComandaCocina(long cuentaId, boolean platosComanda, boolean reimprimir=false) {
+    void generarComandaCocina(long cuentaId, boolean platosComanda, boolean reimprimir = false) {
 
         Cuenta cuenta = Cuenta.get(cuentaId)
-        boolean clienteNotieneNuevoItem = true;
+        boolean clienteNotieneNuevoItem = true
 
         String nombreRest = Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE).valor
         try {
@@ -220,19 +218,19 @@ class MatricialService {
             bufferedWriter.write("Mesas: ")
             bufferedWriter.newLine()
             cuenta.listaMesa.each {
-                if(it.habilitado){
-                    bufferedWriter.write("("+it.mesa.nombre+")")
+                if (it.habilitado) {
+                    bufferedWriter.write("(" + it.mesa.nombre + ")")
                 }
             }
             bufferedWriter.newLine()
-            bufferedWriter.write("Atendido por: "+cuenta.usuario.nombre)
+            bufferedWriter.write("Atendido por: " + cuenta.usuario.nombre)
             bufferedWriter.newLine()
             bufferedWriter.write("Fecha: " + cuenta.dateCreated.format("dd-MM-yyyy HH:mm:ss"))
             bufferedWriter.newLine()
             cuenta.listaClienteCuenta.each {
                 bufferedWriter.write("------------------------------------------")
                 bufferedWriter.newLine()
-                bufferedWriter.write("Cliente: "+it.nombre)
+                bufferedWriter.write("Cliente: " + it.nombre)
                 bufferedWriter.newLine()
                 bufferedWriter.write("------------------------------------------")
                 bufferedWriter.newLine()
@@ -240,7 +238,7 @@ class MatricialService {
                 bufferedWriter.newLine()
                 bufferedWriter.write("------------------------------------------")
                 bufferedWriter.newLine()
-                OrdenDetalle.findAllByClienteCuentaAndHabilitado(it, true).each { od->
+                OrdenDetalle.findAllByClienteCuentaAndHabilitado(it, true).each { od ->
 
                     if ((!od.impreso || reimprimir) && od.plato.comanda == platosComanda) {
                         bufferedWriter.write(StringUtils.rightPad(od.plato.nombre, CANTIDAD_COLUMNAS_POS_42))
@@ -253,17 +251,16 @@ class MatricialService {
                     }
 
                 }
-                if(clienteNotieneNuevoItem){
+                if (clienteNotieneNuevoItem) {
                     bufferedWriter.newLine()
                     bufferedWriter.write("Este cliente no realizo un nuevo pedido!")
                     bufferedWriter.newLine()
                 }
                 clienteNotieneNuevoItem = true
                 bufferedWriter.newLine()
-                if(it.comentario!=null){
-                    bufferedWriter.write("Comentario: "+it.comentario)
-                }
-                else{
+                if (it.comentario != null) {
+                    bufferedWriter.write("Comentario: " + it.comentario)
+                } else {
                     bufferedWriter.write("Comentario: No existen comentarios.")
 
                 }
@@ -290,13 +287,13 @@ class MatricialService {
             bufferedWriter.close()
             fileWriter.close()
 
-            Path wiki_path = Paths.get(file.getPath());
-            byte[] arregloByte = Files.readAllBytes(wiki_path);
-            String tmp = new String(arregloByte, Charset.forName("UTF-8"));
-            println("Salida Comanda: "+tmp);
+            Path wiki_path = Paths.get(file.getPath())
+            byte[] arregloByte = Files.readAllBytes(wiki_path)
+            String tmp = new String(arregloByte, Charset.forName("UTF-8"))
+            println("Salida Comanda: " + tmp)
             //El nombre de la cola sera la caja.
             //TODO: parametrizar cola
-            brokerJmsService.enviarMensaje(Parametro.findByCodigo(Parametro.JMS_COLA).valor, tmp);
+            brokerJmsService.enviarMensaje(Parametro.findByCodigo(Parametro.JMS_COLA).valor, tmp)
 
             file.delete()
         } catch (IOException e) {
@@ -305,16 +302,16 @@ class MatricialService {
     }
 
     /**
-     * 
+     *
      * @param cuentaId
      * @param platosComanda
      * @param reimprimir
      */
-    public void generarComandaCocinaAgrupadaCategoria(long cuentaId, boolean platosComanda, boolean reimprimir=false) {
+    void generarComandaCocinaAgrupadaCategoria(long cuentaId, boolean platosComanda, boolean reimprimir = false) {
 
         Cuenta cuenta = Cuenta.get(cuentaId)
-        boolean clienteNotieneNuevoItem = true;
-        boolean tieneRegistro=false
+        boolean clienteNotieneNuevoItem = true
+        boolean tieneRegistro = false
 
         String nombreRest = Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE).valor
         try {
@@ -338,23 +335,23 @@ class MatricialService {
             bufferedWriter.write("Mesas: ")
             bufferedWriter.newLine()
             cuenta.listaMesa.each {
-                if(it.habilitado){
-                    bufferedWriter.write("("+it.mesa.nombre+")")
+                if (it.habilitado) {
+                    bufferedWriter.write("(" + it.mesa.nombre + ")")
                 }
             }
             bufferedWriter.newLine()
-            bufferedWriter.write("Atendido por: "+cuenta.usuario.nombre)
+            bufferedWriter.write("Atendido por: " + cuenta.usuario.nombre)
             bufferedWriter.newLine()
             bufferedWriter.write("Fecha: " + cuenta.dateCreated.format("dd-MM-yyyy HH:mm:ss"))
             bufferedWriter.newLine()
-            def listaCategoria = CategoriaPlato.findAllByHabilitado(true);
+            def listaCategoria = CategoriaPlato.findAllByHabilitado(true)
             listaCategoria.each { cat ->
 
-                println("La categoria: "+cat.nombre)
-                def listaDetalle = OrdenDetalle.executeQuery("from OrdenDetalle o where o.plato.categoriaPlato.id = :categoria and o.plato.comanda=:comanda and o.clienteCuenta.cuenta.id=:cuentaId", [categoria : cat.id, comanda: platosComanda,cuentaId: cuenta.id])
-                println("el detalle seleccionado: "+listaDetalle?.size())
+                println("La categoria: " + cat.nombre)
+                def listaDetalle = OrdenDetalle.executeQuery("from OrdenDetalle o where o.plato.categoriaPlato.id = :categoria and o.plato.comanda=:comanda and o.clienteCuenta.cuenta.id=:cuentaId", [categoria: cat.id, comanda: platosComanda, cuentaId: cuenta.id])
+                println("el detalle seleccionado: " + listaDetalle?.size())
 
-                if(!listaDetalle.isEmpty()) {
+                if (!listaDetalle.isEmpty()) {
                     bufferedWriter.write("------------------------------------------")
                     bufferedWriter.newLine()
                     bufferedWriter.write("Categoria: " + cat.nombre)
@@ -375,16 +372,16 @@ class MatricialService {
                             od.impreso = true
                             od.save(flush: true, failOnError: true)
                             clienteNotieneNuevoItem = false
-                            tieneRegistro=true;
+                            tieneRegistro = true
                         }
 
                     }
                 }
-               /* if(clienteNotieneNuevoItem){
-                    bufferedWriter.newLine()
-                    bufferedWriter.write("Este cliente no realizo un nuevo pedido!")
-                    bufferedWriter.newLine()
-                }*/
+                /* if(clienteNotieneNuevoItem){
+                     bufferedWriter.newLine()
+                     bufferedWriter.write("Este cliente no realizo un nuevo pedido!")
+                     bufferedWriter.newLine()
+                 }*/
 
                 clienteNotieneNuevoItem = true
                 bufferedWriter.newLine()
@@ -419,14 +416,14 @@ class MatricialService {
             bufferedWriter.close()
             fileWriter.close()
 
-            Path wiki_path = Paths.get(file.getPath());
-            byte[] arregloByte = Files.readAllBytes(wiki_path);
-            String tmp = new String(arregloByte, Charset.forName("UTF-8"));
-            println("Salida Comanda: "+tmp);
+            Path wiki_path = Paths.get(file.getPath())
+            byte[] arregloByte = Files.readAllBytes(wiki_path)
+            String tmp = new String(arregloByte, Charset.forName("UTF-8"))
+            println("Salida Comanda: " + tmp)
             //El nombre de la cola sera la caja.
             //TODO: parametrizar cola
-            if(tieneRegistro) {
-                brokerJmsService.enviarMensaje(Parametro.findByCodigo(Parametro.JMS_COLA).valor, tmp);
+            if (tieneRegistro) {
+                brokerJmsService.enviarMensaje(Parametro.findByCodigo(Parametro.JMS_COLA).valor, tmp)
             }
 
             file.delete()

@@ -54,9 +54,9 @@ class CuentaController {
             Cuenta cuenta = new Cuenta()
             cuenta.usuario = (Usuario) springSecurityService.currentUser
             cuenta.estadoCuenta = EstadoCuenta.findByCodigo(EstadoCuenta.ABIERTO)
-            if (params.reservaId != ""){
+            if (params.reservaId != "") {
                 Reserva reserva = Reserva.findById(params.reservaId as Long)
-                if (reserva != null){
+                if (reserva != null) {
                     cuenta.reservacion = true
                     reserva.estado = Reserva.APROBADA
                     reserva.save()
@@ -125,8 +125,6 @@ class CuentaController {
     def nuevaOrdenDetalleCuentaExistentes(UpdateOrdenDetalleCuenta form) {
 
         ClienteCuenta clienteCuenta = ClienteCuenta.get(form.clienteCuentaId)
-
-
 
         //TODO COMENTARIOS AREGLAR (SE ESTA REMPLAZANDO)
         clienteCuenta.comentario = form.comentario
@@ -348,12 +346,7 @@ class CuentaController {
                 listadoMesas.add(it.mesa)
             }
         }
-
-
-
         [clienteCuenta: clienteCuenta, ordenesActivas: ordenesActivas, listadoMesas: listadoMesas, totalCuenta: totalCuenta]
-
-
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -364,7 +357,6 @@ class CuentaController {
         [clienteCuenta: clienteCuenta]
 
     }
-
 
     def verOrdenes(long clienteCuenta) {
 
@@ -417,7 +409,6 @@ class CuentaController {
 //        def clienteCuenta = ClienteCuenta.findById(params.get("clienteCuenta"))
 //        [listaOrdenDetalle:clienteCuenta.listaOrdenDetalle]
 //    }
-//
 //
 //    def eliminarOrdenDetalle(){
 //        def orden = ClienteCuenta.findById(params.get("orden") as Long)
@@ -484,10 +475,6 @@ class CuentaController {
 //
 //            ordenDetalle.save(flush: true, failOnError: true)
 //        }
-//
-//
-//
-//
 //
 //        //redirect(action: "cuentaAgregarFinalizar", params: [idCuenta: clienteCuenta.cuenta.id])
 //        render clienteCuenta.cuenta as JSON

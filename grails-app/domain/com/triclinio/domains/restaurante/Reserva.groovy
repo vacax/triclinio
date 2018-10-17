@@ -17,6 +17,7 @@ class Reserva {
     Date lastUpdated;
 
     static constraints = {
+        observaciones nullable: true
     }
 
     static mapping = {
