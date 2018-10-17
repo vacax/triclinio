@@ -33,7 +33,7 @@ class Parametro {
     final static int JMS_HABILITAR = 1014
 
     final static int TANDADIA = 1015
-
+    final static int PREFIX = 1016
 
 
 

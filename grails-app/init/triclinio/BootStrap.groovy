@@ -60,6 +60,7 @@ class BootStrap {
         Parametro.findByCodigo(Parametro.JMS_HABILITAR) ?: new Parametro(codigo: Parametro.JMS_HABILITAR, nombre: "JMS_HABILITAR", valor: "1").save(flush: true, failOnError: true)
         Parametro.findByCodigo(Parametro.TANDADIA) ?: new Parametro(codigo: Parametro.TANDADIA, nombre: "TANDA_DIA", valor: "1").save(flush: true, failOnError: true)
 
+        Parametro.findByCodigo(Parametro.PREFIX) ?: new Parametro(codigo: Parametro.PREFIX, nombre: "PREFIX", valor: "1").save(flush: true, failOnError: true)
         //
         Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE) ?: new Parametro(codigo: Parametro.APP_NOMBRE_RESTAURANTE, nombre: "APP_NOMBRE_RESTAURANTE", valor: "GUAVA").save(flush: true, failOnError: true)
 
