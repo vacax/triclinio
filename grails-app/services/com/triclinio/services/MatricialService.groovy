@@ -262,7 +262,6 @@ class MatricialService {
                     bufferedWriter.write("Comentario: " + it.comentario)
                 } else {
                     bufferedWriter.write("Comentario: No existen comentarios.")
-
                 }
 
                 bufferedWriter.newLine()
