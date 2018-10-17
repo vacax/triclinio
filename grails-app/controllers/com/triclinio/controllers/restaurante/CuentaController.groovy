@@ -2,6 +2,7 @@ package com.triclinio.controllers.restaurante
 
 import com.triclinio.commands.restaurant.OrdenDetalleCuentaForm
 import com.triclinio.commands.restaurant.UpdateOrdenDetalleCuenta
+import com.triclinio.domains.configuracion.Parametro
 import com.triclinio.domains.cxc.Cliente
 import com.triclinio.domains.restaurante.ClienteCuenta
 import com.triclinio.domains.restaurante.Cuenta
@@ -35,7 +36,6 @@ class CuentaController {
      * @return
      */
     def nuevaCuenta() {
-        println(params)
         def mesas = Mesa.findAllByEstadoMesaNotEqualAndHabilitado(EstadoMesa.findAllByCodigo(EstadoMesa.OCUPADA).first(), true)
         [mesas: mesas, 'reservacion': params.reservacion]
     }
@@ -88,7 +88,7 @@ class CuentaController {
      */
     def detalleOrdenIndex(long idCuenta) {
         def listaPlatos = Plato.findAllByHabilitado(true)
-
+        Plato precioPrefix = Plato.findById(Long.valueOf(Parametro.findByCodigo(Parametro.PREFIX).valor))
         def platosPorCategoria = [:]
 
         listaPlatos.each {
@@ -99,7 +99,7 @@ class CuentaController {
             }
         }
 
-        [listaPlatos: listaPlatos, platosPorCategoria: platosPorCategoria, cuenta: Cuenta.findById(idCuenta)]
+        [listaPlatos: listaPlatos, platosPorCategoria: platosPorCategoria, cuenta: Cuenta.findById(idCuenta), precioPrefix:precioPrefix]
     }
 
     /**
@@ -108,10 +108,8 @@ class CuentaController {
      * @return
      */
     def nuevaOrdenDetalle(OrdenDetalleCuentaForm form) {
-
         def clienteCuenta = clienteCuentaService.procesarClienteCuenta(form)
         ordenDetalleService.procesarOrdenDetalle(form, clienteCuenta)
-
 
         render clienteCuenta.cuenta as JSON
     }
@@ -261,7 +259,7 @@ class CuentaController {
 
         def listadoPlatos = Plato.findAllByHabilitado(true)
         ClienteCuenta clienteCuenta = ClienteCuenta.get(clienteCuentaId)
-
+        Plato precioPrefix = Plato.findById(8)
         def listadoMesas = new HashSet()
 
         def platosPorCategoria = [:]
@@ -281,7 +279,7 @@ class CuentaController {
         }
 
 
-        [listaPlatos: listadoPlatos, platosPorCategoria: platosPorCategoria, clienteCuenta: clienteCuenta, listadoMesas: listadoMesas]
+        [listaPlatos: listadoPlatos, clienteCuenta: clienteCuenta, listadoMesas: listadoMesas, precioPrefix: precioPrefix, platosPorCategoria: platosPorCategoria]
     }
 
     def eliminarOrdenDetalleClienteCuenta(long clienteCuentaId) {

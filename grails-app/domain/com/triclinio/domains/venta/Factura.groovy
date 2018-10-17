@@ -22,6 +22,10 @@ class Factura {
     BigDecimal montoImpuesto
     BigDecimal montoNeto
 
+    //datos de Pago
+    String terminalTarjeta;
+    String numeroAutorizacion;
+
     //Datos genericos del dominio.
     boolean habilitado = true;
     String creadoPor = "sistemas";
@@ -38,6 +42,8 @@ class Factura {
         montoNeto(nullable: true)
         cliente(nullable: true)
         usuario(nullable: true)
+        terminalTarjeta(nullable: true)
+        numeroAutorizacion(nullable: true)
         //estadoFactura(nullable: true)
     }
 

@@ -14,7 +14,7 @@ class OrdenDetalleService {
 
         form.listaPlato.each {
             Plato plato = Plato.get(it.idPlato)
-            int cantidad = it.cantidad;
+            int cantidad = it.cantidad
 
             def ordenDetalle = new OrdenDetalle()
             ordenDetalle.clienteCuenta = clienteCuenta
@@ -22,6 +22,7 @@ class OrdenDetalleService {
             ordenDetalle.cantidad = it.cantidad
             ordenDetalle.nombrePlato = plato.nombre
             ordenDetalle.activa = true
+            ordenDetalle.comentario = it.comentario
 
             //calculo de dinero
             ordenDetalle.precio = plato.precio
@@ -54,7 +55,7 @@ class OrdenDetalleService {
             ordenDetalle.facturada = false
 //            ordenDetalle.habilitado=true
 //            ordenDetalle.eliminada=false
-
+            ordenDetalle.comentario = it.comentario
             //calculo de dinero
             ordenDetalle.precio = plato.precio
             ordenDetalle.importe = cantidad * ordenDetalle.precio

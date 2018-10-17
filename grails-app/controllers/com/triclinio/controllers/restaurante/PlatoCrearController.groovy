@@ -24,7 +24,7 @@ class PlatoCrearController {
         [listaCategoriaPlato: lista]
     }
 
-    def nuevoPlato(String nombrePlato, String precioPlato, boolean comanda, long categoriaId, String alias, String tandaId) {
+    def nuevoPlato(String nombrePlato, String precioPlato, boolean comanda, long categoriaId, String alias, String tandaId, boolean prefix){
 
 
         withForm {
@@ -34,8 +34,10 @@ class PlatoCrearController {
             plato.comanda = comanda
             plato.alias = alias
             plato.categoriaPlato = CategoriaPlato.get(categoriaId)
-            plato.platoTanda = PlatoTanda.get(tandaId)
-            plato.save(flush: true, failOnError: true)
+            plato.platoTanda=PlatoTanda.get(tandaId)
+            plato.prefix = prefix
+            plato.save(flush:true,failOnError:true)
+
 
         }.invalidToken {
             println "Doble Posteo detectado"
@@ -70,7 +72,7 @@ class PlatoCrearController {
      * @param categoriaId
      * @return
      */
-    def modificarPlatoPost(long idPlato, String nombrePlato, String precioPlato, String alias, boolean comanda, long categoriaId) {
+    def modificarPlatoPost(long idPlato, String nombrePlato, String precioPlato, String alias, boolean comanda, long categoriaId, boolean prefix){
 
         withForm {
             def plato = Plato.get(idPlato)
@@ -79,6 +81,7 @@ class PlatoCrearController {
             plato.precio = new BigDecimal(precioPlato)
             plato.alias = alias
             plato.comanda = comanda
+            plato.prefix  = prefix
             plato.categoriaPlato = CategoriaPlato.get(categoriaId)
 
             plato.save(flush: true, failsOnError: true)
