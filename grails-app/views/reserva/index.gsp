@@ -18,7 +18,9 @@
 <section class="content">
     <div class="row">
         <div class="row">
-            <g:link class="btn btn-warning" style="width: 100%;" action="crear"><b>CREAR RESERVACIÓN</b></g:link>
+            <g:if test="${authorities.contains('ROLE_RESERVADOR') || authorities.contains('ROLE_ADMIN')}">
+                <g:link class="btn btn-warning" style="width: 100%;" action="crear"><b>CREAR RESERVACIÓN</b></g:link>
+            </g:if>
             <g:link class="btn btn-success" style="width: 100%;"
                     action="historial"><b>HISTORIAL DE RESERVACIONES</b></g:link>
         </div>
@@ -31,7 +33,7 @@
                 </div>
 
                 <div class="box-body">
-                    <table class="table table-hover">
+                    <table id="tabla_reservaciones" class="table table-hover">
                         <thead>
                         <tr>
                             <th style="text-align: center">Nombre</th>
@@ -128,6 +130,9 @@
 </section>
 
 <script>
+
+    $("#tabla_reservaciones").DataTable();
+
     $('.select_camareros').change(function (e) {
         $('#selected_camarero').val(this.value);
     });

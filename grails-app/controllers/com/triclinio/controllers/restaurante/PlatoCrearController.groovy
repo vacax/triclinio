@@ -9,27 +9,26 @@ import com.triclinio.domains.seguridad.Usuario
 import com.triclinio.domains.seguridad.UsuarioPerfil
 import grails.plugin.springsecurity.annotation.Secured
 
-@Secured(["ROLE_ADMIN", "ROLE_CAMARERO","ROLE_FACTURADOR","ROLE_SUPERVISOR_FACTURADOR","ROLE_SUPERVISOR_CAMARERO"])
+@Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
 class PlatoCrearController {
 
 
     def index() {
-        def platos=Plato.findAllByHabilitado(true)
+        def platos = Plato.findAllByHabilitado(true)
 
-        [platos:platos]
+        [platos: platos]
     }
 
-    def crearNuevoPlato(){
+    def crearNuevoPlato() {
         def lista = CategoriaPlato.findAllByHabilitado(true)
-        [listaCategoriaPlato :  lista]
+        [listaCategoriaPlato: lista]
     }
 
     def nuevoPlato(String nombrePlato, String precioPlato, boolean comanda, long categoriaId, String alias, String tandaId, boolean prefix){
 
 
         withForm {
-            Plato plato=new Plato()
-
+            Plato plato = new Plato()
             plato.setNombre(nombrePlato)
             plato.setPrecio(new BigDecimal(precioPlato))
             plato.comanda = comanda
@@ -39,6 +38,7 @@ class PlatoCrearController {
             plato.prefix = prefix
             plato.save(flush:true,failOnError:true)
 
+
         }.invalidToken {
             println "Doble Posteo detectado"
         }
@@ -47,23 +47,23 @@ class PlatoCrearController {
 
     }
 
-    def eliminarPlato(){
-        def idPlato=params.get("idPlato")
-        def plato=Plato.findById(idPlato as Long)
+    def eliminarPlato() {
+        def idPlato = params.get("idPlato")
+        def plato = Plato.findById(idPlato as Long)
         plato.setHabilitado(false)
-        plato.save(flush:true,failOnError:true)
+        plato.save(flush: true, failOnError: true)
         render plato.id
     }
 
-    def modificarPlato(){
+    def modificarPlato() {
 
-        def idPlato=params.get("id")
-        def plato=Plato.findById(idPlato as Long)
+        def idPlato = params.get("id")
+        def plato = Plato.findById(idPlato as Long)
         [plato: plato, listaCategoriaPlato: CategoriaPlato.findAllByHabilitado(true)]
     }
 
     /**
-     * 
+     *
      * @param idPlato
      * @param nombrePlato
      * @param precioPlato
@@ -75,20 +75,20 @@ class PlatoCrearController {
     def modificarPlatoPost(long idPlato, String nombrePlato, String precioPlato, String alias, boolean comanda, long categoriaId, boolean prefix){
 
         withForm {
-            def plato=Plato.get(idPlato)
+            def plato = Plato.get(idPlato)
 
-            plato.nombre=nombrePlato
-            plato.precio= new BigDecimal(precioPlato)
+            plato.nombre = nombrePlato
+            plato.precio = new BigDecimal(precioPlato)
             plato.alias = alias
             plato.comanda = comanda
             plato.prefix  = prefix
             plato.categoriaPlato = CategoriaPlato.get(categoriaId)
 
-            plato.save(flush:true, failsOnError:true)
+            plato.save(flush: true, failsOnError: true)
 
 
         }.invalidToken {
-          println("Doble posteo detectado...")
+            println("Doble posteo detectado...")
         }
 
         redirect(action: "index")
