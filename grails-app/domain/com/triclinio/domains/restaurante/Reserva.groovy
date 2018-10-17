@@ -11,7 +11,7 @@ class Reserva {
     Integer cantidadPersonas;
     Date fecha;
     int estado;
-    String observaciones
+    String observaciones = " "
 
     Date dateCreated;
     Date lastUpdated;
@@ -23,6 +23,7 @@ class Reserva {
     static mapping = {
         table 'rest_reserva'
         estado defaultValue: 1001
+        observaciones defaultValue: " "
     }
 
 }
