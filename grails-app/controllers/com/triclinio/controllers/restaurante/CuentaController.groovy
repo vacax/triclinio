@@ -111,7 +111,6 @@ class CuentaController {
         def clienteCuenta = clienteCuentaService.procesarClienteCuenta(form)
         ordenDetalleService.procesarOrdenDetalle(form, clienteCuenta)
 
-
         render clienteCuenta.cuenta as JSON
     }
 
