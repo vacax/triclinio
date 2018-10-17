@@ -7,8 +7,9 @@ class Plato {
     BigDecimal precio
     boolean comanda
     CategoriaPlato categoriaPlato
+    static fetchMode = [categoriaPlato: 'lazy']
     PlatoTanda platoTanda
-    
+    boolean prefix = false
     
 
     //Datos genericos del dominio.
@@ -22,6 +23,7 @@ class Plato {
     static constraints = {
         alias(nullable: true)
         platoTanda(nullable: true)
+        prefix(nullable:true)
     }
 
     static mapping = {

@@ -6,10 +6,12 @@ class OrdenDetallePlatoForm implements Validateable {
 
     long idPlato
     int cantidad
+    String comentario
+
 
 
     static constraints = {
-
+        comentario(nullable:true)
     }
 
 }
