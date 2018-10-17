@@ -153,7 +153,7 @@
                                     </sec:ifAnyGranted>
                                     <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO">
 
-                                        <g:link onclick="return window.confirm('Desea Cancelar la cuenta');" action="cerraCuenta" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Cerrar Cuenta</button></g:link>
+                                        <g:link onclick="return window.confirm('Desea Cancelar la cuenta');" action="cerraCuenta" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Cancelar Cuenta</button></g:link>
 
                                     </sec:ifAnyGranted>
                                     </td>

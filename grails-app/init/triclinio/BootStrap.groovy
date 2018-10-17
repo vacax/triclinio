@@ -64,10 +64,10 @@ class BootStrap {
 
         Parametro.findByCodigo(Parametro.PREFIX) ?: new Parametro(codigo: Parametro.PREFIX, nombre: "PREFIX", valor: "1").save(flush: true, failOnError: true)
         //
-        Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE) ?: new Parametro(codigo: Parametro.APP_NOMBRE_RESTAURANTE, nombre: "APP_NOMBRE_RESTAURANTE", valor: "GUAVA").save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE) ?: new Parametro(codigo: Parametro.APP_NOMBRE_RESTAURANTE, nombre: "APP_NOMBRE_RESTAURANTE", valor: "MARCO RESTAURANT").save(flush: true, failOnError: true)
 
         //
-        Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_1) ?: new Parametro(codigo: Parametro.TICKET_ENCABEZADO_1, nombre: "TICKET_ENCABEZADO_1", valor: "PUCMM - ADH").save(flush: true, failOnError: true)
+        Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_1) ?: new Parametro(codigo: Parametro.TICKET_ENCABEZADO_1, nombre: "TICKET_ENCABEZADO_1", valor: "PUCMM").save(flush: true, failOnError: true)
         Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_2) ?: new Parametro(codigo: Parametro.TICKET_ENCABEZADO_2, nombre: "TICKET_ENCABEZADO_2", valor: "SANTIAGO, R.D.").save(flush: true, failOnError: true)
         Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_3) ?: new Parametro(codigo: Parametro.TICKET_ENCABEZADO_3, nombre: "TICKET_ENCABEZADO_3", valor: "FACTURA").save(flush: true, failOnError: true)
         Parametro.findByCodigo(Parametro.TICKET_PIEPAG_1) ?: new Parametro(codigo: Parametro.TICKET_PIEPAG_1, nombre: "TICKET_PIEPAG_1", valor: "Gracias por preferirnos!!").save(flush: true, failOnError: true)
@@ -100,7 +100,7 @@ class BootStrap {
         CategoriaPlato.findByNombre("Platos Fuertes") ?: new CategoriaPlato(nombre: "Platos Fuertes").save(flush: true, failOnError: true)
         CategoriaPlato.findByNombre("Postres") ?: new CategoriaPlato(nombre: "Postres").save(flush: true, failOnError: true)
         CategoriaPlato.findByNombre("Bebidas") ?: new CategoriaPlato(nombre: "Bebidas").save(flush: true, failOnError: true)
-
+        CategoriaPlato.findByNombre("Otros") ?: new CategoriaPlato(nombre: "Otros").save(flush: true, failOnError: true)
 
         PlatoTanda.findByNombre("Dia") ?: new PlatoTanda(nombre: "Dia", codigo: PlatoTanda.DIA).save(flush: true, failOnError: true)
         PlatoTanda.findByNombre("Noche") ?: new PlatoTanda(nombre: "Noche", codigo: PlatoTanda.NOCHE).save(flush: true, failOnError: true)
