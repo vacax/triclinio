@@ -258,7 +258,7 @@
     function delete_row(no) {
         var eliminarFila = document.getElementById("idPlatillo_row" + no + "").innerText;
 
-        if (eliminarFila === "8" ){
+        if (eliminarFila === '${precioPrefix.id}' ){
 
             var tablaItems = document.getElementById('data_table');
             $(tablaItems).find('tr').each(function (index, value) {

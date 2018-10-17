@@ -2,6 +2,7 @@ package com.triclinio.controllers.restaurante
 
 import com.triclinio.commands.restaurant.OrdenDetalleCuentaForm
 import com.triclinio.commands.restaurant.UpdateOrdenDetalleCuenta
+import com.triclinio.domains.configuracion.Parametro
 import com.triclinio.domains.cxc.Cliente
 import com.triclinio.domains.restaurante.ClienteCuenta
 import com.triclinio.domains.restaurante.Cuenta
@@ -87,7 +88,7 @@ class CuentaController {
      */
     def detalleOrdenIndex(long idCuenta) {
         def listaPlatos = Plato.findAllByHabilitado(true)
-        Plato precioPrefix = Plato.findById(8)
+        Plato precioPrefix = Plato.findById(Long.valueOf(Parametro.findByCodigo(Parametro.PREFIX).valor))
         def platosPorCategoria = [:]
 
         listaPlatos.each {
