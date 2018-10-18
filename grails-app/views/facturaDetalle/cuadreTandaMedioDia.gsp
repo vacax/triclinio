@@ -156,6 +156,9 @@
             Fecha
         </th>
         <th>
+            Metodo Pago
+        </th>
+        <th>
             Monto
         </th>
 
@@ -169,6 +172,7 @@
                 <td>${factura.usuario}</td>
                 %{--<td>${factura.listaFacturaDetalle.ordenDetalle.clienteCuenta.cuenta.listaMesa.numeroMesa.first()}</td>--}%
                 <td>${factura.fecha}</td>
+                <td>${factura.metodoPago}</td>
                 <td>${factura.monto}</td>
             </tr>
         </g:each>
@@ -194,6 +198,7 @@
                         {"data": "id"},
                         {"data": "usuario"},
                         {"data": "fecha"},
+                        {"data": "metodoPago"},
                         {"data": "monto"}
                     ],
                     "destroy": true,

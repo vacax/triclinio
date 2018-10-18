@@ -182,6 +182,7 @@ class FacturaDetalleController {
                     map['id'] = it.id
                     map['usuario'] = it.usuario.nombre
                     map['fecha'] = sdf.format(it.dateCreated)
+                    map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
                     map['monto'] = it.montoNeto
                     fs.add(map)
                 }
@@ -224,6 +225,7 @@ class FacturaDetalleController {
                     map['id'] = it.id
                     map['usuario'] = it.usuario.nombre
                     map['fecha'] = sdf.format(it.dateCreated)
+                    map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
                     map['monto'] = it.montoNeto
                     fs.add(map)
                 }
@@ -260,6 +262,7 @@ class FacturaDetalleController {
                     map['id'] = it.id
                     map['usuario'] = it.usuario.nombre
                     map['fecha'] = sdf.format(it.dateCreated)
+                    map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
                     map['monto'] = it.montoNeto
                     fs.add(map)
                 }
@@ -303,6 +306,7 @@ class FacturaDetalleController {
                     map['id'] = it.id
                     map['usuario'] = it.usuario.nombre
                     map['fecha'] = sdf.format(it.dateCreated)
+                    map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
                     map['monto'] = it.montoNeto
                     fs.add(map)
                 }
@@ -337,6 +341,7 @@ class FacturaDetalleController {
                     map['id'] = it.id
                     map['usuario'] = it.usuario.nombre
                     map['fecha'] = sdf.format(it.dateCreated)
+                    map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
                     map['monto'] = it.montoNeto
                     fs.add(map)
                 }
@@ -382,6 +387,7 @@ class FacturaDetalleController {
                     map['id'] = it.id
                     map['usuario'] = it.usuario.nombre
                     map['fecha'] = sdf.format(it.dateCreated)
+                    map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
                     map['monto'] = it.montoNeto
                     fs.add(map)
                 }

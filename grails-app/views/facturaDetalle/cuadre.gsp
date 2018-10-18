@@ -136,7 +136,7 @@
                       years="${Calendar.getInstance().get(Calendar.YEAR)..2017}"/>
         <p>Hasta:</p>
         <g:datePicker name="hasta" id="fecha_hasta" value="${new Date()}" precision="day"
-                      years="${Calendar.getInstance().get(Calendar.YEAR)..2017}" />
+                      years="${Calendar.getInstance().get(Calendar.YEAR)..2017}"/>
         <br><br>
         <button id="refrescar_button" class="btn btn-instagram">Refrescar Data</button>
     </div>
@@ -156,6 +156,9 @@
             Fecha
         </th>
         <th>
+            Metodo de Pago
+        </th>
+        <th>
             Monto
         </th>
 
@@ -169,6 +172,7 @@
                 <td>${factura.usuario}</td>
                 %{--<td>${factura.listaFacturaDetalle.ordenDetalle.clienteCuenta.cuenta.listaMesa.numeroMesa.first()}</td>--}%
                 <td>${factura.fecha}</td>
+                <td>${factura.metodoPago}</td>
                 <td>${factura.monto}</td>
             </tr>
         </g:each>
@@ -194,6 +198,7 @@
                         {"data": "id"},
                         {"data": "usuario"},
                         {"data": "fecha"},
+                        {"data": "metodoPago"},
                         {"data": "monto"}
                     ],
                     "destroy": true,
