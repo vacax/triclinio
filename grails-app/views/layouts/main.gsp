@@ -336,10 +336,13 @@ desired effect
                     </li>
                 </sec:ifAnyGranted>
 
-                <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
-                    <li><a href="/facturaDetalle/historialFacturas"><i class="fa fa-link"></i><span>Reversar Facturas</span></a></li>
-                    <li><a href="/facturaDetalle/facturaReimprimir"><i class="fa fa-link"></i><span>Reimprimir Facturas</span></a>
+                <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,">
+                    <li><a href="/facturaDetalle/facturaReimprimir"><i
+                            class="fa fa-link"></i><span>Reimprimir Facturas</span></a>
                     </li>
+                    <li><a href="/facturaDetalle/historialFacturas"><i
+                            class="fa fa-link"></i><span>Reversar Facturas</span>
+                    </a></li>
                 %{--<li><a href="/facturaDetalle/cuadre"><i class="fa fa-link"></i>Ver Cuadre</a></li>--}%
                     <li><a href="/facturaDetalle/indexCuadre"><i class="fa fa-link"></i><span>Ver Cuadre</span></a></li>
                     </li>
