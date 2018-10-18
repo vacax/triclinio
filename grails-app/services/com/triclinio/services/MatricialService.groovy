@@ -62,7 +62,9 @@ class MatricialService {
             bufferedWriter.newLine()
             bufferedWriter.write("No. Factura" + factura.id)
             bufferedWriter.newLine()
-            bufferedWriter.write("" + factura.cliente.nombre)
+            bufferedWriter.write("Cliente:" + factura.cliente.nombre)
+            bufferedWriter.newLine()
+            bufferedWriter.write("Mesa: " + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.listaMesa.first().mesa.nombre)
             bufferedWriter.newLine()
             bufferedWriter.write("" + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.creadoPor)
             bufferedWriter.newLine()
@@ -82,8 +84,6 @@ class MatricialService {
                 bufferedWriter.newLine()
             }
 
-
-
             bufferedWriter.write("------------------------------------------")
             bufferedWriter.newLine()
             bufferedWriter.write(StringUtils.rightPad("Total: " + factura.montoNeto, CANTIDAD_COLUMNAS_POS_42))
@@ -92,6 +92,8 @@ class MatricialService {
             bufferedWriter.write(StringUtils.center("Gracias por preferirnos!!", CANTIDAD_COLUMNAS_POS_42))
             bufferedWriter.newLine()
             bufferedWriter.write(StringUtils.center("Thanks for choosing us", CANTIDAD_COLUMNAS_POS_42))
+            bufferedWriter.newLine()
+            bufferedWriter.newLine()
             bufferedWriter.newLine()
             bufferedWriter.newLine()
             bufferedWriter.newLine()
@@ -119,73 +121,84 @@ class MatricialService {
         Factura factura = Factura.get(facturaid)
 
         String nombreRest = Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE).valor
+        def cantidad = Parametro.findByCodigo(Parametro.CANTIDAD_FACTURA).valor as int
         try {
-            File file = File.createTempFile("salida-reimpresion-ticket", ".txt")
-            FileWriter fileWriter = new FileWriter(file)
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)
-            bufferedWriter.write(StringUtils.center(nombreRest, CANTIDAD_COLUMNAS_POS_42))
-            bufferedWriter.newLine()
-            bufferedWriter.write(StringUtils.center(Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_1).valor, CANTIDAD_COLUMNAS_POS_42))
-            bufferedWriter.newLine()
-            bufferedWriter.write(StringUtils.center(Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_2).valor, CANTIDAD_COLUMNAS_POS_42))
-            bufferedWriter.newLine()
-
-            bufferedWriter.write(StringUtils.center(Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_3).valor, CANTIDAD_COLUMNAS_POS_42))
-            bufferedWriter.newLine()
-
-            bufferedWriter.write("------------------------------------------")
-            bufferedWriter.newLine()
-            bufferedWriter.write("No. Factura " + factura.id)
-            bufferedWriter.newLine()
-            bufferedWriter.write("" + factura.cliente.nombre)
-            bufferedWriter.newLine()
-            bufferedWriter.write("" + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.creadoPor)
-            bufferedWriter.newLine()
-            bufferedWriter.write("Fecha: " + factura.dateCreated.format("dd-MM-yyyy HH:mm:ss"))
-            bufferedWriter.newLine()
-            bufferedWriter.write("------------------------------------------")
-            bufferedWriter.newLine()
-            bufferedWriter.write("Artículo    Cantidad    Valor   ")
-            bufferedWriter.newLine()
-            bufferedWriter.write("------------------------------------------")
-            bufferedWriter.newLine()
-
-            factura.listaFacturaDetalle.each {
-                bufferedWriter.write(StringUtils.rightPad(it.ordenDetalle.plato.nombre, CANTIDAD_COLUMNAS_POS_42))
+            for (int i = 0; i < cantidad; i++) {
+                File file = File.createTempFile("salida-reimpresion-ticket", ".txt")
+                FileWriter fileWriter = new FileWriter(file)
+                BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)
+                bufferedWriter.write(StringUtils.center(nombreRest, CANTIDAD_COLUMNAS_POS_42))
                 bufferedWriter.newLine()
-                bufferedWriter.write(StringUtils.center(it.ordenDetalle.cantidad + "\t" + it.ordenDetalle.importe, CANTIDAD_COLUMNAS_POS_42))
+                bufferedWriter.write(StringUtils.center(Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_1).valor, CANTIDAD_COLUMNAS_POS_42))
                 bufferedWriter.newLine()
+                bufferedWriter.write(StringUtils.center(Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_2).valor, CANTIDAD_COLUMNAS_POS_42))
+                bufferedWriter.newLine()
+
+                bufferedWriter.write(StringUtils.center(Parametro.findByCodigo(Parametro.TICKET_ENCABEZADO_3).valor, CANTIDAD_COLUMNAS_POS_42))
+                bufferedWriter.newLine()
+
+                bufferedWriter.write("------------------------------------------")
+                bufferedWriter.newLine()
+                bufferedWriter.write("No. Factura " + factura.id)
+                bufferedWriter.newLine()
+                bufferedWriter.write("Cliente:" + factura.cliente.nombre)
+                bufferedWriter.newLine()
+                bufferedWriter.write("Mesa: " + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.listaMesa.first().mesa.nombre)
+                bufferedWriter.newLine()
+                bufferedWriter.write("" + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.creadoPor)
+                bufferedWriter.newLine()
+                bufferedWriter.write("Fecha: " + factura.dateCreated.format("dd-MM-yyyy HH:mm:ss"))
+                bufferedWriter.newLine()
+                bufferedWriter.write("------------------------------------------")
+                bufferedWriter.newLine()
+                bufferedWriter.write("Artículo    Cantidad    Valor   ")
+                bufferedWriter.newLine()
+                bufferedWriter.write("------------------------------------------")
+                bufferedWriter.newLine()
+
+                factura.listaFacturaDetalle.each {
+                    bufferedWriter.write(StringUtils.rightPad(it.ordenDetalle.plato.nombre, CANTIDAD_COLUMNAS_POS_42))
+                    bufferedWriter.newLine()
+                    bufferedWriter.write(StringUtils.center(it.ordenDetalle.cantidad + "\t" + it.ordenDetalle.importe, CANTIDAD_COLUMNAS_POS_42))
+                    bufferedWriter.newLine()
+                }
+
+                bufferedWriter.write("------------------------------------------")
+                bufferedWriter.newLine()
+                bufferedWriter.write(StringUtils.rightPad("Total: " + factura.montoNeto, CANTIDAD_COLUMNAS_POS_42))
+                bufferedWriter.newLine()
+                bufferedWriter.write(StringUtils.center(factura.terminalTarjeta ? "Tipo Pago: Tarjeta" : "Tipo Pago: Efectivo", CANTIDAD_COLUMNAS_POS_42))
+                if(factura.terminalTarjeta){
+                    bufferedWriter.newLine()
+                    bufferedWriter.write(StringUtils.rightPad("Ult. 4 Digitos: " + factura.terminalTarjeta, CANTIDAD_COLUMNAS_POS_42))
+                    bufferedWriter.newLine()
+                    bufferedWriter.write(StringUtils.rightPad("No. Autorizacion: " + factura.numeroAutorizacion, CANTIDAD_COLUMNAS_POS_42))
+                }
+                bufferedWriter.newLine()
+                bufferedWriter.newLine()
+                bufferedWriter.write(StringUtils.center("Gracias por preferirnos!!", CANTIDAD_COLUMNAS_POS_42))
+                bufferedWriter.newLine()
+                bufferedWriter.write(StringUtils.center("Thanks for choosing us", CANTIDAD_COLUMNAS_POS_42))
+                bufferedWriter.newLine()
+                bufferedWriter.newLine()
+                bufferedWriter.newLine()
+                bufferedWriter.newLine()
+                bufferedWriter.newLine()
+                bufferedWriter.newLine()
+                bufferedWriter.write(CORTAR_PAGINA)
+
+                bufferedWriter.close()
+                fileWriter.close()
+
+                Path wiki_path = Paths.get(file.getPath())
+                byte[] arregloByte = Files.readAllBytes(wiki_path)
+                String tmp = new String(arregloByte, Charset.forName("UTF-8"))
+                //El nombre de la cola sera la caja.
+                //TODO: parametrizar cola
+                brokerJmsService.enviarMensaje(Parametro.findByCodigo(Parametro.JMS_COLA).valor, tmp)
+
+                file.delete()
             }
-
-
-
-            bufferedWriter.write("------------------------------------------")
-            bufferedWriter.newLine()
-            bufferedWriter.write(StringUtils.rightPad("Total: " + factura.montoNeto, CANTIDAD_COLUMNAS_POS_42))
-            bufferedWriter.newLine()
-            bufferedWriter.newLine()
-            bufferedWriter.write(StringUtils.center("Gracias por preferirnos!!", CANTIDAD_COLUMNAS_POS_42))
-            bufferedWriter.newLine()
-            bufferedWriter.write(StringUtils.center("Thanks for choosing us", CANTIDAD_COLUMNAS_POS_42))
-            bufferedWriter.newLine()
-            bufferedWriter.newLine()
-            bufferedWriter.newLine()
-            bufferedWriter.newLine()
-            bufferedWriter.newLine()
-            bufferedWriter.newLine()
-            bufferedWriter.write(CORTAR_PAGINA)
-
-            bufferedWriter.close()
-            fileWriter.close()
-
-            Path wiki_path = Paths.get(file.getPath())
-            byte[] arregloByte = Files.readAllBytes(wiki_path)
-            String tmp = new String(arregloByte, Charset.forName("UTF-8"))
-            //El nombre de la cola sera la caja.
-            //TODO: parametrizar cola
-            brokerJmsService.enviarMensaje(Parametro.findByCodigo(Parametro.JMS_COLA).valor, tmp)
-
-            file.delete()
         } catch (IOException e) {
             e.printStackTrace()
         }
@@ -262,7 +275,6 @@ class MatricialService {
                     bufferedWriter.write("Comentario: " + it.comentario)
                 } else {
                     bufferedWriter.write("Comentario: No existen comentarios.")
-
                 }
 
                 bufferedWriter.newLine()
@@ -369,6 +381,13 @@ class MatricialService {
                             bufferedWriter.newLine()
                             bufferedWriter.write(StringUtils.rightPad("                " + od.cantidad as String, CANTIDAD_COLUMNAS_POS_42))
                             bufferedWriter.newLine()
+                            if(od.comentario){
+                                bufferedWriter.write(StringUtils.rightPad("COMENTARIO: " + od.comentario as String, CANTIDAD_COLUMNAS_POS_42))
+                                bufferedWriter.newLine()
+                                bufferedWriter.newLine()
+                            }
+                            /*bufferedWriter.write(StringUtils.rightPad("${od.comentario}", CANTIDAD_COLUMNAS_POS_42))
+                            bufferedWriter.newLine()*/
                             od.impreso = true
                             od.save(flush: true, failOnError: true)
                             clienteNotieneNuevoItem = false
@@ -384,7 +403,7 @@ class MatricialService {
                  }*/
 
                 clienteNotieneNuevoItem = true
-                bufferedWriter.newLine()
+                //bufferedWriter.newLine()
 
                 /*if(it.comentario!=null){
                     bufferedWriter.write("Comentario: "+it.comentario)
@@ -394,7 +413,7 @@ class MatricialService {
 
                 }*/
 
-                bufferedWriter.newLine()
+                //bufferedWriter.newLine()
 
 
             }
