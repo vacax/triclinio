@@ -32,7 +32,7 @@
                     <g:datePicker id="fecha" class="form-control" precision="" name="fecha" value="${new Date()}"
                                   noSelection="['': '-Choose-']" min="${new Date()}"/>
                     <h4>Observaciones:</h4>
-                    <textarea maxlength="140" class="form-control" id="observaciones" name="observaciones"></textarea>
+                    <textarea maxlength="140" class="form-control" id="observaciones" name="observaciones">Default: N/A</textarea>
                     <br><br>
                     <input id="submit" style="width: 100%;" type="submit" value="Aceptar" class="btn btn-primary">
                 </g:form>
