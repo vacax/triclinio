@@ -71,7 +71,7 @@
 
 
                     var thuTotal = api
-                        .column(3)
+                        .column(4)
                         .data()
                         .reduce(function (a, b) {
                             return intVal(a) + intVal(b);
@@ -214,7 +214,7 @@
                         };
 
                         var thuTotal = api
-                            .column(3)
+                            .column(4)
                             .data()
                             .reduce(function (a, b) {
                                 return intVal(a) + intVal(b);
