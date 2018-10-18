@@ -9,7 +9,6 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.2.3/js/dataTables.select.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -23,7 +22,6 @@
             <div class="box box-warning box-solid">
                 <div class="box-header with-border">
                     <h3 class="box-title"><b>Mesas seleccionadas</b></h3>
-
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
                                 class="fa fa-minus"></i>
@@ -101,7 +99,7 @@
     </div>
 
     <div class="box">
-        <input hidden="hidden" id="cuentaAsignada" name="cuentaAsignada" value="${cuenta.id}">
+        <input hidden="hidden" id="cuentaAsignada" name="cuentaAsignada" value="${cuenta.id}"/>
 
         <div class="box-header with-border">
             <h3 class="box-title"><b>LISTADO ITEMS</b></h3>
@@ -235,7 +233,6 @@
     %{--</div>--}%
 
 </section>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
 <script>
     $(document).ready(function () {
