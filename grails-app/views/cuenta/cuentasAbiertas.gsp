@@ -114,6 +114,9 @@
                                 Mesas
                             </th>
                             <th>
+                                Clientes
+                            </th>
+                            <th>
                                 Acciones
                             </th>
                             </thead>
@@ -131,6 +134,9 @@
                                                 (${cuentaMesa.mesa.nombre})
                                             </g:if>
                                         </g:each>
+                                    </td>
+                                    <td>
+                                       <triclinio:visualizarNombreClientesCuentas cuentaId="${cuenta.id}"/>
                                     </td>
                                     <td>
                                         <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
