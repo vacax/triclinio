@@ -131,13 +131,15 @@ class MesaController {
         [notificaciones: mesa.historial]
     }
 
-
+    @Secured(['ROLE_ADMIN'])
     def crearMesaIndex() {
         [listadoMesas: Mesa.findAllByHabilitado(true)]
     }
 
+    @Secured(['ROLE_ADMIN'])
     def crearMesa() {}
 
+    @Secured(['ROLE_ADMIN'])
     def procesarNuevaMesa() {
         def mesa = new Mesa()
         mesa.nombre = params.get("nombreMesa")
@@ -147,6 +149,7 @@ class MesaController {
         redirect(action: "crearMesaIndex")
     }
 
+    @Secured(['ROLE_ADMIN'])
     def eliminarMesa(long idMesa) {
         def mesa = Mesa.get(idMesa as Long)
         mesa.habilitado = false;

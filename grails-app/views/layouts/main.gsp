@@ -69,7 +69,7 @@ desired effect
             <!-- mini logo for sidebar mini 50x50 pixels -->
             <span class="logo-mini"><b>M</b></span>
             <!-- logo for regular state and mobile devices -->
-            <span class="logo-lg"><b>Marco</b><small> Cocina Internacional de Autor</small></span>
+            <span class="logo-lg"><b>Marco</b><small>Cocina Internacional de Autor</small></span>
         </a>
 
         <!-- Header Navbar -->
@@ -84,99 +84,99 @@ desired effect
                 <ul class="nav navbar-nav">
                     <!-- Messages: style can be found in dropdown.less-->
                     %{--<li class="dropdown messages-menu">--}%
-                        %{--<!-- Menu toggle button -->--}%
-                        %{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--}%
-                            %{--<i class="fa fa-envelope-o"></i>--}%
-                            %{--<span class="label label-success">4</span>--}%
-                        %{--</a>--}%
-                        %{--<ul class="dropdown-menu">--}%
-                            %{--<li class="header">You have 4 messages</li>--}%
-                            %{--<li>--}%
-                                %{--<!-- inner menu: contains the messages -->--}%
-                                %{--<ul class="menu">--}%
-                                    %{--<li><!-- start message -->--}%
-                                        %{--<a href="#">--}%
-                                            %{--<div class="pull-left">--}%
-                                                %{--<!-- User Image -->--}%
-                                                %{--<img src="/webjars/adminlte/2.3.11/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">--}%
-                                            %{--</div>--}%
-                                            %{--<!-- Message title and timestamp -->--}%
-                                            %{--<h4>--}%
-                                                %{--Support Team--}%
-                                                %{--<small><i class="fa fa-clock-o"></i> 5 mins</small>--}%
-                                            %{--</h4>--}%
-                                            %{--<!-- The message -->--}%
-                                            %{--<p>Why not buy a new awesome theme?</p>--}%
-                                        %{--</a>--}%
-                                    %{--</li>--}%
-                                    %{--<!-- end message -->--}%
-                                %{--</ul>--}%
-                                %{--<!-- /.menu -->--}%
-                            %{--</li>--}%
-                            %{--<li class="footer"><a href="#">See All Messages</a></li>--}%
-                        %{--</ul>--}%
+                    %{--<!-- Menu toggle button -->--}%
+                    %{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--}%
+                    %{--<i class="fa fa-envelope-o"></i>--}%
+                    %{--<span class="label label-success">4</span>--}%
+                    %{--</a>--}%
+                    %{--<ul class="dropdown-menu">--}%
+                    %{--<li class="header">You have 4 messages</li>--}%
+                    %{--<li>--}%
+                    %{--<!-- inner menu: contains the messages -->--}%
+                    %{--<ul class="menu">--}%
+                    %{--<li><!-- start message -->--}%
+                    %{--<a href="#">--}%
+                    %{--<div class="pull-left">--}%
+                    %{--<!-- User Image -->--}%
+                    %{--<img src="/webjars/adminlte/2.3.11/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">--}%
+                    %{--</div>--}%
+                    %{--<!-- Message title and timestamp -->--}%
+                    %{--<h4>--}%
+                    %{--Support Team--}%
+                    %{--<small><i class="fa fa-clock-o"></i> 5 mins</small>--}%
+                    %{--</h4>--}%
+                    %{--<!-- The message -->--}%
+                    %{--<p>Why not buy a new awesome theme?</p>--}%
+                    %{--</a>--}%
+                    %{--</li>--}%
+                    %{--<!-- end message -->--}%
+                    %{--</ul>--}%
+                    %{--<!-- /.menu -->--}%
+                    %{--</li>--}%
+                    %{--<li class="footer"><a href="#">See All Messages</a></li>--}%
+                    %{--</ul>--}%
                     %{--</li>--}%
                     %{--<!-- /.messages-menu -->--}%
 
                     %{--<!-- Notifications Menu -->--}%
                     %{--<li class="dropdown notifications-menu">--}%
-                        %{--<!-- Menu toggle button -->--}%
-                        %{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--}%
-                            %{--<i class="fa fa-bell-o"></i>--}%
-                            %{--<span class="label label-warning">10</span>--}%
-                        %{--</a>--}%
-                        %{--<ul class="dropdown-menu">--}%
-                            %{--<li class="header">You have 10 notifications</li>--}%
-                            %{--<li>--}%
-                                %{--<!-- Inner Menu: contains the notifications -->--}%
-                                %{--<ul class="menu">--}%
-                                    %{--<li><!-- start notification -->--}%
-                                        %{--<a href="#">--}%
-                                            %{--<i class="fa fa-users text-aqua"></i> 5 new members joined today--}%
-                                        %{--</a>--}%
-                                    %{--</li>--}%
-                                    %{--<!-- end notification -->--}%
-                                %{--</ul>--}%
-                            %{--</li>--}%
-                            %{--<li class="footer"><a href="#">View all</a></li>--}%
-                        %{--</ul>--}%
+                    %{--<!-- Menu toggle button -->--}%
+                    %{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--}%
+                    %{--<i class="fa fa-bell-o"></i>--}%
+                    %{--<span class="label label-warning">10</span>--}%
+                    %{--</a>--}%
+                    %{--<ul class="dropdown-menu">--}%
+                    %{--<li class="header">You have 10 notifications</li>--}%
+                    %{--<li>--}%
+                    %{--<!-- Inner Menu: contains the notifications -->--}%
+                    %{--<ul class="menu">--}%
+                    %{--<li><!-- start notification -->--}%
+                    %{--<a href="#">--}%
+                    %{--<i class="fa fa-users text-aqua"></i> 5 new members joined today--}%
+                    %{--</a>--}%
+                    %{--</li>--}%
+                    %{--<!-- end notification -->--}%
+                    %{--</ul>--}%
+                    %{--</li>--}%
+                    %{--<li class="footer"><a href="#">View all</a></li>--}%
+                    %{--</ul>--}%
                     %{--</li>--}%
                     %{--<!-- Tasks Menu -->--}%
                     %{--<li class="dropdown tasks-menu">--}%
-                        %{--<!-- Menu Toggle Button -->--}%
-                        %{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--}%
-                            %{--<i class="fa fa-flag-o"></i>--}%
-                            %{--<span class="label label-danger">9</span>--}%
-                        %{--</a>--}%
-                        %{--<ul class="dropdown-menu">--}%
-                            %{--<li class="header">You have 9 tasks</li>--}%
-                            %{--<li>--}%
-                                %{--<!-- Inner menu: contains the tasks -->--}%
-                                %{--<ul class="menu">--}%
-                                    %{--<li><!-- Task item -->--}%
-                                        %{--<a href="#">--}%
-                                            %{--<!-- Task title and progress text -->--}%
-                                            %{--<h3>--}%
-                                                %{--Design some buttons--}%
-                                                %{--<small class="pull-right">20%</small>--}%
-                                            %{--</h3>--}%
-                                            %{--<!-- The progress bar -->--}%
-                                            %{--<div class="progress xs">--}%
-                                                %{--<!-- Change the css width attribute to simulate progress -->--}%
-                                                %{--<div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"--}%
-                                                     %{--aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">--}%
-                                                    %{--<span class="sr-only">20% Complete</span>--}%
-                                                %{--</div>--}%
-                                            %{--</div>--}%
-                                        %{--</a>--}%
-                                    %{--</li>--}%
-                                    %{--<!-- end task item -->--}%
-                                %{--</ul>--}%
-                            %{--</li>--}%
-                            %{--<li class="footer">--}%
-                                %{--<a href="#">View all tasks</a>--}%
-                            %{--</li>--}%
-                        %{--</ul>--}%
+                    %{--<!-- Menu Toggle Button -->--}%
+                    %{--<a href="#" class="dropdown-toggle" data-toggle="dropdown">--}%
+                    %{--<i class="fa fa-flag-o"></i>--}%
+                    %{--<span class="label label-danger">9</span>--}%
+                    %{--</a>--}%
+                    %{--<ul class="dropdown-menu">--}%
+                    %{--<li class="header">You have 9 tasks</li>--}%
+                    %{--<li>--}%
+                    %{--<!-- Inner menu: contains the tasks -->--}%
+                    %{--<ul class="menu">--}%
+                    %{--<li><!-- Task item -->--}%
+                    %{--<a href="#">--}%
+                    %{--<!-- Task title and progress text -->--}%
+                    %{--<h3>--}%
+                    %{--Design some buttons--}%
+                    %{--<small class="pull-right">20%</small>--}%
+                    %{--</h3>--}%
+                    %{--<!-- The progress bar -->--}%
+                    %{--<div class="progress xs">--}%
+                    %{--<!-- Change the css width attribute to simulate progress -->--}%
+                    %{--<div class="progress-bar progress-bar-aqua" style="width: 20%" role="progressbar"--}%
+                    %{--aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">--}%
+                    %{--<span class="sr-only">20% Complete</span>--}%
+                    %{--</div>--}%
+                    %{--</div>--}%
+                    %{--</a>--}%
+                    %{--</li>--}%
+                    %{--<!-- end task item -->--}%
+                    %{--</ul>--}%
+                    %{--</li>--}%
+                    %{--<li class="footer">--}%
+                    %{--<a href="#">View all tasks</a>--}%
+                    %{--</li>--}%
+                    %{--</ul>--}%
                     %{--</li>--}%
                     <!-- User Account Menu -->
                     <li class="dropdown user user-menu">
@@ -191,9 +191,9 @@ desired effect
                         <ul class="dropdown-menu">
                             <!-- The user image in the menu -->
                             <li class="user-header">
-                            <asset:image src="160160.png" class="img-circle" alt="User Image"></asset:image>
+                                <asset:image src="160160.png" class="img-circle" alt="User Image"></asset:image>
 
-                            %{--<img src="/webjars/adminlte/2.3.11/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">--}%
+                                %{--<img src="/webjars/adminlte/2.3.11/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">--}%
 
                                 <p>
                                     <triclinio:nombreUsuario/>
@@ -202,24 +202,25 @@ desired effect
                             </li>
                             <!-- Menu Body -->
                             %{--<li class="user-body">--}%
-                                %{--<div class="row">--}%
-                                    %{--<div class="col-xs-4 text-center">--}%
-                                        %{--<a href="#">Followers</a>--}%
-                                    %{--</div>--}%
-                                    %{--<div class="col-xs-4 text-center">--}%
-                                        %{--<a href="#">Sales</a>--}%
-                                    %{--</div>--}%
-                                    %{--<div class="col-xs-4 text-center">--}%
-                                        %{--<a href="#">Friends</a>--}%
-                                    %{--</div>--}%
-                                %{--</div>--}%
-                                %{--<!-- /.row -->--}%
+                            %{--<div class="row">--}%
+                            %{--<div class="col-xs-4 text-center">--}%
+                            %{--<a href="#">Followers</a>--}%
+                            %{--</div>--}%
+                            %{--<div class="col-xs-4 text-center">--}%
+                            %{--<a href="#">Sales</a>--}%
+                            %{--</div>--}%
+                            %{--<div class="col-xs-4 text-center">--}%
+                            %{--<a href="#">Friends</a>--}%
+                            %{--</div>--}%
+                            %{--</div>--}%
+                            %{--<!-- /.row -->--}%
                             %{--</li>--}%
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
                                     <a href="/" class="btn btn-default btn-flat">Pagina Principal</a>
                                 </div>
+
                                 <div class="pull-right">
                                     <g:form controller="logout" method="post">
                                         <input type="submit" class="btn btn-default btn-flat" value="Cerrar Sesión"/>
@@ -230,7 +231,7 @@ desired effect
                     </li>
                     <!-- Control Sidebar Toggle Button -->
                     %{--<li>--}%
-                        %{--<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>--}%
+                    %{--<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>--}%
                     %{--</li>--}%
                 </ul>
             </div>
@@ -248,6 +249,7 @@ desired effect
                     <asset:image src="160160.png" class="img-circle" alt="User Image"></asset:image>
                     %{--<img src="/webjars/adminlte/2.3.11/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">--}%
                 </div>
+
                 <div class="pull-left info">
                     <p><triclinio:nombreUsuario/></p>
                     <!-- Status -->
@@ -257,13 +259,13 @@ desired effect
 
             %{--<!-- search form (Optional) -->--}%
             %{--<form action="#" method="get" class="sidebar-form">--}%
-                %{--<div class="input-group">--}%
-                    %{--<input type="text" name="q" class="form-control" placeholder="Search...">--}%
-                    %{--<span class="input-group-btn">--}%
-                        %{--<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>--}%
-                        %{--</button>--}%
-                    %{--</span>--}%
-                %{--</div>--}%
+            %{--<div class="input-group">--}%
+            %{--<input type="text" name="q" class="form-control" placeholder="Search...">--}%
+            %{--<span class="input-group-btn">--}%
+            %{--<button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>--}%
+            %{--</button>--}%
+            %{--</span>--}%
+            %{--</div>--}%
             %{--</form>--}%
             %{--<!-- /.search form -->--}%
 
@@ -283,10 +285,12 @@ desired effect
                     </a>
                     <ul class="treeview-menu">
                         <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
-                            <li><a href="/cuenta/nuevaCuenta"><i class="fa fa-link"></i> <span>Nueva Cuenta</span></a></li>
+                            <li><a href="/cuenta/nuevaCuenta"><i class="fa fa-link"></i> <span>Nueva Cuenta</span></a>
+                            </li>
                         </sec:ifAnyGranted>
                         <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO,ROLE_FACTURADOR">
-                            <li><a href="/cuenta/cuentasAbiertas"><i class="fa fa-link"></i> <span>Cuentas abiertas</span></a></li>
+                            <li><a href="/cuenta/cuentasAbiertas"><i
+                                    class="fa fa-link"></i> <span>Cuentas abiertas</span></a></li>
                         </sec:ifAnyGranted>
                     </ul>
                 </li>
@@ -304,10 +308,12 @@ desired effect
                             <li><a href="/mesa/mesasOcupadasIndex"><i class="fa fa-circle-o"></i>Desocupar Mesa</a></li>
                         </sec:ifAnyGranted>
                         <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO">
-                            <li><a href="/mesa/mesasDesactivarActivarIndex"><i class="fa fa-circle-o"></i>Desactivar/Activar Mesa</a></li>
+                            <li><a href="/mesa/mesasDesactivarActivarIndex"><i
+                                    class="fa fa-circle-o"></i>Desactivar/Activar Mesa</a></li>
                         </sec:ifAnyGranted>
                         <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO">
-                            <li><a href="/mesa/historialMesaIndex"><i class="fa fa-circle-o"></i>Historial de Mesas</a></li>
+                            <li><a href="/mesa/historialMesaIndex"><i class="fa fa-circle-o"></i>Historial de Mesas</a>
+                            </li>
                         </sec:ifAnyGranted>
 
                     </ul>
@@ -331,13 +337,14 @@ desired effect
                 </sec:ifAnyGranted>
 
                 <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
-                <li><a href="/facturaDetalle/historialFacturas"><i class="fa fa-link"></i>Reversar Facturas</a></li>
-                <li><a href="/facturaDetalle/facturaReimprimir"><i class="fa fa-link"></i>Reimprimir Facturas</a></li>
+                    <li><a href="/facturaDetalle/historialFacturas"><i class="fa fa-link"></i><span>Reversar Facturas</span></a></li>
+                    <li><a href="/facturaDetalle/facturaReimprimir"><i class="fa fa-link"></i><span>Reimprimir Facturas</span></a>
+                    </li>
                 %{--<li><a href="/facturaDetalle/cuadre"><i class="fa fa-link"></i>Ver Cuadre</a></li>--}%
-                <li><a href="/facturaDetalle/indexCuadre"><i class="fa fa-link"></i>Ver Cuadre</a></li>
-
+                    <li><a href="/facturaDetalle/indexCuadre"><i class="fa fa-link"></i><span>Ver Cuadre</span></a></li>
+                    </li>
                 </sec:ifAnyGranted>
-                </ul>
+            </ul>
             <!-- /.sidebar-menu -->
         </section>
         <!-- /.sidebar -->
@@ -354,12 +361,12 @@ desired effect
                 </h1>
             </g:pageProperty>
 
-            %{--<ol class="breadcrumb">--}%
-                %{--<g:pageProperty name="page.breadcrumb">--}%
-                    %{--<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>--}%
-                    %{--<li class="active">Here</li>--}%
-                %{--</g:pageProperty>--}%
-            %{--</ol>--}%
+        %{--<ol class="breadcrumb">--}%
+        %{--<g:pageProperty name="page.breadcrumb">--}%
+        %{--<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>--}%
+        %{--<li class="active">Here</li>--}%
+        %{--</g:pageProperty>--}%
+        %{--</ol>--}%
         </section>
 
         <!-- Main content -->
@@ -422,7 +429,7 @@ desired effect
      user experience. -->
 
 %{-- TODO: esa parte no debe ir aquí no se utiliza.--}%
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
 <script src="https://code.jquery.com/jquery-1.12.3.js"></script>  %{--TODO: Tenemos una versión más nuevo--}%
 <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.js"></script>
 <script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>

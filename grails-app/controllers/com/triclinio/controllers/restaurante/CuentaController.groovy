@@ -46,10 +46,6 @@ class CuentaController {
      */
     def crearNuevaCuenta() {
 
-        println(params)
-
-        def mesas = Mesa.findAllByEstadoMesaNotEqualAndHabilitado(EstadoMesa.findAllByCodigo(EstadoMesa.OCUPADA).first(), true)
-
         withForm {
             Cuenta cuenta = new Cuenta()
             cuenta.usuario = (Usuario) springSecurityService.currentUser
@@ -87,7 +83,22 @@ class CuentaController {
      * @return
      */
     def detalleOrdenIndex(long idCuenta) {
-        def listaPlatos = Plato.findAllByHabilitado(true)
+
+        def user = (Usuario) springSecurityService.currentUser
+        def listaPlatos = []
+
+        def authorities = []
+        user.authorities.each {
+            authorities.add(it.authority)
+        }
+
+        if (authorities.contains('ROLE_ADMIN')){
+            listaPlatos = Plato.findAll()
+        } else {
+            listaPlatos = Plato.findAllByHabilitado(true)
+        }
+
+
         Plato precioPrefix = Plato.findById(Long.valueOf(Parametro.findByCodigo(Parametro.PREFIX).valor))
         def platosPorCategoria = [:]
 
@@ -110,7 +121,6 @@ class CuentaController {
     def nuevaOrdenDetalle(OrdenDetalleCuentaForm form) {
         def clienteCuenta = clienteCuentaService.procesarClienteCuenta(form)
         ordenDetalleService.procesarOrdenDetalle(form, clienteCuenta)
-
         render clienteCuenta.cuenta as JSON
     }
 
