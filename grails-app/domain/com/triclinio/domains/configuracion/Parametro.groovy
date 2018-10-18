@@ -19,12 +19,9 @@ class Parametro {
     final static int CANTIDAD_COMANDA = 1010
     final static int CANTIDAD_FACTURA = 1012
     final static int CANTIDAD_PRECUENTA = 1013
-
+/*
     final static int CANTIDAD_IMPRESION_FACTURA= 1014
-
-
-
-
+*/
     //TICKET COMANDA
     final static int COMANDA_ENCABEZADO_3 = 1010
     final static int PRECUENTA_ENCABEZADO_3 = 1011
@@ -34,9 +31,6 @@ class Parametro {
 
     final static int TANDADIA = 1015
     final static int PREFIX = 1016
-
-
-
 
     int codigo
     String nombre

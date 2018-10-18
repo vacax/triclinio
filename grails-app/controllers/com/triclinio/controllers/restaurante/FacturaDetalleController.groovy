@@ -108,11 +108,13 @@ class FacturaDetalleController {
         redirect(uri: "/cuenta/cuentasAbiertas")
     }
 
+    @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
     def historialFacturas() {
         def facturas = Factura.findAllByHabilitadoAndEstadoFactura(true, EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
         [facturas: facturas]
     }
 
+    @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
     def reversarFactura() {
         def factura = Factura.findById(params.get("idFactura") as Long)
 
@@ -137,6 +139,7 @@ class FacturaDetalleController {
      * @return
      */
 
+    @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
     def facturaReimprimir() {
         def facturas = Factura.findAllByHabilitadoAndEstadoFactura(true, EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
         [facturas: facturas]
@@ -147,7 +150,7 @@ class FacturaDetalleController {
         redirect(uri: "/facturaDetalle/facturaReimprimir");
     }
 
-
+    @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
     def indexCuadre() {}
 
     @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
