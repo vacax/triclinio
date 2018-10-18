@@ -110,9 +110,6 @@
                                 Clientes:
                             </th>
                             <th>
-                                Estado de la cuenta
-                            </th>
-                            <th>
                                 Mesas
                             </th>
                             <th>
@@ -125,15 +122,13 @@
                                     <td>${cuenta.id}</td>
                                     <td>${cuenta.usuario.nombre}</td>
                                     <td><g:each in="${cuenta.listaClienteCuenta}" var="c">
-                                        (${c.nombre})
+                                        - ${c.nombre}<br>
                                     </g:each></td>
-                                    <g:if test="${cuenta.estadoCuenta.codigo == com.triclinio.domains.restaurante.EstadoCuenta.ABIERTO}">
-                                        <td><span class="label label-success">Abierta</span></td>
-                                    </g:if>
                                     <td>
                                         <g:each in="${cuenta.listaMesa}" var="cuentaMesa">
                                             <g:if test="${cuentaMesa.habilitado}">
                                                 (${cuentaMesa.mesa.nombre})
+
                                             </g:if>
                                         </g:each>
                                     </td>
