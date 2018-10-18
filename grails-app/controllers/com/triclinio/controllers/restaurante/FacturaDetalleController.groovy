@@ -243,8 +243,8 @@ class FacturaDetalleController {
 
         Calendar upperDate = Calendar.getInstance()
         Calendar lowerDate = Calendar.getInstance()
-        upperDate.set(Calendar.HOUR_OF_DAY, 16)
-        upperDate.set(Calendar.MINUTE, 59)
+        upperDate.set(Calendar.HOUR_OF_DAY, 18)
+        upperDate.set(Calendar.MINUTE, 29)
         upperDate.set(Calendar.SECOND, 59)
 
         lowerDate.set(Calendar.HOUR_OF_DAY, 0)
