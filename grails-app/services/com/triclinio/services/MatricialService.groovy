@@ -143,8 +143,8 @@ class MatricialService {
                 bufferedWriter.newLine()
                 bufferedWriter.write("Cliente:" + factura.cliente.nombre)
                 bufferedWriter.newLine()
-                bufferedWriter.write("Mesa: " + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.listaMesa.first().mesa.nombre)
-                bufferedWriter.newLine()
+                /*bufferedWriter.write("Mesa: " + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.listaMesa.first().mesa.nombre)
+                bufferedWriter.newLine()*/
                 bufferedWriter.write("" + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.creadoPor)
                 bufferedWriter.newLine()
                 bufferedWriter.write("Fecha: " + factura.dateCreated.format("dd-MM-yyyy HH:mm:ss"))

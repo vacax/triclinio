@@ -320,7 +320,7 @@ class FacturaDetalleController {
         upperDate.set(Calendar.MINUTE, 59)
         upperDate.set(Calendar.SECOND, 59)
 
-        lowerDate.set(Calendar.HOUR_OF_DAY, 17)
+        lowerDate.set(Calendar.HOUR_OF_DAY, 18)
         lowerDate.set(Calendar.MINUTE, 0)
         lowerDate.set(Calendar.SECOND, 0)
 
