@@ -328,7 +328,7 @@ class FacturaDetalleController {
         upperDate.set(Calendar.SECOND, 59)
 
         lowerDate.set(Calendar.HOUR_OF_DAY, 18)
-        lowerDate.set(Calendar.MINUTE, 0)
+        lowerDate.set(Calendar.MINUTE, 30)
         lowerDate.set(Calendar.SECOND, 0)
 
         List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), lowerDate.getTime(), upperDate.getTime())
@@ -371,8 +371,8 @@ class FacturaDetalleController {
         lowerDate.set(Calendar.YEAR, inicio.tokenize('-')[0] as int)
         lowerDate.set(Calendar.MONTH, ((inicio.tokenize('-')[1] as int) - 1))
         lowerDate.set(Calendar.DAY_OF_MONTH, inicio.tokenize('-')[2] as int)
-        lowerDate.set(Calendar.HOUR_OF_DAY, 17)
-        lowerDate.set(Calendar.MINUTE, 0)
+        lowerDate.set(Calendar.HOUR_OF_DAY, 18)
+        lowerDate.set(Calendar.MINUTE, 30)
         lowerDate.set(Calendar.SECOND, 0)
 
 
