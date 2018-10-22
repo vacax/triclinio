@@ -143,9 +143,13 @@ class MatricialService {
                 bufferedWriter.newLine()
                 bufferedWriter.write("Cliente:" + factura.cliente.nombre)
                 bufferedWriter.newLine()
-                bufferedWriter.write("Mesa: " + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.listaMesa.first().mesa.nombre)
+                if (!factura.listaFacturaDetalle.empty) {
+                    bufferedWriter.write("Mesa: " + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.listaMesa.first().mesa.nombre)
+                }
                 bufferedWriter.newLine()
-                bufferedWriter.write("" + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.creadoPor)
+                if(!factura.listaFacturaDetalle.empty){
+                    bufferedWriter.write("" + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.creadoPor)
+                }
                 bufferedWriter.newLine()
                 bufferedWriter.write("Fecha: " + factura.dateCreated.format("dd-MM-yyyy HH:mm:ss"))
                 bufferedWriter.newLine()
@@ -168,7 +172,7 @@ class MatricialService {
                 bufferedWriter.write(StringUtils.rightPad("Total: " + factura.montoNeto, CANTIDAD_COLUMNAS_POS_42))
                 bufferedWriter.newLine()
                 bufferedWriter.write(StringUtils.center(factura.terminalTarjeta ? "Tipo Pago: Tarjeta" : "Tipo Pago: Efectivo", CANTIDAD_COLUMNAS_POS_42))
-                if(factura.terminalTarjeta){
+                if (factura.terminalTarjeta) {
                     bufferedWriter.newLine()
                     bufferedWriter.write(StringUtils.rightPad("Ult. 4 Digitos: " + factura.terminalTarjeta, CANTIDAD_COLUMNAS_POS_42))
                     bufferedWriter.newLine()
@@ -381,7 +385,7 @@ class MatricialService {
                             bufferedWriter.newLine()
                             bufferedWriter.write(StringUtils.rightPad("                " + od.cantidad as String, CANTIDAD_COLUMNAS_POS_42))
                             bufferedWriter.newLine()
-                            if(od.comentario){
+                            if (od.comentario) {
                                 bufferedWriter.write(StringUtils.rightPad("COMENTARIO: " + od.comentario as String, CANTIDAD_COLUMNAS_POS_42))
                                 bufferedWriter.newLine()
                                 bufferedWriter.newLine()

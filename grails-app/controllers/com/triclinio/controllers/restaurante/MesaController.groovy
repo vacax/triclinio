@@ -43,7 +43,6 @@ class MesaController {
      */
     def habilitarMesa(long idMesa) {
         mesaService.habilitarMesa(idMesa)
-
         redirect(action: "mesasOcupadasIndex")
 
     }
@@ -75,17 +74,9 @@ class MesaController {
      * @return
      */
     def mesasDesactivarActivarIndex() {
-        def listadoMesas = Mesa.findAllByEstadoMesa(EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE))
-        listadoMesas.addAll(Mesa.findAllByEstadoMesa(EstadoMesa.findByCodigo(EstadoMesa.DESACTIVADA)))
-
-        Set<Mesa> listaMostrar = new HashSet()
-
-        listadoMesas.each {
-            if (it.habilitado) {
-                listaMostrar.add(it)
-            }
-        }
-        [listadoMesas: listaMostrar.sort { it.id }]
+        /*def listadoMesas = Mesa.findAllByEstadoMesa(EstadoMesa.findByCodigo(EstadoMesa.DISPONIBLE))
+        listadoMesas.addAll(Mesa.findAllByEstadoMesa(EstadoMesa.findByCodigo(EstadoMesa.DESACTIVADA)))*/
+        [listadoMesas: Mesa.list()]
     }
 
     def sacarMesaCuenta(long idCuenta) {
@@ -155,8 +146,14 @@ class MesaController {
         mesa.habilitado = false;
         mesa.save(flush: true, failOnError: true)
         redirect(action: "crearMesaIndex")
-
     }
 
+    @Secured(['ROLE_ADMIN'])
+    def cambiarHabilitado(long idMesa){
+        def mesa = Mesa.get(idMesa)
+        mesa.habilitado = !mesa.habilitado
+        mesa.save(flush: true, failOnError: true)
+        redirect(action: 'mesasDesactivarActivarIndex')
+    }
 
 }

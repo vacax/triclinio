@@ -70,8 +70,8 @@ class FacturaDetalleController {
         Factura factura = Factura.findById(id)
         factura.numeroAutorizacion = params.get("numeroAutorizacion" as String)
         factura.terminalTarjeta = params.get("terminalTarjeta" as String)
-        factura.save(flush: true, failOnError: true)
         factura.setEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
+        factura.save(flush: true, failOnError: true)
         int cantidadImpresion = Parametro.findByCodigo(Parametro.CANTIDAD_IMPRESION_FACTURA).valor.toInteger()
 
 //        for (int i=1;i<cantidadImpresion;i++) {
@@ -142,6 +142,7 @@ class FacturaDetalleController {
     @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
     def facturaReimprimir() {
         def facturas = Factura.findAllByHabilitadoAndEstadoFactura(true, EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
+        //def facturas = Factura.findAllByHabilitado(true)
         [facturas: facturas]
     }
 
@@ -401,5 +402,42 @@ class FacturaDetalleController {
         [factura: factura1]
     }
 
+    @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
+    def numeroPlatosPorFecha() {
+        SimpleDateFormat sdf = new SimpleDateFormat('yyyy-MM-dd HH:mm:ss')
+        Calendar upperDate = Calendar.getInstance()
+        Calendar lowerDate = Calendar.getInstance()
+
+        int day = 17
+        upperDate.set(Calendar.YEAR, 2018 as int)
+        upperDate.set(Calendar.MONTH, 9 as int)
+        upperDate.set(Calendar.DAY_OF_MONTH, 19)
+        upperDate.set(Calendar.HOUR_OF_DAY, 23)
+        upperDate.set(Calendar.MINUTE, 59)
+        upperDate.set(Calendar.SECOND, 59)
+
+        lowerDate.set(Calendar.YEAR, 2018 as int)
+        lowerDate.set(Calendar.MONTH, 9 as int)
+        lowerDate.set(Calendar.DAY_OF_MONTH, day)
+        lowerDate.set(Calendar.HOUR_OF_DAY, 0)
+        lowerDate.set(Calendar.MINUTE, 0)
+        lowerDate.set(Calendar.SECOND, 0)
+
+        def y = sdf.parse(sdf.format(upperDate.getTime()))
+        def x = sdf.parse(sdf.format(lowerDate.getTime()))
+        def detalles = OrdenDetalle.findAllByDateCreatedBetween(x, y)
+
+        def platoCantidad = [:]
+        detalles.each {
+            if(platoCantidad.containsKey(it.nombrePlato)){
+                platoCantidad[it.nombrePlato]++
+            } else {
+                platoCantidad[it.nombrePlato] = 1
+            }
+        }
+
+        //def detalles =  FacturaDetalle.list()
+        render platoCantidad as JSON
+    }
 
 }
