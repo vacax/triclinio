@@ -5,7 +5,7 @@ class ClienteCuenta {
     Cuenta cuenta
     String nombre = "Cliente Generico"
     String comentario;
-
+    Integer cantidadPersonas = 1
 
     static hasMany = [listaOrdenDetalle : OrdenDetalle]
 
@@ -27,7 +27,7 @@ class ClienteCuenta {
 
     static constraints = {
         comentario(nullable:true)
-
+        cantidadPersonas(nullable:true)
     }
 
     static mapping = {
