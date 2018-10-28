@@ -7,6 +7,7 @@ class OrdenDetalleCuentaForm implements Validateable {
     long cuentaId
     String nombreCliente
     String comentario
+    Integer cantidadPersonas
     List<OrdenDetallePlatoForm> listaPlato
 
 
