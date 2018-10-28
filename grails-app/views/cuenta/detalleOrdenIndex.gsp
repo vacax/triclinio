@@ -74,7 +74,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form role="form">
+                    <form role="form" id="cuentaDetalleForm">
                         <!-- text input -->
                         <div class="form-group">
                             <div class="input-group">
@@ -82,7 +82,12 @@
                                 <input id="nombreCliente" name="nombreCliente" placeholder="Nombre del cliente"
                                        type="text" class="form-control">
                             </div>
-
+                            <br>
+                            <div class="form-group">
+                                <label>Cantidad de Personas:</label>
+                                <input id="cantidadPersonas" name="cantidadPersonas" class="form-control"
+                                          placeholder="Cantidad de Personas en esta cuenta" type="number" min="1" step="1" required>
+                            </div>
                             <div class="form-group">
                                 <label>Comentario:</label>
                                 <textarea id="comentario" name="comentario" class="form-control" rows="3"
@@ -359,7 +364,7 @@
         objeto.cuentaId = cuentaId;
         objeto.nombreCliente = document.getElementById("nombreCliente").value;
         objeto.comentario = document.getElementById("comentario").value;
-
+        objeto.cantidadPersonas = document.getElementById("cantidadPersonas").value;
         var listaPlato = [];
 
         var T = document.getElementById('data_table');

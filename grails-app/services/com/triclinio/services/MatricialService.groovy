@@ -328,6 +328,7 @@ class MatricialService {
         Cuenta cuenta = Cuenta.get(cuentaId)
         boolean clienteNotieneNuevoItem = true
         boolean tieneRegistro = false
+        def resumenComanda = [:]
 
         String nombreRest = Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE).valor
         try {
@@ -390,6 +391,12 @@ class MatricialService {
                                 bufferedWriter.newLine()
                                 bufferedWriter.newLine()
                             }
+                            if(!resumenComanda.containsKey(od.plato.nombre)){
+                                resumenComanda.put(od.plato.nombre, 1)
+                            }
+                            else{
+                                resumenComanda[od.plato.nombre] += 1
+                            }
                             /*bufferedWriter.write(StringUtils.rightPad("${od.comentario}", CANTIDAD_COLUMNAS_POS_42))
                             bufferedWriter.newLine()*/
                             od.impreso = true
@@ -425,6 +432,21 @@ class MatricialService {
             bufferedWriter.newLine()
             bufferedWriter.write("------------------------------------------")
             bufferedWriter.newLine()
+            bufferedWriter.newLine()
+            bufferedWriter.write(StringUtils.center("******** RESUMEN COMANDA ********", CANTIDAD_COLUMNAS_POS_42))
+            bufferedWriter.newLine()
+            bufferedWriter.write("------------------------------------------")
+            bufferedWriter.newLine()
+            bufferedWriter.write("Articulo      Cantidad")
+            bufferedWriter.newLine()
+            bufferedWriter.write("------------------------------------------")
+            bufferedWriter.newLine()
+            resumenComanda.each {rc ->
+                bufferedWriter.write(StringUtils.rightPad("${rc.key}", CANTIDAD_COLUMNAS_POS_42))
+                bufferedWriter.newLine()
+                bufferedWriter.write(StringUtils.rightPad("                " + rc.value as String, CANTIDAD_COLUMNAS_POS_42))
+                bufferedWriter.newLine()
+            }
             bufferedWriter.newLine()
             bufferedWriter.newLine()
             bufferedWriter.write(StringUtils.center("Vamo vamo!!!", CANTIDAD_COLUMNAS_POS_42))
