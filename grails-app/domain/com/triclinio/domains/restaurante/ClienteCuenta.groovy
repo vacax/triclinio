@@ -34,7 +34,5 @@ class ClienteCuenta {
         table 'rest_cliente_cuenta'
         listaOrdenDetalle(lazy: false)
         cuenta(lazy: false)
-
-
     }
 }

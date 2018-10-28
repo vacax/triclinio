@@ -147,7 +147,7 @@ class MatricialService {
                     bufferedWriter.write("Mesa: " + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.listaMesa.first().mesa.nombre)
                 }
                 bufferedWriter.newLine()
-                if(!factura.listaFacturaDetalle.empty){
+                if (!factura.listaFacturaDetalle.empty) {
                     bufferedWriter.write("" + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.creadoPor)
                 }
                 bufferedWriter.newLine()
@@ -391,10 +391,9 @@ class MatricialService {
                                 bufferedWriter.newLine()
                                 bufferedWriter.newLine()
                             }
-                            if(!resumenComanda.containsKey(od.plato.nombre)){
+                            if (!resumenComanda.containsKey(od.plato.nombre)) {
                                 resumenComanda.put(od.plato.nombre, 1)
-                            }
-                            else{
+                            } else {
                                 resumenComanda[od.plato.nombre] += 1
                             }
                             /*bufferedWriter.write(StringUtils.rightPad("${od.comentario}", CANTIDAD_COLUMNAS_POS_42))
@@ -441,7 +440,7 @@ class MatricialService {
             bufferedWriter.newLine()
             bufferedWriter.write("------------------------------------------")
             bufferedWriter.newLine()
-            resumenComanda.each {rc ->
+            resumenComanda.each { rc ->
                 bufferedWriter.write(StringUtils.rightPad("${rc.key}", CANTIDAD_COLUMNAS_POS_42))
                 bufferedWriter.newLine()
                 bufferedWriter.write(StringUtils.rightPad("                " + rc.value as String, CANTIDAD_COLUMNAS_POS_42))
