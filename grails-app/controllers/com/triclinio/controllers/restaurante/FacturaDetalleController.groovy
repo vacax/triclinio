@@ -12,6 +12,17 @@ import com.triclinio.domains.venta.Factura
 import com.triclinio.domains.venta.FacturaDetalle
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
+import jxl.Workbook
+import jxl.format.Alignment
+import jxl.format.Border
+import jxl.format.BorderLineStyle
+import jxl.format.Colour
+import jxl.format.VerticalAlignment
+import jxl.write.Label
+import jxl.write.WritableCellFormat
+import jxl.write.WritableFont
+import jxl.write.WritableSheet
+import jxl.write.WritableWorkbook
 
 import java.text.SimpleDateFormat
 
@@ -19,9 +30,17 @@ import java.text.SimpleDateFormat
 @Secured(["ROLE_ADMIN", "ROLE_CAMARERO", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
 class FacturaDetalleController {
 
+    def TANDA_DIA = 1
+    def TANDA_NOCHE = 2
+    def TANDA_DIA_COMPLETO = 3
+
     //Datos dinero
     def matricialService
     def facturacionService
+
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    SimpleDateFormat sdf2 = new SimpleDateFormat('yyyy-MM-dd')
+    SimpleDateFormat hrs = new SimpleDateFormat("HH:mm:ss")
 
     def index() {}
 
@@ -156,48 +175,11 @@ class FacturaDetalleController {
 
     @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
     def cuadre() {
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        SimpleDateFormat hrs = new SimpleDateFormat("HH:mm:ss")
-
-        Calendar upperDate = Calendar.getInstance()
-        Calendar lowerDate = Calendar.getInstance()
-
-        upperDate.set(Calendar.HOUR_OF_DAY, 23)
-        upperDate.set(Calendar.MINUTE, 59)
-        upperDate.set(Calendar.SECOND, 59)
-
-        lowerDate.set(Calendar.HOUR_OF_DAY, 0)
-        lowerDate.set(Calendar.MINUTE, 0)
-        lowerDate.set(Calendar.SECOND, 0)
-
-        println "Fecha UpperDate" + sdf.parse(sdf.format(upperDate.getTime()))
-        println "Fecha Lower Date" + sdf.parse(sdf.format(lowerDate.getTime()))
-
-        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), lowerDate.getTime(), upperDate.getTime())
-        def fs = []
-        facturas.each {
-            if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
-                if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
-                    def map = [:]
-                    map['id'] = it.id
-                    map['usuario'] = it.usuario.nombre
-                    map['fecha'] = sdf.format(it.dateCreated)
-                    map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
-                    map['monto'] = it.montoNeto
-                    fs.add(map)
-                }
-            }
-        }
-
-        [facturas: fs]
+        [facturas: getCuadre(TANDA_DIA_COMPLETO, sdf2.format(new Date()), sdf2.format(new Date()))]
     }
 
     def refrescar(String data) {
         def (inicio, fin) = data.tokenize('_')
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss")
-        SimpleDateFormat hrs = new SimpleDateFormat("HH:mm:ss")
 
         Calendar upperDate = Calendar.getInstance()
 
@@ -238,46 +220,11 @@ class FacturaDetalleController {
 
     @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
     def cuadreTandaMedioDia() {
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        SimpleDateFormat hrs = new SimpleDateFormat("HH:mm:ss")
-
-        Calendar upperDate = Calendar.getInstance()
-        Calendar lowerDate = Calendar.getInstance()
-        upperDate.set(Calendar.HOUR_OF_DAY, 18)
-        upperDate.set(Calendar.MINUTE, 29)
-        upperDate.set(Calendar.SECOND, 59)
-
-        lowerDate.set(Calendar.HOUR_OF_DAY, 0)
-        lowerDate.set(Calendar.MINUTE, 0)
-        lowerDate.set(Calendar.SECOND, 0)
-
-        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), lowerDate.getTime(), upperDate.getTime())
-
-        def fs = []
-
-        facturas.each {
-            if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
-                if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
-                    def map = [:]
-                    map['id'] = it.id
-                    map['usuario'] = it.usuario.nombre
-                    map['fecha'] = sdf.format(it.dateCreated)
-                    map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
-                    map['monto'] = it.montoNeto
-                    fs.add(map)
-                }
-            }
-        }
-
-        [facturas: fs]
+        [facturas: getCuadre(TANDA_DIA, sdf2.format(new Date()), sdf2.format(new Date()))]
     }
 
     def refrescarDia(String data) {
         def (inicio, fin) = data.tokenize('_')
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        SimpleDateFormat hrs = new SimpleDateFormat("HH:mm:ss")
 
         Calendar upperDate = Calendar.getInstance()
         Calendar lowerDate = Calendar.getInstance()
@@ -318,46 +265,11 @@ class FacturaDetalleController {
 
     @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
     def cuadreTandaNoche() {
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        SimpleDateFormat hrs = new SimpleDateFormat("HH:mm:ss")
-
-        Calendar upperDate = Calendar.getInstance()
-        Calendar lowerDate = Calendar.getInstance()
-        upperDate.set(Calendar.HOUR_OF_DAY, 23)
-        upperDate.set(Calendar.MINUTE, 59)
-        upperDate.set(Calendar.SECOND, 59)
-
-        lowerDate.set(Calendar.HOUR_OF_DAY, 18)
-        lowerDate.set(Calendar.MINUTE, 30)
-        lowerDate.set(Calendar.SECOND, 0)
-
-        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), lowerDate.getTime(), upperDate.getTime())
-
-        def fs = []
-        facturas.each {
-            if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
-                if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
-                    def map = [:]
-                    map['id'] = it.id
-                    map['usuario'] = it.usuario.nombre
-                    map['fecha'] = sdf.format(it.dateCreated)
-                    map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
-                    map['monto'] = it.montoNeto
-                    fs.add(map)
-                }
-            }
-        }
-
-        [facturas: fs]
+        [facturas: getCuadre(TANDA_NOCHE, sdf2.format(new Date()), sdf2.format(new Date()))]
     }
 
     def refrescarNoche(String data) {
         def (inicio, fin) = data.tokenize('_')
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-        SimpleDateFormat hrs = new SimpleDateFormat("HH:mm:ss")
-
         Calendar upperDate = Calendar.getInstance()
         Calendar lowerDate = Calendar.getInstance()
 
@@ -404,7 +316,6 @@ class FacturaDetalleController {
 
     @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
     def numeroPlatosPorFecha() {
-        SimpleDateFormat sdf = new SimpleDateFormat('yyyy-MM-dd HH:mm:ss')
         Calendar upperDate = Calendar.getInstance()
         Calendar lowerDate = Calendar.getInstance()
 
@@ -429,7 +340,7 @@ class FacturaDetalleController {
 
         def platoCantidad = [:]
         detalles.each {
-            if(platoCantidad.containsKey(it.nombrePlato)){
+            if (platoCantidad.containsKey(it.nombrePlato)) {
                 platoCantidad[it.nombrePlato]++
             } else {
                 platoCantidad[it.nombrePlato] = 1
@@ -438,6 +349,152 @@ class FacturaDetalleController {
 
         //def detalles =  FacturaDetalle.list()
         render platoCantidad as JSON
+    }
+
+    def descargarCuadre() {
+        def (inicio, fin) = params.data.tokenize('_')
+        def tanda = params.tanda as int
+
+        response.setContentType('application/vnd.ms-excel')
+        response.setHeader('Content-Disposition', 'Attachment;Filename="reporte.xls"')
+        WritableWorkbook workbook = Workbook.createWorkbook(response.outputStream)
+        WritableSheet sheet1 = workbook.createSheet("Students", 0)
+
+        WritableFont cellFontTitulo = new WritableFont(WritableFont.TIMES, 12);
+        cellFontTitulo.setBoldStyle(WritableFont.BOLD);
+
+        WritableFont cellFont = new WritableFont(WritableFont.TIMES, 12);
+        WritableCellFormat cellFormatTitulo = new WritableCellFormat(cellFontTitulo);
+        WritableCellFormat cellFormat = new WritableCellFormat(cellFont);
+        cellFormatTitulo.setAlignment(Alignment.CENTRE);
+        cellFormatTitulo.setVerticalAlignment(VerticalAlignment.CENTRE);
+        cellFormatTitulo.setBorder(Border.ALL, BorderLineStyle.THIN);
+        cellFormat.setAlignment(Alignment.CENTRE);
+        cellFormat.setVerticalAlignment(VerticalAlignment.CENTRE);
+        cellFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
+
+
+        sheet1.addCell(new Label(0, 0, "ID", cellFormatTitulo))
+        sheet1.addCell(new Label(1, 0, "Camarero", cellFormatTitulo))
+        sheet1.addCell(new Label(2, 0, "Método de Pago", cellFormatTitulo))
+        sheet1.addCell(new Label(3, 0, "Fecha", cellFormatTitulo))
+        sheet1.addCell(new Label(4, 0, "Monto", cellFormatTitulo))
+
+        sheet1.addCell(new Label(7, 0, "ID", cellFormatTitulo))
+        sheet1.addCell(new Label(8, 0, "Camarero", cellFormatTitulo))
+        sheet1.addCell(new Label(9, 0, "Método de Pago", cellFormatTitulo))
+        sheet1.addCell(new Label(10, 0, "Fecha", cellFormatTitulo))
+        sheet1.addCell(new Label(11, 0, "Monto", cellFormatTitulo))
+
+        def totalEfectivo = 0
+        def totalTarjeta = 0
+        def fs = getCuadre(tanda, inicio as String, fin as String)
+
+        def fsEfectivo = []
+        def fsTarjeta = []
+
+        fs.each {
+            if (it['metodoPago'] == 'Efectivo') {
+                fsEfectivo.add(it)
+            } else {
+                fsTarjeta.add(it)
+            }
+        }
+
+        for (int i = 0; i < fsEfectivo.size(); i++) {
+            sheet1.addCell(new Label(0, i + 1, fsEfectivo[i]['id'] as String, cellFormat))
+            sheet1.addCell(new Label(1, i + 1, fsEfectivo[i]['usuario'] as String, cellFormat))
+            sheet1.addCell(new Label(2, i + 1, fsEfectivo[i]['metodoPago'] as String, cellFormat))
+            sheet1.addCell(new Label(3, i + 1, fsEfectivo[i]['fecha'] as String, cellFormat))
+            sheet1.addCell(new Label(4, i + 1, fsEfectivo[i]['monto'] as String, cellFormat))
+            totalEfectivo += fsEfectivo[i]['monto']
+        }
+        sheet1.mergeCells(0, fsEfectivo.size() + 1, 3, fsEfectivo.size() + 1)
+        sheet1.addCell(new Label(0, fsEfectivo.size() + 1, 'Total', cellFormatTitulo))
+        sheet1.addCell(new Label(4, fsEfectivo.size() + 1, totalEfectivo as String, cellFormatTitulo))
+
+        for (int i = 0; i < fsTarjeta.size(); i++) {
+            sheet1.addCell(new Label(7, i + 1, fsTarjeta[i]['id'] as String, cellFormat))
+            sheet1.addCell(new Label(8, i + 1, fsTarjeta[i]['usuario'] as String, cellFormat))
+            sheet1.addCell(new Label(9, i + 1, fsTarjeta[i]['metodoPago'] as String, cellFormat))
+            sheet1.addCell(new Label(10, i + 1, fsTarjeta[i]['fecha'] as String, cellFormat))
+            sheet1.addCell(new Label(11, i + 1, fsTarjeta[i]['monto'] as String, cellFormat))
+            totalTarjeta += fsTarjeta[i]['monto']
+        }
+
+        sheet1.mergeCells(7, fsTarjeta.size() + 1, 10, fsTarjeta.size() + 1)
+        sheet1.addCell(new Label(7, fsTarjeta.size() + 1, 'Total', cellFormatTitulo))
+        sheet1.addCell(new Label(11, fsTarjeta.size() + 1, totalTarjeta as String, cellFormatTitulo))
+
+        workbook.write()
+        workbook.close()
+        response.setContentType('application/vnd.ms-excel')
+        response.setHeader('Content-Disposition', 'Attachment;Filename="example.xls"')
+
+    }
+
+    def getCuadre(int tanda, String inicio, String fin) {
+
+        Calendar upperDate = Calendar.getInstance()
+        Calendar lowerDate = Calendar.getInstance()
+
+        upperDate.set(Calendar.YEAR, fin.tokenize('-')[0] as int)
+        upperDate.set(Calendar.MONTH, ((fin.tokenize('-')[1] as int) - 1))
+        upperDate.set(Calendar.DAY_OF_MONTH, fin.tokenize('-')[2] as int)
+
+        lowerDate.set(Calendar.YEAR, inicio.tokenize('-')[0] as int)
+        lowerDate.set(Calendar.MONTH, ((inicio.tokenize('-')[1] as int) - 1))
+        lowerDate.set(Calendar.DAY_OF_MONTH, inicio.tokenize('-')[2] as int)
+
+        switch (tanda) {
+            case TANDA_DIA:
+                upperDate.set(Calendar.HOUR_OF_DAY, 18)
+                upperDate.set(Calendar.MINUTE, 29)
+                upperDate.set(Calendar.SECOND, 59)
+
+                lowerDate.set(Calendar.HOUR_OF_DAY, 0)
+                lowerDate.set(Calendar.MINUTE, 0)
+                lowerDate.set(Calendar.SECOND, 0)
+                break
+            case TANDA_NOCHE:
+                upperDate.set(Calendar.HOUR_OF_DAY, 23)
+                upperDate.set(Calendar.MINUTE, 59)
+                upperDate.set(Calendar.SECOND, 59)
+
+                lowerDate.set(Calendar.HOUR_OF_DAY, 18)
+                lowerDate.set(Calendar.MINUTE, 30)
+                lowerDate.set(Calendar.SECOND, 0)
+                break
+            case TANDA_DIA_COMPLETO:
+                upperDate.set(Calendar.HOUR_OF_DAY, 23)
+                upperDate.set(Calendar.MINUTE, 59)
+                upperDate.set(Calendar.SECOND, 59)
+
+                lowerDate.set(Calendar.HOUR_OF_DAY, 0)
+                lowerDate.set(Calendar.MINUTE, 0)
+                lowerDate.set(Calendar.SECOND, 0)
+        }
+
+        println "Fecha UpperDate" + sdf.parse(sdf.format(upperDate.getTime()))
+        println "Fecha Lower Date" + sdf.parse(sdf.format(lowerDate.getTime()))
+
+        List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), lowerDate.getTime(), upperDate.getTime())
+        def fs = []
+        facturas.each {
+            if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
+                if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
+                    def map = [:]
+                    map['id'] = it.id
+                    map['usuario'] = it.usuario.nombre
+                    map['fecha'] = sdf.format(it.dateCreated)
+                    map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
+                    map['monto'] = it.montoNeto
+                    fs.add(map)
+                }
+            }
+        }
+
+        return fs
     }
 
 }

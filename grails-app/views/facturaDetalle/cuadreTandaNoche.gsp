@@ -178,8 +178,8 @@
         </g:each>
     </table>
     <button class="btn btn-danger btn-lg" onclick="window.history.back();">Terminar</button>
+    <button class="btn btn-success btn-lg" id="descargar">Descargar Reporte</button>
 </div>
-
 
 <script>
     $("#refrescar_button").on('click', function () {
@@ -246,7 +246,15 @@
         });
     })
 </script>
-
+<script>
+    $("#descargar").on('click', function (e) {
+        var desde = $("#fecha_desde_year").val() + '-' + $("#fecha_desde_month").val() + '-' + $("#fecha_desde_day").val();
+        var hasta = $("#fecha_hasta_year").val() + '-' + $("#fecha_hasta_month").val() + '-' + $("#fecha_hasta_day").val();
+        var data = desde + '_' + hasta;
+        console.log(data);
+        window.location = "/facturaDetalle/descargarCuadre/?tanda=2&data="+data;
+    })
+</script>
 </body>
 
 </html>
