@@ -357,21 +357,21 @@ class FacturaDetalleController {
         response.setContentType('application/vnd.ms-excel')
         response.setHeader('Content-Disposition', 'Attachment;Filename="reporte.xls"')
         WritableWorkbook workbook = Workbook.createWorkbook(response.outputStream)
-        WritableSheet sheet1 = workbook.createSheet("Students", 0)
+        WritableSheet sheet1 = workbook.createSheet("Cuadre", 0)
+        WritableSheet sheet2 = workbook.createSheet("Platos Despachados", 1)
 
-        WritableFont cellFontTitulo = new WritableFont(WritableFont.TIMES, 12);
-        cellFontTitulo.setBoldStyle(WritableFont.BOLD);
+        WritableFont cellFontTitulo = new WritableFont(WritableFont.TIMES, 12)
+        cellFontTitulo.setBoldStyle(WritableFont.BOLD)
 
-        WritableFont cellFont = new WritableFont(WritableFont.TIMES, 12);
-        WritableCellFormat cellFormatTitulo = new WritableCellFormat(cellFontTitulo);
-        WritableCellFormat cellFormat = new WritableCellFormat(cellFont);
-        cellFormatTitulo.setAlignment(Alignment.CENTRE);
-        cellFormatTitulo.setVerticalAlignment(VerticalAlignment.CENTRE);
-        cellFormatTitulo.setBorder(Border.ALL, BorderLineStyle.THIN);
-        cellFormat.setAlignment(Alignment.CENTRE);
-        cellFormat.setVerticalAlignment(VerticalAlignment.CENTRE);
-        cellFormat.setBorder(Border.ALL, BorderLineStyle.THIN);
-
+        WritableFont cellFont = new WritableFont(WritableFont.TIMES, 12)
+        WritableCellFormat cellFormatTitulo = new WritableCellFormat(cellFontTitulo)
+        WritableCellFormat cellFormat = new WritableCellFormat(cellFont)
+        cellFormatTitulo.setAlignment(Alignment.CENTRE)
+        cellFormatTitulo.setVerticalAlignment(VerticalAlignment.CENTRE)
+        cellFormatTitulo.setBorder(Border.ALL, BorderLineStyle.THIN)
+        cellFormat.setAlignment(Alignment.CENTRE)
+        cellFormat.setVerticalAlignment(VerticalAlignment.CENTRE)
+        cellFormat.setBorder(Border.ALL, BorderLineStyle.THIN)
 
         sheet1.addCell(new Label(0, 0, "ID", cellFormatTitulo))
         sheet1.addCell(new Label(1, 0, "Camarero", cellFormatTitulo))
@@ -424,6 +424,24 @@ class FacturaDetalleController {
         sheet1.mergeCells(7, fsTarjeta.size() + 1, 10, fsTarjeta.size() + 1)
         sheet1.addCell(new Label(7, fsTarjeta.size() + 1, 'Total', cellFormatTitulo))
         sheet1.addCell(new Label(11, fsTarjeta.size() + 1, totalTarjeta as String, cellFormatTitulo))
+
+        //PLATOS DESPACHADOS
+        def platos = getPlatos(inicio as String, fin as String)
+
+        int i = 0
+        platos.each { fecha, map ->
+            sheet2.mergeCells(0, i , 1, i)
+            sheet2.addCell(new Label(0, i, fecha as String, cellFormatTitulo))
+            sheet2.addCell(new Label(0, i + 1, "Nombre Plato", cellFormatTitulo))
+            sheet2.addCell(new Label(1, i + 1, "Cantidad", cellFormatTitulo))
+
+            map.each { plato, cantidad ->
+                sheet2.addCell(new Label(0, i+2, plato as String, cellFormat))
+                sheet2.addCell(new Label(1, i+2, cantidad as String, cellFormat))
+                i++
+            }
+            i += 3
+        }
 
         workbook.write()
         workbook.close()
@@ -487,6 +505,60 @@ class FacturaDetalleController {
         }
 
         return fs
+    }
+
+
+    def getPlatos(String inicio, String fin) {
+        Calendar upperDate = Calendar.getInstance()
+        Calendar lowerDate = Calendar.getInstance()
+
+        upperDate.set(Calendar.YEAR, fin.tokenize('-')[0] as int)
+        upperDate.set(Calendar.MONTH, ((fin.tokenize('-')[1] as int) - 1))
+        upperDate.set(Calendar.DAY_OF_MONTH, fin.tokenize('-')[2] as int)
+        upperDate.set(Calendar.HOUR_OF_DAY, 23)
+        upperDate.set(Calendar.MINUTE, 59)
+        upperDate.set(Calendar.SECOND, 59)
+
+        lowerDate.set(Calendar.YEAR, inicio.tokenize('-')[0] as int)
+        lowerDate.set(Calendar.MONTH, ((inicio.tokenize('-')[1] as int) - 1))
+        lowerDate.set(Calendar.DAY_OF_MONTH, inicio.tokenize('-')[2] as int)
+        lowerDate.set(Calendar.HOUR_OF_DAY, 0)
+        lowerDate.set(Calendar.MINUTE, 0)
+        lowerDate.set(Calendar.SECOND, 0)
+
+        def platosCantidades = [:]
+        (lowerDate..upperDate).each {
+            Calendar upper = Calendar.getInstance()
+            upper.set(Calendar.YEAR, it.get(Calendar.YEAR))
+            upper.set(Calendar.MONTH, it.get(Calendar.MONTH))
+            upper.set(Calendar.DAY_OF_MONTH, it.get(Calendar.DAY_OF_MONTH))
+            upper.set(Calendar.HOUR_OF_DAY, 23)
+            upper.set(Calendar.MINUTE, 59)
+            upper.set(Calendar.SECOND, 59)
+
+            Calendar lower = Calendar.getInstance()
+            lower.set(Calendar.YEAR, it.get(Calendar.YEAR))
+            lower.set(Calendar.MONTH, it.get(Calendar.MONTH))
+            lower.set(Calendar.DAY_OF_MONTH, it.get(Calendar.DAY_OF_MONTH))
+            lower.set(Calendar.HOUR_OF_DAY, 0)
+            lower.set(Calendar.MINUTE, 0)
+            lower.set(Calendar.SECOND, 0)
+
+            def x = sdf.parse(sdf.format(lower.getTime()))
+            def y = sdf.parse(sdf.format(upper.getTime()))
+
+            def detalles = OrdenDetalle.findAllByDateCreatedBetween(x, y)
+            def platoCantidad = [:]
+            detalles.each {
+                if (platoCantidad.containsKey(it.nombrePlato)) {
+                    platoCantidad[it.nombrePlato]++
+                } else {
+                    platoCantidad[it.nombrePlato] = 1
+                }
+            }
+            platosCantidades[sdf2.format(it.getTime())] = platoCantidad
+        }
+        return platosCantidades
     }
 
 }
