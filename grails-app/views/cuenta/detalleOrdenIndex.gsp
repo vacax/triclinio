@@ -22,6 +22,7 @@
             <div class="box box-warning box-solid">
                 <div class="box-header with-border">
                     <h3 class="box-title"><b>Mesas seleccionadas</b></h3>
+
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i
                                 class="fa fa-minus"></i>
@@ -83,11 +84,14 @@
                                        type="text" class="form-control">
                             </div>
                             <br>
+
                             <div class="form-group">
                                 <label>Cantidad de Personas:</label>
                                 <input id="cantidadPersonas" name="cantidadPersonas" class="form-control"
-                                          placeholder="Cantidad de Personas en esta cuenta" type="number" min="1" step="1" required>
+                                       placeholder="Cantidad de Personas en esta cuenta" type="number" min="1" step="1"
+                                       required>
                             </div>
+
                             <div class="form-group">
                                 <label>Comentario:</label>
                                 <textarea id="comentario" name="comentario" class="form-control" rows="3"
@@ -260,22 +264,22 @@
     function delete_row(no) {
         var eliminarFila = document.getElementById("idPlatillo_row" + no + "").innerText;
 
-        if (eliminarFila === '${precioPrefix.id}' ){
+        if (eliminarFila === '${precioPrefix.id}') {
 
             var tablaItems = document.getElementById('data_table');
             $(tablaItems).find('tr').each(function (index, value) {
-                if(index < 2){
+                if (index < 2) {
                     index.continue;
                 }
-                if($(this).find("td").eq(5).text() === "true"){
+                if ($(this).find("td").eq(5).text() === "true") {
                     document.getElementById("row" + index + "").outerHTML = "";
                 }
-                });
+            });
 
-                //document.getElementById("row" + no + "").outerHTML = "";
-                prefixAgregado = false;
+            //document.getElementById("row" + no + "").outerHTML = "";
+            prefixAgregado = false;
         }
-        else{
+        else {
             document.getElementById("row" + no + "").outerHTML = "";
         }
     }
@@ -321,10 +325,10 @@
                 "<td id='categoriaPlatillo_row" + table_len + "' hidden>" + categoriaPlatilloAgregado + "</td>" +
                 "<td>" + "<input type='button' value='Eliminar' class='delete' onclick='delete_row(" + table_len + ")'></td>" +
                 "</tr>";
-            if(prefix && categoria === "Otros"){
+            if (prefix && categoria === "Otros") {
                 prefixAgregado = true;
             }
-            if (prefix && !prefixAgregado){
+            if (prefix && !prefixAgregado) {
                 table_len = (table.rows.length) - 1;
                 var row1 = table.insertRow(table_len).outerHTML = "" +
                     "<tr id='row" + table_len + "'>" +

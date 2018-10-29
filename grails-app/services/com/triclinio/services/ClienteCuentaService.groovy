@@ -14,7 +14,6 @@ class ClienteCuentaService {
         clienteCuenta.nombre = form.nombreCliente ? form.nombreCliente : "Cliente Generico"
         clienteCuenta.comentario = form.comentario
         clienteCuenta.cantidadPersonas = form.cantidadPersonas ? form.cantidadPersonas : 1
-
         clienteCuenta.save(flush: true, failOnError: true)
     }
 }

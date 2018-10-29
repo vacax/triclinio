@@ -20,8 +20,6 @@ import com.triclinio.domains.venta.Factura
 import com.triclinio.domains.venta.FacturaDetalle
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
-import groovy.json.JsonOutput
-import groovy.json.JsonSlurper
 
 @Secured(["ROLE_ADMIN", "ROLE_CAMARERO", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
 class CuentaController {
@@ -395,6 +393,7 @@ class CuentaController {
         redirect(action: "cuentasAbiertas")
 
     }
+
 
 //
 //    //TODO CHEQUEAR ESTOOO!!!!
