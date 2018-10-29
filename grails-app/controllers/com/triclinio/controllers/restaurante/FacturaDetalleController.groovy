@@ -157,7 +157,6 @@ class FacturaDetalleController {
      * @param facturaId
      * @return
      */
-
     @Secured(["ROLE_ADMIN", "ROLE_FACTURADOR", "ROLE_SUPERVISOR_FACTURADOR", "ROLE_SUPERVISOR_CAMARERO"])
     def facturaReimprimir() {
         def facturas = Factura.findAllByHabilitadoAndEstadoFactura(true, EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
@@ -428,13 +427,9 @@ class FacturaDetalleController {
 
         workbook.write()
         workbook.close()
-        response.setContentType('application/vnd.ms-excel')
-        response.setHeader('Content-Disposition', 'Attachment;Filename="example.xls"')
-
     }
 
     def getCuadre(int tanda, String inicio, String fin) {
-
         Calendar upperDate = Calendar.getInstance()
         Calendar lowerDate = Calendar.getInstance()
 
@@ -474,9 +469,6 @@ class FacturaDetalleController {
                 lowerDate.set(Calendar.MINUTE, 0)
                 lowerDate.set(Calendar.SECOND, 0)
         }
-
-        println "Fecha UpperDate" + sdf.parse(sdf.format(upperDate.getTime()))
-        println "Fecha Lower Date" + sdf.parse(sdf.format(lowerDate.getTime()))
 
         List<Factura> facturas = Factura.findAllByEstadoFacturaAndDateCreatedBetween(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA), lowerDate.getTime(), upperDate.getTime())
         def fs = []
