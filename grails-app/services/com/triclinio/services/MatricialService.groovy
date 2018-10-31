@@ -139,7 +139,7 @@ class MatricialService {
 
                 bufferedWriter.write("------------------------------------------")
                 bufferedWriter.newLine()
-                bufferedWriter.write("No. Factura " + factura.id)
+                bufferedWriter.write("No. Factura " + factura.numeroFactura)
                 bufferedWriter.newLine()
                 bufferedWriter.write("Cliente:" + factura.cliente.nombre)
                 bufferedWriter.newLine()

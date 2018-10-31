@@ -1,6 +1,7 @@
 package triclinio
 
 import com.triclinio.domains.configuracion.Parametro
+import com.triclinio.domains.configuracion.Secuencia
 import com.triclinio.domains.cxc.Cliente
 import com.triclinio.domains.restaurante.CategoriaPlato
 import com.triclinio.domains.restaurante.EstadoCuenta
@@ -13,6 +14,7 @@ import com.triclinio.domains.seguridad.Requestmap
 import com.triclinio.domains.seguridad.Usuario
 import com.triclinio.domains.seguridad.UsuarioPerfil
 import com.triclinio.domains.venta.EstadoFactura
+import com.triclinio.encapsulaciones.NombreSecuencia
 import grails.util.Environment
 
 class BootStrap {
@@ -53,6 +55,9 @@ class BootStrap {
             new Requestmap(url: '/admin/user/**', configAttribute: 'ROLE_ADMIN,ROLE_SUPERVISOR').save(flush: true, failOnError: true)
             new Requestmap(url: '/login/impersonate', configAttribute: 'ROLE_SWITCH_USER,isFullyAuthenticated()').save(flush: true, failOnError: true)
         }
+
+        //
+        Secuencia.findByNombreSecuencia(NombreSecuencia.FACTURACION) ?: new Secuencia(nombreSecuencia: NombreSecuencia.FACTURACION, numeroSecuencia: 0).save(flush: true, failOnError: true)
 
         //
         Parametro.findByCodigo(Parametro.JMS_URL) ?: new Parametro(codigo: Parametro.JMS_URL, nombre: "JMS_URL", valor: "PonerIP").save(flush: true, failOnError: true)

@@ -5,6 +5,9 @@ import com.triclinio.domains.seguridad.Usuario
 
 class Factura {
 
+    //
+    long numeroFactura
+
     Cliente cliente
     Usuario usuario
 
