@@ -10,9 +10,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $('#example').dataTable({
-
-            });
+            $('#example').dataTable({});
 
         });
     </script>
@@ -81,8 +79,8 @@
 
     %{--</script>--}%
 </head>
-<body>
 
+<body>
 
 %{--<button id="button">Row</button>--}%
 
@@ -99,7 +97,8 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body table-responsive no-padding">
-                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                        <table id="example" class="table table-striped table-bordered dt-responsive nowrap"
+                               cellspacing="0" width="100%">
                             <thead>
                             <th>
                                 ID
@@ -108,13 +107,10 @@
                                 Atendido por:
                             </th>
                             <th>
-                                Estado de la cuenta
+                                Clientes:
                             </th>
                             <th>
                                 Mesas
-                            </th>
-                            <th>
-                                Clientes
                             </th>
                             <th>
                                 Acciones
@@ -125,43 +121,53 @@
                                 <tr>
                                     <td>${cuenta.id}</td>
                                     <td>${cuenta.usuario.nombre}</td>
-                                    <g:if test="${cuenta.estadoCuenta.codigo == com.triclinio.domains.restaurante.EstadoCuenta.ABIERTO}">
-                                    <td><span class="label label-success">Abierta</span></td>
-                                    </g:if>
+                                    <td><g:each in="${cuenta.listaClienteCuenta}" var="c">
+                                        - ${c.nombre}<br>
+                                    </g:each></td>
                                     <td>
                                         <g:each in="${cuenta.listaMesa}" var="cuentaMesa">
                                             <g:if test="${cuentaMesa.habilitado}">
                                                 (${cuentaMesa.mesa.nombre})
+
                                             </g:if>
                                         </g:each>
                                     </td>
                                     <td>
-                                       <triclinio:visualizarNombreClientesCuentas cuentaId="${cuenta.id}"/>
-                                    </td>
-                                    <td>
-                                        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
-                                            <g:link action="detalleCuenta" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-success">Ver detalle Cuenta</button></g:link>
+                                        <sec:ifAnyGranted
+                                                roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO,ROLE_SUPERVISOR_FACTURADOR,ROLE_FACTURADOR">
+                                            <g:link action="detalleCuenta" controller="cuenta"
+                                                    params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil"
+                                                                                           class="btn  btn-success">Ver detalle Cuenta</button></g:link>
                                         </sec:ifAnyGranted>
                                         <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
 
-                                            <g:link action="sacarMesaCuenta" controller="mesa"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Sacar mesa(s)</button></g:link>
+                                            <g:link action="sacarMesaCuenta" controller="mesa"
+                                                    params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil"
+                                                                                           class="btn  btn-warning">Sacar mesa(s)</button></g:link>
                                         </sec:ifAnyGranted>
 
-                                    <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
+                                        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
 
-                                        <g:link action="detalleOrdenIndex" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Agregar cliente</button></g:link>
+                                            <g:link action="detalleOrdenIndex" controller="cuenta"
+                                                    params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil"
+                                                                                           class="btn  btn-warning">Agregar cliente</button></g:link>
 
-                                    </sec:ifAnyGranted>
-                                    <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
+                                        </sec:ifAnyGranted>
+                                        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO,ROLE_CAMARERO">
 
-                                        <g:link action="reImprimirComanda" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Reimprimir</button></g:link>
+                                            <g:link action="reImprimirComanda" controller="cuenta"
+                                                    params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil"
+                                                                                           class="btn  btn-warning">Reimprimir</button></g:link>
 
-                                    </sec:ifAnyGranted>
-                                    <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO">
+                                        </sec:ifAnyGranted>
+                                        <sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_SUPERVISOR_CAMARERO">
 
-                                        <g:link onclick="return window.confirm('Desea Cancelar la cuenta');" action="cerraCuenta" controller="cuenta"  params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil" class="btn  btn-warning">Cancelar Cuenta</button></g:link>
+                                            <g:link onclick="return window.confirm('Desea Cancelar la cuenta');"
+                                                    action="cerraCuenta" controller="cuenta"
+                                                    params="[idCuenta: cuenta.id]"><button type="button" id="verPerfil"
+                                                                                           class="btn  btn-warning">Cancelar Cuenta</button></g:link>
 
-                                    </sec:ifAnyGranted>
+                                        </sec:ifAnyGranted>
                                     </td>
 
                                 </tr>
@@ -171,7 +177,6 @@
                     </div>
                     <!-- /.box-body -->
                 </div>
-
 
             </g:form>
         <!-- /.box -->
@@ -183,6 +188,5 @@
 </section>
 
 </body>
-
 
 </html>

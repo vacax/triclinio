@@ -62,7 +62,9 @@ class MatricialService {
             bufferedWriter.newLine()
             bufferedWriter.write("No. Factura" + factura.id)
             bufferedWriter.newLine()
-            bufferedWriter.write("" + factura.cliente.nombre)
+            bufferedWriter.write("Cliente:" + factura.cliente.nombre)
+            bufferedWriter.newLine()
+            bufferedWriter.write("Mesa: " + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.listaMesa.first().mesa.nombre)
             bufferedWriter.newLine()
             bufferedWriter.write("" + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.creadoPor)
             bufferedWriter.newLine()
@@ -139,9 +141,15 @@ class MatricialService {
                 bufferedWriter.newLine()
                 bufferedWriter.write("No. Factura " + factura.id)
                 bufferedWriter.newLine()
-                bufferedWriter.write("" + factura.cliente.nombre)
+                bufferedWriter.write("Cliente:" + factura.cliente.nombre)
                 bufferedWriter.newLine()
-                bufferedWriter.write("" + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.creadoPor)
+                if (!factura.listaFacturaDetalle.empty) {
+                    bufferedWriter.write("Mesa: " + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.cuenta.listaMesa.first().mesa.nombre)
+                }
+                bufferedWriter.newLine()
+                if (!factura.listaFacturaDetalle.empty) {
+                    bufferedWriter.write("" + factura.listaFacturaDetalle.first().ordenDetalle.clienteCuenta.creadoPor)
+                }
                 bufferedWriter.newLine()
                 bufferedWriter.write("Fecha: " + factura.dateCreated.format("dd-MM-yyyy HH:mm:ss"))
                 bufferedWriter.newLine()
@@ -162,6 +170,14 @@ class MatricialService {
                 bufferedWriter.write("------------------------------------------")
                 bufferedWriter.newLine()
                 bufferedWriter.write(StringUtils.rightPad("Total: " + factura.montoNeto, CANTIDAD_COLUMNAS_POS_42))
+                bufferedWriter.newLine()
+                bufferedWriter.write(StringUtils.center(factura.terminalTarjeta ? "Tipo Pago: Tarjeta" : "Tipo Pago: Efectivo", CANTIDAD_COLUMNAS_POS_42))
+                if (factura.terminalTarjeta) {
+                    bufferedWriter.newLine()
+                    bufferedWriter.write(StringUtils.rightPad("Ult. 4 Digitos: " + factura.terminalTarjeta, CANTIDAD_COLUMNAS_POS_42))
+                    bufferedWriter.newLine()
+                    bufferedWriter.write(StringUtils.rightPad("No. Autorizacion: " + factura.numeroAutorizacion, CANTIDAD_COLUMNAS_POS_42))
+                }
                 bufferedWriter.newLine()
                 bufferedWriter.newLine()
                 bufferedWriter.write(StringUtils.center("Gracias por preferirnos!!", CANTIDAD_COLUMNAS_POS_42))
@@ -312,6 +328,7 @@ class MatricialService {
         Cuenta cuenta = Cuenta.get(cuentaId)
         boolean clienteNotieneNuevoItem = true
         boolean tieneRegistro = false
+        def resumenComanda = [:]
 
         String nombreRest = Parametro.findByCodigo(Parametro.APP_NOMBRE_RESTAURANTE).valor
         try {
@@ -369,6 +386,18 @@ class MatricialService {
                             bufferedWriter.newLine()
                             bufferedWriter.write(StringUtils.rightPad("                " + od.cantidad as String, CANTIDAD_COLUMNAS_POS_42))
                             bufferedWriter.newLine()
+                            if (od.comentario) {
+                                bufferedWriter.write(StringUtils.rightPad("COMENTARIO: " + od.comentario as String, CANTIDAD_COLUMNAS_POS_42))
+                                bufferedWriter.newLine()
+                                bufferedWriter.newLine()
+                            }
+                            if (!resumenComanda.containsKey(od.plato.nombre)) {
+                                resumenComanda.put(od.plato.nombre, 1)
+                            } else {
+                                resumenComanda[od.plato.nombre] += 1
+                            }
+                            /*bufferedWriter.write(StringUtils.rightPad("${od.comentario}", CANTIDAD_COLUMNAS_POS_42))
+                            bufferedWriter.newLine()*/
                             od.impreso = true
                             od.save(flush: true, failOnError: true)
                             clienteNotieneNuevoItem = false
@@ -384,7 +413,7 @@ class MatricialService {
                  }*/
 
                 clienteNotieneNuevoItem = true
-                bufferedWriter.newLine()
+                //bufferedWriter.newLine()
 
                 /*if(it.comentario!=null){
                     bufferedWriter.write("Comentario: "+it.comentario)
@@ -394,7 +423,7 @@ class MatricialService {
 
                 }*/
 
-                bufferedWriter.newLine()
+                //bufferedWriter.newLine()
 
 
             }
@@ -402,6 +431,21 @@ class MatricialService {
             bufferedWriter.newLine()
             bufferedWriter.write("------------------------------------------")
             bufferedWriter.newLine()
+            bufferedWriter.newLine()
+            bufferedWriter.write(StringUtils.center("******** RESUMEN COMANDA ********", CANTIDAD_COLUMNAS_POS_42))
+            bufferedWriter.newLine()
+            bufferedWriter.write("------------------------------------------")
+            bufferedWriter.newLine()
+            bufferedWriter.write("Articulo      Cantidad")
+            bufferedWriter.newLine()
+            bufferedWriter.write("------------------------------------------")
+            bufferedWriter.newLine()
+            resumenComanda.each { rc ->
+                bufferedWriter.write(StringUtils.rightPad("${rc.key}", CANTIDAD_COLUMNAS_POS_42))
+                bufferedWriter.newLine()
+                bufferedWriter.write(StringUtils.rightPad("                " + rc.value as String, CANTIDAD_COLUMNAS_POS_42))
+                bufferedWriter.newLine()
+            }
             bufferedWriter.newLine()
             bufferedWriter.newLine()
             bufferedWriter.write(StringUtils.center("Vamo vamo!!!", CANTIDAD_COLUMNAS_POS_42))

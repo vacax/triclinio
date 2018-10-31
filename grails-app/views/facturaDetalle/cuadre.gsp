@@ -71,7 +71,7 @@
 
 
                     var thuTotal = api
-                        .column(3)
+                        .column(4)
                         .data()
                         .reduce(function (a, b) {
                             return intVal(a) + intVal(b);
@@ -117,9 +117,9 @@
     <!-- Logo -->
     <a href="/" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
-        <span class="logo-mini"><b>G</b>FT</span>
+        <span class="logo-mini"><b>M</b>RT</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Guava</b><small>Fusión Tropical</small></span>
+        <span class="logo-lg"><b>Marco</b><small>Restaurante</small></span>
     </a>
 
     <!-- Header Navbar -->
@@ -136,7 +136,7 @@
                       years="${Calendar.getInstance().get(Calendar.YEAR)..2017}"/>
         <p>Hasta:</p>
         <g:datePicker name="hasta" id="fecha_hasta" value="${new Date()}" precision="day"
-                      years="${Calendar.getInstance().get(Calendar.YEAR)..2017}" />
+                      years="${Calendar.getInstance().get(Calendar.YEAR)..2017}"/>
         <br><br>
         <button id="refrescar_button" class="btn btn-instagram">Refrescar Data</button>
     </div>
@@ -156,6 +156,9 @@
             Fecha
         </th>
         <th>
+            Metodo de Pago
+        </th>
+        <th>
             Monto
         </th>
 
@@ -169,13 +172,14 @@
                 <td>${factura.usuario}</td>
                 %{--<td>${factura.listaFacturaDetalle.ordenDetalle.clienteCuenta.cuenta.listaMesa.numeroMesa.first()}</td>--}%
                 <td>${factura.fecha}</td>
+                <td>${factura.metodoPago}</td>
                 <td>${factura.monto}</td>
             </tr>
         </g:each>
     </table>
     <button class="btn btn-danger btn-lg" onclick="window.history.back();">Terminar</button>
+    <button class="btn btn-success btn-lg" id="descargar">Descargar Reporte</button>
 </div>
-
 
 <script>
     $("#refrescar_button").on('click', function () {
@@ -194,6 +198,7 @@
                         {"data": "id"},
                         {"data": "usuario"},
                         {"data": "fecha"},
+                        {"data": "metodoPago"},
                         {"data": "monto"}
                     ],
                     "destroy": true,
@@ -209,7 +214,7 @@
                         };
 
                         var thuTotal = api
-                            .column(3)
+                            .column(4)
                             .data()
                             .reduce(function (a, b) {
                                 return intVal(a) + intVal(b);
@@ -239,6 +244,16 @@
                 //window.location = "/cuenta/cuentaAgregarFinalizar/" + data.id
             }
         });
+    })
+</script>
+
+<script>
+    $("#descargar").on('click', function (e) {
+        var desde = $("#fecha_desde_year").val() + '-' + $("#fecha_desde_month").val() + '-' + $("#fecha_desde_day").val();
+        var hasta = $("#fecha_hasta_year").val() + '-' + $("#fecha_hasta_month").val() + '-' + $("#fecha_hasta_day").val();
+        var data = desde + '_' + hasta;
+        console.log(data);
+        window.location = "/facturaDetalle/descargarCuadre/?tanda=3&data="+data;
     })
 </script>
 

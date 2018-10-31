@@ -9,7 +9,6 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.2.3/js/dataTables.select.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet"/>
 </head>
 
 <body>
@@ -76,13 +75,21 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    <form role="form">
+                    <form role="form" id="cuentaDetalleForm">
                         <!-- text input -->
                         <div class="form-group">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                 <input id="nombreCliente" name="nombreCliente" placeholder="Nombre del cliente"
                                        type="text" class="form-control">
+                            </div>
+                            <br>
+
+                            <div class="form-group">
+                                <label>Cantidad de Personas:</label>
+                                <input id="cantidadPersonas" name="cantidadPersonas" class="form-control"
+                                       placeholder="Cantidad de Personas en esta cuenta" type="number" min="1" step="1"
+                                       required>
                             </div>
 
                             <div class="form-group">
@@ -101,7 +108,7 @@
     </div>
 
     <div class="box">
-        <input hidden="hidden" id="cuentaAsignada" name="cuentaAsignada" value="${cuenta.id}">
+        <input hidden="hidden" id="cuentaAsignada" name="cuentaAsignada" value="${cuenta.id}"/>
 
         <div class="box-header with-border">
             <h3 class="box-title"><b>LISTADO ITEMS</b></h3>
@@ -235,7 +242,6 @@
     %{--</div>--}%
 
 </section>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -258,22 +264,22 @@
     function delete_row(no) {
         var eliminarFila = document.getElementById("idPlatillo_row" + no + "").innerText;
 
-        if (eliminarFila === '${precioPrefix.id}' ){
+        if (eliminarFila === '${precioPrefix.id}') {
 
             var tablaItems = document.getElementById('data_table');
             $(tablaItems).find('tr').each(function (index, value) {
-                if(index < 2){
+                if (index < 2) {
                     index.continue;
                 }
-                if($(this).find("td").eq(5).text() === "true"){
+                if ($(this).find("td").eq(5).text() === "true") {
                     document.getElementById("row" + index + "").outerHTML = "";
                 }
-                });
+            });
 
-                //document.getElementById("row" + no + "").outerHTML = "";
-                prefixAgregado = false;
+            //document.getElementById("row" + no + "").outerHTML = "";
+            prefixAgregado = false;
         }
-        else{
+        else {
             document.getElementById("row" + no + "").outerHTML = "";
         }
     }
@@ -319,10 +325,10 @@
                 "<td id='categoriaPlatillo_row" + table_len + "' hidden>" + categoriaPlatilloAgregado + "</td>" +
                 "<td>" + "<input type='button' value='Eliminar' class='delete' onclick='delete_row(" + table_len + ")'></td>" +
                 "</tr>";
-            if(prefix && categoria === "Otros"){
+            if (prefix && categoria === "Otros") {
                 prefixAgregado = true;
             }
-            if (prefix && !prefixAgregado){
+            if (prefix && !prefixAgregado) {
                 table_len = (table.rows.length) - 1;
                 var row1 = table.insertRow(table_len).outerHTML = "" +
                     "<tr id='row" + table_len + "'>" +
@@ -362,7 +368,7 @@
         objeto.cuentaId = cuentaId;
         objeto.nombreCliente = document.getElementById("nombreCliente").value;
         objeto.comentario = document.getElementById("comentario").value;
-
+        objeto.cantidadPersonas = document.getElementById("cantidadPersonas").value;
         var listaPlato = [];
 
         var T = document.getElementById('data_table');

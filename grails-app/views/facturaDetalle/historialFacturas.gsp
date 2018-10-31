@@ -13,24 +13,21 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $('#example').dataTable({
-
-            });
+            $('#example').dataTable();
 
         });
     </script>
 
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
 
-            $('#example tbody').on( 'click', 'tr', function () {
+            $('#example tbody').on('click', 'tr', function () {
                 $(this).toggleClass('selected');
             });
 
 
-
-            $(".reversarFactura").click(function () {
-
+            /*$(".reversarFactura").click(function () {
+                console.log('hola');
                 var id = $(this).attr('id');
                 var parent = $(this).parent().parent();
                 jQuery.ajax(
@@ -50,14 +47,14 @@
                         error:function(XMLHttpRequest,textStatus,errorThrown){}
                     });
 
-            });
+            });*/
 
         });
 
     </script>
 </head>
-<body>
 
+<body>
 
 %{--<button id="button">Row</button>--}%
 <table id="example" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
@@ -78,7 +75,7 @@
         Monto
     </th>
     <th>
-    Acciones
+        Acciones
     </th>
     </thead>
     <tbody>
@@ -90,7 +87,8 @@
             <td>${factura.cliente.nombre}</td>
             <td>${factura.montoNeto}</td>
             <td>
-            <button style="text-decoration: none" type="button" class="reversarFactura btn btn-link" id="${factura.id}">Reversar factura</button>
+                <g:link action="reversarFactura" params="[idFactura: factura.id]" style="text-decoration: none"
+                        type="button" class="reversarFactura btn btn-link" id="${factura.id}">Reversar factura</g:link>
             </td>
         </tr>
 
@@ -98,12 +96,10 @@
     </tbody>
 
 </table>
-<button class="btn btn-danger btn-lg"  onclick="window.history.back();" >Cancelar Proceso</button>
+<button class="btn btn-danger btn-lg" onclick="window.history.back();">Cancelar Proceso</button>
 %{--<a style="background-color: #4c59ff;color: #FFFFFF; ;width: 150px; height: 150px;" href="#" onclick="window.history.back();">Cancelar</a>--}%
 
-
 </body>
-
 
 </html>
 
