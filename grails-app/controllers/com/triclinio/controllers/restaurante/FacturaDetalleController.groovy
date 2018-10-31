@@ -52,9 +52,7 @@ class FacturaDetalleController {
      * @return
      */
     def procesarOrden(long clienteCuentaId) {
-
         Factura factura = facturacionService.procesarOrden(clienteCuentaId, (Usuario) applicationContext.springSecurityService.getCurrentUser())
-
         render factura.id
     }
 
@@ -211,7 +209,7 @@ class FacturaDetalleController {
             if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
                 if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
                     def map = [:]
-                    map['id'] = it.id
+                    map['id'] = it.numeroFactura
                     map['usuario'] = it.usuario.nombre
                     map['fecha'] = sdf.format(it.dateCreated)
                     map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
@@ -257,7 +255,7 @@ class FacturaDetalleController {
             if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
                 if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
                     def map = [:]
-                    map['id'] = it.id
+                    map['id'] = it.numeroFactura
                     map['usuario'] = it.usuario.nombre
                     map['fecha'] = sdf.format(it.dateCreated)
                     map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
@@ -303,7 +301,7 @@ class FacturaDetalleController {
             if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
                 if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
                     def map = [:]
-                    map['id'] = it.id
+                    map['id'] = it.numeroFactura
                     map['usuario'] = it.usuario.nombre
                     map['fecha'] = sdf.format(it.dateCreated)
                     map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
@@ -501,7 +499,7 @@ class FacturaDetalleController {
             if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
                 if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
                     def map = [:]
-                    map['id'] = it.id
+                    map['id'] = it.numeroFactura
                     map['usuario'] = it.usuario.nombre
                     map['fecha'] = sdf.format(it.dateCreated)
                     map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
