@@ -4,7 +4,7 @@
 <html>
 <head>
 
-    <title>Cuadre Factura Tanda MedioDia</title>
+    <title>Cuadre Factura Dia Completo</title>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css"
@@ -147,7 +147,7 @@
            class="table striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
         <thead>
         <th>
-            ID
+            Número Factura
         </th>
         <th>
             Camarero

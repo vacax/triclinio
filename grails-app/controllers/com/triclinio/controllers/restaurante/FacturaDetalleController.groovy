@@ -11,6 +11,7 @@ import com.triclinio.domains.venta.EstadoFactura
 import com.triclinio.domains.venta.Factura
 import com.triclinio.domains.venta.FacturaDetalle
 import grails.converters.JSON
+import grails.gorm.transactions.Transactional
 import grails.plugin.springsecurity.annotation.Secured
 import jxl.Workbook
 import jxl.format.Alignment
@@ -37,6 +38,7 @@ class FacturaDetalleController {
     //Datos dinero
     def matricialService
     def facturacionService
+    def configuracionService
 
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
     SimpleDateFormat sdf2 = new SimpleDateFormat('yyyy-MM-dd')
@@ -50,9 +52,7 @@ class FacturaDetalleController {
      * @return
      */
     def procesarOrden(long clienteCuentaId) {
-
         Factura factura = facturacionService.procesarOrden(clienteCuentaId, (Usuario) applicationContext.springSecurityService.getCurrentUser())
-
         render factura.id
     }
 
@@ -85,12 +85,16 @@ class FacturaDetalleController {
         [factura: factura]
     }
 
+    @Transactional
     def imprimirFactura(long id) {
+        //TODO: cambiar este metodo a un servicio y un comando para el bind
         Factura factura = Factura.findById(id)
+        factura.numeroFactura = configuracionService.generarSecuenciaFactura()
         factura.numeroAutorizacion = params.get("numeroAutorizacion" as String)
         factura.terminalTarjeta = params.get("terminalTarjeta" as String)
         factura.setEstadoFactura(EstadoFactura.findByCodigo(EstadoFactura.FACTURADA_COBRADA))
         factura.save(flush: true, failOnError: true)
+
         int cantidadImpresion = Parametro.findByCodigo(Parametro.CANTIDAD_IMPRESION_FACTURA).valor.toInteger()
 
 //        for (int i=1;i<cantidadImpresion;i++) {
@@ -123,6 +127,7 @@ class FacturaDetalleController {
             cuenta.save(flush: true, failOnError: true)
         }
         factura.save(flush: true, failOnError: true)
+        
 
         redirect(uri: "/cuenta/cuentasAbiertas")
     }
@@ -204,7 +209,7 @@ class FacturaDetalleController {
             if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
                 if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
                     def map = [:]
-                    map['id'] = it.id
+                    map['id'] = it.numeroFactura
                     map['usuario'] = it.usuario.nombre
                     map['fecha'] = sdf.format(it.dateCreated)
                     map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
@@ -250,7 +255,7 @@ class FacturaDetalleController {
             if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
                 if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
                     def map = [:]
-                    map['id'] = it.id
+                    map['id'] = it.numeroFactura
                     map['usuario'] = it.usuario.nombre
                     map['fecha'] = sdf.format(it.dateCreated)
                     map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
@@ -296,7 +301,7 @@ class FacturaDetalleController {
             if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
                 if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
                     def map = [:]
-                    map['id'] = it.id
+                    map['id'] = it.numeroFactura
                     map['usuario'] = it.usuario.nombre
                     map['fecha'] = sdf.format(it.dateCreated)
                     map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"
@@ -494,7 +499,7 @@ class FacturaDetalleController {
             if (hrs.format(it.dateCreated) > hrs.format(lowerDate.getTime())) {
                 if (hrs.format(it.dateCreated) < hrs.format(upperDate.getTime())) {
                     def map = [:]
-                    map['id'] = it.id
+                    map['id'] = it.numeroFactura
                     map['usuario'] = it.usuario.nombre
                     map['fecha'] = sdf.format(it.dateCreated)
                     map['metodoPago'] = it.terminalTarjeta ? "Tarjeta" : "Efectivo"

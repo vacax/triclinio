@@ -147,7 +147,7 @@
            class="table striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
         <thead>
         <th>
-            ID
+            Número Factura
         </th>
         <th>
             Camarero

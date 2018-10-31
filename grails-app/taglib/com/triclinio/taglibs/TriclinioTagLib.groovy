@@ -13,7 +13,7 @@ class TriclinioTagLib {
 
     static namespace = "triclinio"
     static defaultEncodeAs = [taglib:'html']
-    static encodeAsForTags = [botonPagar: [taglib:'none']]
+    static encodeAsForTags = [botonPagar: [taglib:'none'], visualizarNombreClientesCuentas: [taglib:'none']]
 
     def springSecurityService
 
@@ -47,5 +47,21 @@ class TriclinioTagLib {
                 "Pagar"
             }
         }
+    }
+
+    /**
+     *  Imprime los clientes asociados a una cuenta.
+     *  @param attr.cuentaId
+     */
+    def visualizarNombreClientesCuentas = { attrs, body ->
+        String nombres = "<ul>"
+        Cuenta cuenta = Cuenta.findById(attrs.cuentaId as Long)
+        if(cuenta){
+             cuenta.listaClienteCuenta.each {
+                 nombres += "<li>${it.nombre}</li>"
+             }
+        }
+        nombres += "</ul>"
+        out << nombres
     }
 }
